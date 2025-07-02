@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invoke } from '@tauri-apps/api/core';
 	import { sidecarService } from '$lib/sidecar.svelte';
 	import { uiStore } from '$lib/ui.svelte';
 	import SettingsView from '$lib/components/SettingsView.svelte';
@@ -171,7 +172,7 @@
 		if (event.key === 'Escape') {
 			if (currentView === 'command-palette' && !event.defaultPrevented) {
 				event.preventDefault();
-				getCurrentWindow().hide();
+				invoke('hide_window').catch(console.error);
 			}
 		}
 	}

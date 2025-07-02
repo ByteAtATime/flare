@@ -22,6 +22,8 @@ use crate::{app::App, cache::AppCache};
 use ai::AiUsageManager;
 use browser_extension::WsState;
 use frecency::FrecencyManager;
+use gtk::glib::{ControlFlow, MainContext, Priority, Sender};
+use gtk::prelude::{GtkWindowExt, WidgetExt};
 use quicklinks::QuicklinkManager;
 use selection::get_text;
 use snippets::engine::ExpansionEngine;
@@ -31,6 +33,14 @@ use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 use tauri::{Emitter, Manager};
+
+#[derive(Clone)]
+struct GtkWindowHandle(Sender<GtkCommand>);
+
+enum GtkCommand {
+    Show,
+    Hide,
+}
 
 #[tauri::command]
 fn get_installed_apps() -> Vec<App> {
@@ -157,22 +167,19 @@ fn setup_global_shortcut(app: &mut tauri::App) -> Result<(), Box<dyn std::error:
     };
 
     let spotlight_shortcut = Shortcut::new(Some(Modifiers::ALT), Code::Space);
-    let handle = app.handle().clone();
-
-    println!("Spotlight shortcut: {:?}", spotlight_shortcut);
 
     app.handle().plugin(
         tauri_plugin_global_shortcut::Builder::new()
-            .with_handler(move |_app, shortcut, event| {
-                println!("Shortcut: {:?}, Event: {:?}", shortcut, event);
+            .with_handler(move |app_handle, shortcut, event| {
                 if shortcut == &spotlight_shortcut && event.state() == ShortcutState::Pressed {
-                    let spotlight_window = handle.get_webview_window("main").unwrap();
-                    println!("Spotlight window: {:?}", spotlight_window);
+                    let spotlight_window = app_handle
+                        .get_webview_window("main")
+                        .expect("Main window should exist");
                     if spotlight_window.is_visible().unwrap_or(false) {
-                        spotlight_window.hide().unwrap();
+                        let _ = hide_window(app_handle.clone(), spotlight_window.clone());
                     } else {
-                        spotlight_window.show().unwrap();
-                        spotlight_window.set_focus().unwrap();
+                        let _ = show_window(app_handle.clone(), spotlight_window.clone());
+                        let _ = spotlight_window.set_focus();
                     }
                 }
             })
@@ -199,9 +206,35 @@ fn setup_input_listener(app: &tauri::AppHandle) {
     });
 }
 
+#[tauri::command]
+fn hide_window(app: tauri::AppHandle, window: tauri::WebviewWindow) -> Result<(), String> {
+    if let Some(gtk_handle) = app.try_state::<GtkWindowHandle>() {
+        gtk_handle
+            .0
+            .send(GtkCommand::Hide)
+            .map_err(|e| e.to_string())?;
+        return Ok(());
+    }
+
+    window.hide().map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn show_window(app: tauri::AppHandle, window: tauri::WebviewWindow) -> Result<(), String> {
+    if let Some(gtk_handle) = app.try_state::<GtkWindowHandle>() {
+        gtk_handle
+            .0
+            .send(GtkCommand::Show)
+            .map_err(|e| e.to_string())?;
+        return Ok(());
+    }
+
+    window.show().map_err(|e| e.to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let app = tauri::Builder::default()
+    tauri::Builder::default()
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
@@ -211,17 +244,17 @@ pub fn run() {
             if args.len() > 1 && args[1].starts_with("raycast://") {
                 if let Some(window) = app.get_webview_window("main") {
                     let _ = window.emit("deep-link", args[1].to_string());
-                    window.show().unwrap();
-                    window.set_focus().unwrap();
+                    let _ = show_window(app.clone(), window.clone());
+                    let _ = window.set_focus();
                 }
                 return;
             }
 
             if let Some(window) = app.get_webview_window("main") {
                 if let Ok(true) = window.is_visible() {
-                    let _ = window.hide();
+                    let _ = hide_window(app.clone(), window.clone());
                 } else {
-                    let _ = window.show();
+                    let _ = show_window(app.clone(), window.clone());
                     let _ = window.set_focus();
                 }
             }
@@ -285,6 +318,8 @@ pub fn run() {
             ai::get_ai_settings,
             ai::set_ai_settings,
             ai::ai_can_access,
+            hide_window,
+            show_window,
             soulver::calculate_soulver
         ])
         .setup(|app| {
@@ -311,31 +346,79 @@ pub fn run() {
 
             soulver::initialize(soulver_core_path.to_str().unwrap());
 
+            #[cfg(target_os = "linux")]
+            {
+                use gtk::prelude::ContainerExt;
+                use gtk_layer_shell::{Edge, Layer, LayerShell};
+
+                let webview_window = app.get_webview_window("main").unwrap();
+                webview_window.hide().unwrap();
+                webview_window.set_decorations(false).unwrap();
+
+                let window = gtk::ApplicationWindow::new(
+                    &webview_window.gtk_window().unwrap().application().unwrap(),
+                );
+
+                window.set_app_paintable(true);
+                window.set_decorated(false);
+                window.stick();
+
+                webview_window
+                    .gtk_window()
+                    .unwrap()
+                    .remove(&webview_window.default_vbox().unwrap());
+                window.add(&webview_window.default_vbox().unwrap());
+                window.init_layer_shell();
+                window.set_layer(Layer::Overlay);
+                window.set_anchor(Edge::Top, true);
+                window.set_width_request(400);
+                window.set_height_request(400);
+
+                if let Some(monitor) = window.display().monitor(0) {
+                    window.set_monitor(&monitor);
+                }
+
+                window.set_keyboard_mode(gtk_layer_shell::KeyboardMode::Exclusive);
+
+                let (sender, receiver) = MainContext::channel(Priority::DEFAULT);
+                app.manage(GtkWindowHandle(sender));
+
+                let main_window_clone = window.clone();
+                receiver.attach(None, move |msg| {
+                    match msg {
+                        GtkCommand::Show => main_window_clone.show(),
+                        GtkCommand::Hide => main_window_clone.hide(),
+                    }
+                    ControlFlow::Continue
+                });
+
+                window.show_all();
+            }
+
             Ok(())
         })
         .build(tauri::generate_context!())
-        .unwrap();
-
-    app.run(|app, event| {
-        if let tauri::RunEvent::WindowEvent { label, event, .. } = event {
-            if label == "main" {
-                match event {
-                    tauri::WindowEvent::CloseRequested { api, .. } => {
-                        api.prevent_close();
-                        if let Some(window) = app.get_webview_window("main") {
-                            let _ = window.hide();
-                        }
-                    }
-                    tauri::WindowEvent::Focused(false) => {
-                        if let Some(window) = app.get_webview_window("main") {
-                            if !cfg!(debug_assertions) {
-                                let _ = window.hide();
+        .expect("error while building tauri application")
+        .run(|app, event| {
+            if let tauri::RunEvent::WindowEvent { label, event, .. } = event {
+                if label == "main" {
+                    match event {
+                        tauri::WindowEvent::CloseRequested { api, .. } => {
+                            api.prevent_close();
+                            if let Some(window) = app.get_webview_window("main") {
+                                let _ = hide_window(app.clone(), window);
                             }
                         }
+                        tauri::WindowEvent::Focused(false) => {
+                            if let Some(window) = app.get_webview_window("main") {
+                                if !cfg!(debug_assertions) {
+                                    let _ = hide_window(app.clone(), window);
+                                }
+                            }
+                        }
+                        _ => {}
                     }
-                    _ => {}
                 }
             }
-        }
-    });
+        });
 }
