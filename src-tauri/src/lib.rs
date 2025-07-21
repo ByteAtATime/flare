@@ -184,7 +184,9 @@ fn setup_global_shortcut(app: &mut tauri::App) -> Result<(), Box<dyn std::error:
             .build(),
     )?;
 
-    app.global_shortcut().register(spotlight_shortcut)?;
+    if !app.global_shortcut().is_registered(spotlight_shortcut) {
+        app.global_shortcut().register(spotlight_shortcut)?;
+    }
     Ok(())
 }
 
