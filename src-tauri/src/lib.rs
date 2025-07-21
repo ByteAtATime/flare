@@ -164,12 +164,9 @@ fn setup_global_shortcut(app: &mut tauri::App) -> Result<(), Box<dyn std::error:
     let spotlight_shortcut = Shortcut::new(Some(Modifiers::ALT), Code::Space);
     let handle = app.handle().clone();
 
-    println!("Spotlight shortcut: {:?}", spotlight_shortcut);
-
     app.handle().plugin(
         tauri_plugin_global_shortcut::Builder::new()
             .with_handler(move |_app, shortcut, event| {
-                println!("Shortcut: {:?}, Event: {:?}", shortcut, event);
                 if shortcut == &spotlight_shortcut && event.state() == ShortcutState::Pressed {
                     let spotlight_window = handle.get_webview_window("main").unwrap();
                     println!("Spotlight window: {:?}", spotlight_window);
@@ -326,7 +323,9 @@ pub fn run() {
             app.manage(AiUsageManager::new(app.handle())?);
 
             setup_background_refresh();
-            setup_global_shortcut(app)?;
+            if let Err(e) = setup_global_shortcut(app) {
+                eprintln!("Failed to set up global shortcut: {}", e);
+            }
             setup_input_listener(app.handle());
 
             let soulver_core_path = app
