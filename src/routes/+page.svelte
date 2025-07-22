@@ -29,27 +29,27 @@
 	const storePlugin: PluginInfo = {
 		title: 'Store',
 		description: 'Browse and install new extensions from the Store',
-		pluginTitle: 'Raycast',
-		pluginName: 'raycast',
+		pluginTitle: 'Flare',
+		pluginName: 'flare',
 		commandName: 'store',
 		pluginPath: 'builtin:store',
 		icon: storeCommandIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const clipboardHistoryPlugin: PluginInfo = {
 		title: 'Clipboard History',
 		description: 'View, search, and manage your clipboard history',
-		pluginTitle: 'Raycast',
+		pluginTitle: 'Flare',
 		pluginName: 'clipboard-history',
 		commandName: 'clipboard-history',
 		pluginPath: 'builtin:history',
 		icon: clipboardHistoryCommandIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const searchSnippetsPlugin: PluginInfo = {
@@ -62,59 +62,59 @@
 		icon: snippetIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const createQuicklinkPlugin: PluginInfo = {
 		title: 'Create Quicklink',
 		description: 'Create a new Quicklink',
-		pluginTitle: 'Raycast',
-		pluginName: 'raycast',
+		pluginTitle: 'Flare',
+		pluginName: 'flare',
 		commandName: 'create-quicklink',
 		pluginPath: 'builtin:create-quicklink',
 		icon: quicklinkIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const createSnippetPlugin: PluginInfo = {
 		title: 'Create Snippet',
 		description: 'Create a new snippet',
-		pluginTitle: 'Raycast',
+		pluginTitle: 'Flare',
 		pluginName: 'snippets',
 		commandName: 'create-snippet',
 		pluginPath: 'builtin:create-snippet',
 		icon: snippetIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const importSnippetsPlugin: PluginInfo = {
 		title: 'Import Snippets',
 		description: 'Import snippets from a JSON file',
-		pluginTitle: 'Raycast',
+		pluginTitle: 'Flare',
 		pluginName: 'snippets',
 		commandName: 'import-snippets',
 		pluginPath: 'builtin:import-snippets',
 		icon: snippetIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const fileSearchPlugin: PluginInfo = {
 		title: 'Search Files',
 		description: 'Find files and folders on your computer',
-		pluginTitle: 'Raycast',
+		pluginTitle: 'Flare',
 		pluginName: 'file-search',
 		commandName: 'search-files',
 		pluginPath: 'builtin:file-search',
 		icon: fileSearchCommandIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'raycast'
+		owner: 'flare'
 	};
 
 	const { pluginList, currentPreferences } = $derived(uiStore);

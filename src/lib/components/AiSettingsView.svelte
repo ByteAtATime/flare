@@ -104,7 +104,7 @@
 	<div class="space-y-2">
 		<h3 class="text-lg font-medium">Model Associations</h3>
 		<p class="text-muted-foreground text-sm">
-			Associate Raycast AI models with specific models available through OpenRouter.
+			Associate internal model identifiers with specific models available through OpenRouter.
 		</p>
 		<div class="grid grid-cols-[auto_1fr] items-center gap-4">
 			{#each Object.entries(modelAssociations) as [raycastModel, openRouterModel] (raycastModel)}

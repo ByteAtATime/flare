@@ -24,7 +24,7 @@
 				Request to open {plugin.title}
 			</AlertDialog.Title>
 			<AlertDialog.Description class="text-center text-sm">
-				The command was triggered from outside of Raycast. If you did not do this, please cancel the
+				The command was triggered from outside of Flare. If you did not do this, please cancel the
 				operation.
 			</AlertDialog.Description>
 		</AlertDialog.Header>

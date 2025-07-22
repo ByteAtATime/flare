@@ -10,7 +10,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use tauri::{AppHandle, Emitter, Manager, State};
 
-const AI_KEYRING_SERVICE: &str = "dev.byteatatime.raycast.ai";
+const AI_KEYRING_SERVICE: &str = "dev.byteatatime.flare.ai";
 const AI_KEYRING_USERNAME: &str = "openrouter_api_key";
 const AI_USAGE_SCHEMA: &str = "CREATE TABLE IF NOT EXISTS ai_generations (
     id TEXT PRIMARY KEY,

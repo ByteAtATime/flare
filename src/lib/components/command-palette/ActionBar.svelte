@@ -106,12 +106,8 @@
 	<ActionBar {actions}>
 		{#snippet title()}
 			<div class="pl-1">
-				<img src={positiveRaycastLogo} alt="Raycast" class="size-5 brightness-50 dark:hidden" />
-				<img
-					src={negativeRaycastLogo}
-					alt="Raycast"
-					class="hidden size-5 brightness-50 dark:block"
-				/>
+				<img src={positiveRaycastLogo} alt="Flare" class="size-5 brightness-50 dark:hidden" />
+				<img src={negativeRaycastLogo} alt="Flare" class="hidden size-5 brightness-50 dark:block" />
 			</div>
 		{/snippet}
 	</ActionBar>

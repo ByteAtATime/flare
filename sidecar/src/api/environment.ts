@@ -30,7 +30,7 @@ export const environment = {
 	extensionName: 'my-extension',
 	isDevelopment: true,
 	launchType: LaunchType.UserInitiated,
-	ownerOrAuthorName: 'Raycast',
+	ownerOrAuthorName: 'Flare',
 	raycastVersion: '1.0.0',
 	supportPath: supportPath,
 	textSize: 'medium' as const,

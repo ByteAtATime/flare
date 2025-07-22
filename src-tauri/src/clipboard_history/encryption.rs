@@ -2,7 +2,7 @@ use crate::error::AppError;
 use aes_gcm::aead::{Aead, KeyInit};
 use aes_gcm::{Aes256Gcm, Nonce};
 
-const KEYRING_SERVICE: &str = "dev.byteatatime.raycast";
+const KEYRING_SERVICE: &str = "dev.byteatatime.flare";
 const KEYRING_USERNAME: &str = "clipboard_history_key";
 
 fn get_encryption_key_impl(entry: &keyring::Entry) -> Result<[u8; 32], AppError> {
