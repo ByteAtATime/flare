@@ -1,4 +1,4 @@
-name: 'Publish Raycast Linux'
+name: 'Publish Flare'
 
 on:
   schedule:
@@ -87,7 +87,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: raycast-linux${{ steps.build_profile.outputs.artifact_suffix }}
+          name: flare${{ steps.build_profile.outputs.artifact_suffix }}
           path: src-tauri/target/${{ steps.build_profile.outputs.profile }}/bundle/appimage/*.AppImage
           retention-days: 7
           compression-level: 0

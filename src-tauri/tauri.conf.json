@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "raycast-linux",
+  "productName": "Flare",
   "version": "0.1.0",
-  "identifier": "dev.byteatatime.raycast",
+  "identifier": "dev.byteatatime.flare",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "raycast-linux",
+        "title": "Flare",
         "visible": false,
         "decorations": false,
         "alwaysOnTop": true,

@@ -1,10 +1,10 @@
-# Raycast for Linux
+# Flare Launcher
 
-An open-source, Raycast-inspired launcher for Linux.
+An open-source, Raycast-compatible launcher for Linux.
 
 For more background on this project, I have a [post here](https://byteatatime.dev/posts/recreating-raycast).
 
-![GIF of Raycast Linux, showing off its main features](https://raw.githubusercontent.com/ByteAtATime/raycast-linux/main/images/raycast-linux.gif)
+![GIF of Flare, showing off its main features](https://raw.githubusercontent.com/ByteAtATime/raycast-linux/main/images/raycast-linux.gif)
 
 **Disclaimer:** This is a hobby project and is **not** affiliated with, nor endorsed by, the official Raycast team.
 
@@ -44,7 +44,7 @@ This will open a long-running process in the background. To toggle the visibilit
 Depending on your environment, you may be able to bind the script to a hotkey. For example, on Hyprland:
 
 ```
-bind = ALT, Space, exec, /path/to/raycast-linux.AppImage
+bind = ALT, Space, exec, /path/to/flare.AppImage
 ```
 
 ### System Requirements
@@ -56,7 +56,7 @@ The application requires `glibc` version **2.38**, which is installed by default
 1. Create the `udev` rule file:
 
    ```bash
-   sudo nano /etc/udev/rules.d/99-raycast-linux.rules
+   sudo nano /etc/udev/rules.d/99-flare.rules
    ```
 
 2. Add the following line to the file:

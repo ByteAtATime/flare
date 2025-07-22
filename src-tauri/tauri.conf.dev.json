@@ -3,7 +3,7 @@
     "app": {
         "windows": [
             {
-                "title": "raycast-linux",
+                "title": "Flare",
                 "visible": true,
                 "decorations": false,
                 "alwaysOnTop": false,
