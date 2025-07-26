@@ -4,7 +4,7 @@ An open-source, Raycast-compatible launcher for Linux.
 
 For more background on this project, I have a [post here](https://byteatatime.dev/posts/recreating-raycast).
 
-![GIF of Flare, showing off its main features](https://raw.githubusercontent.com/ByteAtATime/raycast-linux/main/images/raycast-linux.gif)
+![GIF of Flare, showing off its main features](https://raw.githubusercontent.com/ByteAtATime/flare/main/images/flare.gif)
 
 **Disclaimer:** This is a hobby project and is **not** affiliated with, nor endorsed by, the official Raycast team.
 
@@ -30,7 +30,7 @@ While the goal is to support a wide range of Raycast extensions, there are some 
 
 ## 🚀 Installation
 
-You can download the latest release from the [GitHub Releases page](https://github.com/ByteAtATime/raycast-linux/releases).
+You can download the latest release from the [GitHub Releases page](https://github.com/ByteAtATime/flare/releases).
 
 Currently, only an `.AppImage` is provided. After downloading, make it executable:
 
@@ -87,8 +87,8 @@ If you prefer to build the project from its source code, you'll need to set up t
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/ByteAtATime/raycast-linux.git
-    cd raycast-linux
+    git clone https://github.com/ByteAtATime/flare.git
+    cd flare
     ```
 
 2.  **Install dependencies:**
