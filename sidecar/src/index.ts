@@ -118,9 +118,9 @@ rl.on('line', (line) => {
 						return;
 					}
 
-					const raycastInstance = instance as FlareInstance;
+					const flareInstance = instance as FlareInstance;
 
-					const props = raycastInstance._unserializedProps;
+					const props = flareInstance._unserializedProps;
 					const handler = props?.[handlerName];
 
 					if (typeof handler === 'function') {
