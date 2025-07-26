@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { UnifiedItem } from '$lib/command-palette.svelte';
 	import ActionBar from '$lib/components/nodes/shared/ActionBar.svelte';
-	import negativeRaycastLogo from '$lib/assets/raycast-logo-neg-1616x16@2x.png';
-	import positiveRaycastLogo from '$lib/assets/raycast-logo-pos-1616x16@2x.png';
 	import type { ActionDefinition } from '../nodes/shared/actions';
 
 	type Props = {
@@ -103,12 +101,5 @@
 </script>
 
 {#if selectedItem}
-	<ActionBar {actions}>
-		{#snippet title()}
-			<div class="pl-1">
-				<img src={positiveRaycastLogo} alt="Flare" class="size-5 brightness-50 dark:hidden" />
-				<img src={negativeRaycastLogo} alt="Flare" class="hidden size-5 brightness-50 dark:block" />
-			</div>
-		{/snippet}
-	</ActionBar>
+	<ActionBar {actions} />
 {/if}
