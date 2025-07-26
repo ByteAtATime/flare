@@ -2,10 +2,11 @@ use crate::{app::App, desktop::DesktopFileManager, error::AppError};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
-    env, fs,
+    fs,
     path::{Path, PathBuf},
     time::SystemTime,
 };
+use tauri::{AppHandle, Manager};
 
 #[derive(Serialize, Deserialize)]
 pub struct AppCache {
@@ -14,10 +15,10 @@ pub struct AppCache {
 }
 
 impl AppCache {
-    pub fn get_cache_path() -> Result<PathBuf, AppError> {
-        let cache_dir = env::var("XDG_CACHE_HOME")
-            .map(PathBuf::from)
-            .or_else(|_| env::var("HOME").map(|home| PathBuf::from(home).join(".cache")))
+    pub fn get_cache_path(app: &AppHandle) -> Result<PathBuf, AppError> {
+        let cache_dir = app
+            .path()
+            .app_cache_dir()
             .map_err(|_| AppError::DirectoryNotFound)?;
 
         let app_cache_dir = cache_dir.join("raycast-linux");
@@ -52,8 +53,8 @@ impl AppCache {
             })
     }
 
-    pub fn get_apps() -> Result<Vec<App>, AppError> {
-        let cache_path = Self::get_cache_path()?;
+    pub fn get_apps(app: &AppHandle) -> Result<Vec<App>, AppError> {
+        let cache_path = Self::get_cache_path(app)?;
 
         if let Ok(cached_data) = Self::read_from_file(&cache_path) {
             if !cached_data.is_stale() {
@@ -61,17 +62,17 @@ impl AppCache {
             }
         }
 
-        Self::refresh_and_get_apps()
+        Self::refresh_and_get_apps(app)
     }
 
-    pub fn refresh_and_get_apps() -> Result<Vec<App>, AppError> {
+    pub fn refresh_and_get_apps(app: &AppHandle) -> Result<Vec<App>, AppError> {
         let (apps, dir_mod_times) = DesktopFileManager::scan_and_parse_apps()?;
         let cache_data = AppCache {
             apps: apps.clone(),
             dir_mod_times,
         };
 
-        if let Ok(cache_path) = Self::get_cache_path() {
+        if let Ok(cache_path) = Self::get_cache_path(app) {
             if let Err(e) = cache_data.write_to_file(&cache_path) {
                 eprintln!("Failed to write to app cache: {:?}", e);
             }
@@ -80,8 +81,8 @@ impl AppCache {
         Ok(apps)
     }
 
-    pub fn refresh_background() {
-        if let Err(e) = Self::refresh_and_get_apps() {
+    pub fn refresh_background(app: AppHandle) {
+        if let Err(e) = Self::refresh_and_get_apps(&app) {
             eprintln!("Error refreshing app cache in background: {:?}", e);
         }
     }

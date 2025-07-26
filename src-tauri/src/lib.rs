@@ -30,11 +30,11 @@ use std::process::Command;
 use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
-use tauri::{Emitter, Manager};
+use tauri::{AppHandle, Emitter, Manager};
 
 #[tauri::command]
-fn get_installed_apps() -> Vec<App> {
-    match AppCache::get_apps() {
+fn get_installed_apps(app: tauri::AppHandle) -> Vec<App> {
+    match AppCache::get_apps(&app) {
         Ok(apps) => apps,
         Err(e) => {
             eprintln!("Failed to get apps: {:?}", e);
@@ -146,11 +146,11 @@ fn get_discovered_plugins(app: tauri::AppHandle) -> Result<Vec<extensions::Plugi
     extensions::discover_plugins(&app)
 }
 
-fn setup_background_refresh() {
-    thread::spawn(|| {
+fn setup_background_refresh(app: tauri::AppHandle) {
+    thread::spawn(move || {
         thread::sleep(Duration::from_secs(60));
         loop {
-            AppCache::refresh_background();
+            AppCache::refresh_background(app.clone());
             thread::sleep(Duration::from_secs(300));
         }
     });
@@ -322,7 +322,7 @@ pub fn run() {
             app.manage(SnippetManager::new(app.handle())?);
             app.manage(AiUsageManager::new(app.handle())?);
 
-            setup_background_refresh();
+            setup_background_refresh(app.handle().clone());
             if let Err(e) = setup_global_shortcut(app) {
                 eprintln!("Failed to set up global shortcut: {}", e);
             }

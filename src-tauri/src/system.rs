@@ -45,7 +45,10 @@ pub fn show_in_finder(path: String) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn get_applications(_path: Option<String>) -> Result<Vec<Application>, String> {
+pub fn get_applications(
+    app: tauri::AppHandle,
+    _path: Option<String>,
+) -> Result<Vec<Application>, String> {
     #[cfg(target_os = "macos")]
     {
         let script = r#"
@@ -92,7 +95,7 @@ pub fn get_applications(_path: Option<String>) -> Result<Vec<Application>, Strin
 
     #[cfg(target_os = "linux")]
     {
-        Ok(crate::get_installed_apps()
+        Ok(crate::get_installed_apps(app)
             .into_iter()
             .map(|app| Application {
                 name: app.name,
