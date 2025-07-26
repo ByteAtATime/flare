@@ -5,7 +5,7 @@ import { getRaycastApi } from './api';
 import { inspect } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { PluginInfo, Preference } from '@raycast-linux/protocol';
+import type { PluginInfo, Preference } from '@flare/protocol';
 import { environment } from './api/environment';
 import { config } from './config';
 import * as ReactJsxRuntime from 'react/jsx-runtime';

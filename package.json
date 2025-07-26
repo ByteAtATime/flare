@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@fontsource-variable/inter": "^5.2.6",
-		"@raycast-linux/protocol": "workspace:*",
+		"@flare/protocol": "workspace:*",
 		"@tauri-apps/api": "^2",
 		"@tauri-apps/plugin-clipboard-manager": "~2.2.2",
 		"@tauri-apps/plugin-deep-link": "~2",

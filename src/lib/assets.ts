@@ -1,4 +1,4 @@
-import { type ImageLike } from '@raycast-linux/protocol';
+import { type ImageLike } from '@flare/protocol';
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { mode } from 'mode-watcher';
 import path from 'path';

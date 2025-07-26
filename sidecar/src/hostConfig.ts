@@ -3,7 +3,7 @@ import type {
 	ComponentType,
 	ComponentProps,
 	Container,
-	RaycastInstance,
+	FlareInstance,
 	TextInstance,
 	ParentInstance,
 	AnyInstance
@@ -120,9 +120,7 @@ function processProps(props: Record<string, unknown>) {
 	return { propsToSerialize, namedChildren };
 }
 
-function createInstanceFromElement(
-	element: React.ReactElement
-): RaycastInstance | RaycastInstance[] {
+function createInstanceFromElement(element: React.ReactElement): FlareInstance | FlareInstance[] {
 	if (element.type === undefined || element.type === React.Fragment) {
 		const props = element.props as { children?: ReactNode };
 		const childElements = React.Children.toArray(props.children);
@@ -159,7 +157,7 @@ function createInstanceFromElement(
 
 	const { propsToSerialize, namedChildren } = processProps(props);
 
-	const instance: RaycastInstance = {
+	const instance: FlareInstance = {
 		id,
 		type: componentType,
 		children: childInstances,
@@ -189,12 +187,12 @@ export const hostConfig: HostConfig<
 	ComponentType,
 	ComponentProps,
 	Container,
-	RaycastInstance,
+	FlareInstance,
 	TextInstance,
 	never,
 	never,
 	never,
-	RaycastInstance | TextInstance,
+	FlareInstance | TextInstance,
 	object,
 	never,
 	NodeJS.Timeout,
@@ -230,7 +228,7 @@ export const hostConfig: HostConfig<
 			typeof type === 'string' ? type : type.displayName || type.name || 'Anonymous';
 		const id = getNextInstanceId();
 
-		const instance: RaycastInstance = {
+		const instance: FlareInstance = {
 			id,
 			type: componentType,
 			children: [],

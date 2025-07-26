@@ -1,5 +1,5 @@
 import { z } from 'zod/v4';
-import { ImageLikeSchema } from '@raycast-linux/protocol';
+import { ImageLikeSchema } from '@flare/protocol';
 import { ColorLikeSchema } from './color';
 import { DetailMetadataPropsSchema } from './detail';
 

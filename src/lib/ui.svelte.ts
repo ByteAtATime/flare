@@ -1,6 +1,6 @@
 import type { UINode } from '$lib/types';
-import type { Command } from '@raycast-linux/protocol';
-import type { PluginInfo } from '@raycast-linux/protocol';
+import type { Command } from '@flare/protocol';
+import type { PluginInfo } from '@flare/protocol';
 import type { KeyboardShortcut } from '$lib/props/actions';
 import { SvelteMap } from 'svelte/reactivity';
 

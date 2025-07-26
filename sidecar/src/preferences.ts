@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { writeLog } from './io';
-import type { Preference } from '@raycast-linux/protocol';
+import type { Preference } from '@flare/protocol';
 import { config } from './config';
 
 export class PreferencesStore {

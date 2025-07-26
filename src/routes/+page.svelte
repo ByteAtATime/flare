@@ -2,7 +2,7 @@
 	import { sidecarService } from '$lib/sidecar.svelte';
 	import { uiStore } from '$lib/ui.svelte';
 	import SettingsView from '$lib/components/SettingsView.svelte';
-	import type { PluginInfo } from '@raycast-linux/protocol';
+	import type { PluginInfo } from '@flare/protocol';
 	import { listen } from '@tauri-apps/api/event';
 	import { onMount } from 'svelte';
 	import CommandPalette from '$lib/components/command-palette/CommandPalette.svelte';

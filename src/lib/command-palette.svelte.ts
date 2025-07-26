@@ -1,4 +1,4 @@
-import type { PluginInfo } from '@raycast-linux/protocol';
+import type { PluginInfo } from '@flare/protocol';
 import { invoke } from '@tauri-apps/api/core';
 import Fuse from 'fuse.js';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';

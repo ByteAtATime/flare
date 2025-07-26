@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ComponentType, ParentInstance } from './types';
 import { root, instances } from './state';
-import type { Command } from '@raycast-linux/protocol';
+import type { Command } from '@flare/protocol';
 
 export const getComponentDisplayName = (type: ComponentType): string => {
 	if (typeof type === 'string') {

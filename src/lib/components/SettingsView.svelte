@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PluginInfo, Preference } from '@raycast-linux/protocol';
+	import type { PluginInfo, Preference } from '@flare/protocol';
 	import { Input } from '$lib/components/ui/input';
 	import Icon from '$lib/components/Icon.svelte';
 	import { Checkbox } from './ui/checkbox';

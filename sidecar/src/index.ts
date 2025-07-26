@@ -4,7 +4,7 @@ import { runPlugin } from './plugin';
 import { instances, navigationStack, toasts, browserExtensionState } from './state';
 import { batchedUpdates, updateContainer } from './reconciler';
 import { preferencesStore } from './preferences';
-import type { RaycastInstance } from './types';
+import type { FlareInstance } from './types';
 import { handleResponse } from './api/rpc';
 import { handleOAuthResponse, handleTokenResponse } from './api/oauth';
 import { handleAiStreamChunk, handleAiStreamEnd, handleAiStreamError } from './api/ai';
@@ -118,7 +118,7 @@ rl.on('line', (line) => {
 						return;
 					}
 
-					const raycastInstance = instance as RaycastInstance;
+					const raycastInstance = instance as FlareInstance;
 
 					const props = raycastInstance._unserializedProps;
 					const handler = props?.[handlerName];

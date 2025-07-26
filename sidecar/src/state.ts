@@ -1,5 +1,5 @@
 import type { AnyInstance, Container, Toast } from './types';
-import type { Command, Preference } from '@raycast-linux/protocol';
+import type { Command, Preference } from '@flare/protocol';
 import type React from 'react';
 
 export const instances = new Map<number, AnyInstance>();

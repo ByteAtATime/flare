@@ -1,4 +1,4 @@
-import type { ImageLike, PluginInfo } from '@raycast-linux/protocol';
+import type { ImageLike, PluginInfo } from '@flare/protocol';
 import { uiStore } from '$lib/ui.svelte';
 import { sidecarService } from '$lib/sidecar.svelte';
 import type { Quicklink } from './quicklinks.svelte';

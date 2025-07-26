@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ImageLike } from '@raycast-linux/protocol';
+	import type { ImageLike } from '@flare/protocol';
 	import { resolveIcon } from '$lib/assets';
 	import icons from '$lib/icons.svg';
 	import { getContext, hasContext } from 'svelte';

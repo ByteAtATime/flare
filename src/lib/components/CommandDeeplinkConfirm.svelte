@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PluginInfo } from '@raycast-linux/protocol';
+	import type { PluginInfo } from '@flare/protocol';
 	import { Button } from './ui/button';
 	import Icon from './Icon.svelte';
 	import path from 'path';

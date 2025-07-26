@@ -1,4 +1,4 @@
-import { ImageLikeSchema } from '@raycast-linux/protocol';
+import { ImageLikeSchema } from '@flare/protocol';
 import { z } from 'zod/v4';
 import { ColorLikeSchema } from './color';
 

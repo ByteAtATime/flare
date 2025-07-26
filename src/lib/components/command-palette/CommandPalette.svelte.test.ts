@@ -3,7 +3,7 @@ import { render, screen, cleanup, fireEvent, waitFor, within } from '@testing-li
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import CommandPalette from './CommandPalette.svelte';
-import { type PluginInfo } from '@raycast-linux/protocol';
+import { type PluginInfo } from '@flare/protocol';
 import type { App } from '$lib/apps.svelte';
 import type { Quicklink } from '$lib/quicklinks.svelte';
 import { focusManager } from '$lib/focus.svelte';

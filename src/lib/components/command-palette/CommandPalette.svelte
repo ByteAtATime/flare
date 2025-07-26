@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PluginInfo } from '@raycast-linux/protocol';
+	import type { PluginInfo } from '@flare/protocol';
 	import Calculator from '$lib/components/Calculator.svelte';
 	import BaseList from '$lib/components/BaseList.svelte';
 	import ListItemBase from '../nodes/shared/ListItemBase.svelte';

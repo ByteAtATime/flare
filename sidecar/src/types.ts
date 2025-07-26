@@ -9,11 +9,11 @@ export interface BaseInstance {
 	_internalFiber?: Reconciler.Fiber;
 }
 
-export interface RaycastInstance extends BaseInstance {
+export interface FlareInstance extends BaseInstance {
 	type: ComponentType;
 	props: ComponentProps;
 	_unserializedProps?: ComponentProps;
-	children: (RaycastInstance | TextInstance)[];
+	children: (FlareInstance | TextInstance)[];
 	namedChildren?: { [key: string]: number };
 }
 
@@ -24,11 +24,11 @@ export interface TextInstance extends BaseInstance {
 
 export interface Container {
 	id: 'root';
-	children: (RaycastInstance | TextInstance)[];
+	children: (FlareInstance | TextInstance)[];
 }
 
-export type AnyInstance = RaycastInstance | TextInstance;
-export type ParentInstance = RaycastInstance | Container;
+export type AnyInstance = FlareInstance | TextInstance;
+export type ParentInstance = FlareInstance | Container;
 export type UpdatePayload = Record<string, unknown>;
 
 export interface SerializedReactElement {

@@ -1,5 +1,5 @@
 import { z } from 'zod/v4';
-import { ImageLikeSchema } from '@raycast-linux/protocol';
+import { ImageLikeSchema } from '@flare/protocol';
 import { platform } from '@tauri-apps/plugin-os';
 
 const KeyModifierSchema = z.enum(['cmd', 'ctrl', 'opt', 'shift']);

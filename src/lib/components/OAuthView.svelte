@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 	import Icon from './Icon.svelte';
-	import type { ImageLike } from '@raycast-linux/protocol';
+	import type { ImageLike } from '@flare/protocol';
 
 	type Props = {
 		providerName: string;

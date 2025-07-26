@@ -11,7 +11,7 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.2.6
         version: 5.2.6
-      '@raycast-linux/protocol':
+      '@flare/protocol':
         specifier: workspace:*
         version: link:packages/protocol
       '@tauri-apps/api':
@@ -202,7 +202,7 @@ importers:
 
   sidecar:
     dependencies:
-      '@raycast-linux/protocol':
+      '@flare/protocol':
         specifier: workspace:*
         version: link:../packages/protocol
       msgpackr:

@@ -23,7 +23,7 @@
 		"typescript": "^5.8.3"
 	},
 	"dependencies": {
-		"@raycast-linux/protocol": "workspace:*",
+		"@flare/protocol": "workspace:*",
 		"msgpackr": "^1.11.4",
 		"pako": "^2.1.0",
 		"react": "^19.1.0",
