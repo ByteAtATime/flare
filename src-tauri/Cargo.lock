@@ -1696,6 +1696,61 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
 
 [[package]]
+name = "flare"
+version = "0.1.0"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "arboard",
+ "bincode",
+ "bytes",
+ "chrono",
+ "enigo 0.5.0",
+ "evdev",
+ "freedesktop-file-parser",
+ "futures-util",
+ "hex",
+ "image",
+ "keyring",
+ "lazy_static",
+ "notify",
+ "notify-debouncer-full",
+ "once_cell",
+ "percent-encoding",
+ "rand 0.9.1",
+ "rayon",
+ "rdev",
+ "regex",
+ "reqwest",
+ "rusqlite",
+ "selection",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-clipboard-manager",
+ "tauri-plugin-deep-link",
+ "tauri-plugin-dialog",
+ "tauri-plugin-fs",
+ "tauri-plugin-global-shortcut",
+ "tauri-plugin-http",
+ "tauri-plugin-opener",
+ "tauri-plugin-os",
+ "tauri-plugin-shell",
+ "tauri-plugin-single-instance",
+ "tokio",
+ "tokio-tungstenite",
+ "trash",
+ "url",
+ "uuid",
+ "walkdir",
+ "xkbcommon 0.8.0",
+ "zbus",
+ "zip",
+]
+
+[[package]]
 name = "flate2"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4593,61 +4648,6 @@ name = "raw-window-handle"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "20675572f6f24e9e76ef639bc5552774ed45f1c30e2951e1e99c59888861c539"
-
-[[package]]
-name = "raycast-linux"
-version = "0.1.0"
-dependencies = [
- "aes-gcm",
- "anyhow",
- "arboard",
- "bincode",
- "bytes",
- "chrono",
- "enigo 0.5.0",
- "evdev",
- "freedesktop-file-parser",
- "futures-util",
- "hex",
- "image",
- "keyring",
- "lazy_static",
- "notify",
- "notify-debouncer-full",
- "once_cell",
- "percent-encoding",
- "rand 0.9.1",
- "rayon",
- "rdev",
- "regex",
- "reqwest",
- "rusqlite",
- "selection",
- "serde",
- "serde_json",
- "sha2",
- "tauri",
- "tauri-build",
- "tauri-plugin-clipboard-manager",
- "tauri-plugin-deep-link",
- "tauri-plugin-dialog",
- "tauri-plugin-fs",
- "tauri-plugin-global-shortcut",
- "tauri-plugin-http",
- "tauri-plugin-opener",
- "tauri-plugin-os",
- "tauri-plugin-shell",
- "tauri-plugin-single-instance",
- "tokio",
- "tokio-tungstenite",
- "trash",
- "url",
- "uuid",
- "walkdir",
- "xkbcommon 0.8.0",
- "zbus",
- "zip",
-]
 
 [[package]]
 name = "rayon"
