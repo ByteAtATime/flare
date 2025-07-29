@@ -29,14 +29,14 @@
 	const storePlugin: PluginInfo = {
 		title: 'Store',
 		description: 'Browse and install new extensions from the Store',
-		pluginTitle: 'Flare',
-		pluginName: 'flare',
+		pluginTitle: 'Raycast',
+		pluginName: 'raycast',
 		commandName: 'store',
 		pluginPath: 'builtin:store',
 		icon: storeCommandIcon,
 		preferences: [],
 		mode: 'view',
-		owner: 'flare'
+		owner: 'raycast'
 	};
 
 	const clipboardHistoryPlugin: PluginInfo = {
