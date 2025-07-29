@@ -21,9 +21,8 @@ impl AppCache {
             .app_cache_dir()
             .map_err(|_| AppError::DirectoryNotFound)?;
 
-        let app_cache_dir = cache_dir.join("raycast-linux");
-        fs::create_dir_all(&app_cache_dir)?;
-        Ok(app_cache_dir.join("apps.bincode"))
+        fs::create_dir_all(&cache_dir)?;
+        Ok(cache_dir.join("apps.bincode"))
     }
 
     pub fn read_from_file(path: &Path) -> Result<AppCache, AppError> {
