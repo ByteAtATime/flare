@@ -20,6 +20,20 @@ impl DesktopFileManager {
         if let Ok(home_dir) = env::var("HOME") {
             app_dirs.push(PathBuf::from(home_dir).join(".local/share/applications"));
         }
+
+        if let Ok(data_dirs) = env::var("XDG_DATA_DIRS") {
+            for dir in env::split_paths(&data_dirs) {
+                app_dirs.push(dir.join("applications"));
+            }
+        }
+
+        if let Ok(home_dir) = env::var("HOME") {
+            let nix_profile_path = PathBuf::from(home_dir).join(".nix-profile/share/applications");
+            if nix_profile_path.exists() {
+                app_dirs.push(nix_profile_path);
+            }
+        }
+
         app_dirs
     }
 
@@ -41,9 +55,11 @@ impl DesktopFileManager {
     pub fn scan_and_parse_apps() -> Result<(Vec<App>, HashMap<PathBuf, SystemTime>), AppError> {
         let app_dirs = Self::get_app_directories();
         let desktop_files: Vec<PathBuf> = app_dirs
-            .iter()
+            .par_iter()
             .filter(|dir| dir.exists())
             .flat_map(|dir| Self::find_desktop_files(dir))
+            .collect::<HashSet<_>>()
+            .into_iter()
             .collect();
 
         let apps: Vec<App> = desktop_files
