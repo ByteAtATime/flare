@@ -3,7 +3,7 @@ use freedesktop_file_parser::{parse, EntryType};
 use rayon::prelude::*;
 use std::{
     collections::{HashMap, HashSet},
-    env, fs,
+    env, fs, panic,
     path::{Path, PathBuf},
     time::SystemTime,
 };
@@ -67,6 +67,8 @@ impl DesktopFileManager {
             .filter_map(|file_path| Self::parse_desktop_file(file_path))
             .collect();
 
+        panic!("uh oh");
+
         let unique_apps = Self::deduplicate_and_sort_apps(apps);
 
         let dir_mod_times = Self::get_directory_modification_times(app_dirs)?;
@@ -75,8 +77,24 @@ impl DesktopFileManager {
     }
 
     fn parse_desktop_file(file_path: &Path) -> Option<App> {
-        let content = fs::read_to_string(file_path).ok()?;
-        let desktop_file = parse(&content).ok()?;
+        let content = match fs::read_to_string(file_path) {
+            Ok(c) => c,
+            Err(_) => return None,
+        };
+
+        let result = panic::catch_unwind(|| parse(&content));
+
+        let desktop_file = match result {
+            Ok(Ok(file)) => file,
+            Ok(Err(_)) => return None,
+            Err(_) => {
+                eprintln!(
+                    "[Warning] Skipped problematic .desktop file that caused a panic: {:?}",
+                    file_path
+                );
+                return None;
+            }
+        };
 
         if desktop_file.entry.hidden.unwrap_or(false)
             || desktop_file.entry.no_display.unwrap_or(false)
