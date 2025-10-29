@@ -1,3 +1,9 @@
 import React from "react";
 
-export { React };
+const raycastApi = {
+  showToast: (message: string) => {
+    console.log(`ooh toast: ${message}`);
+  },
+};
+
+export { React, raycastApi };

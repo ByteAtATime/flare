@@ -5,13 +5,21 @@ fn main() -> Result<(), rustyscript::Error> {
         ..Default::default()
     })?;
 
+    let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
+    runtime.load_module(&renderer_module)?;
+
     let module = Module::new(
         "setup.js",
         "
         import { createRequire } from 'module';
         const nodeRequire = createRequire(import.meta.url);
 
+        import { raycastApi } from './renderer.js';
+
         globalThis.require = (moduleName) => {
+            if (moduleName === '@raycast/api') {
+                return raycastApi;
+            }
             return nodeRequire(moduleName);
         };
         
@@ -22,22 +30,12 @@ fn main() -> Result<(), rustyscript::Error> {
     let module2 = Module::new(
         "plugin.js",
         "
-        const fs = require('fs');
-        module.exports = {
-            content: fs.readFileSync('./src/main.rs', 'utf-8')
-        };
-        ",
-    );
-
-    let module3 = Module::new(
-        "module.js",
-        "
-        console.log(module.exports.content);
+        const raycast = require('@raycast/api');
+        raycast.showToast('Hello from Raycast API!');
         ",
     );
 
     runtime.load_module(&module)?;
     runtime.load_module(&module2)?;
-    runtime.load_module(&module3)?;
     Ok(())
 }

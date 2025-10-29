@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "watch": "bun build src/index.ts --target=node --minify --watch --outdir=dist"
+    "watch": "bun build src/index.ts --target=node --minify --watch --outdir=dist",
+    "build": "bun build src/index.ts --target=node --minify --outdir=dist"
   },
   "devDependencies": {
     "@types/bun": "latest"
