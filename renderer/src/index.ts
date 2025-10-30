@@ -33,6 +33,7 @@ const raycastApi = {
         message?: string;
       }
     ) {
+      rustyscript.functions.showToast(options.title);
       console.log(`new toast ${JSON.stringify(options)}`);
     }
 

@@ -1,4 +1,4 @@
-use rustyscript::{Module, Runtime, RuntimeOptions};
+use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 
 fn main() -> Result<(), rustyscript::Error> {
     let mut runtime = Runtime::new(RuntimeOptions {
@@ -35,6 +35,14 @@ fn main() -> Result<(), rustyscript::Error> {
         await module.exports.default();
     "#,
     );
+
+    runtime.register_function("showToast", |args| {
+        println!(
+            "ooh new toast from js: {}",
+            args[0].as_str().unwrap_or_default()
+        );
+        Ok(Value::Null)
+    })?;
 
     runtime.load_module(&module)?;
     runtime.load_module(&module2)?;
