@@ -20,13 +20,20 @@ export type ToastOptions = {
   message?: string;
 };
 
-const Grid = (props) => {
-  return jsx("Grid", props);
+const createComponent = (name: string) => {
+  const ComponentFactory = (props: { children?: React.ReactNode }) => {
+    return jsx(name as React.ElementType, props);
+  };
+  ComponentFactory.displayName = name;
+  return ComponentFactory;
 };
 
-Grid.Section = (props) => {
-  return jsx("Grid.Section", props);
-};
+const Grid = createComponent("Grid");
+const GridSection = createComponent("Grid.Section");
+
+Object.assign(Grid, {
+  Section: GridSection,
+});
 
 const raycastApi = {
   showToast: (message: string) => {
