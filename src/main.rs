@@ -1,9 +1,9 @@
-use iced::alignment::Vertical;
+use iced::futures;
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
-use iced::widget::{button, column, container, row, text};
-use iced::{Color, Element, Font, Length, Padding, Theme, border};
-use iced::{Subscription, futures};
+use iced::widget::{column, container, text};
+use iced::{Color, Element, Font, Length, Subscription, Theme};
+use rustyscript::deno_core::PollEventLoopOptions;
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 use std::sync::Mutex;
 
@@ -70,71 +70,86 @@ fn subscription(_state: &State) -> Subscription<Message> {
     }
 }
 
-fn main() -> Result<(), rustyscript::Error> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (sender, receiver) = mpsc::unbounded();
     *SENDER.lock().unwrap() = Some(sender);
     *RECEIVER.lock().unwrap() = Some(receiver);
 
-    let mut runtime = Runtime::new(RuntimeOptions {
-        ..Default::default()
-    })?;
+    std::thread::spawn(|| {
+        let mut runtime = Runtime::new(RuntimeOptions::default()).unwrap();
 
-    let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
-    runtime.load_module(&renderer_module)?;
+        let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
+        runtime.load_module(&renderer_module).unwrap();
 
-    let module = Module::new(
-        "setup.js",
-        "
-        import { createRequire } from 'module';
-        const nodeRequire = createRequire(import.meta.url);
-
-        import { raycastApi } from './renderer.js';
-
-        globalThis.require = (moduleName) => {
-            if (moduleName === '@raycast/api') {
-                return raycastApi;
-            }
-            return nodeRequire(moduleName);
-        };
-        
-        globalThis.module = { exports: {} };
-        ",
-    );
-
-    let module2 = Module::new("plugin.js", include_str!("../test/plugin.js"));
-
-    let command_runner = Module::new(
-        "runner.js",
-        r#"
-        await module.exports.default();
-    "#,
-    );
-
-    runtime.register_async_function("showToast", |args| {
-        Box::pin(async move {
-            if let Ok(value) = serde_json::from_value::<ToastOptions>(args[0].clone()) {
-                if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                    sender
-                        .send(Message::UpdateToast(value.title.clone()))
-                        .await
-                        .unwrap();
+        let module = Module::new(
+            "setup.js",
+            "
+            import { createRequire } from 'module';
+            const nodeRequire = createRequire(import.meta.url);
+    
+            import { raycastApi, React, ReactJsxRuntime } from './renderer.js';
+    
+            globalThis.require = (moduleName) => {
+                if (moduleName === '@raycast/api') {
+                    return raycastApi;
                 }
-            }
-            Ok(Value::Null)
-        })
-    })?;
+    
+                if (moduleName === 'react') return React;
+                if (moduleName === 'react/jsx-runtime') return ReactJsxRuntime;
+    
+                return nodeRequire(moduleName);
+            };
+            
+            globalThis.module = { exports: {} };
+            ",
+        );
+        runtime.load_module(&module).unwrap();
 
-    runtime.load_module(&module)?;
-    runtime.load_module(&module2)?;
+        let module2 = Module::new("plugin.js", include_str!("../test/plugin.js"));
+        runtime.load_module(&module2).unwrap();
 
-    let tokio_runtime = runtime.tokio_runtime();
+        let command_runner = Module::new(
+            "runner.js",
+            r#"
+            import { React, updateContainer } from './renderer.js';
+    
+            const PluginRoot = module.exports.default;
+            const AppElement = React.createElement(PluginRoot);
+            updateContainer(AppElement, () => {
+                console.log("initial render callback fired!");
+            });
+        "#,
+        );
 
-    tokio_runtime.block_on(async { runtime.load_module_async(&command_runner).await })?;
+        runtime
+            .register_async_function("showToast", |args| {
+                Box::pin(async move {
+                    if let Ok(value) = serde_json::from_value::<ToastOptions>(args[0].clone()) {
+                        if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                            sender
+                                .send(Message::UpdateToast(value.title.clone()))
+                                .await
+                                .unwrap();
+                        }
+                    }
+                    Ok(Value::Null)
+                })
+            })
+            .unwrap();
+
+        runtime.load_module(&command_runner).unwrap();
+
+        runtime
+            .block_on_event_loop(PollEventLoopOptions::default(), None)
+            .unwrap();
+    });
 
     iced::application("flare", update, view)
         .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)
         .run()
-        .map_err(|e| rustyscript::Error::Runtime(e.to_string()))
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
 }
