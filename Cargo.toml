@@ -9,3 +9,4 @@ rustyscript = { version = "0.12.3", features = ["node_experimental"] }
 serde = "=1.0.219"
 serde_json = "=1.0.120"
 serde_bytes = "=0.11.15"
+iced = "0.13.1"

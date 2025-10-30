@@ -1,4 +1,21 @@
+use iced::Element;
+use iced::widget::{button, text};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
+
+#[derive(Debug, Clone)]
+enum Message {
+    Increment,
+}
+
+fn view(counter: &u64) -> Element<Message> {
+    button(text(counter)).on_press(Message::Increment).into()
+}
+
+fn update(counter: &mut u64, message: Message) {
+    match message {
+        Message::Increment => *counter += 1,
+    }
+}
 
 fn main() -> Result<(), rustyscript::Error> {
     let mut runtime = Runtime::new(RuntimeOptions {
@@ -48,5 +65,6 @@ fn main() -> Result<(), rustyscript::Error> {
 
     tokio_runtime.block_on(async { runtime.load_module_async(&command_runner).await })?;
 
-    Ok(())
+    iced::run("A cool counter", update, view)
+        .map_err(|e| rustyscript::Error::Runtime(e.to_string()))
 }
