@@ -27,15 +27,21 @@ fn main() -> Result<(), rustyscript::Error> {
         ",
     );
 
-    let module2 = Module::new(
-        "plugin.js",
-        "
-        const raycast = require('@raycast/api');
-        raycast.showToast('Hello from Raycast API!');
-        ",
+    let module2 = Module::new("plugin.js", include_str!("../test/plugin.js"));
+
+    let command_runner = Module::new(
+        "runner.js",
+        r#"
+        console.log(await module.exports.default());
+    "#,
     );
 
     runtime.load_module(&module)?;
     runtime.load_module(&module2)?;
+
+    let tokio_runtime = runtime.tokio_runtime();
+
+    tokio_runtime.block_on(async { runtime.load_module_async(&command_runner).await })?;
+
     Ok(())
 }
