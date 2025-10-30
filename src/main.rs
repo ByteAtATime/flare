@@ -32,7 +32,7 @@ fn main() -> Result<(), rustyscript::Error> {
     let command_runner = Module::new(
         "runner.js",
         r#"
-        console.log(await module.exports.default());
+        await module.exports.default();
     "#,
     );
 
