@@ -1,5 +1,5 @@
 import React from "react";
-import ReactJsxRuntime from "react/jsx-runtime";
+import ReactJsxRuntime, { jsx } from "react/jsx-runtime";
 import type * as RaycastApiType from "@raycast/api";
 import { updateContainer } from "./reconciler";
 
@@ -20,10 +20,19 @@ export type ToastOptions = {
   message?: string;
 };
 
+const Grid = (props) => {
+  return jsx("Grid", props);
+};
+
+Grid.Section = (props) => {
+  return jsx("Grid.Section", props);
+};
+
 const raycastApi = {
   showToast: (message: string) => {
     console.log(`ooh toast: ${message}`);
   },
+  Grid,
   LaunchType,
   environment: {
     launchType:

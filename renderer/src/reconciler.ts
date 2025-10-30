@@ -49,15 +49,62 @@ const HostConfig: Reconciler.HostConfig<
   resolveEventType: () => null,
   trackSchedulerEvent: () => {},
   getRootHostContext: () => ({}),
+  getChildHostContext: () => ({}),
+  shouldSetTextContent: () => false,
+  finalizeInitialChildren: () => false,
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    console.log("createInstance", type, props);
+    const serializedProps =
+      !!props && typeof props === "object" && "children" in props
+        ? Object.fromEntries(
+            Object.entries(props).filter(([key]) => key !== "children")
+          )
+        : props;
     return {
-      type: type,
+      type,
+      props: serializedProps,
+      children: [],
+    };
+  },
+  cloneInstance(
+    instance,
+    type,
+    oldProps,
+    newProps,
+    internalInstanceHandle,
+    keepChildren,
+    recyclableInstance
+  ) {
+    return instance;
+  },
+  createTextInstance(text, rootContainer, hostContext, internalHandle) {
+    return {
+      type: "TEXT",
+      text,
       children: [],
     };
   },
   prepareForCommit: () => null,
-  resetAfterCommit: () => null,
+  resetAfterCommit(containerInfo) {
+    console.dir(containerInfo, { depth: null });
+  },
+  appendInitialChild(parent, child) {
+    parent.children.push(child);
+  },
+  createContainerChildSet(container) {
+    return [];
+  },
+  appendChildToContainerChildSet(childSet, child) {
+    childSet.push(child);
+  },
+  replaceContainerChildren(container, newChildren) {
+    container.children = newChildren;
+  },
+  finalizeContainerChildren(container, newChildren) {
+    container.children = newChildren;
+  },
+  detachDeletedInstance() {},
+
+  getPublicInstance: (instance) => instance,
 };
 
 const reconciler = Reconciler(HostConfig);
