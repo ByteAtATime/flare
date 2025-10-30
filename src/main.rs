@@ -37,10 +37,7 @@ fn main() -> Result<(), rustyscript::Error> {
     );
 
     runtime.register_function("showToast", |args| {
-        println!(
-            "ooh new toast from js: {}",
-            args[0].as_str().unwrap_or_default()
-        );
+        println!("ooh new toast from js: {:?}", args[0]);
         Ok(Value::Null)
     })?;
 

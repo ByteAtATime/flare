@@ -12,6 +12,12 @@ const ToastStyle = {
   Animated: "ANIMATED",
 } as const;
 
+export type ToastOptions = {
+  style?: (typeof ToastStyle)[keyof typeof ToastStyle];
+  title: string;
+  message?: string;
+};
+
 const raycastApi = {
   showToast: (message: string) => {
     console.log(`ooh toast: ${message}`);
@@ -26,14 +32,8 @@ const raycastApi = {
 
     public primaryAction: RaycastApiType.Toast.ActionOptions | undefined;
 
-    constructor(
-      private options: {
-        style?: (typeof ToastStyle)[keyof typeof ToastStyle];
-        title: string;
-        message?: string;
-      }
-    ) {
-      rustyscript.functions.showToast(options.title);
+    constructor(private options: ToastOptions) {
+      rustyscript.functions.showToast(options);
       console.log(`new toast ${JSON.stringify(options)}`);
     }
 
