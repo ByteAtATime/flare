@@ -1,5 +1,5 @@
 declare namespace rustyscript {
-  declare namespace functions {
-    function showToast(toast: import("./index").ToastOptions): void;
+  declare namespace async_functions {
+    function showToast(toast: import("./index").ToastOptions): Promise<void>;
   }
 }

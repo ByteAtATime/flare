@@ -33,11 +33,11 @@ const raycastApi = {
     public primaryAction: RaycastApiType.Toast.ActionOptions | undefined;
 
     constructor(private options: ToastOptions) {
-      rustyscript.functions.showToast(options);
       console.log(`new toast ${JSON.stringify(options)}`);
     }
 
-    public show = () => {
+    public show = async () => {
+      await rustyscript.async_functions.showToast(this.options);
       console.log(`show toast ${JSON.stringify(this.options)}`);
     };
   },
