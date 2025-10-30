@@ -8,6 +8,7 @@
     "build": "bun build src/index.ts --target=node --minify --outdir=dist"
   },
   "devDependencies": {
+    "@raycast/api": "^1.103.5",
     "@types/bun": "latest"
   },
   "peerDependencies": {
