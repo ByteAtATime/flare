@@ -36,6 +36,7 @@ struct TreeNode {
 #[derive(Default)]
 struct State {
     toast_message: String,
+    tree: Option<Tree>,
 }
 
 #[derive(Debug, Clone)]
@@ -44,9 +45,42 @@ enum Message {
     UpdateTree(Tree),
 }
 
+fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
+    match node.node_type.as_str() {
+        "Grid" => {
+            let mut content = column![];
+            for child in &node.children {
+                content = content.push(render_tree_node(child));
+            }
+            content.into()
+        }
+        "Grid.Section" => {
+            let title = node
+                .props
+                .as_ref()
+                .and_then(|p| p.get("title"))
+                .and_then(|t| t.as_str())
+                .unwrap_or("");
+
+            column![text(title).size(20).font(INTER_FONT)]
+                .padding(10)
+                .into()
+        }
+        _ => text("Unknown").into(),
+    }
+}
+
 fn view(state: &State) -> Element<'_, Message> {
+    let mut content = column![].height(Length::Fill);
+
+    if let Some(tree) = &state.tree {
+        for child in &tree.children {
+            content = content.push(render_tree_node(child));
+        }
+    }
+
     container(column![
-        column![].height(Length::Fill),
+        content,
         container(
             text(&state.toast_message)
                 .size(16)
@@ -70,6 +104,7 @@ fn update(state: &mut State, message: Message) {
         Message::UpdateToast(new_message) => state.toast_message = new_message,
         Message::UpdateTree(tree) => {
             println!("Tree update: {:?}", tree);
+            state.tree = Some(tree);
         }
     }
 }
