@@ -1,75 +1,31 @@
 use iced::widget::{column, container, row, text};
 use iced::{Color, Element, Theme};
-use rustyscript::serde_json::Value;
 
+use super::types::{GridItemProps, GridProps, GridSectionProps, parse_hex_color};
 use crate::Message;
-use crate::types::TreeNode;
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
-#[derive(Debug, Clone, Default, serde::Deserialize)]
-struct GridSectionProps {
-    #[serde(default)]
-    title: String,
-    #[serde(default)]
-    columns: Option<i32>,
-}
-
-#[derive(Debug, Clone, Default, serde::Deserialize)]
-struct GridItemProps {
-    #[serde(default)]
-    title: String,
-    #[serde(default)]
-    subtitle: Option<String>,
-    #[serde(default)]
-    content: Option<GridItemContent>,
-}
-
-#[derive(Debug, Clone, serde::Deserialize)]
-struct GridItemContent {
-    color: Option<GridItemColor>,
-}
-
-#[derive(Debug, Clone, serde::Deserialize)]
-struct GridItemColor {
-    light: String,
-    dark: String,
-    #[serde(rename = "adjustContrast")]
-    adjust_contrast: bool,
-}
-
-fn parse_hex_color(hex: &str) -> Color {
-    let hex = hex.trim_start_matches('#');
-    let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
-    let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
-    let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
-    Color::from_rgb8(r, g, b)
-}
-
-fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) -> T {
+pub fn render_grid(props: GridProps, selected_index: usize) -> Element<'static, Message> {
     props
-        .as_ref()
-        .and_then(|p| serde_json::from_value(p.clone()).ok())
-        .unwrap_or_default()
-}
-
-pub fn render_grid(node: &TreeNode, selected_index: usize) -> Element<'_, Message> {
-    node.children
-        .iter()
-        .fold(column![], |col, child| {
-            col.push(render_grid_section(child, selected_index))
+        .sections
+        .into_iter()
+        .fold(column![], |col, section| {
+            col.push(render_grid_section(section, selected_index))
         })
         .into()
 }
 
-pub fn render_grid_section(node: &TreeNode, selected_index: usize) -> Element<'_, Message> {
-    let props: GridSectionProps = parse_props(&node.props);
-    let items_row = node
-        .children
-        .iter()
+pub fn render_grid_section(
+    props: GridSectionProps,
+    selected_index: usize,
+) -> Element<'static, Message> {
+    let items_row = props
+        .items
+        .into_iter()
         .enumerate()
-        .fold(row![].spacing(10), |row, (idx, child)| {
-            row.push(render_grid_item(child, idx == selected_index))
+        .fold(row![].spacing(10), |row, (idx, item)| {
+            row.push(render_grid_item(item, idx == selected_index))
         });
 
     column![text(props.title).size(16).font(INTER_FONT), items_row]
@@ -78,8 +34,7 @@ pub fn render_grid_section(node: &TreeNode, selected_index: usize) -> Element<'_
         .into()
 }
 
-pub fn render_grid_item(node: &TreeNode, is_selected: bool) -> Element<'_, Message> {
-    let props: GridItemProps = parse_props(&node.props);
+pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'static, Message> {
     let bg_color = props
         .content
         .as_ref()
