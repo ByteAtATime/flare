@@ -40,11 +40,6 @@ Object.assign(Grid, {
 const ActionPanel = createComponent("ActionPanel");
 
 const Action = createComponent("Action");
-const ActionCopyToClipboard = createComponent("Action.CopyToClipboard");
-
-Object.assign(Action, {
-  CopyToClipboard: ActionCopyToClipboard,
-});
 
 const raycastApi = {
   showToast: (message: string) => {
