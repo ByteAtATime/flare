@@ -33,6 +33,37 @@ struct TreeNode {
     children: Vec<TreeNode>,
 }
 
+impl TreeNode {
+    fn parse_props<T: serde::de::DeserializeOwned + Default>(&self) -> T {
+        self.props
+            .as_ref()
+            .and_then(|p| serde_json::from_value(p.clone()).ok())
+            .unwrap_or_default()
+    }
+
+    fn render_children(&self) -> impl Iterator<Item = Element<'_, Message>> + '_ {
+        self.children.iter().map(render_tree_node)
+    }
+}
+
+#[derive(Debug, Clone, Default, serde::Deserialize)]
+struct GridSectionProps {
+    #[serde(default)]
+    title: String,
+    #[serde(default)]
+    columns: Option<i32>,
+}
+
+#[derive(Debug, Clone, Default, serde::Deserialize)]
+struct GridItemProps {
+    #[serde(default)]
+    title: String,
+    #[serde(default)]
+    subtitle: Option<String>,
+    #[serde(default)]
+    content: Option<GridItemContent>,
+}
+
 #[derive(Debug, Clone, serde::Deserialize)]
 struct GridItemContent {
     color: Option<GridItemColor>,
@@ -70,54 +101,28 @@ fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
     use iced::widget::row;
 
     match node.node_type.as_str() {
-        "Grid" => {
-            let mut content = column![];
-            for child in &node.children {
-                content = content.push(render_tree_node(child));
-            }
-            content.into()
-        }
+        "Grid" => node
+            .render_children()
+            .fold(column![], |col, child| col.push(child))
+            .into(),
         "Grid.Section" => {
-            let title = node
-                .props
-                .as_ref()
-                .and_then(|p| p.get("title"))
-                .and_then(|t| t.as_str())
-                .unwrap_or("");
+            let props: GridSectionProps = node.parse_props();
+            let items_row = node
+                .render_children()
+                .fold(row![].spacing(10), |row, child| row.push(child));
 
-            let mut items_row = row![].spacing(10);
-            for child in &node.children {
-                items_row = items_row.push(render_tree_node(child));
-            }
-
-            column![text(title).size(16).font(INTER_FONT), items_row]
+            column![text(props.title).size(16).font(INTER_FONT), items_row]
                 .padding(10)
                 .spacing(10)
                 .into()
         }
         "Grid.Item" => {
-            let title = node
-                .props
+            let props: GridItemProps = node.parse_props();
+            let bg_color = props
+                .content
                 .as_ref()
-                .and_then(|p| p.get("title"))
-                .and_then(|t| t.as_str())
-                .unwrap_or("");
-
-            let subtitle = node
-                .props
-                .as_ref()
-                .and_then(|p| p.get("subtitle"))
-                .and_then(|t| t.as_str())
-                .unwrap_or("");
-
-            let bg_color = node
-                .props
-                .as_ref()
-                .and_then(|p| p.get("content"))
-                .and_then(|c| c.get("color"))
-                .and_then(|col| col.get("light"))
-                .and_then(|l| l.as_str())
-                .map(parse_hex_color)
+                .and_then(|c| c.color.as_ref())
+                .map(|color| parse_hex_color(&color.light))
                 .unwrap_or(Color::from_rgb8(0x33, 0x33, 0x33));
 
             container(
@@ -134,8 +139,8 @@ fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
                             },
                             ..Default::default()
                         }),
-                    text(title).size(14).font(INTER_FONT),
-                    text(subtitle)
+                    text(props.title).size(14).font(INTER_FONT),
+                    text(props.subtitle.unwrap_or_default())
                         .size(12)
                         .font(INTER_FONT)
                         .style(|_theme: &Theme| text::Style {
@@ -152,13 +157,17 @@ fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
 }
 
 fn view(state: &State) -> Element<'_, Message> {
-    let mut content = column![].height(Length::Fill);
-
-    if let Some(tree) = &state.tree {
-        for child in &tree.children {
-            content = content.push(render_tree_node(child));
-        }
-    }
+    let content = state
+        .tree
+        .as_ref()
+        .map(|tree| {
+            tree.children
+                .iter()
+                .fold(column![].height(Length::Fill), |col, child| {
+                    col.push(render_tree_node(child))
+                })
+        })
+        .unwrap_or_else(|| column![].height(Length::Fill));
 
     container(column![
         content,
