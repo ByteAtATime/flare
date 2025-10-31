@@ -177,7 +177,7 @@ impl Component {
             }
             "Grid.Item" => {
                 let mut props: GridItemProps = parse_props(&node.props);
-                // Extract actions from props if present
+
                 if let Some(actions_value) = node.props.as_ref().and_then(|p| {
                     if let Value::Object(map) = p {
                         map.get("actions")

@@ -1,3 +1,4 @@
+pub mod footer;
 pub mod grid;
 pub mod types;
 

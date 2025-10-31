@@ -12,6 +12,8 @@ use std::sync::Mutex;
 
 use types::{ToastOptions, Tree};
 
+use crate::components::footer::render_footer;
+
 static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
 static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
 
@@ -65,42 +67,7 @@ fn view(state: &State) -> Element<'_, Message> {
         })
         .unwrap_or_else(|| column![].height(Length::Fill));
 
-    let footer_content = if !state.selected_actions.is_empty() {
-        let actions_text = state
-            .selected_actions
-            .iter()
-            .map(|action| action.title.as_str())
-            .collect::<Vec<_>>()
-            .join(" | ");
-        text(format!("Actions: {}", actions_text))
-            .size(16)
-            .font(INTER_FONT)
-            .shaping(text::Shaping::Advanced)
-    } else if !state.toast_message.is_empty() {
-        text(&state.toast_message)
-            .size(16)
-            .font(INTER_FONT)
-            .shaping(text::Shaping::Advanced)
-    } else {
-        text("")
-            .size(16)
-            .font(INTER_FONT)
-            .shaping(text::Shaping::Advanced)
-    };
-
-    container(column![
-        content,
-        container(footer_content)
-            .width(Length::Fill)
-            .padding([0, 8])
-            .center_y(40)
-            .style(|_theme: &Theme| container::Style {
-                background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
-                text_color: Some(Color::WHITE),
-                ..Default::default()
-            })
-    ])
-    .into()
+    container(column![content, render_footer(state)]).into()
 }
 
 fn update(state: &mut State, message: Message) {
