@@ -53,18 +53,24 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
         .unwrap_or_default()
 }
 
-pub fn render_grid(node: &TreeNode) -> Element<'_, Message> {
+pub fn render_grid(node: &TreeNode, selected_index: usize) -> Element<'_, Message> {
     node.children
         .iter()
-        .fold(column![], |col, child| col.push(render_grid_section(child)))
+        .fold(column![], |col, child| {
+            col.push(render_grid_section(child, selected_index))
+        })
         .into()
 }
 
-pub fn render_grid_section(node: &TreeNode) -> Element<'_, Message> {
+pub fn render_grid_section(node: &TreeNode, selected_index: usize) -> Element<'_, Message> {
     let props: GridSectionProps = parse_props(&node.props);
-    let items_row = node.children.iter().fold(row![].spacing(10), |row, child| {
-        row.push(render_grid_item(child))
-    });
+    let items_row = node
+        .children
+        .iter()
+        .enumerate()
+        .fold(row![].spacing(10), |row, (idx, child)| {
+            row.push(render_grid_item(child, idx == selected_index))
+        });
 
     column![text(props.title).size(16).font(INTER_FONT), items_row]
         .padding(10)
@@ -72,7 +78,7 @@ pub fn render_grid_section(node: &TreeNode) -> Element<'_, Message> {
         .into()
 }
 
-pub fn render_grid_item(node: &TreeNode) -> Element<'_, Message> {
+pub fn render_grid_item(node: &TreeNode, is_selected: bool) -> Element<'_, Message> {
     let props: GridItemProps = parse_props(&node.props);
     let bg_color = props
         .content
@@ -80,6 +86,14 @@ pub fn render_grid_item(node: &TreeNode) -> Element<'_, Message> {
         .and_then(|c| c.color.as_ref())
         .map(|color| parse_hex_color(&color.light))
         .unwrap_or(Color::from_rgb8(0x33, 0x33, 0x33));
+
+    let border_color = if is_selected {
+        Color::from_rgb8(0x00, 0x7A, 0xFF)
+    } else {
+        Color::from_rgb8(0x55, 0x55, 0x55)
+    };
+
+    let border_width = if is_selected { 3.0 } else { 2.0 };
 
     container(
         column![
@@ -89,8 +103,8 @@ pub fn render_grid_item(node: &TreeNode) -> Element<'_, Message> {
                 .style(move |_theme: &Theme| container::Style {
                     background: Some(bg_color.into()),
                     border: iced::Border {
-                        color: Color::from_rgb8(0x55, 0x55, 0x55),
-                        width: 2.0,
+                        color: border_color,
+                        width: border_width,
                         radius: 8.0.into(),
                     },
                     ..Default::default()

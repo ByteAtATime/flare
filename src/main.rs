@@ -21,12 +21,14 @@ const INTER_FONT: Font = Font::with_name("Inter");
 struct State {
     toast_message: String,
     tree: Option<Tree>,
+    selected_index: usize,
 }
 
 #[derive(Debug, Clone)]
 pub enum Message {
     UpdateToast(String),
     UpdateTree(Tree),
+    KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
 }
 
 fn view(state: &State) -> Element<'_, Message> {
@@ -37,7 +39,7 @@ fn view(state: &State) -> Element<'_, Message> {
             tree.children
                 .iter()
                 .fold(column![].height(Length::Fill), |col, child| {
-                    col.push(components::render_tree_node(child))
+                    col.push(components::render_tree_node(child, state.selected_index))
                 })
         })
         .unwrap_or_else(|| column![].height(Length::Fill));
@@ -69,13 +71,42 @@ fn update(state: &mut State, message: Message) {
             println!("Tree update: {:?}", tree);
             state.tree = Some(tree);
         }
+        Message::KeyPressed(key, _modifiers) => {
+            use iced::keyboard::key::Named;
+
+            if let iced::keyboard::Key::Named(named_key) = key {
+                let total_items = state
+                    .tree
+                    .as_ref()
+                    .and_then(|tree| tree.children.first())
+                    .and_then(|grid| grid.children.first())
+                    .map(|section| section.children.len())
+                    .unwrap_or(0);
+
+                if total_items > 0 {
+                    match named_key {
+                        Named::ArrowRight => {
+                            state.selected_index = (state.selected_index + 1) % total_items;
+                        }
+                        Named::ArrowLeft => {
+                            state.selected_index = if state.selected_index == 0 {
+                                total_items - 1
+                            } else {
+                                state.selected_index - 1
+                            };
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
     }
 }
 
 fn subscription(_state: &State) -> Subscription<Message> {
     struct ToastListener;
 
-    if let Some(receiver) = RECEIVER.lock().unwrap().take() {
+    let message_stream = if let Some(receiver) = RECEIVER.lock().unwrap().take() {
         let stream = futures::stream::unfold(receiver, |mut receiver| async {
             receiver.next().await.map(|message| (message, receiver))
         });
@@ -83,7 +114,12 @@ fn subscription(_state: &State) -> Subscription<Message> {
         Subscription::run_with_id(std::any::TypeId::of::<ToastListener>(), stream)
     } else {
         Subscription::none()
-    }
+    };
+
+    let keyboard_sub =
+        iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
+
+    Subscription::batch(vec![message_stream, keyboard_sub])
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
