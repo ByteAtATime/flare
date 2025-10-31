@@ -1,4 +1,5 @@
 import Reconciler from "react-reconciler";
+import React, { createContext } from "react";
 
 type HostComponent = {
   type: string;
@@ -23,6 +24,61 @@ type RootContainer = {
 const notImpl = () => {
   throw new Error("Function not implemented.");
 };
+
+function serializeReactElement(element: React.ReactElement): unknown {
+  if (!element || typeof element !== "object") {
+    return element;
+  }
+
+  const { type, props } = element;
+
+  const typeName =
+    typeof type === "string"
+      ? type
+      : (type as { displayName?: string }).displayName || "Unknown";
+
+  const serializedProps: Record<string, unknown> = {};
+
+  if (props && typeof props === "object") {
+    for (const [key, value] of Object.entries(props)) {
+      if (key === "children") {
+        continue;
+      }
+
+      if (
+        value &&
+        typeof value === "object" &&
+        "type" in value &&
+        "props" in value
+      ) {
+        serializedProps[key] = serializeReactElement(
+          value as React.ReactElement
+        );
+      } else {
+        serializedProps[key] = value;
+      }
+    }
+  }
+
+  const children: unknown[] = [];
+  const propsWithChildren = props as { children?: React.ReactNode };
+  if (propsWithChildren.children) {
+    const childArray = React.Children.toArray(propsWithChildren.children);
+    for (const child of childArray) {
+      if (typeof child === "object" && child && "type" in child) {
+        children.push(serializeReactElement(child as React.ReactElement));
+      } else if (typeof child === "string" || typeof child === "number") {
+        children.push({ type: "TEXT", text: String(child) });
+      }
+    }
+  }
+
+  return {
+    type: typeName,
+    props: serializedProps,
+    children,
+  };
+}
 
 const HostConfig: Reconciler.HostConfig<
   Type,
@@ -53,12 +109,29 @@ const HostConfig: Reconciler.HostConfig<
   shouldSetTextContent: () => false,
   finalizeInitialChildren: () => false,
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    const serializedProps =
-      !!props && typeof props === "object" && "children" in props
-        ? Object.fromEntries(
-            Object.entries(props).filter(([key]) => key !== "children")
-          )
-        : props;
+    let serializedProps: Record<string, unknown> = {};
+
+    if (!!props && typeof props === "object") {
+      for (const [key, value] of Object.entries(props)) {
+        if (key === "children") continue;
+
+        if (
+          value &&
+          typeof value === "object" &&
+          "type" in value &&
+          "props" in value
+        ) {
+          serializedProps[key] = serializeReactElement(
+            value as React.ReactElement
+          );
+        } else {
+          serializedProps[key] = value;
+        }
+      }
+    } else {
+      serializedProps = props as Record<string, unknown>;
+    }
+
     return {
       type,
       props: serializedProps,
@@ -85,6 +158,7 @@ const HostConfig: Reconciler.HostConfig<
   },
   prepareForCommit: () => null,
   resetAfterCommit(containerInfo) {
+    console.dir(containerInfo, { depth: null });
     rustyscript.async_functions.updateTree(containerInfo);
   },
   appendInitialChild(parent, child) {

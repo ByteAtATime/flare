@@ -37,11 +37,22 @@ Object.assign(Grid, {
   Item: GridItem,
 });
 
+const ActionPanel = createComponent("ActionPanel");
+
+const Action = createComponent("Action");
+const ActionCopyToClipboard = createComponent("Action.CopyToClipboard");
+
+Object.assign(Action, {
+  CopyToClipboard: ActionCopyToClipboard,
+});
+
 const raycastApi = {
   showToast: (message: string) => {
     console.log(`ooh toast: ${message}`);
   },
   Grid,
+  ActionPanel,
+  Action,
   LaunchType,
   environment: {
     launchType:
