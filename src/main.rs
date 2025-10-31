@@ -4,9 +4,8 @@ mod types;
 use iced::futures;
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
-use iced::widget::{column, container, text};
-use iced::{Color, Element, Font, Length, Subscription, Theme};
-use rustyscript::deno_core::PollEventLoopOptions;
+use iced::widget::{column, container};
+use iced::{Element, Length, Subscription};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 use std::sync::Mutex;
 
@@ -17,8 +16,6 @@ use crate::components::footer::render_footer;
 static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
 static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
 static CALLBACK_SENDER: Mutex<Option<mpsc::UnboundedSender<String>>> = Mutex::new(None);
-
-const INTER_FONT: Font = Font::with_name("Inter");
 
 fn update_selected_actions(state: &mut State) {
     use components::Component;
