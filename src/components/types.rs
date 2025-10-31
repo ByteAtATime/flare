@@ -41,6 +41,8 @@ pub struct GridItemProps {
     pub subtitle: Option<String>,
     #[serde(default)]
     pub content: Option<GridItemContent>,
+    #[serde(default, skip)]
+    pub actions: Option<ActionPanel>,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
@@ -56,6 +58,23 @@ pub struct GridItemColor {
     pub adjust_contrast: bool,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct ActionPanel {
+    pub children: Vec<Action>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Action {
+    pub title: String,
+    pub on_action: Option<CallbackInfo>,
+}
+
+#[derive(Debug, Clone)]
+pub struct CallbackInfo {
+    pub callback_type: String,
+    pub id: String,
+}
+
 pub fn parse_hex_color(hex: &str) -> Color {
     let hex = hex.trim_start_matches('#');
     let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
@@ -69,6 +88,57 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
         .as_ref()
         .and_then(|p| serde_json::from_value(p.clone()).ok())
         .unwrap_or_default()
+}
+
+fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
+    if let Value::Object(map) = value {
+        if let Some(Value::Array(children)) = map.get("children") {
+            let actions: Vec<Action> = children
+                .iter()
+                .filter_map(|child| {
+                    if let Value::Object(action_map) = child {
+                        if let Some(Value::Object(props)) = action_map.get("props") {
+                            let title = props
+                                .get("title")
+                                .and_then(|v| v.as_str())
+                                .unwrap_or("")
+                                .to_string();
+
+                            let on_action = props.get("onAction").and_then(|v| {
+                                if let Value::Object(callback_map) = v {
+                                    let callback_type = callback_map
+                                        .get("type")
+                                        .and_then(|t| t.as_str())
+                                        .unwrap_or("")
+                                        .to_string();
+                                    let id = callback_map
+                                        .get("id")
+                                        .and_then(|i| i.as_str())
+                                        .unwrap_or("")
+                                        .to_string();
+
+                                    if !callback_type.is_empty() && !id.is_empty() {
+                                        return Some(CallbackInfo { callback_type, id });
+                                    }
+                                }
+                                None
+                            });
+
+                            if !title.is_empty() {
+                                return Some(Action { title, on_action });
+                            }
+                        }
+                    }
+                    None
+                })
+                .collect();
+
+            if !actions.is_empty() {
+                return Some(ActionPanel { children: actions });
+            }
+        }
+    }
+    None
 }
 
 impl Component {
@@ -105,7 +175,20 @@ impl Component {
 
                 Component::GridSection(props)
             }
-            "Grid.Item" => Component::GridItem(parse_props(&node.props)),
+            "Grid.Item" => {
+                let mut props: GridItemProps = parse_props(&node.props);
+                // Extract actions from props if present
+                if let Some(actions_value) = node.props.as_ref().and_then(|p| {
+                    if let Value::Object(map) = p {
+                        map.get("actions")
+                    } else {
+                        None
+                    }
+                }) {
+                    props.actions = parse_action_panel(actions_value);
+                }
+                Component::GridItem(props)
+            }
             _ => Component::Unknown,
         }
     }

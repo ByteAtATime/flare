@@ -17,11 +17,32 @@ static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(No
 
 const INTER_FONT: Font = Font::with_name("Inter");
 
+fn update_selected_actions(state: &mut State) {
+    use components::Component;
+
+    state.selected_actions = state
+        .tree
+        .as_ref()
+        .and_then(|tree| tree.children.first())
+        .and_then(|component| {
+            if let Component::Grid(grid_props) = component {
+                grid_props.sections.first()
+            } else {
+                None
+            }
+        })
+        .and_then(|section| section.items.get(state.selected_index))
+        .and_then(|item| item.actions.as_ref())
+        .map(|action_panel| action_panel.children.clone())
+        .unwrap_or_default();
+}
+
 #[derive(Default)]
 struct State {
     toast_message: String,
     tree: Option<Tree>,
     selected_index: usize,
+    selected_actions: Vec<components::types::Action>,
 }
 
 #[derive(Debug, Clone)]
@@ -44,22 +65,40 @@ fn view(state: &State) -> Element<'_, Message> {
         })
         .unwrap_or_else(|| column![].height(Length::Fill));
 
+    let footer_content = if !state.selected_actions.is_empty() {
+        let actions_text = state
+            .selected_actions
+            .iter()
+            .map(|action| action.title.as_str())
+            .collect::<Vec<_>>()
+            .join(" | ");
+        text(format!("Actions: {}", actions_text))
+            .size(16)
+            .font(INTER_FONT)
+            .shaping(text::Shaping::Advanced)
+    } else if !state.toast_message.is_empty() {
+        text(&state.toast_message)
+            .size(16)
+            .font(INTER_FONT)
+            .shaping(text::Shaping::Advanced)
+    } else {
+        text("")
+            .size(16)
+            .font(INTER_FONT)
+            .shaping(text::Shaping::Advanced)
+    };
+
     container(column![
         content,
-        container(
-            text(&state.toast_message)
-                .size(16)
-                .font(INTER_FONT)
-                .shaping(text::Shaping::Advanced)
-        )
-        .width(Length::Fill)
-        .padding([0, 8])
-        .center_y(40)
-        .style(|_theme: &Theme| container::Style {
-            background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
-            text_color: Some(Color::WHITE),
-            ..Default::default()
-        })
+        container(footer_content)
+            .width(Length::Fill)
+            .padding([0, 8])
+            .center_y(40)
+            .style(|_theme: &Theme| container::Style {
+                background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
+                text_color: Some(Color::WHITE),
+                ..Default::default()
+            })
     ])
     .into()
 }
@@ -70,6 +109,7 @@ fn update(state: &mut State, message: Message) {
         Message::UpdateTree(tree) => {
             println!("Tree update: {:?}", tree);
             state.tree = Some(tree);
+            update_selected_actions(state);
         }
         Message::KeyPressed(key, _modifiers) => {
             use components::Component;
@@ -94,6 +134,7 @@ fn update(state: &mut State, message: Message) {
                     match named_key {
                         Named::ArrowRight => {
                             state.selected_index = (state.selected_index + 1) % total_items;
+                            update_selected_actions(state);
                         }
                         Named::ArrowLeft => {
                             state.selected_index = if state.selected_index == 0 {
@@ -101,6 +142,7 @@ fn update(state: &mut State, message: Message) {
                             } else {
                                 state.selected_index - 1
                             };
+                            update_selected_actions(state);
                         }
                         _ => {}
                     }
