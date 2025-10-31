@@ -16,6 +16,7 @@ use crate::components::footer::render_footer;
 
 static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
 static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
+static CALLBACK_SENDER: Mutex<Option<mpsc::UnboundedSender<String>>> = Mutex::new(None);
 
 const INTER_FONT: Font = Font::with_name("Inter");
 
@@ -52,6 +53,7 @@ pub enum Message {
     UpdateToast(String),
     UpdateTree(Tree),
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
+    InvokeAction(String),
 }
 
 fn view(state: &State) -> Element<'_, Message> {
@@ -116,6 +118,15 @@ fn update(state: &mut State, message: Message) {
                 }
             }
         }
+        Message::InvokeAction(callback_id) => {
+            if let Some(mut sender) = CALLBACK_SENDER.lock().unwrap().clone() {
+                std::thread::spawn(move || {
+                    futures::executor::block_on(async move {
+                        sender.send(callback_id).await.ok();
+                    });
+                });
+            }
+        }
     }
 }
 
@@ -143,7 +154,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     *SENDER.lock().unwrap() = Some(sender);
     *RECEIVER.lock().unwrap() = Some(receiver);
 
-    std::thread::spawn(|| {
+    let (callback_sender, mut callback_receiver) = mpsc::unbounded::<String>();
+    *CALLBACK_SENDER.lock().unwrap() = Some(callback_sender);
+
+    std::thread::spawn(move || {
         let mut runtime = Runtime::new(RuntimeOptions::default()).unwrap();
 
         let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
@@ -179,13 +193,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let command_runner = Module::new(
             "runner.js",
             r#"
-            import { React, updateContainer } from './renderer.js';
+            import { React, updateContainer, invokeCallback } from './renderer.js';
     
             const PluginRoot = module.exports.default;
             const AppElement = React.createElement(PluginRoot);
             updateContainer(AppElement, () => {
                 console.log("initial render callback fired!");
             });
+
+            export { invokeCallback };
         "#,
         );
 
@@ -218,11 +234,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             })
             .unwrap();
 
-        runtime.load_module(&command_runner).unwrap();
+        let command_runner_handle = runtime.load_module(&command_runner).unwrap();
 
-        runtime
-            .block_on_event_loop(PollEventLoopOptions::default(), None)
-            .unwrap();
+        loop {
+            match callback_receiver.try_next() {
+                Ok(Some(callback_id)) => {
+                    let result: Result<Value, _> = runtime.call_function(
+                        Some(&command_runner_handle),
+                        "invokeCallback",
+                        &[Value::String(callback_id)],
+                    );
+                    if let Err(e) = result {
+                        eprintln!("callback died: {:?}", e);
+                    }
+                }
+                Ok(None) => break,
+                Err(_) => {}
+            }
+        }
     });
 
     iced::application("flare", update, view)
