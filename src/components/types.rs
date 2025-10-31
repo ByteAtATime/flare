@@ -1,5 +1,6 @@
 use iced::Color;
 use rustyscript::serde_json::Value;
+use serde::Deserialize;
 
 #[derive(Debug, Clone)]
 pub enum Component {
@@ -7,6 +8,14 @@ pub enum Component {
     GridSection(GridSectionProps),
     GridItem(GridItemProps),
     Unknown,
+}
+
+#[derive(Debug, Deserialize)]
+struct RawTreeNode {
+    #[serde(rename = "type")]
+    node_type: String,
+    props: Option<Value>,
+    children: Vec<RawTreeNode>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -63,14 +72,14 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
 }
 
 impl Component {
-    pub fn from_tree_node(node: &crate::types::TreeNode) -> Self {
+    fn from_raw_node(node: RawTreeNode) -> Self {
         match node.node_type.as_str() {
             "Grid" => {
                 let sections = node
                     .children
-                    .iter()
+                    .into_iter()
                     .filter_map(|child| {
-                        if let Component::GridSection(section) = Self::from_tree_node(child) {
+                        if let Component::GridSection(section) = Self::from_raw_node(child) {
                             Some(section)
                         } else {
                             None
@@ -84,9 +93,9 @@ impl Component {
                 let mut props: GridSectionProps = parse_props(&node.props);
                 props.items = node
                     .children
-                    .iter()
+                    .into_iter()
                     .filter_map(|child| {
-                        if let Component::GridItem(item) = Self::from_tree_node(child) {
+                        if let Component::GridItem(item) = Self::from_raw_node(child) {
                             Some(item)
                         } else {
                             None
@@ -99,5 +108,15 @@ impl Component {
             "Grid.Item" => Component::GridItem(parse_props(&node.props)),
             _ => Component::Unknown,
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for Component {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let raw_node = RawTreeNode::deserialize(deserializer)?;
+        Ok(Component::from_raw_node(raw_node))
     }
 }

@@ -39,7 +39,7 @@ fn view(state: &State) -> Element<'_, Message> {
             tree.children
                 .iter()
                 .fold(column![].height(Length::Fill), |col, child| {
-                    col.push(components::render_tree_node(child, state.selected_index))
+                    col.push(components::render_component(child, state.selected_index))
                 })
         })
         .unwrap_or_else(|| column![].height(Length::Fill));
@@ -72,6 +72,7 @@ fn update(state: &mut State, message: Message) {
             state.tree = Some(tree);
         }
         Message::KeyPressed(key, _modifiers) => {
+            use components::Component;
             use iced::keyboard::key::Named;
 
             if let iced::keyboard::Key::Named(named_key) = key {
@@ -79,8 +80,14 @@ fn update(state: &mut State, message: Message) {
                     .tree
                     .as_ref()
                     .and_then(|tree| tree.children.first())
-                    .and_then(|grid| grid.children.first())
-                    .map(|section| section.children.len())
+                    .and_then(|component| {
+                        if let Component::Grid(grid_props) = component {
+                            grid_props.sections.first()
+                        } else {
+                            None
+                        }
+                    })
+                    .map(|section| section.items.len())
                     .unwrap_or(0);
 
                 if total_items > 0 {

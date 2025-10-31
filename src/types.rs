@@ -1,4 +1,5 @@
-use rustyscript::serde_json::Value;
+use crate::components::Component;
+use serde::Deserialize;
 
 #[derive(serde::Deserialize)]
 pub struct ToastOptions {
@@ -7,16 +8,8 @@ pub struct ToastOptions {
     pub style: Option<String>,
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Tree {
     pub id: String,
-    pub children: Vec<TreeNode>,
-}
-
-#[derive(Debug, Clone, serde::Deserialize)]
-pub struct TreeNode {
-    #[serde(rename = "type")]
-    pub node_type: String,
-    pub props: Option<Value>,
-    pub children: Vec<TreeNode>,
+    pub children: Vec<Component>,
 }
