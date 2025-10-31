@@ -58,7 +58,17 @@ enum Message {
     UpdateTree(Tree),
 }
 
+fn parse_hex_color(hex: &str) -> Color {
+    let hex = hex.trim_start_matches('#');
+    let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
+    let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
+    let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
+    Color::from_rgb8(r, g, b)
+}
+
 fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
+    use iced::widget::row;
+
     match node.node_type.as_str() {
         "Grid" => {
             let mut content = column![];
@@ -75,9 +85,67 @@ fn render_tree_node(node: &TreeNode) -> Element<'_, Message> {
                 .and_then(|t| t.as_str())
                 .unwrap_or("");
 
-            column![text(title).size(20).font(INTER_FONT)]
+            let mut items_row = row![].spacing(10);
+            for child in &node.children {
+                items_row = items_row.push(render_tree_node(child));
+            }
+
+            column![text(title).size(16).font(INTER_FONT), items_row]
                 .padding(10)
+                .spacing(10)
                 .into()
+        }
+        "Grid.Item" => {
+            let title = node
+                .props
+                .as_ref()
+                .and_then(|p| p.get("title"))
+                .and_then(|t| t.as_str())
+                .unwrap_or("");
+
+            let subtitle = node
+                .props
+                .as_ref()
+                .and_then(|p| p.get("subtitle"))
+                .and_then(|t| t.as_str())
+                .unwrap_or("");
+
+            let bg_color = node
+                .props
+                .as_ref()
+                .and_then(|p| p.get("content"))
+                .and_then(|c| c.get("color"))
+                .and_then(|col| col.get("light"))
+                .and_then(|l| l.as_str())
+                .map(parse_hex_color)
+                .unwrap_or(Color::from_rgb8(0x33, 0x33, 0x33));
+
+            container(
+                column![
+                    container(text(""))
+                        .width(150)
+                        .height(150)
+                        .style(move |_theme: &Theme| container::Style {
+                            background: Some(bg_color.into()),
+                            border: iced::Border {
+                                color: Color::from_rgb8(0x55, 0x55, 0x55),
+                                width: 2.0,
+                                radius: 8.0.into(),
+                            },
+                            ..Default::default()
+                        }),
+                    text(title).size(14).font(INTER_FONT),
+                    text(subtitle)
+                        .size(12)
+                        .font(INTER_FONT)
+                        .style(|_theme: &Theme| text::Style {
+                            color: Color::from_rgb8(0xaa, 0xaa, 0xaa).into(),
+                            ..Default::default()
+                        })
+                ]
+                .spacing(5),
+            )
+            .into()
         }
         _ => text("Unknown").into(),
     }
