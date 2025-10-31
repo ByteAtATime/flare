@@ -137,6 +137,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             })
             .unwrap();
 
+        runtime
+            .register_async_function("updateTree", |args| {
+                Box::pin(async move {
+                    println!("ooh new update: {:?}", args[0]);
+                    Ok(Value::Null)
+                })
+            })
+            .unwrap();
+
         runtime.load_module(&command_runner).unwrap();
 
         runtime

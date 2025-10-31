@@ -85,7 +85,7 @@ const HostConfig: Reconciler.HostConfig<
   },
   prepareForCommit: () => null,
   resetAfterCommit(containerInfo) {
-    console.dir(containerInfo, { depth: null });
+    rustyscript.async_functions.updateTree(containerInfo);
   },
   appendInitialChild(parent, child) {
     parent.children.push(child);
