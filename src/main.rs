@@ -19,6 +19,20 @@ struct ToastOptions {
     style: Option<String>,
 }
 
+#[derive(Debug, Clone, serde::Deserialize)]
+struct Tree {
+    id: String,
+    children: Vec<TreeNode>,
+}
+
+#[derive(Debug, Clone, serde::Deserialize)]
+struct TreeNode {
+    #[serde(rename = "type")]
+    node_type: String,
+    props: Option<Value>,
+    children: Vec<TreeNode>,
+}
+
 #[derive(Default)]
 struct State {
     toast_message: String,
@@ -27,6 +41,7 @@ struct State {
 #[derive(Debug, Clone)]
 enum Message {
     UpdateToast(String),
+    UpdateTree(Tree),
 }
 
 fn view(state: &State) -> Element<'_, Message> {
@@ -53,6 +68,9 @@ fn view(state: &State) -> Element<'_, Message> {
 fn update(state: &mut State, message: Message) {
     match message {
         Message::UpdateToast(new_message) => state.toast_message = new_message,
+        Message::UpdateTree(tree) => {
+            println!("Tree update: {:?}", tree);
+        }
     }
 }
 
@@ -140,7 +158,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         runtime
             .register_async_function("updateTree", |args| {
                 Box::pin(async move {
-                    println!("ooh new update: {:?}", args[0]);
+                    if let Ok(tree) = serde_json::from_value::<Tree>(args[0].clone()) {
+                        if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                            sender.send(Message::UpdateTree(tree)).await.unwrap();
+                        }
+                    }
                     Ok(Value::Null)
                 })
             })
