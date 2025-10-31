@@ -110,6 +110,22 @@ fn update(state: &mut State, message: Message) {
                             };
                             update_selected_actions(state);
                         }
+                        Named::Enter => {
+                            if let Some(action) = state.selected_actions.get(0) {
+                                if let Some(callback) = &action.on_action {
+                                    if let Some(mut sender) =
+                                        CALLBACK_SENDER.lock().unwrap().clone()
+                                    {
+                                        let callback_id = callback.id.clone();
+                                        std::thread::spawn(move || {
+                                            futures::executor::block_on(async move {
+                                                sender.send(callback_id).await.ok();
+                                            });
+                                        });
+                                    }
+                                }
+                            }
+                        }
                         _ => {}
                     }
                 }
