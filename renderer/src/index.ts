@@ -30,9 +30,11 @@ const createComponent = (name: string) => {
 
 const Grid = createComponent("Grid");
 const GridSection = createComponent("Grid.Section");
+const GridItem = createComponent("Grid.Item");
 
 Object.assign(Grid, {
   Section: GridSection,
+  Item: GridItem,
 });
 
 const raycastApi = {
@@ -44,6 +46,7 @@ const raycastApi = {
   environment: {
     launchType:
       LaunchType.UserInitiated as RaycastApiType.LaunchType.UserInitiated,
+    assetsPath: "./test/assets",
   } satisfies Partial<RaycastApiType.Environment>,
   Toast: class {
     public static Style = ToastStyle;

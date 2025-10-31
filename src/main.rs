@@ -33,6 +33,19 @@ struct TreeNode {
     children: Vec<TreeNode>,
 }
 
+#[derive(Debug, Clone, serde::Deserialize)]
+struct GridItemContent {
+    color: Option<GridItemColor>,
+}
+
+#[derive(Debug, Clone, serde::Deserialize)]
+struct GridItemColor {
+    light: String,
+    dark: String,
+    #[serde(rename = "adjustContrast")]
+    adjust_contrast: bool,
+}
+
 #[derive(Default)]
 struct State {
     toast_message: String,
