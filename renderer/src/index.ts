@@ -1,7 +1,7 @@
 import React from "react";
 import ReactJsxRuntime, { jsx } from "react/jsx-runtime";
 import type * as RaycastApiType from "@raycast/api";
-import { updateContainer } from "./reconciler";
+import { invokeCallback, updateContainer } from "./reconciler";
 
 const LaunchType = {
   UserInitiated: "userInitiated",
@@ -70,4 +70,4 @@ const raycastApi = {
   },
 };
 
-export { React, ReactJsxRuntime, raycastApi, updateContainer };
+export { React, ReactJsxRuntime, raycastApi, updateContainer, invokeCallback };

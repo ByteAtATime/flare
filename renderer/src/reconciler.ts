@@ -25,6 +25,27 @@ const notImpl = () => {
   throw new Error("Function not implemented.");
 };
 
+const callbackRegistry = new Map<string, Function>();
+let callbackIdCounter = 0;
+
+const registerCallback = (callback: Function) => {
+  const id = `callback_${callbackIdCounter++}`;
+  callbackRegistry.set(id, callback);
+  return {
+    type: "CALLBACK",
+    id,
+  };
+};
+
+export const invokeCallback = (id: string) => {
+  const callback = callbackRegistry.get(id);
+  if (callback) {
+    callback();
+  } else {
+    console.warn(`No callback found for id: ${id}`);
+  }
+};
+
 function serializeReactElement(element: React.ReactElement): unknown {
   if (!element || typeof element !== "object") {
     return element;
@@ -42,6 +63,11 @@ function serializeReactElement(element: React.ReactElement): unknown {
   if (props && typeof props === "object") {
     for (const [key, value] of Object.entries(props)) {
       if (key === "children") {
+        continue;
+      }
+
+      if (typeof value === "function") {
+        serializedProps[key] = registerCallback(value);
         continue;
       }
 
