@@ -8,9 +8,9 @@ use crate::{Message, State};
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
 pub fn render_footer(state: &State) -> Element<'static, Message> {
-    let first_action = state.selected_actions.get(0);
+    let primary_action = state.selected_actions.get(0);
 
-    let action_button = if let Some(action) = first_action {
+    let action_button = if let Some(action) = primary_action {
         let callback_id = action.on_action.as_ref().map(|cb| cb.id.clone());
 
         let mut btn = button(text(action.title.clone()).font(INTER_FONT));
@@ -19,22 +19,36 @@ pub fn render_footer(state: &State) -> Element<'static, Message> {
             btn = btn.on_press(Message::InvokeAction(id));
         }
 
-        btn
+        Some(btn)
     } else {
-        button(text("No Action").font(INTER_FONT))
+        None
     };
 
-    container(row![
-        text(state.toast_message.clone()).width(Length::Fill),
-        action_button
-    ])
-    .width(Length::Fill)
-    .padding([0, 8])
-    .center_y(40)
-    .style(|_theme: &Theme| container::Style {
-        background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
-        text_color: Some(Color::WHITE),
-        ..Default::default()
-    })
-    .into()
+    let action_panel_button = if state.selected_actions.len() >= 2 {
+        Some(button(text("Actions").font(INTER_FONT)).on_press(Message::ToggleActionPanel(true)))
+    } else {
+        None
+    };
+
+    let mut footer_content =
+        row![text(state.toast_message.clone()).width(Length::Fill)].spacing(10);
+
+    if let Some(action_button) = action_button {
+        footer_content = footer_content.push(action_button);
+    }
+
+    if let Some(action_panel_button) = action_panel_button {
+        footer_content = footer_content.push(action_panel_button);
+    }
+
+    container(footer_content)
+        .width(Length::Fill)
+        .padding([0, 8])
+        .center_y(40)
+        .style(|_theme: &Theme| container::Style {
+            background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
+            text_color: Some(Color::WHITE),
+            ..Default::default()
+        })
+        .into()
 }
