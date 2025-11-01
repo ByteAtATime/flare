@@ -38,7 +38,7 @@ pub fn render_action_panel(state: &crate::State) -> iced::Element<'_, crate::Mes
             .align_bottom(Length::Fill)
             .align_right(Length::Fill),
         )
-        .on_press(Message::CloseActionPanel),
+        .on_press(Message::ToggleActionPanel(false)),
     )
     .into()
 }
