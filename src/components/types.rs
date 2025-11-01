@@ -39,15 +39,40 @@ pub struct GridItemProps {
     pub title: String,
     #[serde(default)]
     pub subtitle: Option<String>,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "deserialize_content")]
     pub content: Option<GridItemContent>,
     #[serde(default, skip)]
     pub actions: Option<ActionPanel>,
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
-pub struct GridItemContent {
-    pub color: Option<GridItemColor>,
+#[derive(Debug, Clone)]
+pub enum GridItemContent {
+    Color(GridItemColor),
+    Image(String),
+}
+
+fn deserialize_content<'de, D>(deserializer: D) -> Result<Option<GridItemContent>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    use serde::de::Error;
+
+    let value = Value::deserialize(deserializer)?;
+
+    match value {
+        Value::String(s) => Ok(Some(GridItemContent::Image(s))),
+        Value::Object(map) => {
+            if let Some(color_value) = map.get("color") {
+                let color: GridItemColor =
+                    serde_json::from_value(color_value.clone()).map_err(D::Error::custom)?;
+                Ok(Some(GridItemContent::Color(color)))
+            } else {
+                Ok(None)
+            }
+        }
+        Value::Null => Ok(None),
+        _ => Ok(None),
+    }
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
