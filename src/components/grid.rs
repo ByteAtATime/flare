@@ -1,5 +1,5 @@
 use iced::widget::{column, container, image, row, text};
-use iced::{Color, Element, Theme};
+use iced::{Color, Element, Length, Theme};
 
 use super::types::{GridItemContent, GridItemProps, GridProps, GridSectionProps, parse_hex_color};
 use crate::Message;
@@ -8,12 +8,14 @@ const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
 pub fn render_grid(props: GridProps, selected_index: usize) -> Element<'static, Message> {
     let mut global_index = 0;
+    let grid_columns = props.columns;
     props
         .sections
         .into_iter()
         .fold(column![], |col, section| {
             let section_len = section.items.len();
-            let section_element = render_grid_section(section, selected_index, global_index);
+            let section_element =
+                render_grid_section(section, selected_index, global_index, grid_columns);
             global_index += section_len;
             col.push(section_element)
         })
@@ -24,18 +26,27 @@ fn render_grid_section(
     props: GridSectionProps,
     selected_index: usize,
     base_index: usize,
+    grid_columns: Option<i32>,
 ) -> Element<'static, Message> {
-    let items_row =
-        props
-            .items
-            .into_iter()
-            .enumerate()
-            .fold(row![].spacing(10), |row, (idx, item)| {
-                let global_idx = base_index + idx;
-                row.push(render_grid_item(item, global_idx == selected_index))
-            });
+    let columns = props.columns.or(grid_columns).unwrap_or(5) as usize;
 
-    column![text(props.title).size(16).font(INTER_FONT), items_row]
+    let mut rows_column = column![].spacing(10);
+
+    for (chunk_idx, chunk) in props.items.chunks(columns).enumerate() {
+        let mut items_row = row![].spacing(10);
+        for (idx, item) in chunk.iter().enumerate() {
+            let global_idx = base_index + (chunk_idx * columns) + idx;
+            items_row =
+                items_row.push(render_grid_item(item.clone(), global_idx == selected_index));
+        }
+        if chunk.len() < columns {
+            items_row = items_row
+                .push(column![].width(Length::FillPortion((columns - chunk.len()) as u16)));
+        }
+        rows_column = rows_column.push(items_row);
+    }
+
+    column![text(props.title).size(16).font(INTER_FONT), rows_column]
         .padding(10)
         .spacing(10)
         .into()
@@ -50,7 +61,6 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
 
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
-    // Create the content widget based on the content type
     let content_widget: Element<'static, Message> = match &props.content {
         Some(GridItemContent::Image(path)) => container(image(path).width(150).height(150))
             .width(150)
@@ -110,6 +120,7 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
                     ..Default::default()
                 })
         ]
+        .width(Length::FillPortion(1))
         .spacing(5),
     )
     .into()

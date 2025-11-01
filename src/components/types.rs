@@ -18,8 +18,11 @@ struct RawTreeNode {
     children: Vec<RawTreeNode>,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, serde::Deserialize)]
 pub struct GridProps {
+    #[serde(default)]
+    pub columns: Option<i32>,
+    #[serde(skip)]
     pub sections: Vec<GridSectionProps>,
 }
 
@@ -170,7 +173,8 @@ impl Component {
     fn from_raw_node(node: RawTreeNode) -> Self {
         match node.node_type.as_str() {
             "Grid" => {
-                let sections = node
+                let mut props: GridProps = parse_props(&node.props);
+                props.sections = node
                     .children
                     .into_iter()
                     .filter_map(|child| {
@@ -182,7 +186,7 @@ impl Component {
                     })
                     .collect();
 
-                Component::Grid(GridProps { sections })
+                Component::Grid(props)
             }
             "Grid.Section" => {
                 let mut props: GridSectionProps = parse_props(&node.props);
