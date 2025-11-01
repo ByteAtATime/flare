@@ -28,12 +28,20 @@ fn update_selected_actions(state: &mut State) {
         .and_then(|tree| tree.children.first())
         .and_then(|component| {
             if let Component::Grid(grid_props) = component {
-                grid_props.sections.first()
+                let mut global_index = 0;
+                for section in &grid_props.sections {
+                    let section_len = section.items.len();
+                    if state.selected_index < global_index + section_len {
+                        let local_index = state.selected_index - global_index;
+                        return section.items.get(local_index);
+                    }
+                    global_index += section_len;
+                }
+                None
             } else {
                 None
             }
         })
-        .and_then(|section| section.items.get(state.selected_index))
         .and_then(|item| item.actions.as_ref())
         .map(|action_panel| action_panel.children.clone())
         .unwrap_or_default();
@@ -99,12 +107,11 @@ fn update(state: &mut State, message: Message) {
                     .and_then(|tree| tree.children.first())
                     .and_then(|component| {
                         if let Component::Grid(grid_props) = component {
-                            grid_props.sections.first()
+                            Some(grid_props.sections.iter().map(|s| s.items.len()).sum())
                         } else {
                             None
                         }
                     })
-                    .map(|section| section.items.len())
                     .unwrap_or(0);
 
                 if total_items > 0 {

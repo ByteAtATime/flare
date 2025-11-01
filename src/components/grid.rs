@@ -7,26 +7,33 @@ use crate::Message;
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
 pub fn render_grid(props: GridProps, selected_index: usize) -> Element<'static, Message> {
+    let mut global_index = 0;
     props
         .sections
         .into_iter()
         .fold(column![], |col, section| {
-            col.push(render_grid_section(section, selected_index))
+            let section_len = section.items.len();
+            let section_element = render_grid_section(section, selected_index, global_index);
+            global_index += section_len;
+            col.push(section_element)
         })
         .into()
 }
 
-pub fn render_grid_section(
+fn render_grid_section(
     props: GridSectionProps,
     selected_index: usize,
+    base_index: usize,
 ) -> Element<'static, Message> {
-    let items_row = props
-        .items
-        .into_iter()
-        .enumerate()
-        .fold(row![].spacing(10), |row, (idx, item)| {
-            row.push(render_grid_item(item, idx == selected_index))
-        });
+    let items_row =
+        props
+            .items
+            .into_iter()
+            .enumerate()
+            .fold(row![].spacing(10), |row, (idx, item)| {
+                let global_idx = base_index + idx;
+                row.push(render_grid_item(item, global_idx == selected_index))
+            });
 
     column![text(props.title).size(16).font(INTER_FONT), items_row]
         .padding(10)

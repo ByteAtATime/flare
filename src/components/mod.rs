@@ -11,8 +11,7 @@ pub use types::Component;
 pub fn render_component(component: &Component, selected_index: usize) -> Element<'_, Message> {
     match component {
         Component::Grid(props) => grid::render_grid(props.clone(), selected_index),
-        Component::GridSection(props) => grid::render_grid_section(props.clone(), selected_index),
         Component::GridItem(props) => grid::render_grid_item(props.clone(), false),
-        Component::Unknown => iced::widget::text("Unknown").into(),
+        _ => iced::widget::text("Unknown").into(),
     }
 }
