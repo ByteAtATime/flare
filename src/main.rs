@@ -4,13 +4,14 @@ mod types;
 use iced::futures;
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
-use iced::widget::{column, container};
+use iced::widget::{column, container, stack};
 use iced::{Element, Length, Subscription};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 use std::sync::Mutex;
 
 use types::{ToastOptions, Tree};
 
+use crate::components::actions::render_action_panel;
 use crate::components::footer::render_footer;
 
 static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
@@ -43,6 +44,7 @@ struct State {
     tree: Option<Tree>,
     selected_index: usize,
     selected_actions: Vec<components::types::Action>,
+    action_panel_visible: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -66,7 +68,14 @@ fn view(state: &State) -> Element<'_, Message> {
         })
         .unwrap_or_else(|| column![].height(Length::Fill));
 
-    container(column![content, render_footer(state)]).into()
+    let base = column![content, render_footer(state)];
+
+    container(if state.action_panel_visible {
+        stack![base, render_action_panel(state)].into()
+    } else {
+        Element::from(base)
+    })
+    .into()
 }
 
 fn update(state: &mut State, message: Message) {
@@ -77,7 +86,7 @@ fn update(state: &mut State, message: Message) {
             state.tree = Some(tree);
             update_selected_actions(state);
         }
-        Message::KeyPressed(key, _modifiers) => {
+        Message::KeyPressed(key, modifiers) => {
             use components::Component;
             use iced::keyboard::key::Named;
 
@@ -127,6 +136,14 @@ fn update(state: &mut State, message: Message) {
                             }
                         }
                         _ => {}
+                    }
+                }
+            }
+
+            if modifiers.contains(iced::keyboard::Modifiers::COMMAND) {
+                if let iced::keyboard::Key::Character(c) = key {
+                    if c == "k" {
+                        state.action_panel_visible = !state.action_panel_visible;
                     }
                 }
             }
