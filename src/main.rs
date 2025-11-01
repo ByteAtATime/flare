@@ -4,6 +4,7 @@ mod types;
 use iced::futures;
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
+use iced::keyboard::Modifiers;
 use iced::widget::{column, container, stack};
 use iced::{Element, Length, Subscription};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
@@ -138,7 +139,7 @@ fn update(state: &mut State, message: Message) {
                                 }
                             }
 
-                            if modifiers.command() {
+                            if modifiers == Modifiers::COMMAND {
                                 if let Some(action) = state.selected_actions.get(1) {
                                     if let Some(callback) = &action.on_action {
                                         if let Some(mut sender) =
@@ -165,7 +166,7 @@ fn update(state: &mut State, message: Message) {
                 }
             }
 
-            if modifiers.contains(iced::keyboard::Modifiers::COMMAND) {
+            if modifiers == Modifiers::COMMAND {
                 if let iced::keyboard::Key::Character(c) = key {
                     if c == "k" {
                         state.action_panel_visible = !state.action_panel_visible;
