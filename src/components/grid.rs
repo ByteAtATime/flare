@@ -62,9 +62,8 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
     let content_widget: Element<'static, Message> = match &props.content {
-        Some(GridItemContent::Image(path)) => container(image(path).width(150).height(150))
-            .width(150)
-            .height(150)
+        Some(GridItemContent::Image(path)) => container(image(path))
+            .center(150.0)
             .style(move |_theme: &Theme| container::Style {
                 border: iced::Border {
                     color: border_color,
