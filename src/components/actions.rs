@@ -21,21 +21,24 @@ pub fn render_action_panel(state: &crate::State) -> iced::Element<'_, crate::Mes
             })
         });
 
-    opaque(mouse_area(
-        container(
-            column![
-                container(opaque(actions))
-                    .padding(8)
-                    .style(|_theme| container::Style {
-                        background: Some(Color::from_rgba(0.1, 0.1, 0.1, 0.95).into()),
-                        ..Default::default()
-                    }),
-                container(column![]).height(40)
-            ]
-            .spacing(10),
+    opaque(
+        mouse_area(
+            container(
+                column![
+                    container(opaque(actions))
+                        .padding(8)
+                        .style(|_theme| container::Style {
+                            background: Some(Color::from_rgba(0.1, 0.1, 0.1, 0.95).into()),
+                            ..Default::default()
+                        }),
+                    container(column![]).height(40)
+                ]
+                .spacing(10),
+            )
+            .align_bottom(Length::Fill)
+            .align_right(Length::Fill),
         )
-        .align_bottom(Length::Fill)
-        .align_right(Length::Fill),
-    ))
+        .on_press(Message::CloseActionPanel),
+    )
     .into()
 }

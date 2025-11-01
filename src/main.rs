@@ -53,6 +53,7 @@ pub enum Message {
     UpdateTree(Tree),
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
     InvokeAction(String),
+    CloseActionPanel,
 }
 
 fn view(state: &State) -> Element<'_, Message> {
@@ -135,6 +136,11 @@ fn update(state: &mut State, message: Message) {
                                 }
                             }
                         }
+                        Named::Escape => {
+                            if state.action_panel_visible {
+                                state.action_panel_visible = false;
+                            }
+                        }
                         _ => {}
                     }
                 }
@@ -156,6 +162,9 @@ fn update(state: &mut State, message: Message) {
                     });
                 });
             }
+        }
+        Message::CloseActionPanel => {
+            state.action_panel_visible = false;
         }
     }
 }
