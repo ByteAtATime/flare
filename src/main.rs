@@ -5,7 +5,7 @@ use iced::futures;
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
-use iced::widget::{column, container, stack};
+use iced::widget::{column, container, scrollable, stack};
 use iced::{Element, Length, Subscription};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 use std::sync::Mutex;
@@ -72,13 +72,16 @@ fn view(state: &State) -> Element<'_, Message> {
         .map(|tree| {
             tree.children
                 .iter()
-                .fold(column![].height(Length::Fill), |col, child| {
+                .fold(column![].height(Length::Shrink), |col, child| {
                     col.push(components::render_component(child, state.selected_index))
                 })
         })
-        .unwrap_or_else(|| column![].height(Length::Fill));
+        .unwrap_or_else(|| column![].height(Length::Shrink));
 
-    let base = column![content, render_footer(state)];
+    let base = column![
+        scrollable(content).height(Length::Fill),
+        render_footer(state)
+    ];
 
     container(if state.action_panel_visible {
         stack![base, render_action_panel(state)].into()
