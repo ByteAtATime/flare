@@ -53,6 +53,18 @@ function serializeReactElement(element: React.ReactElement): unknown {
 
   const { type, props } = element;
 
+  if (typeof type === "function") {
+    // this is a component, we need to render it
+    const Component = type as React.FunctionComponent;
+    const renderedElement = Component(props as object);
+
+    if (!React.isValidElement(renderedElement)) {
+      return renderedElement;
+    }
+
+    return serializeReactElement(renderedElement);
+  }
+
   const typeName =
     typeof type === "string"
       ? type
