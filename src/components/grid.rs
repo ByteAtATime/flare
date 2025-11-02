@@ -1,55 +1,55 @@
 use iced::widget::{column, container, image, row, text};
 use iced::{Color, Element, Length, Theme};
 
-use super::types::{GridItemContent, GridItemProps, GridProps, GridSectionProps, parse_hex_color};
-use crate::Message;
+use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
+use crate::components::column as positionable_column;
+use crate::{Message, position};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
-pub fn render_grid(props: GridProps, selected_index: usize) -> Element<'static, Message> {
-    let mut global_index = 0;
-    let grid_columns = props.columns;
-    props
+pub fn render_grid(
+    props: GridProps,
+    selected_index: usize,
+    column_id: position::Id,
+) -> Element<'static, Message> {
+    let mut item_cursor = 0;
+    let grid_view = props
         .sections
         .into_iter()
-        .fold(column![], |col, section| {
-            let section_len = section.items.len();
-            let section_element =
-                render_grid_section(section, selected_index, global_index, grid_columns);
-            global_index += section_len;
-            col.push(section_element)
-        })
-        .into()
-}
+        .fold(
+            positionable_column::Column::new().spacing(10).padding(10),
+            |col, section| {
+                let section_title = text(section.title.clone()).size(16).font(INTER_FONT);
 
-fn render_grid_section(
-    props: GridSectionProps,
-    selected_index: usize,
-    base_index: usize,
-    grid_columns: Option<i32>,
-) -> Element<'static, Message> {
-    let columns = props.columns.or(grid_columns).unwrap_or(5) as usize;
+                let columns = section.columns.or(props.columns).unwrap_or(5) as usize;
 
-    let mut rows_column = column![].spacing(10);
+                let items_grid = section.items.chunks(columns).enumerate().fold(
+                    column![].spacing(10),
+                    |rows_col, (chunk_idx, chunk)| {
+                        let mut items_row = row![].spacing(10);
+                        for (item_idx_in_row, item) in chunk.iter().enumerate() {
+                            let global_idx = item_cursor + (chunk_idx * columns) + item_idx_in_row;
+                            items_row = items_row
+                                .push(render_grid_item(item.clone(), global_idx == selected_index));
+                        }
+                        if chunk.len() < columns {
+                            items_row =
+                                items_row
+                                    .push(column![].width(Length::FillPortion(
+                                        (columns - chunk.len()) as u16,
+                                    )));
+                        }
+                        rows_col.push(items_row)
+                    },
+                );
 
-    for (chunk_idx, chunk) in props.items.chunks(columns).enumerate() {
-        let mut items_row = row![].spacing(10);
-        for (idx, item) in chunk.iter().enumerate() {
-            let global_idx = base_index + (chunk_idx * columns) + idx;
-            items_row =
-                items_row.push(render_grid_item(item.clone(), global_idx == selected_index));
-        }
-        if chunk.len() < columns {
-            items_row = items_row
-                .push(column![].width(Length::FillPortion((columns - chunk.len()) as u16)));
-        }
-        rows_column = rows_column.push(items_row);
-    }
+                item_cursor += section.items.len();
+                col.push(section_title).push(items_grid)
+            },
+        )
+        .id(column_id);
 
-    column![text(props.title).size(16).font(INTER_FONT), rows_column]
-        .padding(10)
-        .spacing(10)
-        .into()
+    grid_view.into()
 }
 
 pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'static, Message> {
