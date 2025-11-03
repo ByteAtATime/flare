@@ -1,4 +1,4 @@
-use iced::widget::{column, container, image, row, text};
+use iced::widget::{column, container, image, row, svg, text};
 use iced::{Color, Element, Length, Theme};
 
 use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
@@ -62,17 +62,21 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
     let content_widget: Element<'static, Message> = match &props.content {
-        Some(GridItemContent::Image(path)) => container(image(path))
-            .center(150.0)
-            .style(move |_theme: &Theme| container::Style {
-                border: iced::Border {
-                    color: border_color,
-                    width: border_width,
-                    radius: 8.0.into(),
-                },
-                ..Default::default()
-            })
-            .into(),
+        Some(GridItemContent::Image(path)) => container(if path.ends_with(".svg") {
+            Element::from(svg(path))
+        } else {
+            Element::from(image(path))
+        })
+        .center(150.0)
+        .style(move |_theme: &Theme| container::Style {
+            border: iced::Border {
+                color: border_color,
+                width: border_width,
+                radius: 8.0.into(),
+            },
+            ..Default::default()
+        })
+        .into(),
         Some(GridItemContent::Color(color)) => {
             let bg_color = parse_hex_color(&color.light);
             container(text(""))
