@@ -1,31 +1,32 @@
 mod components;
+mod globals;
+mod message;
 mod position;
+mod runtime;
 mod types;
 
-use iced::futures;
+use crate::types::Tree;
+use components::actions::render_action_panel;
+use components::footer::render_footer;
+use globals::{CALLBACK_SENDER, POSITION_TRACKER, RECEIVER, SCROLLABLE};
 use iced::futures::channel::mpsc;
-use iced::futures::{SinkExt, StreamExt};
+use iced::futures::{self, SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
 use iced::widget::scrollable::Viewport;
 use iced::widget::{column, container, scrollable, stack};
 use iced::{Element, Length, Subscription, Task};
-use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
-use std::sync::{LazyLock, Mutex};
+use message::Message;
+use position::find_position;
 
-use types::{ToastOptions, Tree};
-
-use crate::components::actions::render_action_panel;
-use crate::components::footer::render_footer;
-use crate::position::find_position;
-
-static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
-static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
-static CALLBACK_SENDER: Mutex<Option<mpsc::UnboundedSender<String>>> = Mutex::new(None);
-
-static SCROLLABLE: LazyLock<scrollable::Id> =
-    LazyLock::new(|| scrollable::Id::new("main_scrollable"));
-static POSITION_TRACKER: LazyLock<position::Id> =
-    LazyLock::new(|| position::Id::new("items_column"));
+#[derive(Default)]
+struct State {
+    toast_message: String,
+    tree: Option<Tree>,
+    selected_index: usize,
+    selected_actions: Vec<components::types::Action>,
+    action_panel_visible: bool,
+    viewport: Option<Viewport>,
+}
 
 fn update_selected_actions(state: &mut State) {
     use components::Component;
@@ -53,27 +54,6 @@ fn update_selected_actions(state: &mut State) {
         .and_then(|item| item.actions.as_ref())
         .map(|action_panel| action_panel.children.clone())
         .unwrap_or_default();
-}
-
-#[derive(Default)]
-struct State {
-    toast_message: String,
-    tree: Option<Tree>,
-    selected_index: usize,
-    selected_actions: Vec<components::types::Action>,
-    action_panel_visible: bool,
-    viewport: Option<Viewport>,
-}
-
-#[derive(Debug, Clone)]
-pub enum Message {
-    UpdateToast(String),
-    UpdateTree(Tree),
-    KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
-    InvokeAction(String),
-    ToggleActionPanel(bool),
-    Scrolled(Viewport),
-    ScrollCompleted,
 }
 
 fn view(state: &State) -> Element<'_, Message> {
@@ -325,107 +305,14 @@ fn subscription(_state: &State) -> Subscription<Message> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (sender, receiver) = mpsc::unbounded();
-    *SENDER.lock().unwrap() = Some(sender);
-    *RECEIVER.lock().unwrap() = Some(receiver);
+    *globals::SENDER.lock().unwrap() = Some(sender);
+    *globals::RECEIVER.lock().unwrap() = Some(receiver);
 
-    let (callback_sender, mut callback_receiver) = mpsc::unbounded::<String>();
-    *CALLBACK_SENDER.lock().unwrap() = Some(callback_sender);
+    let (callback_sender, callback_receiver) = mpsc::unbounded::<String>();
+    *globals::CALLBACK_SENDER.lock().unwrap() = Some(callback_sender);
 
     std::thread::spawn(move || {
-        let mut runtime = Runtime::new(RuntimeOptions::default()).unwrap();
-
-        let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
-        runtime.load_module(&renderer_module).unwrap();
-
-        let module = Module::new(
-            "setup.js",
-            "
-            import { createRequire } from 'module';
-            const nodeRequire = createRequire(import.meta.url);
-    
-            import { raycastApi, React, ReactJsxRuntime } from './renderer.js';
-    
-            globalThis.require = (moduleName) => {
-                if (moduleName === '@raycast/api') {
-                    return raycastApi;
-                }
-    
-                if (moduleName === 'react') return React;
-                if (moduleName === 'react/jsx-runtime') return ReactJsxRuntime;
-    
-                return nodeRequire(moduleName);
-            };
-            
-            globalThis.module = { exports: {} };
-            ",
-        );
-        runtime.load_module(&module).unwrap();
-
-        let module2 = Module::new("plugin.js", include_str!("../test/plugin.js"));
-        runtime.load_module(&module2).unwrap();
-
-        let command_runner = Module::new(
-            "runner.js",
-            r#"
-            import { React, updateContainer, invokeCallback } from './renderer.js';
-    
-            const PluginRoot = module.exports.default;
-            const AppElement = React.createElement(PluginRoot);
-            updateContainer(AppElement, () => {
-                console.log("initial render callback fired!");
-            });
-
-            export { invokeCallback };
-        "#,
-        );
-
-        runtime
-            .register_async_function("showToast", |args| {
-                Box::pin(async move {
-                    if let Ok(value) = serde_json::from_value::<ToastOptions>(args[0].clone()) {
-                        if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                            sender
-                                .send(Message::UpdateToast(value.title.clone()))
-                                .await
-                                .unwrap();
-                        }
-                    }
-                    Ok(Value::Null)
-                })
-            })
-            .unwrap();
-
-        runtime
-            .register_async_function("updateTree", |args| {
-                Box::pin(async move {
-                    if let Ok(tree) = serde_json::from_value::<Tree>(args[0].clone()) {
-                        if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                            sender.send(Message::UpdateTree(tree)).await.unwrap();
-                        }
-                    }
-                    Ok(Value::Null)
-                })
-            })
-            .unwrap();
-
-        let command_runner_handle = runtime.load_module(&command_runner).unwrap();
-
-        loop {
-            match callback_receiver.try_next() {
-                Ok(Some(callback_id)) => {
-                    let result: Result<Value, _> = runtime.call_function(
-                        Some(&command_runner_handle),
-                        "invokeCallback",
-                        &[Value::String(callback_id)],
-                    );
-                    if let Err(e) = result {
-                        eprintln!("callback died: {:?}", e);
-                    }
-                }
-                Ok(None) => break,
-                Err(_) => {}
-            }
-        }
+        runtime::setup_and_run(callback_receiver);
     });
 
     iced::application("flare", update, view)
