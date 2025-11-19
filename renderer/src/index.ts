@@ -132,6 +132,12 @@ const raycastApi = {
     };
   },
   Cache,
+  // temporary defaults for pokédex extension
+  getPreferenceValues: () => ({
+    language: "9",
+    duration: "0",
+    artwork: "official",
+  }),
 };
 
 export { React, ReactJsxRuntime, raycastApi, updateContainer, invokeCallback };
