@@ -5,6 +5,7 @@ use iced::widget::scrollable::Viewport;
 pub enum Message {
     UpdateToast(String),
     UpdateTree(Tree),
+    SearchTextChanged(String),
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
     InvokeAction(String),
     ToggleActionPanel(bool),

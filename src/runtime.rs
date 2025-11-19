@@ -5,7 +5,7 @@ use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 
-pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<String>) {
+pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
     let mut runtime = Runtime::new(RuntimeOptions::default()).unwrap();
 
     let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
@@ -86,11 +86,11 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<String>) {
 
     loop {
         match callback_receiver.try_next() {
-            Ok(Some(callback_id)) => {
+            Ok(Some((callback_id, args))) => {
                 let result: Result<Value, _> = runtime.call_function(
                     Some(&command_runner_handle),
                     "invokeCallback",
-                    &[Value::String(callback_id)],
+                    &[Value::String(callback_id), args],
                 );
                 if let Err(e) = result {
                     eprintln!("callback died: {:?}", e);

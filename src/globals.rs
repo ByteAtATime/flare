@@ -2,12 +2,13 @@ use crate::message::Message;
 use iced::Rectangle;
 use iced::futures::channel::mpsc;
 use iced::widget::scrollable;
+use rustyscript::serde_json::Value;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
 pub static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
 pub static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
-pub static CALLBACK_SENDER: Mutex<Option<mpsc::UnboundedSender<String>>> = Mutex::new(None);
+pub static RUNTIME_SENDER: Mutex<Option<mpsc::UnboundedSender<(String, Value)>>> = Mutex::new(None);
 
 pub static SCROLLABLE: LazyLock<scrollable::Id> =
     LazyLock::new(|| scrollable::Id::new("main_scrollable"));

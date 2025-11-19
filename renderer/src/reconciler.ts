@@ -37,10 +37,10 @@ const registerCallback = (callback: Function) => {
   };
 };
 
-export const invokeCallback = (id: string) => {
+export const invokeCallback = (id: string, args: any) => {
   const callback = callbackRegistry.get(id);
   if (callback) {
-    callback();
+    callback(args);
   } else {
     console.warn(`No callback found for id: ${id}`);
   }

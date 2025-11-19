@@ -8,18 +8,20 @@ mod types;
 use crate::types::Tree;
 use components::actions::render_action_panel;
 use components::footer::render_footer;
-use globals::{CALLBACK_SENDER, LAYOUT_CACHE, POSITION_TRACKER, RECEIVER, SCROLLABLE};
+use globals::{LAYOUT_CACHE, POSITION_TRACKER, RECEIVER, RUNTIME_SENDER, SCROLLABLE};
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
 use iced::widget::scrollable::Viewport;
-use iced::widget::{column, container, scrollable, stack};
-use iced::{Element, Length, Subscription, Task};
+use iced::widget::{column, container, scrollable, stack, text_input};
+use iced::{Element, Length, Subscription, Task, Theme};
 use message::Message;
+use rustyscript::serde_json::Value;
 
 #[derive(Default)]
 struct State {
     toast_message: String,
+    search_text: String,
     tree: Option<Tree>,
     selected_index: usize,
     selected_actions: Vec<components::types::Action>,
@@ -72,7 +74,32 @@ fn view(state: &State) -> Element<'_, Message> {
         })
         .unwrap_or_else(|| column![].height(Length::Shrink));
 
+    let search_bar = container(
+        text_input("Search...", &state.search_text)
+            .on_input(Message::SearchTextChanged)
+            .size(20)
+            .padding(12)
+            .style(|_theme: &Theme, status| {
+                let base = text_input::default(_theme, status);
+                text_input::Style {
+                    background: iced::Background::Color(iced::Color::TRANSPARENT),
+                    border: iced::Border::default(),
+                    ..base
+                }
+            }),
+    )
+    .padding(10)
+    .style(|_theme: &Theme| container::Style {
+        border: iced::Border {
+            color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
+            width: 1.0,
+            ..Default::default()
+        },
+        ..Default::default()
+    });
+
     let base = column![
+        search_bar,
         scrollable(content)
             .height(Length::Fill)
             .id(SCROLLABLE.clone())
@@ -123,9 +150,30 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             Task::none()
         }
         Message::UpdateTree(tree) => {
-            println!("Tree update: {:?}", tree);
+            // println!("Tree update: {:?}", tree);
             state.tree = Some(tree);
             update_selected_actions(state);
+            Task::none()
+        }
+        Message::SearchTextChanged(text) => {
+            state.search_text = text.clone();
+
+            if let Some(components::Component::Grid(props)) =
+                state.tree.as_ref().and_then(|t| t.children.first())
+            {
+                if let Some(callback_info) = &props.on_search_text_change {
+                    if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
+                        let id = callback_info.id.clone();
+                        let val = Value::String(text);
+                        std::thread::spawn(move || {
+                            futures::executor::block_on(async move {
+                                sender.send((id, val)).await.ok();
+                            });
+                        });
+                    }
+                }
+            }
+
             Task::none()
         }
         Message::KeyPressed(key, modifiers) => {
@@ -164,12 +212,15 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                                 if let Some(action) = state.selected_actions.get(0) {
                                     if let Some(callback) = &action.on_action {
                                         if let Some(mut sender) =
-                                            CALLBACK_SENDER.lock().unwrap().clone()
+                                            RUNTIME_SENDER.lock().unwrap().clone()
                                         {
                                             let callback_id = callback.id.clone();
                                             std::thread::spawn(move || {
                                                 futures::executor::block_on(async move {
-                                                    sender.send(callback_id).await.ok();
+                                                    sender
+                                                        .send((callback_id, Value::Null))
+                                                        .await
+                                                        .ok();
                                                 });
                                             });
                                         }
@@ -181,12 +232,15 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                                 if let Some(action) = state.selected_actions.get(1) {
                                     if let Some(callback) = &action.on_action {
                                         if let Some(mut sender) =
-                                            CALLBACK_SENDER.lock().unwrap().clone()
+                                            RUNTIME_SENDER.lock().unwrap().clone()
                                         {
                                             let callback_id = callback.id.clone();
                                             std::thread::spawn(move || {
                                                 futures::executor::block_on(async move {
-                                                    sender.send(callback_id).await.ok();
+                                                    sender
+                                                        .send((callback_id, Value::Null))
+                                                        .await
+                                                        .ok();
                                                 });
                                             });
                                         }
@@ -262,10 +316,10 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             Task::none()
         }
         Message::InvokeAction(callback_id) => {
-            if let Some(mut sender) = CALLBACK_SENDER.lock().unwrap().clone() {
+            if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
                 std::thread::spawn(move || {
                     futures::executor::block_on(async move {
-                        sender.send(callback_id).await.ok();
+                        sender.send((callback_id, Value::Null)).await.ok();
                     });
                 });
             }
@@ -307,8 +361,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);
 
-    let (callback_sender, callback_receiver) = mpsc::unbounded::<String>();
-    *globals::CALLBACK_SENDER.lock().unwrap() = Some(callback_sender);
+    let (callback_sender, callback_receiver) = mpsc::unbounded::<(String, Value)>();
+    *globals::RUNTIME_SENDER.lock().unwrap() = Some(callback_sender);
 
     std::thread::spawn(move || {
         runtime::setup_and_run(callback_receiver);
