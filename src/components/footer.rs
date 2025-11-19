@@ -3,7 +3,7 @@ use iced::{
     widget::{button, container, row, text},
 };
 
-use crate::{Message, State};
+use crate::{Message, state::State};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 

@@ -5,7 +5,7 @@ use iced::{
 
 use crate::Message;
 
-pub fn render_action_panel(state: &crate::State) -> iced::Element<'_, crate::Message> {
+pub fn render_action_panel(state: &crate::state::State) -> iced::Element<'_, crate::Message> {
     let actions = state
         .selected_actions
         .iter()
