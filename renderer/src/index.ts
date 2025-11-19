@@ -21,8 +21,14 @@ export type ToastOptions = {
 };
 
 const createComponent = (name: string) => {
-  const ComponentFactory = (props: { children?: React.ReactNode }) => {
-    return jsx(name as React.ElementType, props);
+  const ComponentFactory = ({
+    key,
+    ...props
+  }: {
+    children?: React.ReactNode;
+    key?: string | number;
+  }) => {
+    return jsx(name as React.ElementType, props, key);
   };
   ComponentFactory.displayName = name;
   return ComponentFactory;
