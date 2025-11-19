@@ -1,8 +1,8 @@
 use crate::globals::SENDER;
 use crate::message::Message;
 use crate::types::{ToastOptions, Tree};
+use iced::futures::SinkExt;
 use iced::futures::channel::mpsc;
-use iced::futures::{SinkExt, StreamExt};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 
 pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {

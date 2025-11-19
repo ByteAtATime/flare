@@ -10,5 +10,4 @@ pub enum Message {
     InvokeAction(String),
     ToggleActionPanel(bool),
     Scrolled(Viewport),
-    ScrollCompleted,
 }

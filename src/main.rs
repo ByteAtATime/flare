@@ -169,7 +169,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             state.viewport = Some(viewport);
             Task::none()
         }
-        Message::ScrollCompleted => Task::none(),
     }
 }
 
