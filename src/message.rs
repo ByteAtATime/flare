@@ -1,4 +1,5 @@
 use crate::types::Tree;
+use iced::widget::image::Handle;
 use iced::widget::scrollable::Viewport;
 
 #[derive(Debug, Clone)]
@@ -10,5 +11,6 @@ pub enum Message {
     InvokeAction(String),
     ToggleActionPanel(bool),
     Scrolled(Viewport),
-    ImageLoaded(String, Vec<u8>),
+    // Changed from Vec<u8> to Handle
+    ImageLoaded(String, Handle),
 }

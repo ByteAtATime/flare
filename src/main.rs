@@ -171,8 +171,8 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             state.viewport = Some(viewport);
             Task::none()
         }
-        Message::ImageLoaded(url, bytes) => {
-            image_cache::set(url, bytes);
+        Message::ImageLoaded(url, handle) => {
+            image_cache::set(url, handle);
             Task::none()
         }
     }

@@ -69,8 +69,10 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
     let content_widget: Element<'static, Message> = match &props.content {
         Some(GridItemContent::Image(path)) => {
             if path.starts_with("http://") || path.starts_with("https://") {
-                if let Some(bytes) = image_cache::get(path) {
-                    container(image(iced::widget::image::Handle::from_bytes(bytes)))
+                // FIX: We now get a Handle directly.
+                // This is cheap (no malloc) and consistent (same ID for Iced).
+                if let Some(handle) = image_cache::get(path) {
+                    container(image(handle))
                         .center(150.0)
                         .style(move |_theme: &Theme| container::Style {
                             border: iced::Border {
@@ -84,11 +86,12 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
                 } else {
                     let url = path.clone();
                     std::thread::spawn(move || {
-                        if let Ok(bytes) = image_cache::fetch_and_cache(url.clone()) {
+                        // FIX: fetch_and_cache now returns a Handle
+                        if let Ok(handle) = image_cache::fetch_and_cache(url.clone()) {
                             if let Some(mut sender) = crate::globals::SENDER.lock().unwrap().clone()
                             {
                                 iced::futures::executor::block_on(async {
-                                    let _ = sender.send(Message::ImageLoaded(url, bytes)).await;
+                                    let _ = sender.send(Message::ImageLoaded(url, handle)).await;
                                 });
                             }
                         }
