@@ -8,7 +8,7 @@ mod types;
 use crate::types::Tree;
 use components::actions::render_action_panel;
 use components::footer::render_footer;
-use globals::{CALLBACK_SENDER, POSITION_TRACKER, RECEIVER, SCROLLABLE};
+use globals::{CALLBACK_SENDER, LAYOUT_CACHE, POSITION_TRACKER, RECEIVER, SCROLLABLE};
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
@@ -16,7 +16,6 @@ use iced::widget::scrollable::Viewport;
 use iced::widget::{column, container, scrollable, stack};
 use iced::{Element, Length, Subscription, Task};
 use message::Message;
-use position::find_position;
 
 #[derive(Default)]
 struct State {
@@ -211,10 +210,9 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         if let Some(container_index) =
                             find_container_index_for_item(state, state.selected_index)
                         {
-                            let viewport = state.viewport.clone();
-                            return find_position(POSITION_TRACKER.clone(), container_index)
-                                .and_then::<()>(move |target_bounds| {
-                                    if let Some(viewport) = viewport {
+                            if let Ok(cache) = LAYOUT_CACHE.lock() {
+                                if let Some(target_bounds) = cache.get(&container_index) {
+                                    if let Some(viewport) = &state.viewport {
                                         let view_top = viewport.absolute_offset().y;
                                         let view_bottom = view_top + viewport.bounds().height;
                                         let target_top = target_bounds.y;
@@ -233,21 +231,22 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                                         };
 
                                         if let Some(offset) = new_offset {
-                                            scrollable::scroll_to(SCROLLABLE.clone(), offset)
-                                        } else {
-                                            Task::none()
+                                            return scrollable::scroll_to(
+                                                SCROLLABLE.clone(),
+                                                offset,
+                                            );
                                         }
                                     } else {
-                                        scrollable::scroll_to(
+                                        return scrollable::scroll_to(
                                             SCROLLABLE.clone(),
                                             scrollable::AbsoluteOffset {
                                                 x: 0.0,
                                                 y: target_bounds.y,
                                             },
-                                        )
+                                        );
                                     }
-                                })
-                                .map(|_| Message::ScrollCompleted);
+                                }
+                            }
                         }
                     }
                 }
