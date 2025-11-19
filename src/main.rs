@@ -23,17 +23,82 @@ struct State {
     toast_message: String,
     search_text: String,
     tree: Option<Tree>,
+    filtered_tree: Option<Tree>,
     selected_index: usize,
     selected_actions: Vec<components::types::Action>,
     action_panel_visible: bool,
     viewport: Option<Viewport>,
 }
 
+fn filter_grid_items(
+    items: &[components::types::GridItemProps],
+    query: &str,
+) -> Vec<components::types::GridItemProps> {
+    if query.is_empty() {
+        return items.to_vec();
+    }
+
+    let lower_query = query.to_lowercase();
+    items
+        .iter()
+        .filter(|item| {
+            item.title.to_lowercase().contains(&lower_query)
+                || item
+                    .subtitle
+                    .as_ref()
+                    .map(|s| s.to_lowercase().contains(&lower_query))
+                    .unwrap_or(false)
+        })
+        .cloned()
+        .collect()
+}
+
+fn perform_local_filter(tree: &Tree, query: &str) -> Tree {
+    let mut new_tree = tree.clone();
+
+    new_tree.children = new_tree
+        .children
+        .iter()
+        .map(|component| match component {
+            components::Component::Grid(props) => {
+                if props.on_search_text_change.is_some() {
+                    return components::Component::Grid(props.clone());
+                }
+
+                let mut new_props = props.clone();
+                new_props.sections = new_props
+                    .sections
+                    .iter()
+                    .map(|section| {
+                        let mut new_section = section.clone();
+                        new_section.items = filter_grid_items(&section.items, query);
+                        new_section
+                    })
+                    .filter(|section| !section.items.is_empty())
+                    .collect();
+
+                components::Component::Grid(new_props)
+            }
+            _ => component.clone(),
+        })
+        .collect();
+
+    new_tree
+}
+
+fn update_filtered_tree(state: &mut State) {
+    if let Some(raw_tree) = &state.tree {
+        state.filtered_tree = Some(perform_local_filter(raw_tree, &state.search_text));
+    } else {
+        state.filtered_tree = None;
+    }
+}
+
 fn update_selected_actions(state: &mut State) {
     use components::Component;
 
     state.selected_actions = state
-        .tree
+        .filtered_tree
         .as_ref()
         .and_then(|tree| tree.children.first())
         .and_then(|component| {
@@ -59,7 +124,7 @@ fn update_selected_actions(state: &mut State) {
 
 fn view(state: &State) -> Element<'_, Message> {
     let content = state
-        .tree
+        .filtered_tree
         .as_ref()
         .map(|tree| {
             tree.children
@@ -117,7 +182,7 @@ fn view(state: &State) -> Element<'_, Message> {
 
 fn find_container_index_for_item(state: &State, item_index: usize) -> Option<usize> {
     let grid_props = state
-        .tree
+        .filtered_tree
         .as_ref()?
         .children
         .first()
@@ -130,14 +195,14 @@ fn find_container_index_for_item(state: &State, item_index: usize) -> Option<usi
     let mut item_cursor = 0;
 
     for section in &grid_props.sections {
-        position_index += 1;
+        position_index += 1; // title
 
         if item_index >= item_cursor && item_index < item_cursor + section.items.len() {
-            return Some(position_index);
+            return Some(position_index); // grid chunk containing the item
         }
 
         item_cursor += section.items.len();
-        position_index += 1;
+        position_index += 1; // grid chunk
     }
 
     None
@@ -150,8 +215,14 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             Task::none()
         }
         Message::UpdateTree(tree) => {
-            // println!("Tree update: {:?}", tree);
             state.tree = Some(tree);
+            update_filtered_tree(state);
+
+            let total_items = count_total_items(state);
+            if state.selected_index >= total_items && total_items > 0 {
+                state.selected_index = total_items - 1;
+            }
+
             update_selected_actions(state);
             Task::none()
         }
@@ -174,25 +245,18 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                 }
             }
 
+            update_filtered_tree(state);
+
+            state.selected_index = 0;
+            update_selected_actions(state);
+
             Task::none()
         }
         Message::KeyPressed(key, modifiers) => {
-            use components::Component;
             use iced::keyboard::key::Named;
 
             if let iced::keyboard::Key::Named(named_key) = key {
-                let total_items = state
-                    .tree
-                    .as_ref()
-                    .and_then(|tree| tree.children.first())
-                    .and_then(|component| {
-                        if let Component::Grid(grid_props) = component {
-                            Some(grid_props.sections.iter().map(|s| s.items.len()).sum())
-                        } else {
-                            None
-                        }
-                    })
-                    .unwrap_or(0);
+                let total_items = count_total_items(state);
 
                 if total_items > 0 {
                     let old_index = state.selected_index;
@@ -210,41 +274,13 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         Named::Enter => {
                             if modifiers.is_empty() {
                                 if let Some(action) = state.selected_actions.get(0) {
-                                    if let Some(callback) = &action.on_action {
-                                        if let Some(mut sender) =
-                                            RUNTIME_SENDER.lock().unwrap().clone()
-                                        {
-                                            let callback_id = callback.id.clone();
-                                            std::thread::spawn(move || {
-                                                futures::executor::block_on(async move {
-                                                    sender
-                                                        .send((callback_id, Value::Null))
-                                                        .await
-                                                        .ok();
-                                                });
-                                            });
-                                        }
-                                    }
+                                    fire_action(action);
                                 }
                             }
 
                             if modifiers == Modifiers::COMMAND {
                                 if let Some(action) = state.selected_actions.get(1) {
-                                    if let Some(callback) = &action.on_action {
-                                        if let Some(mut sender) =
-                                            RUNTIME_SENDER.lock().unwrap().clone()
-                                        {
-                                            let callback_id = callback.id.clone();
-                                            std::thread::spawn(move || {
-                                                futures::executor::block_on(async move {
-                                                    sender
-                                                        .send((callback_id, Value::Null))
-                                                        .await
-                                                        .ok();
-                                                });
-                                            });
-                                        }
-                                    }
+                                    fire_action(action);
                                 }
                             }
                             return Task::none();
@@ -260,60 +296,23 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
 
                     if old_index != state.selected_index {
                         update_selected_actions(state);
-
-                        if let Some(container_index) =
-                            find_container_index_for_item(state, state.selected_index)
-                        {
-                            if let Ok(cache) = LAYOUT_CACHE.lock() {
-                                if let Some(target_bounds) = cache.get(&container_index) {
-                                    if let Some(viewport) = &state.viewport {
-                                        let view_top = viewport.absolute_offset().y;
-                                        let view_bottom = view_top + viewport.bounds().height;
-                                        let target_top = target_bounds.y;
-                                        let target_bottom = target_top + target_bounds.height;
-
-                                        let new_offset = if target_top < view_top {
-                                            Some(scrollable::AbsoluteOffset {
-                                                x: 0.0,
-                                                y: target_top,
-                                            })
-                                        } else if target_bottom > view_bottom {
-                                            let y = target_bottom - viewport.bounds().height;
-                                            Some(scrollable::AbsoluteOffset { x: 0.0, y })
-                                        } else {
-                                            None
-                                        };
-
-                                        if let Some(offset) = new_offset {
-                                            return scrollable::scroll_to(
-                                                SCROLLABLE.clone(),
-                                                offset,
-                                            );
-                                        }
-                                    } else {
-                                        return scrollable::scroll_to(
-                                            SCROLLABLE.clone(),
-                                            scrollable::AbsoluteOffset {
-                                                x: 0.0,
-                                                y: target_bounds.y,
-                                            },
-                                        );
-                                    }
-                                }
-                            }
+                        scroll_to_selection(state)
+                    } else {
+                        Task::none()
+                    }
+                } else {
+                    Task::none()
+                }
+            } else {
+                if modifiers == Modifiers::COMMAND {
+                    if let iced::keyboard::Key::Character(c) = key {
+                        if c == "k" {
+                            state.action_panel_visible = !state.action_panel_visible;
                         }
                     }
                 }
+                Task::none()
             }
-
-            if modifiers == Modifiers::COMMAND {
-                if let iced::keyboard::Key::Character(c) = key {
-                    if c == "k" {
-                        state.action_panel_visible = !state.action_panel_visible;
-                    }
-                }
-            }
-            Task::none()
         }
         Message::InvokeAction(callback_id) => {
             if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
@@ -335,6 +334,75 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ScrollCompleted => Task::none(),
     }
+}
+
+fn count_total_items(state: &State) -> usize {
+    use components::Component;
+    state
+        .filtered_tree
+        .as_ref()
+        .and_then(|tree| tree.children.first())
+        .and_then(|component| {
+            if let Component::Grid(grid_props) = component {
+                Some(grid_props.sections.iter().map(|s| s.items.len()).sum())
+            } else {
+                None
+            }
+        })
+        .unwrap_or(0)
+}
+
+fn fire_action(action: &components::types::Action) {
+    if let Some(callback) = &action.on_action {
+        if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
+            let callback_id = callback.id.clone();
+            std::thread::spawn(move || {
+                futures::executor::block_on(async move {
+                    sender.send((callback_id, Value::Null)).await.ok();
+                });
+            });
+        }
+    }
+}
+
+fn scroll_to_selection(state: &State) -> Task<Message> {
+    if let Some(container_index) = find_container_index_for_item(state, state.selected_index) {
+        if let Ok(cache) = LAYOUT_CACHE.lock() {
+            if let Some(target_bounds) = cache.get(&container_index) {
+                if let Some(viewport) = &state.viewport {
+                    let view_top = viewport.absolute_offset().y;
+                    let view_bottom = view_top + viewport.bounds().height;
+                    let target_top = target_bounds.y;
+                    let target_bottom = target_top + target_bounds.height;
+
+                    let new_offset = if target_top < view_top {
+                        Some(scrollable::AbsoluteOffset {
+                            x: 0.0,
+                            y: target_top,
+                        })
+                    } else if target_bottom > view_bottom {
+                        let y = target_bottom - viewport.bounds().height;
+                        Some(scrollable::AbsoluteOffset { x: 0.0, y })
+                    } else {
+                        None
+                    };
+
+                    if let Some(offset) = new_offset {
+                        return scrollable::scroll_to(SCROLLABLE.clone(), offset);
+                    }
+                } else {
+                    return scrollable::scroll_to(
+                        SCROLLABLE.clone(),
+                        scrollable::AbsoluteOffset {
+                            x: 0.0,
+                            y: target_bounds.y,
+                        },
+                    );
+                }
+            }
+        }
+    }
+    Task::none()
 }
 
 fn subscription(_state: &State) -> Subscription<Message> {
