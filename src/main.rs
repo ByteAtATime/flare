@@ -1,6 +1,7 @@
 mod cache;
 mod components;
 mod globals;
+mod image_cache;
 mod message;
 mod position;
 mod runtime;
@@ -168,6 +169,10 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::Scrolled(viewport) => {
             state.viewport = Some(viewport);
+            Task::none()
+        }
+        Message::ImageLoaded(url, bytes) => {
+            image_cache::set(url, bytes);
             Task::none()
         }
     }

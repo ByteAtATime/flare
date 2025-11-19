@@ -1,9 +1,10 @@
+use iced::futures::SinkExt;
 use iced::widget::{column, container, image, row, svg, text};
 use iced::{Color, Element, Length, Theme};
 
 use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
 use crate::components::column as positionable_column;
-use crate::{Message, position};
+use crate::{Message, image_cache, position};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
@@ -66,21 +67,66 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
     let content_widget: Element<'static, Message> = match &props.content {
-        Some(GridItemContent::Image(path)) => container(if path.ends_with(".svg") {
-            Element::from(svg(path))
-        } else {
-            Element::from(image(path))
-        })
-        .center(150.0)
-        .style(move |_theme: &Theme| container::Style {
-            border: iced::Border {
-                color: border_color,
-                width: border_width,
-                radius: 8.0.into(),
-            },
-            ..Default::default()
-        })
-        .into(),
+        Some(GridItemContent::Image(path)) => {
+            if path.starts_with("http://") || path.starts_with("https://") {
+                if let Some(bytes) = image_cache::get(path) {
+                    container(image(iced::widget::image::Handle::from_bytes(bytes)))
+                        .center(150.0)
+                        .style(move |_theme: &Theme| container::Style {
+                            border: iced::Border {
+                                color: border_color,
+                                width: border_width,
+                                radius: 8.0.into(),
+                            },
+                            ..Default::default()
+                        })
+                        .into()
+                } else {
+                    let url = path.clone();
+                    std::thread::spawn(move || {
+                        if let Ok(bytes) = image_cache::fetch_and_cache(url.clone()) {
+                            if let Some(mut sender) = crate::globals::SENDER.lock().unwrap().clone()
+                            {
+                                iced::futures::executor::block_on(async {
+                                    let _ = sender.send(Message::ImageLoaded(url, bytes)).await;
+                                });
+                            }
+                        }
+                    });
+
+                    let bg_color = Color::from_rgb8(0x33, 0x33, 0x33);
+                    container(text(""))
+                        .width(150)
+                        .height(150)
+                        .style(move |_theme: &Theme| container::Style {
+                            background: Some(bg_color.into()),
+                            border: iced::Border {
+                                color: border_color,
+                                width: border_width,
+                                radius: 8.0.into(),
+                            },
+                            ..Default::default()
+                        })
+                        .into()
+                }
+            } else {
+                container(if path.ends_with(".svg") {
+                    Element::from(svg(path))
+                } else {
+                    Element::from(image(path))
+                })
+                .center(150.0)
+                .style(move |_theme: &Theme| container::Style {
+                    border: iced::Border {
+                        color: border_color,
+                        width: border_width,
+                        radius: 8.0.into(),
+                    },
+                    ..Default::default()
+                })
+                .into()
+            }
+        }
         Some(GridItemContent::Color(color)) => {
             let bg_color = parse_hex_color(&color.light);
             container(text(""))

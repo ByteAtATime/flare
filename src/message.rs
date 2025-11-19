@@ -10,4 +10,5 @@ pub enum Message {
     InvokeAction(String),
     ToggleActionPanel(bool),
     Scrolled(Viewport),
+    ImageLoaded(String, Vec<u8>),
 }
