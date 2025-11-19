@@ -86,14 +86,24 @@ impl State {
         let mut item_cursor = 0;
 
         for section in &grid_props.sections {
-            position_index += 1;
-            if self.selected_index >= item_cursor
-                && self.selected_index < item_cursor + section.items.len()
+            position_index += 1; // title
+
+            let section_len = section.items.len();
+            if self.selected_index >= item_cursor && self.selected_index < item_cursor + section_len
             {
-                return Some(position_index);
+                let columns = section.columns.or(grid_props.columns).unwrap_or(5) as usize;
+                let local_index = self.selected_index - item_cursor;
+                let row_offset = local_index / columns;
+
+                return Some(position_index + row_offset);
             }
-            item_cursor += section.items.len();
-            position_index += 1;
+
+            item_cursor += section_len;
+
+            // calculate section row count
+            let columns = section.columns.or(grid_props.columns).unwrap_or(5) as usize;
+            let rows = (section_len + columns - 1) / columns;
+            position_index += rows;
         }
         None
     }

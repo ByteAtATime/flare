@@ -23,15 +23,18 @@ pub fn render_grid(
 
                 let columns = section.columns.or(props.columns).unwrap_or(5) as usize;
 
-                let items_grid = section.items.chunks(columns).enumerate().fold(
-                    column![].spacing(10),
-                    |rows_col, (chunk_idx, chunk)| {
+                let rows: Vec<_> = section
+                    .items
+                    .chunks(columns)
+                    .enumerate()
+                    .map(|(chunk_idx, chunk)| {
                         let mut items_row = row![].spacing(10);
                         for (item_idx_in_row, item) in chunk.iter().enumerate() {
                             let global_idx = item_cursor + (chunk_idx * columns) + item_idx_in_row;
                             items_row = items_row
                                 .push(render_grid_item(item.clone(), global_idx == selected_index));
                         }
+                        // fill remaining space in last row
                         if chunk.len() < columns {
                             items_row =
                                 items_row
@@ -39,12 +42,13 @@ pub fn render_grid(
                                         (columns - chunk.len()) as u16,
                                     )));
                         }
-                        rows_col.push(items_row)
-                    },
-                );
+                        items_row.into()
+                    })
+                    .collect();
 
                 item_cursor += section.items.len();
-                col.push(section_title).push(items_grid)
+
+                col.push(section_title).extend(rows)
             },
         )
         .id(column_id);
