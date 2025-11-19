@@ -38,8 +38,71 @@ Object.assign(Grid, {
 });
 
 const ActionPanel = createComponent("ActionPanel");
-
 const Action = createComponent("Action");
+
+class Cache {
+  private namespace: string;
+  private subscribers: Set<RaycastApiType.Cache.Subscriber>;
+
+  constructor(options?: RaycastApiType.Cache.Options) {
+    this.namespace = options?.namespace || "default";
+    this.subscribers = new Set();
+  }
+
+  public get(key: string): string | undefined {
+    const result = rustyscript.functions.cacheGet(this.namespace, key);
+    return result === null ? undefined : result;
+  }
+
+  public has(key: string): boolean {
+    return rustyscript.functions.cacheHas(this.namespace, key);
+  }
+
+  public set(key: string, data: string): void {
+    rustyscript.functions.cacheSet(this.namespace, key, data);
+    this.notifySubscribers(key, data);
+  }
+
+  public remove(key: string): boolean {
+    const removed = rustyscript.functions.cacheRemove(this.namespace, key);
+    if (removed) {
+      this.notifySubscribers(key, undefined);
+    }
+    return removed;
+  }
+
+  public clear(
+    options: { notifySubscribers: boolean } = { notifySubscribers: true }
+  ): void {
+    rustyscript.functions.cacheClear(this.namespace);
+    if (options.notifySubscribers) {
+      this.notifySubscribers(undefined, undefined);
+    }
+  }
+
+  public get isEmpty(): boolean {
+    return rustyscript.functions.cacheIsEmpty(this.namespace);
+  }
+
+  public subscribe(
+    subscriber: RaycastApiType.Cache.Subscriber
+  ): RaycastApiType.Cache.Subscription {
+    this.subscribers.add(subscriber);
+    return () => {
+      this.subscribers.delete(subscriber);
+    };
+  }
+
+  private notifySubscribers(key: string | undefined, data: string | undefined) {
+    for (const subscriber of this.subscribers) {
+      try {
+        subscriber(key, data);
+      } catch (e) {
+        console.error("Cache subscriber failed", e);
+      }
+    }
+  }
+}
 
 const raycastApi = {
   showToast: (message: string) => {
@@ -68,6 +131,7 @@ const raycastApi = {
       console.log(`show toast ${JSON.stringify(this.options)}`);
     };
   },
+  Cache,
 };
 
 export { React, ReactJsxRuntime, raycastApi, updateContainer, invokeCallback };

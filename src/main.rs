@@ -1,3 +1,4 @@
+mod cache;
 mod components;
 mod globals;
 mod message;
