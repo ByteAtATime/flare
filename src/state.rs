@@ -88,7 +88,7 @@ impl State {
         let default_columns = grid_props.columns.unwrap_or(5) as usize;
 
         struct Sec {
-            start: usize,
+            start_index: usize,
             count: usize,
             cols: usize,
             rows: usize,
@@ -96,7 +96,11 @@ impl State {
 
         let mut sections = Vec::with_capacity(grid_props.sections.len());
         let mut acc_idx = 0;
-        let mut curr_pos = None;
+
+        let mut current_sec_idx = 0;
+        let mut current_row = 0;
+        let mut current_col = 0;
+        let mut found = false;
 
         for (i, section) in grid_props.sections.iter().enumerate() {
             let count = section.items.len();
@@ -111,13 +115,16 @@ impl State {
                 0
             };
 
-            if self.selected_index >= acc_idx && self.selected_index < acc_idx + count {
+            if !found && self.selected_index >= acc_idx && self.selected_index < acc_idx + count {
+                current_sec_idx = i;
                 let local = self.selected_index - acc_idx;
-                curr_pos = Some((i, local / cols, local % cols));
+                current_row = local / cols;
+                current_col = local % cols;
+                found = true;
             }
 
             sections.push(Sec {
-                start: acc_idx,
+                start_index: acc_idx,
                 count,
                 cols,
                 rows,
@@ -125,61 +132,75 @@ impl State {
             acc_idx += count;
         }
 
-        let (start_sec, start_row, start_col) = match curr_pos {
-            Some(p) => p,
-            None => {
-                if sections.iter().any(|s| s.count > 0) {
-                    self.selected_index = 0;
-                    self.update_selected_actions();
-                    return true;
-                }
-                return false;
+        if !found {
+            if sections.iter().any(|s| s.count > 0) {
+                self.selected_index = 0;
+                self.update_selected_actions();
+                return true;
             }
-        };
+            return false;
+        }
 
-        let mut search_sec_idx = start_sec as i32;
-        let mut search_row_idx = (start_row as i32) + direction;
+        let mut search_sec_idx = current_sec_idx as i32;
+        let mut search_row_idx = (current_row as i32) + direction;
+
+        let max_loops = sections.len() * 2;
+        let mut loop_count = 0;
 
         loop {
-            if search_sec_idx < 0 || search_sec_idx >= sections.len() as i32 {
+            if loop_count > max_loops {
                 return false;
+            }
+            loop_count += 1;
+
+            if search_sec_idx < 0 {
+                search_sec_idx = sections.len() as i32 - 1;
+                search_row_idx = i32::MAX;
+            } else if search_sec_idx >= sections.len() as i32 {
+                search_sec_idx = 0;
+                search_row_idx = 0;
             }
 
             let sec = &sections[search_sec_idx as usize];
 
             if sec.count == 0 {
-                search_sec_idx += direction;
-                search_row_idx = if direction > 0 { 0 } else { -1 };
+                if direction > 0 {
+                    search_sec_idx += 1;
+                    search_row_idx = 0;
+                } else {
+                    search_sec_idx -= 1;
+                    search_row_idx = i32::MAX;
+                }
                 continue;
             }
 
-            if search_row_idx == -1 {
+            if search_row_idx == i32::MAX {
                 search_row_idx = (sec.rows as i32) - 1;
             }
 
-            if search_row_idx >= 0 && search_row_idx < sec.rows as i32 {
-                let target_col = if start_col >= sec.cols {
-                    sec.cols - 1
-                } else {
-                    start_col
-                };
-
-                let mut target_local = (search_row_idx as usize) * sec.cols + target_col;
-                if target_local >= sec.count {
-                    target_local = sec.count - 1;
-                }
-
-                self.selected_index = sec.start + target_local;
-                self.update_selected_actions();
-                return true;
+            if search_row_idx < 0 {
+                search_sec_idx -= 1;
+                search_row_idx = i32::MAX;
+                continue;
             }
 
-            search_sec_idx += direction;
-            if direction > 0 {
+            if search_row_idx >= sec.rows as i32 {
+                search_sec_idx += 1;
                 search_row_idx = 0;
-            } else {
-                search_row_idx = -1;
+                continue;
             }
+
+            let target_row = search_row_idx as usize;
+
+            let row_start = target_row * sec.cols;
+            let items_remaining = sec.count - row_start;
+            let items_in_row = std::cmp::min(sec.cols, items_remaining);
+
+            let target_col = std::cmp::min(current_col, items_in_row - 1);
+
+            self.selected_index = sec.start_index + row_start + target_col;
+            self.update_selected_actions();
+            return true;
         }
     }
 
