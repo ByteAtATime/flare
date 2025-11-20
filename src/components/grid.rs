@@ -1,4 +1,3 @@
-use iced::futures::SinkExt;
 use iced::widget::{column, container, image, row, scrollable, svg, text};
 use iced::{Color, Element, Length, Theme};
 
@@ -121,25 +120,10 @@ pub fn render_grid_item(
                         .into()
                 } else {
                     if should_load_visibility && image_cache::should_load(path) {
-                        let url = path.clone();
-                        std::thread::spawn(move || {
-                            match image_cache::fetch_and_cache(url.clone()) {
-                                Ok(handle) => {
-                                    if let Some(mut sender) =
-                                        crate::globals::SENDER.lock().unwrap().clone()
-                                    {
-                                        iced::futures::executor::block_on(async {
-                                            let _ = sender
-                                                .send(Message::ImageLoaded(url, handle))
-                                                .await;
-                                        });
-                                    }
-                                }
-                                Err(_) => {
-                                    image_cache::clear_pending(&url);
-                                }
-                            }
-                        });
+                        if let Some(loader) = crate::globals::IMAGE_LOADER.lock().unwrap().as_ref()
+                        {
+                            let _ = loader.send(path.clone());
+                        }
                     }
 
                     let bg_color = Color::from_rgb8(0x33, 0x33, 0x33);

@@ -19,6 +19,7 @@ use iced::{Element, Length, Subscription, Task, Theme};
 use message::Message;
 use rustyscript::serde_json::Value;
 use state::State;
+use std::sync::{Arc, Mutex};
 
 fn view(state: &State) -> Element<'_, Message> {
     let content = state
@@ -275,6 +276,39 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let (callback_sender, callback_receiver) = mpsc::unbounded::<(String, Value)>();
     *globals::RUNTIME_SENDER.lock().unwrap() = Some(callback_sender);
+
+    let (image_sender, image_receiver) = std::sync::mpsc::channel::<String>();
+    *globals::IMAGE_LOADER.lock().unwrap() = Some(image_sender);
+
+    let shared_receiver = Arc::new(Mutex::new(image_receiver));
+
+    for _ in 0..16 {
+        let receiver = shared_receiver.clone();
+        std::thread::spawn(move || {
+            loop {
+                let url = {
+                    let lock = receiver.lock().unwrap();
+                    match lock.recv() {
+                        Ok(u) => u,
+                        Err(_) => break,
+                    }
+                };
+
+                match image_cache::fetch_and_cache(url.clone()) {
+                    Ok(handle) => {
+                        if let Some(mut sender) = globals::SENDER.lock().unwrap().clone() {
+                            futures::executor::block_on(async {
+                                let _ = sender.send(Message::ImageLoaded(url, handle)).await;
+                            });
+                        }
+                    }
+                    Err(_) => {
+                        image_cache::clear_pending(&url);
+                    }
+                }
+            }
+        });
+    }
 
     std::thread::spawn(move || {
         runtime::setup_and_run(callback_receiver);
