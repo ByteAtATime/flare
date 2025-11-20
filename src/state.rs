@@ -71,6 +71,118 @@ impl State {
         }
     }
 
+    pub fn select_up(&mut self) -> bool {
+        self.move_vertical(-1)
+    }
+
+    pub fn select_down(&mut self) -> bool {
+        self.move_vertical(1)
+    }
+
+    fn move_vertical(&mut self, direction: i32) -> bool {
+        let grid_props = match self.filtered_tree.as_ref().and_then(|t| t.children.first()) {
+            Some(Component::Grid(p)) => p,
+            _ => return false,
+        };
+
+        let default_columns = grid_props.columns.unwrap_or(5) as usize;
+
+        struct Sec {
+            start: usize,
+            count: usize,
+            cols: usize,
+            rows: usize,
+        }
+
+        let mut sections = Vec::with_capacity(grid_props.sections.len());
+        let mut acc_idx = 0;
+        let mut curr_pos = None;
+
+        for (i, section) in grid_props.sections.iter().enumerate() {
+            let count = section.items.len();
+            let cols = section
+                .columns
+                .map(|c| c as usize)
+                .unwrap_or(default_columns);
+            let cols = if cols == 0 { 1 } else { cols };
+            let rows = if count > 0 {
+                (count + cols - 1) / cols
+            } else {
+                0
+            };
+
+            if self.selected_index >= acc_idx && self.selected_index < acc_idx + count {
+                let local = self.selected_index - acc_idx;
+                curr_pos = Some((i, local / cols, local % cols));
+            }
+
+            sections.push(Sec {
+                start: acc_idx,
+                count,
+                cols,
+                rows,
+            });
+            acc_idx += count;
+        }
+
+        let (start_sec, start_row, start_col) = match curr_pos {
+            Some(p) => p,
+            None => {
+                if sections.iter().any(|s| s.count > 0) {
+                    self.selected_index = 0;
+                    self.update_selected_actions();
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        let mut search_sec_idx = start_sec as i32;
+        let mut search_row_idx = (start_row as i32) + direction;
+
+        loop {
+            if search_sec_idx < 0 || search_sec_idx >= sections.len() as i32 {
+                return false;
+            }
+
+            let sec = &sections[search_sec_idx as usize];
+
+            if sec.count == 0 {
+                search_sec_idx += direction;
+                search_row_idx = if direction > 0 { 0 } else { -1 };
+                continue;
+            }
+
+            if search_row_idx == -1 {
+                search_row_idx = (sec.rows as i32) - 1;
+            }
+
+            if search_row_idx >= 0 && search_row_idx < sec.rows as i32 {
+                let target_col = if start_col >= sec.cols {
+                    sec.cols - 1
+                } else {
+                    start_col
+                };
+
+                let mut target_local = (search_row_idx as usize) * sec.cols + target_col;
+                if target_local >= sec.count {
+                    target_local = sec.count - 1;
+                }
+
+                self.selected_index = sec.start + target_local;
+                self.update_selected_actions();
+                return true;
+            }
+
+            search_sec_idx += direction;
+            if direction > 0 {
+                search_row_idx = 0;
+            } else {
+                search_row_idx = -1;
+            }
+        }
+    }
+
     pub fn get_selection_container_index(&self) -> Option<usize> {
         let grid_props = self
             .filtered_tree
@@ -92,6 +204,8 @@ impl State {
             if self.selected_index >= item_cursor && self.selected_index < item_cursor + section_len
             {
                 let columns = section.columns.or(grid_props.columns).unwrap_or(5) as usize;
+                let columns = if columns == 0 { 1 } else { columns };
+
                 let local_index = self.selected_index - item_cursor;
                 let row_offset = local_index / columns;
 
@@ -100,8 +214,8 @@ impl State {
 
             item_cursor += section_len;
 
-            // calculate section row count
             let columns = section.columns.or(grid_props.columns).unwrap_or(5) as usize;
+            let columns = if columns == 0 { 1 } else { columns };
             let rows = (section_len + columns - 1) / columns;
             position_index += rows;
         }

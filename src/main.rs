@@ -121,6 +121,20 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                             Task::none()
                         }
                     }
+                    Named::ArrowUp => {
+                        if state.select_up() {
+                            scroll_to_selection(state)
+                        } else {
+                            Task::none()
+                        }
+                    }
+                    Named::ArrowDown => {
+                        if state.select_down() {
+                            scroll_to_selection(state)
+                        } else {
+                            Task::none()
+                        }
+                    }
                     Named::Enter => {
                         if modifiers.is_empty() {
                             if let Some(action) = state.selected_actions.get(0) {
