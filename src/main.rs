@@ -256,7 +256,10 @@ fn subscription(_state: &State) -> Subscription<Message> {
 
         Subscription::run_with_id(std::any::TypeId::of::<ToastListener>(), stream)
     } else {
-        Subscription::none()
+        Subscription::run_with_id(
+            std::any::TypeId::of::<ToastListener>(),
+            futures::stream::pending(),
+        )
     };
 
     let keyboard_sub =
