@@ -32,6 +32,7 @@ fn view(state: &State) -> Element<'_, Message> {
                         child,
                         state.selected_index,
                         POSITION_TRACKER.clone(),
+                        state.viewport.as_ref(),
                     ))
                 })
         })

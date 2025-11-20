@@ -137,8 +137,6 @@ fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
 
                             let on_action = props.get("onAction").and_then(|v| {
                                 if let Value::Object(callback_map) = v {
-                                    // We can reuse serde deserialization here if we match the structure,
-                                    // but manual parsing is already robust here.
                                     let callback_type = callback_map
                                         .get("type")
                                         .and_then(|t| t.as_str())

@@ -1,5 +1,5 @@
 use iced::futures::SinkExt;
-use iced::widget::{column, container, image, row, svg, text};
+use iced::widget::{column, container, image, row, scrollable, svg, text};
 use iced::{Color, Element, Length, Theme};
 
 use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
@@ -12,8 +12,19 @@ pub fn render_grid(
     props: GridProps,
     selected_index: usize,
     column_id: position::Id,
+    viewport: Option<&scrollable::Viewport>,
 ) -> Element<'static, Message> {
+    let layout_cache = crate::globals::LAYOUT_CACHE.lock().unwrap();
+
+    let visible_range = viewport.map(|vp| {
+        let offset_y = vp.absolute_offset().y;
+        let height = vp.bounds().height;
+        (offset_y - 1500.0, offset_y + height + 1500.0)
+    });
+
     let mut item_cursor = 0;
+    let mut col_child_idx = 0;
+
     let grid_view = props
         .sections
         .into_iter()
@@ -22,20 +33,43 @@ pub fn render_grid(
             |col, section| {
                 let section_title = text(section.title.clone()).size(16).font(INTER_FONT);
 
+                col_child_idx += 1;
+
                 let columns = section.columns.or(props.columns).unwrap_or(5) as usize;
+
+                let start_row_idx = col_child_idx;
+                let row_count = (section.items.len() + columns - 1) / columns;
+                col_child_idx += row_count;
 
                 let rows: Vec<_> = section
                     .items
                     .chunks(columns)
                     .enumerate()
                     .map(|(chunk_idx, chunk)| {
+                        let current_row_idx = start_row_idx + chunk_idx;
+
+                        let is_visible = if let Some((start, end)) = visible_range {
+                            if let Some(bounds) = layout_cache.get(&current_row_idx) {
+                                let row_top = bounds.y;
+                                let row_bottom = bounds.y + bounds.height;
+                                row_bottom >= start && row_top <= end
+                            } else {
+                                current_row_idx < 30
+                            }
+                        } else {
+                            current_row_idx < 30
+                        };
+
                         let mut items_row = row![].spacing(10);
                         for (item_idx_in_row, item) in chunk.iter().enumerate() {
                             let global_idx = item_cursor + (chunk_idx * columns) + item_idx_in_row;
-                            items_row = items_row
-                                .push(render_grid_item(item.clone(), global_idx == selected_index));
+                            items_row = items_row.push(render_grid_item(
+                                item.clone(),
+                                global_idx == selected_index,
+                                is_visible,
+                            ));
                         }
-                        // fill remaining space in last row
+
                         if chunk.len() < columns {
                             items_row =
                                 items_row
@@ -57,7 +91,11 @@ pub fn render_grid(
     grid_view.into()
 }
 
-pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'static, Message> {
+pub fn render_grid_item(
+    props: GridItemProps,
+    is_selected: bool,
+    should_load_visibility: bool,
+) -> Element<'static, Message> {
     let border_color = if is_selected {
         Color::from_rgb8(0x00, 0x7A, 0xFF)
     } else {
@@ -69,8 +107,6 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
     let content_widget: Element<'static, Message> = match &props.content {
         Some(GridItemContent::Image(path)) => {
             if path.starts_with("http://") || path.starts_with("https://") {
-                // FIX: We now get a Handle directly.
-                // This is cheap (no malloc) and consistent (same ID for Iced).
                 if let Some(handle) = image_cache::get(path) {
                     container(image(handle))
                         .center(150.0)
@@ -84,18 +120,27 @@ pub fn render_grid_item(props: GridItemProps, is_selected: bool) -> Element<'sta
                         })
                         .into()
                 } else {
-                    let url = path.clone();
-                    std::thread::spawn(move || {
-                        // FIX: fetch_and_cache now returns a Handle
-                        if let Ok(handle) = image_cache::fetch_and_cache(url.clone()) {
-                            if let Some(mut sender) = crate::globals::SENDER.lock().unwrap().clone()
-                            {
-                                iced::futures::executor::block_on(async {
-                                    let _ = sender.send(Message::ImageLoaded(url, handle)).await;
-                                });
+                    if should_load_visibility && image_cache::should_load(path) {
+                        let url = path.clone();
+                        std::thread::spawn(move || {
+                            match image_cache::fetch_and_cache(url.clone()) {
+                                Ok(handle) => {
+                                    if let Some(mut sender) =
+                                        crate::globals::SENDER.lock().unwrap().clone()
+                                    {
+                                        iced::futures::executor::block_on(async {
+                                            let _ = sender
+                                                .send(Message::ImageLoaded(url, handle))
+                                                .await;
+                                        });
+                                    }
+                                }
+                                Err(_) => {
+                                    image_cache::clear_pending(&url);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     let bg_color = Color::from_rgb8(0x33, 0x33, 0x33);
                     container(text(""))
