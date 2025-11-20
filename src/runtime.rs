@@ -2,8 +2,8 @@ use crate::cache;
 use crate::globals::SENDER;
 use crate::message::Message;
 use crate::types::{ToastOptions, Tree};
-use iced::futures::SinkExt;
 use iced::futures::channel::mpsc;
+use iced::futures::{SinkExt, StreamExt};
 use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
 
 pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
@@ -148,8 +148,10 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
     let command_runner_handle = runtime.load_module(&command_runner).unwrap();
 
     loop {
-        match callback_receiver.try_next() {
-            Ok(Some((callback_id, args))) => {
+        let msg = iced::futures::executor::block_on(callback_receiver.next());
+
+        match msg {
+            Some((callback_id, args)) => {
                 let result: Result<Value, _> = runtime.call_function(
                     Some(&command_runner_handle),
                     "invokeCallback",
@@ -159,8 +161,7 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
                     eprintln!("callback died: {:?}", e);
                 }
             }
-            Ok(None) => break,
-            Err(_) => {}
+            None => break,
         }
     }
 }
