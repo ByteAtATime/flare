@@ -90,6 +90,18 @@ pub struct GridItemColor {
 
 #[derive(Debug, Clone, Default)]
 pub struct ActionPanel {
+    pub children: Vec<ActionPanelItem>,
+}
+
+#[derive(Debug, Clone)]
+pub enum ActionPanelItem {
+    Section(ActionPanelSection),
+    Action(Action),
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct ActionPanelSection {
+    pub title: String,
     pub children: Vec<Action>,
 }
 
@@ -122,54 +134,78 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
 }
 
 fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
-    if let Value::Object(map) = value {
-        if let Some(Value::Array(children)) = map.get("children") {
-            let actions: Vec<Action> = children
-                .iter()
-                .filter_map(|child| {
-                    if let Value::Object(action_map) = child {
-                        if let Some(Value::Object(props)) = action_map.get("props") {
-                            let title = props
-                                .get("title")
-                                .and_then(|v| v.as_str())
-                                .unwrap_or("")
-                                .to_string();
-
-                            let on_action = props.get("onAction").and_then(|v| {
-                                if let Value::Object(callback_map) = v {
-                                    let callback_type = callback_map
-                                        .get("type")
-                                        .and_then(|t| t.as_str())
-                                        .unwrap_or("")
-                                        .to_string();
-                                    let id = callback_map
-                                        .get("id")
-                                        .and_then(|i| i.as_str())
-                                        .unwrap_or("")
-                                        .to_string();
-
-                                    if !callback_type.is_empty() && !id.is_empty() {
-                                        return Some(CallbackInfo { callback_type, id });
-                                    }
-                                }
-                                None
-                            });
-
-                            if !title.is_empty() {
-                                return Some(Action { title, on_action });
-                            }
-                        }
-                    }
-                    None
-                })
-                .collect();
-
-            if !actions.is_empty() {
-                return Some(ActionPanel { children: actions });
-            }
-        }
+    // TODO: maybe verify that `type` == `ActionPanel`?
+    #[derive(Deserialize, Debug)]
+    struct RawActionPanel {
+        children: Vec<Value>,
     }
-    None
+
+    let action_panel: RawActionPanel = serde_json::from_value(value.clone()).ok()?;
+
+    Some(ActionPanel {
+        children: action_panel
+            .children
+            .into_iter()
+            .filter_map(|child| parse_action_item(&child))
+            .collect(),
+    })
+}
+
+fn parse_action_item(value: &Value) -> Option<ActionPanelItem> {
+    #[derive(Deserialize, Debug)]
+    struct RawActionProps {
+        title: String,
+        #[serde(rename = "onAction")]
+        on_action: Option<CallbackInfo>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct RawAction {
+        props: RawActionProps,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct RawSectionProps {
+        title: String,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct RawSection {
+        props: RawSectionProps,
+        children: Vec<Value>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    #[serde(tag = "type")]
+    enum RawActionItem {
+        #[serde(rename = "ActionPanel.Section")]
+        Section(RawSection),
+        Action(RawAction),
+    }
+
+    let raw_item: RawActionItem = serde_json::from_value(value.clone()).ok()?;
+
+    match raw_item {
+        RawActionItem::Section(section) => Some(ActionPanelItem::Section(ActionPanelSection {
+            title: section.props.title,
+            children: section
+                .children
+                .into_iter()
+                .filter_map(|child| parse_action_item(&child))
+                .filter_map(|item| {
+                    if let ActionPanelItem::Action(action) = item {
+                        Some(action)
+                    } else {
+                        None
+                    }
+                })
+                .collect(),
+        })),
+        RawActionItem::Action(action) => Some(ActionPanelItem::Action(Action {
+            title: action.props.title,
+            on_action: action.props.on_action,
+        })),
+    }
 }
 
 impl Component {

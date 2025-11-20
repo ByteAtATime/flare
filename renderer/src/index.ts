@@ -44,6 +44,12 @@ Object.assign(Grid, {
 });
 
 const ActionPanel = createComponent("ActionPanel");
+const ActionPanelSection = createComponent("ActionPanel.Section");
+
+Object.assign(ActionPanel, {
+  Section: ActionPanelSection,
+});
+
 const Action = createComponent("Action");
 
 class Cache {
