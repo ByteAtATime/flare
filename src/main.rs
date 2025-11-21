@@ -297,33 +297,48 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let shared_receiver = Arc::new(Mutex::new(image_receiver));
 
-    for _ in 0..16 {
-        let receiver = shared_receiver.clone();
-        std::thread::spawn(move || {
+    std::thread::spawn(move || {
+        let rt = tokio::runtime::Builder::new_multi_thread()
+            .worker_threads(4)
+            .enable_all()
+            .build()
+            .unwrap();
+
+        rt.block_on(async {
+            let client = reqwest::Client::builder()
+                .user_agent("flare-renderer/0.1.0")
+                .pool_max_idle_per_host(20)
+                .build()
+                .unwrap();
+
             loop {
                 let url = {
-                    let lock = receiver.lock().unwrap();
+                    let lock = shared_receiver.lock().unwrap();
                     match lock.recv() {
                         Ok(u) => u,
                         Err(_) => break,
                     }
                 };
 
-                match image_cache::fetch_and_cache(url.clone()) {
-                    Ok(handle) => {
-                        if let Some(mut sender) = globals::SENDER.lock().unwrap().clone() {
-                            futures::executor::block_on(async {
-                                let _ = sender.send(Message::ImageLoaded(url, handle)).await;
-                            });
+                let client = client.clone();
+
+                tokio::spawn(async move {
+                    match image_cache::fetch_and_cache(&client, url.clone()).await {
+                        Ok(handle) => {
+                            let sender = globals::SENDER.lock().unwrap().clone();
+
+                            if let Some(mut s) = sender {
+                                let _ = s.send(Message::ImageLoaded(url, handle)).await;
+                            }
+                        }
+                        Err(_) => {
+                            image_cache::clear_pending(&url);
                         }
                     }
-                    Err(_) => {
-                        image_cache::clear_pending(&url);
-                    }
-                }
+                });
             }
         });
-    }
+    });
 
     std::thread::spawn(move || {
         runtime::setup_and_run(callback_receiver);

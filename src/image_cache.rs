@@ -59,12 +59,16 @@ pub fn should_load(url: &str) -> bool {
     true
 }
 
-pub fn fetch_and_cache(url: String) -> Result<Handle, String> {
-    let response =
-        reqwest::blocking::get(&url).map_err(|e| format!("Failed to fetch image: {}", e))?;
+pub async fn fetch_and_cache(client: &reqwest::Client, url: String) -> Result<Handle, String> {
+    let response = client
+        .get(&url)
+        .send()
+        .await
+        .map_err(|e| format!("Failed to fetch image: {}", e))?;
 
     let bytes = response
         .bytes()
+        .await
         .map_err(|e| format!("Failed to read image bytes: {}", e))?
         .to_vec();
 
