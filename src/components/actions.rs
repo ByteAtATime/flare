@@ -3,7 +3,20 @@ use iced::{
     widget::{Button, column, container, mouse_area, opaque, text},
 };
 
-use crate::Message;
+use crate::{
+    Message,
+    components::types::{Action, ActionPanelItem},
+};
+
+fn render_action(action: &Action) -> iced::Element<'_, crate::Message> {
+    let mut button = Button::new(text(action.title.clone()));
+
+    if let Some(callback) = &action.on_action {
+        button = button.on_press(Message::InvokeAction(callback.id.clone()));
+    }
+
+    button.into()
+}
 
 pub fn render_action_panel(state: &crate::state::State) -> iced::Element<'_, crate::Message> {
     let actions = state
@@ -11,13 +24,23 @@ pub fn render_action_panel(state: &crate::state::State) -> iced::Element<'_, cra
         .iter()
         .fold(column![].spacing(10), |col, action| {
             col.push({
-                let mut button = Button::new(text(action.title.clone()));
+                match action {
+                    ActionPanelItem::Action(action) => render_action(action),
+                    ActionPanelItem::Section(section) => {
+                        let section_title = text(&section.title)
+                            .size(16)
+                            .color(Color::from_rgb8(0xFF, 0xFF, 0xFF));
 
-                if let Some(callback) = &action.on_action {
-                    button = button.on_press(Message::InvokeAction(callback.id.clone()));
+                        let section_actions = section
+                            .children
+                            .iter()
+                            .fold(column![].spacing(5), |col, action| {
+                                col.push(render_action(action))
+                            });
+
+                        column![section_title, section_actions].spacing(5).into()
+                    }
                 }
-
-                button
             })
         });
 

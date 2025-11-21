@@ -3,12 +3,16 @@ use iced::{
     widget::{button, container, row, text},
 };
 
-use crate::{Message, state::State};
+use crate::{Message, components::types::ActionPanelItem, state::State};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
 pub fn render_footer(state: &State) -> Element<'static, Message> {
-    let primary_action = state.selected_actions.get(0);
+    let flattened_actions = state.selected_actions.iter().flat_map(|item| match item {
+        ActionPanelItem::Action(action) => std::slice::from_ref(action).iter(),
+        ActionPanelItem::Section(section) => section.children.iter(),
+    });
+    let primary_action = flattened_actions.clone().next();
 
     let action_button = if let Some(action) = primary_action {
         let callback_id = action.on_action.as_ref().map(|cb| cb.id.clone());
@@ -24,7 +28,7 @@ pub fn render_footer(state: &State) -> Element<'static, Message> {
         None
     };
 
-    let action_panel_button = if state.selected_actions.len() >= 2 {
+    let action_panel_button = if flattened_actions.count() > 1 {
         Some(button(text("Actions").font(INTER_FONT)).on_press(Message::ToggleActionPanel(true)))
     } else {
         None

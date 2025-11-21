@@ -9,7 +9,7 @@ pub struct State {
     pub tree: Option<Tree>,
     pub filtered_tree: Option<Tree>,
     pub selected_index: usize,
-    pub selected_actions: Vec<components::types::Action>,
+    pub selected_actions: Vec<components::types::ActionPanelItem>,
     pub action_panel_visible: bool,
     pub viewport: Option<Viewport>,
 }

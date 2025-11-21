@@ -21,6 +21,8 @@ use rustyscript::serde_json::Value;
 use state::State;
 use std::sync::{Arc, Mutex};
 
+use crate::components::types::ActionPanelItem;
+
 fn view(state: &State) -> Element<'_, Message> {
     let content = state
         .filtered_tree
@@ -137,15 +139,28 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         }
                     }
                     Named::Enter => {
-                        if modifiers.is_empty() {
-                            if let Some(action) = state.selected_actions.get(0) {
-                                fire_action(action);
-                            }
-                        }
+                        let index = if modifiers.is_empty() {
+                            Some(0)
+                        } else if modifiers == Modifiers::COMMAND {
+                            Some(1)
+                        } else {
+                            None
+                        };
 
-                        if modifiers == Modifiers::COMMAND {
-                            if let Some(action) = state.selected_actions.get(1) {
-                                fire_action(action);
+                        if let Some(i) = index {
+                            let action_to_fire = state
+                                .selected_actions
+                                .iter()
+                                .flat_map(|item| match item {
+                                    ActionPanelItem::Action(action) => {
+                                        std::slice::from_ref(action).iter()
+                                    }
+                                    ActionPanelItem::Section(section) => section.children.iter(),
+                                })
+                                .nth(i);
+
+                            if let Some(action) = action_to_fire {
+                                fire_action(&action);
                             }
                         }
                         Task::none()
