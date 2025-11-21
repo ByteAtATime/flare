@@ -352,6 +352,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     iced::application("flare", update, view)
         .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
+        .font(include_bytes!("./assets/icons.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)
         .run()
         .map_err(|e| e.to_string())?;
