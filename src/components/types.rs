@@ -10,12 +10,53 @@ pub enum Component {
     Unknown,
 }
 
-#[derive(Debug, Deserialize)]
-struct RawTreeNode {
-    #[serde(rename = "type")]
-    node_type: String,
-    props: Option<Value>,
-    children: Vec<RawTreeNode>,
+mod raw {
+    use super::*;
+
+    #[derive(Debug, Deserialize)]
+    pub struct TreeNode {
+        #[serde(rename = "type")]
+        pub node_type: String,
+        pub props: Option<Value>,
+        pub children: Vec<TreeNode>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct ActionPanel {
+        pub children: Vec<Value>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct ActionProps {
+        pub title: String,
+        pub icon: Option<String>,
+        #[serde(rename = "onAction")]
+        pub on_action: Option<super::CallbackInfo>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct Action {
+        pub props: ActionProps,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct SectionProps {
+        pub title: String,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct Section {
+        pub props: SectionProps,
+        pub children: Vec<Value>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    #[serde(tag = "type")]
+    pub enum ActionItem {
+        #[serde(rename = "ActionPanel.Section")]
+        Section(Section),
+        Action(Action),
+    }
 }
 
 #[derive(Debug, Clone, Default, serde::Deserialize)]
@@ -136,75 +177,34 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
 }
 
 fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
-    // TODO: maybe verify that `type` == `ActionPanel`?
-    #[derive(Deserialize, Debug)]
-    struct RawActionPanel {
-        children: Vec<Value>,
-    }
-
-    let action_panel: RawActionPanel = serde_json::from_value(value.clone()).ok()?;
+    let action_panel: raw::ActionPanel = serde_json::from_value(value.clone()).ok()?;
 
     Some(ActionPanel {
         children: action_panel
             .children
             .into_iter()
-            .filter_map(|child| parse_action_item(&child))
+            .filter_map(parse_action_item)
             .collect(),
     })
 }
 
-fn parse_action_item(value: &Value) -> Option<ActionPanelItem> {
-    #[derive(Deserialize, Debug)]
-    struct RawActionProps {
-        title: String,
-        icon: Option<String>,
-        #[serde(rename = "onAction")]
-        on_action: Option<CallbackInfo>,
-    }
-
-    #[derive(Deserialize, Debug)]
-    struct RawAction {
-        props: RawActionProps,
-    }
-
-    #[derive(Deserialize, Debug)]
-    struct RawSectionProps {
-        title: String,
-    }
-
-    #[derive(Deserialize, Debug)]
-    struct RawSection {
-        props: RawSectionProps,
-        children: Vec<Value>,
-    }
-
-    #[derive(Deserialize, Debug)]
-    #[serde(tag = "type")]
-    enum RawActionItem {
-        #[serde(rename = "ActionPanel.Section")]
-        Section(RawSection),
-        Action(RawAction),
-    }
-
-    let raw_item: RawActionItem = serde_json::from_value(value.clone()).ok()?;
+fn parse_action_item(value: Value) -> Option<ActionPanelItem> {
+    let raw_item: raw::ActionItem = serde_json::from_value(value).ok()?;
 
     match raw_item {
-        RawActionItem::Section(section) => Some(ActionPanelItem::Section(ActionPanelSection {
+        raw::ActionItem::Section(section) => Some(ActionPanelItem::Section(ActionPanelSection {
             title: section.props.title,
             children: section
                 .children
                 .into_iter()
-                .filter_map(|child| parse_action_item(&child))
-                .filter_map(|item| {
-                    if let ActionPanelItem::Action(action) = item {
-                        Some(action)
-                    } else {
-                        None
-                    }
+                .filter_map(parse_action_item)
+                .filter_map(|item| match item {
+                    ActionPanelItem::Action(action) => Some(action),
+                    _ => None,
                 })
                 .collect(),
         })),
-        RawActionItem::Action(action) => Some(ActionPanelItem::Action(Action {
+        raw::ActionItem::Action(action) => Some(ActionPanelItem::Action(Action {
             title: action.props.title,
             icon: action.props.icon,
             on_action: action.props.on_action,
@@ -213,19 +213,16 @@ fn parse_action_item(value: &Value) -> Option<ActionPanelItem> {
 }
 
 impl Component {
-    fn from_raw_node(node: RawTreeNode) -> Self {
+    fn from_raw_node(node: raw::TreeNode) -> Self {
         match node.node_type.as_str() {
             "Grid" => {
                 let mut props: GridProps = parse_props(&node.props);
                 props.sections = node
                     .children
                     .into_iter()
-                    .filter_map(|child| {
-                        if let Component::GridSection(section) = Self::from_raw_node(child) {
-                            Some(section)
-                        } else {
-                            None
-                        }
+                    .filter_map(|child| match Self::from_raw_node(child) {
+                        Component::GridSection(section) => Some(section),
+                        _ => None,
                     })
                     .collect();
 
@@ -236,12 +233,9 @@ impl Component {
                 props.items = node
                     .children
                     .into_iter()
-                    .filter_map(|child| {
-                        if let Component::GridItem(item) = Self::from_raw_node(child) {
-                            Some(item)
-                        } else {
-                            None
-                        }
+                    .filter_map(|child| match Self::from_raw_node(child) {
+                        Component::GridItem(item) => Some(item),
+                        _ => None,
                     })
                     .collect();
 
@@ -250,14 +244,10 @@ impl Component {
             "Grid.Item" => {
                 let mut props: GridItemProps = parse_props(&node.props);
 
-                if let Some(actions_value) = node.props.as_ref().and_then(|p| {
-                    if let Value::Object(map) = p {
-                        map.get("actions")
-                    } else {
-                        None
+                if let Some(Value::Object(map)) = node.props.as_ref() {
+                    if let Some(actions_value) = map.get("actions") {
+                        props.actions = parse_action_panel(actions_value);
                     }
-                }) {
-                    props.actions = parse_action_panel(actions_value);
                 }
                 Component::GridItem(props)
             }
@@ -271,7 +261,7 @@ impl<'de> Deserialize<'de> for Component {
     where
         D: serde::Deserializer<'de>,
     {
-        let raw_node = RawTreeNode::deserialize(deserializer)?;
+        let raw_node = raw::TreeNode::deserialize(deserializer)?;
         Ok(Component::from_raw_node(raw_node))
     }
 }
