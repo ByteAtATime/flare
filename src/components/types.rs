@@ -14,11 +14,35 @@ mod raw {
     use super::*;
 
     #[derive(Debug, Deserialize)]
-    pub struct TreeNode {
-        #[serde(rename = "type")]
-        pub node_type: String,
-        pub props: Option<Value>,
-        pub children: Vec<TreeNode>,
+    #[serde(tag = "type")]
+    pub enum TreeNode {
+        Grid {
+            props: Option<GridProps>,
+            children: Vec<TreeNode>,
+        },
+        #[serde(rename = "Grid.Section")]
+        GridSection {
+            props: Option<GridSectionProps>,
+            children: Vec<TreeNode>,
+        },
+        #[serde(rename = "Grid.Item")]
+        GridItem {
+            props: Option<RawGridItemProps>,
+        },
+        #[serde(other)]
+        Unknown,
+    }
+
+    #[derive(Debug, Default, Deserialize)]
+    pub struct RawGridItemProps {
+        #[serde(default)]
+        pub title: String,
+        #[serde(default)]
+        pub subtitle: Option<String>,
+        #[serde(default, deserialize_with = "super::deserialize_content")]
+        pub content: Option<super::GridItemContent>,
+        #[serde(default)]
+        pub actions: Option<Value>,
     }
 
     #[derive(Deserialize, Debug)]
@@ -169,13 +193,6 @@ pub fn parse_hex_color(hex: &str) -> Color {
     Color::from_rgb8(r, g, b)
 }
 
-fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) -> T {
-    props
-        .as_ref()
-        .and_then(|p| serde_json::from_value(p.clone()).ok())
-        .unwrap_or_default()
-}
-
 impl From<raw::Action> for Action {
     fn from(raw: raw::Action) -> Self {
         Self {
@@ -232,44 +249,39 @@ impl TryFrom<Value> for ActionPanel {
 
 impl Component {
     fn from_raw_node(node: raw::TreeNode) -> Self {
-        match node.node_type.as_str() {
-            "Grid" => {
-                let mut props: GridProps = parse_props(&node.props);
-                props.sections = node
-                    .children
+        match node {
+            raw::TreeNode::Grid { props, children } => {
+                let mut props = props.unwrap_or_default();
+                props.sections = children
                     .into_iter()
                     .filter_map(|child| match Self::from_raw_node(child) {
                         Component::GridSection(section) => Some(section),
                         _ => None,
                     })
                     .collect();
-
                 Component::Grid(props)
             }
-            "Grid.Section" => {
-                let mut props: GridSectionProps = parse_props(&node.props);
-                props.items = node
-                    .children
+            raw::TreeNode::GridSection { props, children } => {
+                let mut props = props.unwrap_or_default();
+                props.items = children
                     .into_iter()
                     .filter_map(|child| match Self::from_raw_node(child) {
                         Component::GridItem(item) => Some(item),
                         _ => None,
                     })
                     .collect();
-
                 Component::GridSection(props)
             }
-            "Grid.Item" => {
-                let mut props: GridItemProps = parse_props(&node.props);
-
-                if let Some(Value::Object(map)) = node.props.as_ref() {
-                    props.actions = map
-                        .get("actions")
-                        .and_then(|v| v.clone().try_into().ok());
-                }
-                Component::GridItem(props)
+            raw::TreeNode::GridItem { props } => {
+                let raw_props = props.unwrap_or_default();
+                Component::GridItem(GridItemProps {
+                    title: raw_props.title,
+                    subtitle: raw_props.subtitle,
+                    content: raw_props.content,
+                    actions: raw_props.actions.and_then(|v| v.try_into().ok()),
+                })
             }
-            _ => Component::Unknown,
+            raw::TreeNode::Unknown => Component::Unknown,
         }
     }
 }
