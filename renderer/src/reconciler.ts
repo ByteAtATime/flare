@@ -37,10 +37,13 @@ const registerCallback = (callback: Function) => {
   };
 };
 
-export const invokeCallback = (id: string, args: any) => {
+export const invokeCallback = async (id: string, args: any) => {
   const callback = callbackRegistry.get(id);
   if (callback) {
-    callback(args);
+    batchedUpdates(() => {
+      callback(args);
+    });
+    await new Promise((resolve) => setTimeout(resolve, 0));
   } else {
     console.warn(`No callback found for id: ${id}`);
   }
