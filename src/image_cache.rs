@@ -69,8 +69,7 @@ pub async fn fetch_and_cache(client: &reqwest::Client, url: String) -> Result<Ha
     let bytes = response
         .bytes()
         .await
-        .map_err(|e| format!("Failed to read image bytes: {}", e))?
-        .to_vec();
+        .map_err(|e| format!("Failed to read image bytes: {}", e))?;
 
     let handle = Handle::from_bytes(bytes);
 

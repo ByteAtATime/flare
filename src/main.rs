@@ -306,10 +306,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         rt.block_on(async {
             let client = reqwest::Client::builder()
-                .user_agent("flare-renderer/0.1.0")
                 .pool_max_idle_per_host(20)
+                .tcp_nodelay(true)
                 .build()
                 .unwrap();
+
+            // apparently this prevents too many threads, i have no idea how it works it's above my paygrade
+            let semaphore = Arc::new(tokio::sync::Semaphore::new(10));
 
             loop {
                 let url = {
@@ -321,12 +324,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 };
 
                 let client = client.clone();
+                let permit = semaphore.clone().acquire_owned().await.unwrap();
 
                 tokio::spawn(async move {
+                    let _permit = permit;
+
                     match image_cache::fetch_and_cache(&client, url.clone()).await {
                         Ok(handle) => {
                             let sender = globals::SENDER.lock().unwrap().clone();
-
                             if let Some(mut s) = sender {
                                 let _ = s.send(Message::ImageLoaded(url, handle)).await;
                             }
