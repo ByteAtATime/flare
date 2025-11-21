@@ -46,10 +46,14 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
     let command_runner = Module::new(
         "runner.js",
         r#"
-            import { React, updateContainer, invokeCallback } from './renderer.js';
+            import { React, NavigationRoot, updateContainer, invokeCallback } from './renderer.js';
     
             const PluginRoot = module.exports.default;
-            const AppElement = React.createElement(PluginRoot);
+            const AppElement = React.createElement(
+                NavigationRoot,
+                null,
+                React.createElement(PluginRoot),
+            );
             updateContainer(AppElement, () => {
                 console.log("initial render callback fired!");
             });

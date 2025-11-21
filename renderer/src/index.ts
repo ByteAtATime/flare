@@ -3,6 +3,7 @@ import ReactJsxRuntime, { jsx } from "react/jsx-runtime";
 import type * as RaycastApiType from "@raycast/api";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { Icon } from "./icons";
+import { NavigationRoot, useNavigation } from "./navigation";
 
 const LaunchType = {
   UserInitiated: "userInitiated",
@@ -125,6 +126,7 @@ const raycastApi = {
   ActionPanel,
   Action,
   LaunchType,
+  useNavigation,
   environment: {
     launchType:
       LaunchType.UserInitiated as RaycastApiType.LaunchType.UserInitiated,
@@ -154,4 +156,11 @@ const raycastApi = {
   Icon,
 };
 
-export { React, ReactJsxRuntime, raycastApi, updateContainer, invokeCallback };
+export {
+  React,
+  ReactJsxRuntime,
+  NavigationRoot,
+  raycastApi,
+  updateContainer,
+  invokeCallback,
+};

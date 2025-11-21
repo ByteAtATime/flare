@@ -151,6 +151,13 @@ const HostConfig: Reconciler.HostConfig<
   finalizeInitialChildren: () => false,
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
     let serializedProps: Record<string, unknown> = {};
+    if (type === "flare-nav-stack") {
+      return {
+        type: "flare-nav-stack",
+        props: {},
+        children: [],
+      };
+    }
 
     if (!!props && typeof props === "object") {
       for (const [key, value] of Object.entries(props)) {
@@ -225,10 +232,24 @@ const HostConfig: Reconciler.HostConfig<
     };
   },
   prepareForCommit: () => null,
-  resetAfterCommit(containerInfo) {
-    // console.dir(containerInfo, { depth: null });
-    console.log("commit");
-    rustyscript.async_functions.updateTree(containerInfo);
+  resetAfterCommit(node) {
+    const navStackNode = node.children[0];
+    if (
+      typeof navStackNode !== "object" ||
+      navStackNode?.type !== "flare-nav-stack"
+    ) {
+      throw new Error("Expected root child to be a flare-nav-stack.", {
+        cause: { node },
+      });
+    }
+
+    const screens = navStackNode.children;
+    const activeComponent = screens[screens.length - 1];
+
+    rustyscript.async_functions.updateTree({
+      id: "root",
+      children: [activeComponent],
+    });
   },
   appendInitialChild(parent, child) {
     parent.children.push(child);
