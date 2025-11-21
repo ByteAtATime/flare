@@ -1,15 +1,28 @@
 use iced::{
-    Color, Length,
-    widget::{Button, column, container, mouse_area, opaque, text},
+    Color, Element, Length,
+    widget::{Button, column, container, mouse_area, opaque, row, text},
 };
 
 use crate::{
     Message,
     components::types::{Action, ActionPanelItem},
+    icons,
 };
 
+const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
+
 fn render_action(action: &Action) -> iced::Element<'_, crate::Message> {
-    let mut button = Button::new(text(action.title.clone()));
+    let mut button = Button::new(
+        if let Some(icon) = action
+            .icon
+            .as_ref()
+            .and_then(|icon_name| icons::get_icon(icon_name))
+        {
+            row![text(icon).font(ICON_FONT), text(action.title.clone())].into()
+        } else {
+            Element::from(text(action.title.clone()))
+        },
+    );
 
     if let Some(callback) = &action.on_action {
         button = button.on_press(Message::InvokeAction(callback.id.clone()));

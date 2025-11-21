@@ -108,6 +108,8 @@ pub struct ActionPanelSection {
 #[derive(Debug, Clone)]
 pub struct Action {
     pub title: String,
+    // TODO: support all "ImageLike" types
+    pub icon: Option<String>,
     pub on_action: Option<CallbackInfo>,
 }
 
@@ -155,6 +157,7 @@ fn parse_action_item(value: &Value) -> Option<ActionPanelItem> {
     #[derive(Deserialize, Debug)]
     struct RawActionProps {
         title: String,
+        icon: Option<String>,
         #[serde(rename = "onAction")]
         on_action: Option<CallbackInfo>,
     }
@@ -203,6 +206,7 @@ fn parse_action_item(value: &Value) -> Option<ActionPanelItem> {
         })),
         RawActionItem::Action(action) => Some(ActionPanelItem::Action(Action {
             title: action.props.title,
+            icon: action.props.icon,
             on_action: action.props.on_action,
         })),
     }

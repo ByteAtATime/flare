@@ -2,6 +2,7 @@ import React from "react";
 import ReactJsxRuntime, { jsx } from "react/jsx-runtime";
 import type * as RaycastApiType from "@raycast/api";
 import { invokeCallback, updateContainer } from "./reconciler";
+import { Icon } from "./icons";
 
 const LaunchType = {
   UserInitiated: "userInitiated",
@@ -150,6 +151,7 @@ const raycastApi = {
     duration: "0",
     artwork: "official",
   }),
+  Icon,
 };
 
 export { React, ReactJsxRuntime, raycastApi, updateContainer, invokeCallback };

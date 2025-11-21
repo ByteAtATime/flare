@@ -1,6 +1,7 @@
 mod cache;
 mod components;
 mod globals;
+mod icons;
 mod image_cache;
 mod message;
 mod position;
