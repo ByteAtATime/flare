@@ -26,9 +26,7 @@ mod raw {
             children: Vec<TreeNode>,
         },
         #[serde(rename = "Grid.Item")]
-        GridItem {
-            props: Option<RawGridItemProps>,
-        },
+        GridItem { props: Option<RawGridItemProps> },
         #[serde(other)]
         Unknown,
     }
@@ -193,6 +191,17 @@ pub fn parse_hex_color(hex: &str) -> Color {
     Color::from_rgb8(r, g, b)
 }
 
+impl From<raw::RawGridItemProps> for GridItemProps {
+    fn from(raw: raw::RawGridItemProps) -> Self {
+        Self {
+            title: raw.title,
+            subtitle: raw.subtitle,
+            content: raw.content,
+            actions: raw.actions.and_then(|v| v.try_into().ok()),
+        }
+    }
+}
+
 impl From<raw::Action> for Action {
     fn from(raw: raw::Action) -> Self {
         Self {
@@ -273,13 +282,7 @@ impl Component {
                 Component::GridSection(props)
             }
             raw::TreeNode::GridItem { props } => {
-                let raw_props = props.unwrap_or_default();
-                Component::GridItem(GridItemProps {
-                    title: raw_props.title,
-                    subtitle: raw_props.subtitle,
-                    content: raw_props.content,
-                    actions: raw_props.actions.and_then(|v| v.try_into().ok()),
-                })
+                Component::GridItem(props.unwrap_or_default().into())
             }
             raw::TreeNode::Unknown => Component::Unknown,
         }
