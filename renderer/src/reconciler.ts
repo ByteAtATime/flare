@@ -188,7 +188,34 @@ const HostConfig: Reconciler.HostConfig<
     keepChildren,
     recyclableInstance
   ) {
-    return instance;
+    let serializedProps: Record<string, unknown> = {};
+
+    if (!!newProps && typeof newProps === "object") {
+      for (const [key, value] of Object.entries(newProps)) {
+        if (key === "children") continue;
+
+        if (
+          value &&
+          typeof value === "object" &&
+          "type" in value &&
+          "props" in value
+        ) {
+          serializedProps[key] = serializeReactElement(
+            value as React.ReactElement
+          );
+        } else {
+          serializedProps[key] = value;
+        }
+      }
+    } else {
+      serializedProps = newProps as Record<string, unknown>;
+    }
+
+    return {
+      type,
+      props: serializedProps,
+      children: keepChildren ? instance.children : [],
+    };
   },
   createTextInstance(text, rootContainer, hostContext, internalHandle) {
     return {
