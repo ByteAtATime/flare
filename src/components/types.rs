@@ -176,39 +176,57 @@ fn parse_props<T: serde::de::DeserializeOwned + Default>(props: &Option<Value>) 
         .unwrap_or_default()
 }
 
-fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
-    let action_panel: raw::ActionPanel = serde_json::from_value(value.clone()).ok()?;
-
-    Some(ActionPanel {
-        children: action_panel
-            .children
-            .into_iter()
-            .filter_map(parse_action_item)
-            .collect(),
-    })
+impl From<raw::Action> for Action {
+    fn from(raw: raw::Action) -> Self {
+        Self {
+            title: raw.props.title,
+            icon: raw.props.icon,
+            on_action: raw.props.on_action,
+        }
+    }
 }
 
-fn parse_action_item(value: Value) -> Option<ActionPanelItem> {
-    let raw_item: raw::ActionItem = serde_json::from_value(value).ok()?;
-
-    match raw_item {
-        raw::ActionItem::Section(section) => Some(ActionPanelItem::Section(ActionPanelSection {
-            title: section.props.title,
-            children: section
+impl From<raw::Section> for ActionPanelSection {
+    fn from(raw: raw::Section) -> Self {
+        Self {
+            title: raw.props.title,
+            children: raw
                 .children
                 .into_iter()
-                .filter_map(parse_action_item)
+                .filter_map(|v| serde_json::from_value::<raw::ActionItem>(v).ok())
                 .filter_map(|item| match item {
-                    ActionPanelItem::Action(action) => Some(action),
+                    raw::ActionItem::Action(action) => Some(action.into()),
                     _ => None,
                 })
                 .collect(),
-        })),
-        raw::ActionItem::Action(action) => Some(ActionPanelItem::Action(Action {
-            title: action.props.title,
-            icon: action.props.icon,
-            on_action: action.props.on_action,
-        })),
+        }
+    }
+}
+
+impl TryFrom<Value> for ActionPanelItem {
+    type Error = serde_json::Error;
+
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        let raw_item = serde_json::from_value::<raw::ActionItem>(value)?;
+        Ok(match raw_item {
+            raw::ActionItem::Section(section) => ActionPanelItem::Section(section.into()),
+            raw::ActionItem::Action(action) => ActionPanelItem::Action(action.into()),
+        })
+    }
+}
+
+impl TryFrom<Value> for ActionPanel {
+    type Error = serde_json::Error;
+
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        let raw = serde_json::from_value::<raw::ActionPanel>(value)?;
+        Ok(Self {
+            children: raw
+                .children
+                .into_iter()
+                .filter_map(|v| v.try_into().ok())
+                .collect(),
+        })
     }
 }
 
@@ -245,9 +263,9 @@ impl Component {
                 let mut props: GridItemProps = parse_props(&node.props);
 
                 if let Some(Value::Object(map)) = node.props.as_ref() {
-                    if let Some(actions_value) = map.get("actions") {
-                        props.actions = parse_action_panel(actions_value);
-                    }
+                    props.actions = map
+                        .get("actions")
+                        .and_then(|v| v.clone().try_into().ok());
                 }
                 Component::GridItem(props)
             }
