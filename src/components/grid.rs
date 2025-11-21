@@ -53,10 +53,10 @@ pub fn render_grid(
                                 let row_bottom = bounds.y + bounds.height;
                                 row_bottom >= start && row_top <= end
                             } else {
-                                current_row_idx < 30
+                                current_row_idx < 10
                             }
                         } else {
-                            current_row_idx < 30
+                            current_row_idx < 10
                         };
 
                         let mut items_row = row![].spacing(10);
