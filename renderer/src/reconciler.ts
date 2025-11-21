@@ -229,7 +229,7 @@ const root: RootContainer = { id: "root", children: [] };
 
 const container = reconciler.createContainer(
   root,
-  0, // LegacyRoot
+  1, // ConcurrentRoot
   null, // hydrationCallbacks
   false, // isStrictMode
   null, // concurrentUpdatesByDefaultOverride
