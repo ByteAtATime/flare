@@ -9,8 +9,6 @@ import {
 } from "./index";
 import * as protocol from "./protocol";
 
-(globalThis as any).__flare_protocol = protocol;
-
 type Request =
   | { type: "initialize"; pluginPath: string }
   | { type: "invokeCallback"; callbackId: string; args: unknown }
