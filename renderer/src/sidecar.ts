@@ -1,4 +1,5 @@
 import { Module } from "module";
+import { Console } from "node:console";
 import {
   React,
   NavigationRoot,
@@ -8,6 +9,36 @@ import {
   raycastApi,
 } from "./index";
 import * as protocol from "./protocol";
+
+const stderrConsole = new Console({
+  stdout: process.stderr,
+  stderr: process.stderr,
+  colorMode: true,
+});
+
+const inspectMode = process.env.FLARE_INSPECTOR_MODE === "1";
+const profiles = new Map<string, number>();
+
+stderrConsole.timeStamp ??= (label?: string) => {
+  if (!inspectMode) return;
+  stderrConsole.log(`[${new Date().toISOString()}]${label ? ` ${label}` : ""}`);
+};
+
+stderrConsole.profile ??= (label = "default") => {
+  if (!inspectMode) return;
+  profiles.set(label, performance.now());
+};
+
+stderrConsole.profileEnd ??= (label = "default") => {
+  if (!inspectMode) return;
+  const start = profiles.get(label);
+  if (start) {
+    console.log(`${label}: ${(performance.now() - start).toFixed(2)}ms`);
+    profiles.delete(label);
+  }
+};
+
+globalThis.console = stderrConsole;
 
 type Request =
   | { type: "initialize"; pluginPath: string }

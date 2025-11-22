@@ -122,9 +122,7 @@ class Cache {
 }
 
 const raycastApi = {
-  showToast: (message: string) => {
-    console.log(`ooh toast: ${message}`);
-  },
+  showToast: (message: string) => {},
   Grid,
   ActionPanel,
   Action,
@@ -141,13 +139,10 @@ const raycastApi = {
 
     public primaryAction: RaycastApiType.Toast.ActionOptions | undefined;
 
-    constructor(private options: ToastOptions) {
-      console.log(`new toast ${JSON.stringify(options)}`);
-    }
+    constructor(private options: ToastOptions) {}
 
     public show = async () => {
       await protocol.showToast(this.options);
-      console.log(`show toast ${JSON.stringify(this.options)}`);
     };
   },
   Cache,
