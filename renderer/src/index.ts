@@ -54,6 +54,8 @@ Object.assign(ActionPanel, {
 
 const Action = createComponent("Action");
 
+const Detail = createComponent("Detail");
+
 class Cache {
   private namespace: string;
   private subscribers: Set<RaycastApiType.Cache.Subscriber>;
@@ -125,6 +127,7 @@ const raycastApi = {
   Grid,
   ActionPanel,
   Action,
+  Detail,
   LaunchType,
   useNavigation,
   environment: {

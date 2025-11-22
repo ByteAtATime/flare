@@ -1,5 +1,6 @@
 pub mod actions;
 pub mod column;
+pub mod detail;
 pub mod footer;
 pub mod grid;
 pub mod types;
@@ -21,6 +22,7 @@ pub fn render_component<'a>(
             grid::render_grid(props.clone(), selected_index, column_id, viewport)
         }
         Component::GridItem(props) => grid::render_grid_item(props.clone(), false, true),
+        Component::Detail(props) => detail::render_detail(props.clone()),
         _ => iced::widget::text("Unknown").into(),
     }
 }

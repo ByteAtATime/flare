@@ -7,6 +7,7 @@ pub enum Component {
     Grid(GridProps),
     GridSection(GridSectionProps),
     GridItem(GridItemProps),
+    Detail(DetailProps),
     Unknown,
 }
 
@@ -40,6 +41,12 @@ pub struct GridItemProps {
     pub content: Option<GridItemContent>,
     #[serde(skip)]
     pub actions: Option<ActionPanel>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct DetailProps {
+    #[serde(default)]
+    pub markdown: String,
 }
 
 #[derive(Debug, Clone)]
@@ -144,6 +151,10 @@ impl<'de> Deserialize<'de> for Component {
                 #[serde(default)]
                 props: Option<RawGridItemProps>,
             },
+            Detail {
+                #[serde(default)]
+                props: Option<DetailProps>,
+            },
             #[serde(other)]
             Unknown,
         }
@@ -192,6 +203,9 @@ impl<'de> Deserialize<'de> for Component {
                         content: raw_props.content,
                         actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
                     })
+                }
+                RawComponent::Detail { props } => {
+                    Component::Detail(props.unwrap_or_default())
                 }
                 RawComponent::Unknown => Component::Unknown,
             }
