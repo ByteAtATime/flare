@@ -4,11 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-rustyscript = { version = "0.12.3", features = ["node_experimental"] }
-# pin modules - https://github.com/rscarson/rustyscript/issues/399
-serde = "=1.0.219"
-serde_json = "=1.0.120"
-serde_bytes = "=0.11.15"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 iced = { version = "0.13.1", features = ["advanced", "image", "svg"] }
 reqwest = { version = "0.12.8", features = ["blocking", "rustls-tls"] }
 tokio = { version = "1.43.0", features = ["rt-multi-thread", "macros", "net", "sync"] }

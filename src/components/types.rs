@@ -1,5 +1,5 @@
 use iced::Color;
-use rustyscript::serde_json::Value;
+use serde_json::Value;
 use serde::Deserialize;
 
 #[derive(Debug, Clone)]

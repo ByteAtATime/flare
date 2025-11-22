@@ -18,7 +18,7 @@ use iced::keyboard::Modifiers;
 use iced::widget::{column, container, scrollable, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use message::Message;
-use rustyscript::serde_json::Value;
+use serde_json::Value;
 use state::State;
 use std::sync::{Arc, Mutex};
 

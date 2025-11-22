@@ -2,7 +2,7 @@ use crate::message::Message;
 use iced::Rectangle;
 use iced::futures::channel::mpsc;
 use iced::widget::scrollable;
-use rustyscript::serde_json::Value;
+use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
