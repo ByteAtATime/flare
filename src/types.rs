@@ -25,12 +25,23 @@ pub enum SidecarRequest {
         callback_id: String,
         args: serde_json::Value,
     },
-    Response {
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(
+    tag = "type",
+    rename_all = "camelCase",
+    rename_all_fields = "camelCase"
+)]
+pub enum RustResponse {
+    Success {
         id: u32,
         #[serde(skip_serializing_if = "Option::is_none")]
         result: Option<serde_json::Value>,
-        #[serde(skip_serializing_if = "Option::is_none")]
-        error: Option<String>,
+    },
+    Error {
+        id: u32,
+        error: String,
     },
 }
 

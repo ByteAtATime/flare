@@ -1,6 +1,6 @@
 use crate::globals::SENDER;
 use crate::message::Message;
-use crate::types::{SidecarRequest, SidecarResponse, Tree};
+use crate::types::{RustResponse, SidecarRequest, SidecarResponse, Tree};
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
 use serde_json::Value;
@@ -100,11 +100,7 @@ fn handle_sidecar_response(
                         if let Err(e) = sender.send(Message::UpdateToast(title)).await {
                             eprintln!("Failed to send toast message: {:?}", e);
                         }
-                        let response = SidecarRequest::Response {
-                            id,
-                            result: Some(Value::Null),
-                            error: None,
-                        };
+                        let response = RustResponse::Success { id, result: None };
                         let mut stdin = stdin_clone.lock().unwrap();
                         if let Ok(data) = rmp_serde::to_vec_named(&response) {
                             let length = (data.len() as u32).to_be_bytes();
@@ -125,11 +121,7 @@ fn handle_sidecar_response(
                             if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
                                 eprintln!("Failed to send tree update: {:?}", e);
                             }
-                            let response = SidecarRequest::Response {
-                                id,
-                                result: Some(Value::Null),
-                                error: None,
-                            };
+                            let response = RustResponse::Success { id, result: None };
                             let mut stdin = stdin_clone.lock().unwrap();
                             if let Ok(data) = rmp_serde::to_vec_named(&response) {
                                 let length = (data.len() as u32).to_be_bytes();
@@ -143,11 +135,7 @@ fn handle_sidecar_response(
             }
         }
         SidecarResponse::CacheSet { id, .. } => {
-            let response = SidecarRequest::Response {
-                id,
-                result: Some(Value::Null),
-                error: None,
-            };
+            let response = RustResponse::Success { id, result: None };
             let data = rmp_serde::to_vec_named(&response)?;
             let length = (data.len() as u32).to_be_bytes();
 
