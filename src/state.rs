@@ -1,5 +1,8 @@
+use std::sync::Arc;
+
 use crate::components::{self, Component};
 use crate::types::Tree;
+use iced::widget::markdown;
 use iced::widget::scrollable::Viewport;
 
 #[derive(Default)]
@@ -15,7 +18,14 @@ pub struct State {
 }
 
 impl State {
-    pub fn update_tree(&mut self, tree: Tree) {
+    pub fn update_tree(&mut self, mut tree: Tree) {
+        for component in &mut tree.children {
+            if let Component::Detail(props) = component {
+                let items: Vec<_> = markdown::parse(&props.markdown).collect();
+                props.parsed = Some(items);
+            }
+        }
+
         self.tree = Some(tree);
         self.update_filtered();
 

@@ -22,7 +22,7 @@ pub fn render_component<'a>(
             grid::render_grid(props.clone(), selected_index, column_id, viewport)
         }
         Component::GridItem(props) => grid::render_grid_item(props.clone(), false, true),
-        Component::Detail(props) => detail::render_detail(props.clone()),
+        Component::Detail(props) => detail::render_detail(&props),
         _ => iced::widget::text("Unknown").into(),
     }
 }

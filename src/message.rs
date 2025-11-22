@@ -1,6 +1,7 @@
 use crate::types::Tree;
 use iced::widget::image::Handle;
 use iced::widget::scrollable::Viewport;
+use reqwest::Url;
 
 #[derive(Debug, Clone)]
 pub enum Message {
@@ -12,4 +13,5 @@ pub enum Message {
     ToggleActionPanel(bool),
     Scrolled(Viewport),
     ImageLoaded(String, Handle),
+    LinkClicked(Url),
 }

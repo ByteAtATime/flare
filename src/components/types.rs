@@ -1,4 +1,6 @@
-use iced::Color;
+use std::sync::Arc;
+
+use iced::{Color, widget::markdown};
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -47,6 +49,9 @@ pub struct GridItemProps {
 pub struct DetailProps {
     #[serde(default)]
     pub markdown: String,
+    // TODO: avoid cloning, and ideally not store parsed state as props?
+    #[serde(skip)]
+    pub parsed: Option<Vec<markdown::Item>>,
 }
 
 #[derive(Debug, Clone)]

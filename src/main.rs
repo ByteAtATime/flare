@@ -207,6 +207,10 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             image_cache::set(url, handle);
             Task::none()
         }
+        Message::LinkClicked(url) => {
+            println!("link clicked: {}", url);
+            Task::none()
+        }
     }
 }
 
