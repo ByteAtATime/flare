@@ -35,7 +35,10 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
             globalThis.global = globalThis;
 
             import process from 'node:process';
+            import { Buffer } from 'node:buffer';
+            
             globalThis.process = process;
+            globalThis.Buffer = Buffer;
             ",
     );
     runtime.load_module(&module).unwrap();
