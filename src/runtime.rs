@@ -16,7 +16,9 @@ pub struct SidecarRuntime {
 
 impl SidecarRuntime {
     pub fn new(plugin_path: &str) -> Result<Self, std::io::Error> {
-        let mut process = Command::new("renderer/dist/sidecar")
+        let sidecar_path = std::env::current_exe()?.parent().unwrap().join("sidecar");
+
+        let mut process = Command::new(sidecar_path)
             .arg(plugin_path)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
