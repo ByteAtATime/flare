@@ -1,171 +1,89 @@
-use crate::cache;
-use crate::globals::SENDER;
-use crate::message::Message;
-use crate::types::{ToastOptions, Tree};
+use crate::types::SidecarRequest;
 use iced::futures::channel::mpsc;
-use iced::futures::{SinkExt, StreamExt};
-use rustyscript::{Module, Runtime, RuntimeOptions, serde_json::Value};
+use iced::futures::StreamExt;
+use serde_json::Value;
+use std::io::{BufRead, BufReader, Write};
+use std::process::{Child, Command, Stdio};
+
+pub struct SidecarRuntime {
+    process: Child,
+    stdin: std::process::ChildStdin,
+    stdout_reader: BufReader<std::process::ChildStdout>,
+}
+
+impl SidecarRuntime {
+    pub fn new(plugin_path: &str) -> Result<Self, std::io::Error> {
+        let sidecar_path = std::env::current_exe()?
+            .parent()
+            .unwrap()
+            .join("sidecar");
+
+        let mut process = Command::new(sidecar_path)
+            .arg(plugin_path)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::inherit())
+            .spawn()?;
+
+        let stdin = process.stdin.take().unwrap();
+        let stdout = process.stdout.take().unwrap();
+        let stdout_reader = BufReader::new(stdout);
+
+        Ok(Self {
+            process,
+            stdin,
+            stdout_reader,
+        })
+    }
+
+    pub fn send_request(&mut self, request: &SidecarRequest) -> Result<(), std::io::Error> {
+        let json = serde_json::to_string(request)?;
+        writeln!(self.stdin, "{}", json)?;
+        self.stdin.flush()?;
+        Ok(())
+    }
+
+    pub fn read_line(&mut self) -> Result<String, std::io::Error> {
+        let mut line = String::new();
+        self.stdout_reader.read_line(&mut line)?;
+        Ok(line)
+    }
+}
+
+impl Drop for SidecarRuntime {
+    fn drop(&mut self) {
+        let _ = self.process.kill();
+    }
+}
 
 pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
-    let mut runtime = Runtime::new(RuntimeOptions::default()).unwrap();
+    let plugin_path = std::env::current_dir()
+        .unwrap()
+        .join("test/plugin.js")
+        .to_string_lossy()
+        .to_string();
 
-    let renderer_module = Module::new("renderer.js", include_str!("../renderer/dist/index.js"));
-    runtime.load_module(&renderer_module).unwrap();
+    let mut runtime = match SidecarRuntime::new(&plugin_path) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("Failed to start sidecar: {:?}", e);
+            return;
+        }
+    };
 
-    let module = Module::new(
-        "setup.js",
-        "
-            import { createRequire } from 'module';
-            const nodeRequire = createRequire(import.meta.url);
-    
-            import { raycastApi, React, ReactJsxRuntime } from './renderer.js';
-    
-            globalThis.require = (moduleName) => {
-                if (moduleName === '@raycast/api') {
-                    return raycastApi;
-                }
-    
-                if (moduleName === 'react') return React;
-                if (moduleName === 'react/jsx-runtime') return ReactJsxRuntime;
-    
-                return nodeRequire(moduleName);
-            };
-            
-            globalThis.module = { exports: {} };
-            globalThis.global = globalThis;
-
-            import process from 'node:process';
-            import { Buffer } from 'node:buffer';
-            
-            globalThis.process = process;
-            globalThis.Buffer = Buffer;
-            ",
-    );
-    runtime.load_module(&module).unwrap();
-
-    let module2 = Module::new("plugin.js", include_str!("../test/plugin.js"));
-    runtime.load_module(&module2).unwrap();
-
-    let command_runner = Module::new(
-        "runner.js",
-        r#"
-            import { React, NavigationRoot, updateContainer, invokeCallback } from './renderer.js';
-    
-            const PluginRoot = module.exports.default;
-            const AppElement = React.createElement(
-                NavigationRoot,
-                null,
-                React.createElement(PluginRoot),
-            );
-            updateContainer(AppElement, () => {
-                console.log("initial render callback fired!");
-            });
-
-            export { invokeCallback };
-        "#,
-    );
-
-    runtime
-        .register_async_function("showToast", |args| {
-            Box::pin(async move {
-                if let Ok(value) = serde_json::from_value::<ToastOptions>(args[0].clone()) {
-                    if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                        sender
-                            .send(Message::UpdateToast(value.title.clone()))
-                            .await
-                            .unwrap();
-                    }
-                }
-                Ok(Value::Null)
-            })
-        })
-        .unwrap();
-
-    runtime
-        .register_async_function("updateTree", |args| {
-            Box::pin(async move {
-                if let Ok(tree) = serde_json::from_value::<Tree>(args[0].clone()) {
-                    if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                        sender.send(Message::UpdateTree(tree)).await.unwrap();
-                    }
-                }
-                Ok(Value::Null)
-            })
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheSet", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            let key = args[1].as_str().unwrap();
-            let data = args[2].as_str().unwrap();
-
-            match cache::set(namespace, key, data) {
-                Ok(_) => Ok(Value::Null),
-                Err(e) => Err(rustyscript::Error::Runtime(e)),
-            }
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheGet", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            let key = args[1].as_str().unwrap();
-
-            match cache::get(namespace, key) {
-                Some(content) => Ok(Value::String(content)),
-                None => Ok(Value::Null),
-            }
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheHas", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            let key = args[1].as_str().unwrap();
-            Ok(Value::Bool(cache::has(namespace, key)))
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheRemove", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            let key = args[1].as_str().unwrap();
-            Ok(Value::Bool(cache::remove(namespace, key)))
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheClear", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            match cache::clear(namespace) {
-                Ok(_) => Ok(Value::Null),
-                Err(e) => Err(rustyscript::Error::Runtime(e)),
-            }
-        })
-        .unwrap();
-
-    runtime
-        .register_function("cacheIsEmpty", |args| {
-            let namespace = args[0].as_str().unwrap_or("default");
-            Ok(Value::Bool(cache::is_empty(namespace)))
-        })
-        .unwrap();
-
-    let command_runner_handle = runtime.load_module(&command_runner).unwrap();
+    if let Err(e) = runtime.read_line() {
+        eprintln!("Failed to read initialization response: {:?}", e);
+        return;
+    }
 
     loop {
         let msg = iced::futures::executor::block_on(callback_receiver.next());
 
         match msg {
             Some((callback_id, args)) => {
-                let result: Result<Value, _> = runtime.call_function(
-                    Some(&command_runner_handle),
-                    "invokeCallback",
-                    &[Value::String(callback_id), args],
-                );
-                if let Err(e) = result {
-                    eprintln!("callback died: {:?}", e);
+                let request = SidecarRequest::InvokeCallback { callback_id, args };
+                if let Err(e) = runtime.send_request(&request) {
+                    eprintln!("Failed to send callback request: {:?}", e);
                 }
             }
             None => break,
