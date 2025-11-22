@@ -106,7 +106,7 @@ fn handle_sidecar_response(
                             error: None,
                         };
                         let mut stdin = stdin_clone.lock().unwrap();
-                        if let Ok(data) = rmp_serde::to_vec(&response) {
+                        if let Ok(data) = rmp_serde::to_vec_named(&response) {
                             let length = (data.len() as u32).to_be_bytes();
                             let _ = stdin.write_all(&length);
                             let _ = stdin.write_all(&data);
@@ -131,7 +131,7 @@ fn handle_sidecar_response(
                                 error: None,
                             };
                             let mut stdin = stdin_clone.lock().unwrap();
-                            if let Ok(data) = rmp_serde::to_vec(&response) {
+                            if let Ok(data) = rmp_serde::to_vec_named(&response) {
                                 let length = (data.len() as u32).to_be_bytes();
                                 let _ = stdin.write_all(&length);
                                 let _ = stdin.write_all(&data);
@@ -148,7 +148,7 @@ fn handle_sidecar_response(
                 result: Some(Value::Null),
                 error: None,
             };
-            let data = rmp_serde::to_vec(&response)?;
+            let data = rmp_serde::to_vec_named(&response)?;
             let length = (data.len() as u32).to_be_bytes();
 
             let mut stdin = stdin.lock().unwrap();
