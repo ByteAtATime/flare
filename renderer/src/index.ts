@@ -4,7 +4,7 @@ import type * as RaycastApiType from "@raycast/api";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { Icon } from "./icons";
 import { NavigationRoot, useNavigation } from "./navigation";
-import { rustyscript } from "./protocol";
+import * as protocol from "./protocol";
 
 const LaunchType = {
   UserInitiated: "userInitiated",
@@ -67,21 +67,21 @@ class Cache {
   }
 
   public get(key: string): string | undefined {
-    const result = rustyscript.functions.cacheGet(this.namespace, key);
+    const result = protocol.cacheGet(this.namespace, key);
     return result === null ? undefined : result;
   }
 
   public has(key: string): boolean {
-    return rustyscript.functions.cacheHas(this.namespace, key);
+    return protocol.cacheHas(this.namespace, key);
   }
 
   public set(key: string, data: string): void {
-    rustyscript.functions.cacheSet(this.namespace, key, data);
+    protocol.cacheSet(this.namespace, key, data);
     this.notifySubscribers(key, data);
   }
 
   public remove(key: string): boolean {
-    const removed = rustyscript.functions.cacheRemove(this.namespace, key);
+    const removed = protocol.cacheRemove(this.namespace, key);
     if (removed) {
       this.notifySubscribers(key, undefined);
     }
@@ -91,14 +91,14 @@ class Cache {
   public clear(
     options: { notifySubscribers: boolean } = { notifySubscribers: true }
   ): void {
-    rustyscript.functions.cacheClear(this.namespace);
+    protocol.cacheClear(this.namespace);
     if (options.notifySubscribers) {
       this.notifySubscribers(undefined, undefined);
     }
   }
 
   public get isEmpty(): boolean {
-    return rustyscript.functions.cacheIsEmpty(this.namespace);
+    return protocol.cacheIsEmpty(this.namespace);
   }
 
   public subscribe(
@@ -146,7 +146,7 @@ const raycastApi = {
     }
 
     public show = async () => {
-      await rustyscript.async_functions.showToast(this.options);
+      await protocol.showToast(this.options);
       console.log(`show toast ${JSON.stringify(this.options)}`);
     };
   },

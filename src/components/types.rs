@@ -1,6 +1,6 @@
 use iced::Color;
-use serde_json::Value;
 use serde::Deserialize;
+use serde_json::Value;
 
 #[derive(Debug, Clone)]
 pub enum Component {
@@ -204,9 +204,7 @@ impl<'de> Deserialize<'de> for Component {
                         actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
                     })
                 }
-                RawComponent::Detail { props } => {
-                    Component::Detail(props.unwrap_or_default())
-                }
+                RawComponent::Detail { props } => Component::Detail(props.unwrap_or_default()),
                 RawComponent::Unknown => Component::Unknown,
             }
         }

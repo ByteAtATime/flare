@@ -7,9 +7,9 @@ import {
   ReactJsxRuntime,
   raycastApi,
 } from "./index";
-import { handleRustResponse, rustyscript } from "./protocol";
+import * as protocol from "./protocol";
 
-(globalThis as any).rustyscript = rustyscript;
+(globalThis as any).__flare_protocol = protocol;
 
 type Request =
   | { type: "initialize"; pluginPath: string }
@@ -96,7 +96,7 @@ const startCommandLoop = () => {
             });
           }
         } else if (request.type === "response") {
-          handleRustResponse(line);
+          protocol.handleRustResponse(line);
         }
       } catch (error) {
         console.error("something went wrong:", error);

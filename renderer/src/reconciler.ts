@@ -1,6 +1,6 @@
 import Reconciler from "react-reconciler";
 import React, { createContext } from "react";
-import { rustyscript } from "./protocol";
+import * as protocol from "./protocol";
 
 type HostComponent = {
   type: string;
@@ -247,7 +247,7 @@ const HostConfig: Reconciler.HostConfig<
     const screens = navStackNode.children;
     const activeComponent = screens[screens.length - 1];
 
-    rustyscript.async_functions.updateTree({
+    protocol.updateTree({
       id: "root",
       children: [activeComponent],
     });

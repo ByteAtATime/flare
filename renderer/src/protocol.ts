@@ -28,39 +28,44 @@ const sendRequest = (request: RustRequest): Promise<unknown> => {
   });
 };
 
-export const rustyscript = {
-  async_functions: {
-    showToast: async (options: {
-      title: string;
-      message?: string;
-      style?: string;
-    }) => {
-      await sendRequest({ type: "showToast", ...options });
-    },
-    updateTree: async (tree: unknown) => {
-      await sendRequest({ type: "updateTree", tree });
-    },
-  },
-  functions: {
-    cacheSet: (namespace: string, key: string, data: string) => {
-      sendRequest({ type: "cacheSet", namespace, key, data });
-    },
-    cacheGet: (namespace: string, key: string): string | null => {
-      throw new Error("Sync cache operations not supported yet");
-    },
-    cacheHas: (namespace: string, key: string): boolean => {
-      throw new Error("Sync cache operations not supported yet");
-    },
-    cacheRemove: (namespace: string, key: string): boolean => {
-      throw new Error("Sync cache operations not supported yet");
-    },
-    cacheClear: (namespace: string) => {
-      throw new Error("Sync cache operations not supported yet");
-    },
-    cacheIsEmpty: (namespace: string): boolean => {
-      throw new Error("Sync cache operations not supported yet");
-    },
-  },
+export const showToast = async (options: {
+  title: string;
+  message?: string;
+  style?: string;
+}): Promise<void> => {
+  await sendRequest({ type: "showToast", ...options });
+};
+
+export const updateTree = async (tree: unknown): Promise<void> => {
+  await sendRequest({ type: "updateTree", tree });
+};
+
+export const cacheSet = (
+  namespace: string,
+  key: string,
+  data: string
+): void => {
+  sendRequest({ type: "cacheSet", namespace, key, data });
+};
+
+export const cacheGet = (namespace: string, key: string): string | null => {
+  throw new Error("Sync cache operations not supported yet");
+};
+
+export const cacheHas = (namespace: string, key: string): boolean => {
+  throw new Error("Sync cache operations not supported yet");
+};
+
+export const cacheRemove = (namespace: string, key: string): boolean => {
+  throw new Error("Sync cache operations not supported yet");
+};
+
+export const cacheClear = (namespace: string): void => {
+  throw new Error("Sync cache operations not supported yet");
+};
+
+export const cacheIsEmpty = (namespace: string): boolean => {
+  throw new Error("Sync cache operations not supported yet");
 };
 
 export const handleRustResponse = (line: string) => {
