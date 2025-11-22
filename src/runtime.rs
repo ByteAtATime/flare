@@ -52,7 +52,7 @@ impl SidecarRuntime {
     }
 
     pub fn send_request(&mut self, request: &SidecarRequest) -> Result<(), std::io::Error> {
-        let data = rmp_serde::to_vec(request)
+        let data = rmp_serde::to_vec_named(request)
             .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
         let length = (data.len() as u32).to_be_bytes();
 
