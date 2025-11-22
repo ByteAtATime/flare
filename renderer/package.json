@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "watch": "bun build src/index.ts --target=node --minify --watch --outdir=dist",
-    "dev": "bun build src/index.ts --target=node --outdir=dist"
+    "dev": "bun build src/index.ts --target=node --outdir=dist",
+    "build:sidecar": "bun build --compile --minify --bytecode src/sidecar.ts --outfile=dist/sidecar"
   },
   "devDependencies": {
     "@raycast/api": "^1.103.5",
