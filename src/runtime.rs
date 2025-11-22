@@ -4,7 +4,7 @@ use crate::types::{SidecarRequest, SidecarResponse, Tree};
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
 use serde_json::Value;
-use std::io::{BufRead, BufReader, Write};
+use std::io::{Read, Write};
 use std::process::{Child, Command, Stdio};
 use std::sync::{Arc, Mutex};
 use std::thread;
@@ -26,16 +26,24 @@ impl SidecarRuntime {
             .spawn()?;
 
         let stdin = Arc::new(Mutex::new(process.stdin.take().unwrap()));
-        let stdout = process.stdout.take().unwrap();
+        let mut stdout = process.stdout.take().unwrap();
 
         let stdin_clone = stdin.clone();
         thread::spawn(move || {
-            let reader = BufReader::new(stdout);
-            for line in reader.lines() {
-                if let Ok(line) = line {
-                    if let Err(e) = handle_sidecar_response(&line, &stdin_clone) {
-                        eprintln!("Failed to handle sidecar response: {:?}", e);
-                    }
+            let mut length_buf = [0u8; 4];
+            loop {
+                if stdout.read_exact(&mut length_buf).is_err() {
+                    break;
+                }
+                let length = u32::from_be_bytes(length_buf) as usize;
+
+                let mut message_buf = vec![0u8; length];
+                if stdout.read_exact(&mut message_buf).is_err() {
+                    break;
+                }
+
+                if let Err(e) = handle_sidecar_response(&message_buf, &stdin_clone) {
+                    eprintln!("Failed to handle sidecar response: {:?}", e);
                 }
             }
         });
@@ -44,9 +52,13 @@ impl SidecarRuntime {
     }
 
     pub fn send_request(&mut self, request: &SidecarRequest) -> Result<(), std::io::Error> {
-        let json = serde_json::to_string(request)?;
+        let data = rmp_serde::to_vec(request)
+            .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
+        let length = (data.len() as u32).to_be_bytes();
+
         let mut stdin = self.stdin.lock().unwrap();
-        writeln!(*stdin, "{}", json)?;
+        stdin.write_all(&length)?;
+        stdin.write_all(&data)?;
         stdin.flush()?;
         Ok(())
     }
@@ -59,10 +71,10 @@ impl Drop for SidecarRuntime {
 }
 
 fn handle_sidecar_response(
-    line: &str,
+    data: &[u8],
     stdin: &Arc<Mutex<std::process::ChildStdin>>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let response: SidecarResponse = serde_json::from_str(line)?;
+    let response: SidecarResponse = rmp_serde::from_slice(data)?;
 
     match response {
         SidecarResponse::Initialized { success, error } => {
@@ -94,8 +106,10 @@ fn handle_sidecar_response(
                             error: None,
                         };
                         let mut stdin = stdin_clone.lock().unwrap();
-                        if let Ok(json) = serde_json::to_string(&response) {
-                            let _ = writeln!(*stdin, "{}", json);
+                        if let Ok(data) = rmp_serde::to_vec(&response) {
+                            let length = (data.len() as u32).to_be_bytes();
+                            let _ = stdin.write_all(&length);
+                            let _ = stdin.write_all(&data);
                             let _ = stdin.flush();
                         }
                     });
@@ -117,8 +131,10 @@ fn handle_sidecar_response(
                                 error: None,
                             };
                             let mut stdin = stdin_clone.lock().unwrap();
-                            if let Ok(json) = serde_json::to_string(&response) {
-                                let _ = writeln!(*stdin, "{}", json);
+                            if let Ok(data) = rmp_serde::to_vec(&response) {
+                                let length = (data.len() as u32).to_be_bytes();
+                                let _ = stdin.write_all(&length);
+                                let _ = stdin.write_all(&data);
                                 let _ = stdin.flush();
                             }
                         });
@@ -132,8 +148,12 @@ fn handle_sidecar_response(
                 result: Some(Value::Null),
                 error: None,
             };
+            let data = rmp_serde::to_vec(&response)?;
+            let length = (data.len() as u32).to_be_bytes();
+
             let mut stdin = stdin.lock().unwrap();
-            writeln!(*stdin, "{}", serde_json::to_string(&response)?)?;
+            stdin.write_all(&length)?;
+            stdin.write_all(&data)?;
             stdin.flush()?;
         }
     }

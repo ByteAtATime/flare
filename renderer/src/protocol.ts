@@ -1,3 +1,5 @@
+import { pack, unpack } from "msgpackr";
+
 type RustRequest =
   | { type: "showToast"; title: string; message?: string; style?: string }
   | { type: "updateTree"; tree: unknown }
@@ -23,8 +25,11 @@ const sendRequest = (request: RustRequest): Promise<unknown> => {
     const id = requestId++;
     pendingRequests.set(id, { resolve, reject });
 
-    const message = JSON.stringify({ id, ...request });
-    process.stdout.write(message + "\n");
+    const message = pack({ id, ...request });
+    const length = Buffer.allocUnsafe(4);
+    length.writeUInt32BE(message.length, 0);
+    process.stdout.write(length);
+    process.stdout.write(message);
   });
 };
 
@@ -68,9 +73,9 @@ export const cacheIsEmpty = (namespace: string): boolean => {
   throw new Error("Sync cache operations not supported yet");
 };
 
-export const handleRustResponse = (line: string) => {
+export const handleRustResponse = (data: Buffer) => {
   try {
-    const response = JSON.parse(line) as RustResponse & { id: number };
+    const response = unpack(data) as RustResponse & { id: number };
     const pending = pendingRequests.get(response.id);
 
     if (pending) {

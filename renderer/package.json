@@ -17,6 +17,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "msgpackr": "^1.11.5",
     "react": "^19.2.0",
     "react-reconciler": "^0.33.0"
   }

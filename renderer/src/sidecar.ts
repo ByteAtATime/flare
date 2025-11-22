@@ -1,5 +1,6 @@
 import { Module } from "module";
 import { Console } from "node:console";
+import { pack, unpack } from "msgpackr";
 import {
   React,
   NavigationRoot,
@@ -72,7 +73,11 @@ Module.prototype.require = function (id: string) {
 };
 
 const sendResponse = (response: Response) => {
-  process.stdout.write(JSON.stringify(response) + "\n");
+  const message = pack(response);
+  const length = Buffer.allocUnsafe(4);
+  length.writeUInt32BE(message.length, 0);
+  process.stdout.write(length);
+  process.stdout.write(message);
 };
 
 const initializePlugin = async () => {
@@ -99,19 +104,27 @@ const initializePlugin = async () => {
 };
 
 const startCommandLoop = () => {
-  let buffer = "";
+  let buffer = Buffer.alloc(0);
+  let expectedLength: number | null = null;
 
-  process.stdin.on("data", (chunk) => {
-    buffer += chunk.toString();
+  process.stdin.on("data", (chunk: Buffer) => {
+    buffer = Buffer.concat([buffer, chunk]);
 
-    const lines = buffer.split("\n");
-    buffer = lines.pop() || "";
+    while (true) {
+      if (expectedLength === null) {
+        if (buffer.length < 4) break;
+        expectedLength = buffer.readUInt32BE(0);
+        buffer = buffer.subarray(4);
+      }
 
-    for (const line of lines) {
-      if (!line.trim()) continue;
+      if (buffer.length < expectedLength) break;
+
+      const messageData = buffer.subarray(0, expectedLength);
+      buffer = buffer.subarray(expectedLength);
+      expectedLength = null;
 
       try {
-        const request = JSON.parse(line) as Request;
+        const request = unpack(messageData) as Request;
 
         if (request.type === "invokeCallback") {
           try {
@@ -125,7 +138,7 @@ const startCommandLoop = () => {
             });
           }
         } else if (request.type === "response") {
-          protocol.handleRustResponse(line);
+          protocol.handleRustResponse(messageData);
         }
       } catch (error) {
         console.error("something went wrong:", error);
