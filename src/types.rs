@@ -17,13 +17,46 @@ pub struct Tree {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum SidecarRequest {
-    Initialize { plugin_path: String },
-    InvokeCallback { callback_id: String, args: serde_json::Value },
+    InvokeCallback {
+        callback_id: String,
+        args: serde_json::Value,
+    },
+    Response {
+        id: u32,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        result: Option<serde_json::Value>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        error: Option<String>,
+    },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum SidecarResponse {
-    Initialized { success: bool, error: Option<String> },
-    CallbackResult { success: bool, error: Option<String> },
+    Initialized {
+        success: bool,
+        error: Option<String>,
+    },
+    CallbackResult {
+        success: bool,
+        error: Option<String>,
+    },
+    ShowToast {
+        id: u32,
+        title: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        message: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        style: Option<String>,
+    },
+    UpdateTree {
+        id: u32,
+        tree: serde_json::Value,
+    },
+    CacheSet {
+        id: u32,
+        namespace: String,
+        key: String,
+        data: String,
+    },
 }

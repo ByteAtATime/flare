@@ -4,6 +4,7 @@ import type * as RaycastApiType from "@raycast/api";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { Icon } from "./icons";
 import { NavigationRoot, useNavigation } from "./navigation";
+import { rustyscript } from "./protocol";
 
 const LaunchType = {
   UserInitiated: "userInitiated",

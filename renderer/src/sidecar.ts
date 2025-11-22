@@ -7,10 +7,14 @@ import {
   ReactJsxRuntime,
   raycastApi,
 } from "./index";
+import { handleRustResponse, rustyscript } from "./protocol";
+
+(globalThis as any).rustyscript = rustyscript;
 
 type Request =
   | { type: "initialize"; pluginPath: string }
-  | { type: "invokeCallback"; callbackId: string; args: unknown };
+  | { type: "invokeCallback"; callbackId: string; args: unknown }
+  | { type: "response"; id: number; result?: unknown; error?: string };
 
 type Response =
   | { type: "initialized"; success: boolean; error?: string }
@@ -91,6 +95,8 @@ const startCommandLoop = () => {
               error: String(error),
             });
           }
+        } else if (request.type === "response") {
+          handleRustResponse(line);
         }
       } catch (error) {
         console.error("something went wrong:", error);

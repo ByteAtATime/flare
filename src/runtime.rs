@@ -1,52 +1,52 @@
-use crate::types::SidecarRequest;
+use crate::globals::SENDER;
+use crate::message::Message;
+use crate::types::{SidecarRequest, SidecarResponse, Tree};
 use iced::futures::channel::mpsc;
-use iced::futures::StreamExt;
+use iced::futures::{SinkExt, StreamExt};
 use serde_json::Value;
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, Command, Stdio};
+use std::sync::{Arc, Mutex};
+use std::thread;
 
 pub struct SidecarRuntime {
     process: Child,
-    stdin: std::process::ChildStdin,
-    stdout_reader: BufReader<std::process::ChildStdout>,
+    stdin: Arc<Mutex<std::process::ChildStdin>>,
 }
 
 impl SidecarRuntime {
     pub fn new(plugin_path: &str) -> Result<Self, std::io::Error> {
-        let sidecar_path = std::env::current_exe()?
-            .parent()
-            .unwrap()
-            .join("sidecar");
-
-        let mut process = Command::new(sidecar_path)
+        let mut process = Command::new("renderer/dist/sidecar")
             .arg(plugin_path)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::inherit())
             .spawn()?;
 
-        let stdin = process.stdin.take().unwrap();
+        let stdin = Arc::new(Mutex::new(process.stdin.take().unwrap()));
         let stdout = process.stdout.take().unwrap();
-        let stdout_reader = BufReader::new(stdout);
 
-        Ok(Self {
-            process,
-            stdin,
-            stdout_reader,
-        })
+        let stdin_clone = stdin.clone();
+        thread::spawn(move || {
+            let reader = BufReader::new(stdout);
+            for line in reader.lines() {
+                if let Ok(line) = line {
+                    if let Err(e) = handle_sidecar_response(&line, &stdin_clone) {
+                        eprintln!("Failed to handle sidecar response: {:?}", e);
+                    }
+                }
+            }
+        });
+
+        Ok(Self { process, stdin })
     }
 
     pub fn send_request(&mut self, request: &SidecarRequest) -> Result<(), std::io::Error> {
         let json = serde_json::to_string(request)?;
-        writeln!(self.stdin, "{}", json)?;
-        self.stdin.flush()?;
+        let mut stdin = self.stdin.lock().unwrap();
+        writeln!(*stdin, "{}", json)?;
+        stdin.flush()?;
         Ok(())
-    }
-
-    pub fn read_line(&mut self) -> Result<String, std::io::Error> {
-        let mut line = String::new();
-        self.stdout_reader.read_line(&mut line)?;
-        Ok(line)
     }
 }
 
@@ -54,6 +54,89 @@ impl Drop for SidecarRuntime {
     fn drop(&mut self) {
         let _ = self.process.kill();
     }
+}
+
+fn handle_sidecar_response(
+    line: &str,
+    stdin: &Arc<Mutex<std::process::ChildStdin>>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let response: SidecarResponse = serde_json::from_str(line)?;
+
+    match response {
+        SidecarResponse::Initialized { success, error } => {
+            if !success {
+                eprintln!("Plugin initialization failed: {:?}", error);
+            }
+        }
+        SidecarResponse::CallbackResult { success, error } => {
+            if !success {
+                eprintln!("Callback failed: {:?}", error);
+            }
+        }
+        SidecarResponse::ShowToast {
+            id,
+            title,
+            message: _,
+            style: _,
+        } => {
+            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                let stdin_clone = stdin.clone();
+                thread::spawn(move || {
+                    iced::futures::executor::block_on(async move {
+                        if let Err(e) = sender.send(Message::UpdateToast(title)).await {
+                            eprintln!("Failed to send toast message: {:?}", e);
+                        }
+                        let response = SidecarRequest::Response {
+                            id,
+                            result: Some(Value::Null),
+                            error: None,
+                        };
+                        let mut stdin = stdin_clone.lock().unwrap();
+                        if let Ok(json) = serde_json::to_string(&response) {
+                            let _ = writeln!(*stdin, "{}", json);
+                            let _ = stdin.flush();
+                        }
+                    });
+                });
+            }
+        }
+        SidecarResponse::UpdateTree { id, tree } => {
+            if let Ok(tree) = serde_json::from_value::<Tree>(tree) {
+                if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                    let stdin_clone = stdin.clone();
+                    thread::spawn(move || {
+                        iced::futures::executor::block_on(async move {
+                            if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
+                                eprintln!("Failed to send tree update: {:?}", e);
+                            }
+                            let response = SidecarRequest::Response {
+                                id,
+                                result: Some(Value::Null),
+                                error: None,
+                            };
+                            let mut stdin = stdin_clone.lock().unwrap();
+                            if let Ok(json) = serde_json::to_string(&response) {
+                                let _ = writeln!(*stdin, "{}", json);
+                                let _ = stdin.flush();
+                            }
+                        });
+                    });
+                }
+            }
+        }
+        SidecarResponse::CacheSet { id, .. } => {
+            let response = SidecarRequest::Response {
+                id,
+                result: Some(Value::Null),
+                error: None,
+            };
+            let mut stdin = stdin.lock().unwrap();
+            writeln!(*stdin, "{}", serde_json::to_string(&response)?)?;
+            stdin.flush()?;
+        }
+    }
+
+    Ok(())
 }
 
 pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
@@ -70,11 +153,6 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
             return;
         }
     };
-
-    if let Err(e) = runtime.read_line() {
-        eprintln!("Failed to read initialization response: {:?}", e);
-        return;
-    }
 
     loop {
         let msg = iced::futures::executor::block_on(callback_receiver.next());

@@ -1,5 +1,6 @@
 import Reconciler from "react-reconciler";
 import React, { createContext } from "react";
+import { rustyscript } from "./protocol";
 
 type HostComponent = {
   type: string;
