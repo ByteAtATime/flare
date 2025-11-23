@@ -11,7 +11,6 @@ pub enum Message {
     InvokeAction(String),
     ToggleActionPanel(bool),
     Scrolled(Viewport),
-    LinkClicked(String),
     ShowToast(String),
 
     Grid(crate::screens::grid::GridMessage),
