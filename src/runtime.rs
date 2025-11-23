@@ -1,5 +1,5 @@
-use crate::MessageA;
 use crate::globals::SENDER;
+use crate::message::Message;
 use crate::types::{RustResponse, SidecarRequest, SidecarResponse, Tree};
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
@@ -112,7 +112,7 @@ fn handle_sidecar_response(
                     let stdin_clone = stdin.clone();
                     thread::spawn(move || {
                         iced::futures::executor::block_on(async move {
-                            if let Err(e) = sender.send(MessageA::UpdateTree(tree)).await {
+                            if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
                                 eprintln!("Failed to send tree update: {:?}", e);
                             }
                             let response = RustResponse::Success { id, result: None };

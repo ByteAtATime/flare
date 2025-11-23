@@ -4,7 +4,7 @@ use iced::{Color, Element, Length, Theme};
 use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
 use crate::components::column as positionable_column;
 use crate::screens::grid::GridMessage;
-use crate::{Message, image_cache, position};
+use crate::{image_cache, position};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 

@@ -11,30 +11,16 @@ mod types;
 
 // use components::actions::render_action_panel;
 // use components::footer::render_footer;
-use globals::{LAYOUT_CACHE, POSITION_TRACKER, RUNTIME_SENDER, SCROLLABLE};
+use globals::SCROLLABLE;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
-use iced::keyboard::Modifiers;
-use iced::widget::image::Handle;
-use iced::widget::{column, container, operation, scrollable, stack, text_input};
+use iced::widget::{column, container, scrollable, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
-use crate::components::types::ActionPanelItem;
 use crate::message::Message;
 use crate::screens::{Screen, Shell};
-use crate::types::Tree;
-
-#[derive(Clone, Debug)]
-pub enum MessageA {
-    UpdateTree(Tree),
-    SearchTextChanged(String),
-    KeyPressed(iced::keyboard::Key, Modifiers),
-    ImageLoaded(String, Handle),
-
-    Grid(screens::grid::GridMessage),
-}
 
 struct State {
     screen: Screen,
@@ -56,7 +42,7 @@ impl Default for State {
     }
 }
 
-fn view(state: &State) -> Element<'_, MessageA> {
+fn view(state: &State) -> Element<'_, Message> {
     // let content = state
     //     .filtered_tree
     //     .as_ref()
@@ -76,7 +62,7 @@ fn view(state: &State) -> Element<'_, MessageA> {
 
     let search_bar = container(
         text_input("Search...", &state.search_text)
-            .on_input(MessageA::SearchTextChanged)
+            .on_input(Message::SearchTextChanged)
             .size(20)
             .padding(12)
             .style(|_theme: &Theme, status| {
@@ -103,7 +89,7 @@ fn view(state: &State) -> Element<'_, MessageA> {
     //     scrollable(content)
     //         .height(Length::Fill)
     //         .id(SCROLLABLE.clone())
-    //         .on_scroll(MessageA::Scrolled),
+    //         .on_scroll(Message::Scrolled),
     //     render_footer(state)
     // ];
 
@@ -115,7 +101,7 @@ fn view(state: &State) -> Element<'_, MessageA> {
     // .into()
 
     let content = match &state.screen {
-        Screen::Grid(grid_screen) => grid_screen.view().map(MessageA::Grid),
+        Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
     };
 
     column![
@@ -127,40 +113,41 @@ fn view(state: &State) -> Element<'_, MessageA> {
     .into()
 }
 
-fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
-    match messageA {
-        MessageA::UpdateTree(tree) => {
+fn update(state: &mut State, message: Message) -> Task<Message> {
+    match message {
+        Message::UpdateTree(tree) => {
             let first = tree.children.first();
             if let Some(components::types::Component::Grid(grid)) = first {
                 state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone()));
             }
         }
-        MessageA::SearchTextChanged(text) => {
+        Message::SearchTextChanged(text) => {
             state.search_text = text.clone();
             state.screen.on_search(&text);
         }
-        MessageA::KeyPressed(key, modifiers) => match &mut state.screen {
+        Message::KeyPressed(key, modifiers) => match &mut state.screen {
             Screen::Grid(grid_screen) => {
                 grid_screen.update(screens::grid::GridMessage::KeyPressed(key, modifiers))
             }
         },
-        MessageA::ImageLoaded(url, handle) => {
+        Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }
-        MessageA::Grid(grid_message) => match &mut state.screen {
+        Message::Grid(grid_message) => match &mut state.screen {
             Screen::Grid(grid_screen) => grid_screen.update(grid_message),
         },
+        _ => {}
     }
-    // match messageA {
-    //     MessageA::UpdateToast(new_messageA) => {
-    //         state.toast_messageA = new_messageA;
+    // match message {
+    //     Message::UpdateToast(new_message) => {
+    //         state.toast_message = new_message;
     //         Task::none()
     //     }
-    //     MessageA::UpdateTree(tree) => {
+    //     Message::UpdateTree(tree) => {
     //         state.update_tree(tree);
     //         Task::none()
     //     }
-    //     MessageA::SearchTextChanged(text) => {
+    //     Message::SearchTextChanged(text) => {
     //         if let Some(callback_id) = state.update_search(text.clone()) {
     //             if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
     //                 let val = Value::String(text);
@@ -173,7 +160,7 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
     //         }
     //         Task::none()
     //     }
-    //     MessageA::KeyPressed(key, modifiers) => {
+    //     Message::KeyPressed(key, modifiers) => {
     //         use iced::keyboard::key::Named;
 
     //         if let iced::keyboard::Key::Named(named_key) = key {
@@ -257,7 +244,10 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
     //             Task::none()
     //         }
     //     }
-    //     MessageA::InvokeAction(callback_id) => {
+    //         }
+    //         Task::none()
+    //     }
+    //     Message::InvokeAction(callback_id) => {
     //         if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
     //             std::thread::spawn(move || {
     //                 futures::executor::block_on(async move {
@@ -267,19 +257,19 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
     //         }
     //         Task::none()
     //     }
-    //     MessageA::ToggleActionPanel(visibility) => {
+    //     Message::ToggleActionPanel(visibility) => {
     //         state.action_panel_visible = visibility;
     //         Task::none()
     //     }
-    //     MessageA::Scrolled(viewport) => {
+    //     Message::Scrolled(viewport) => {
     //         state.viewport = Some(viewport);
     //         Task::none()
     //     }
-    //     MessageA::ImageLoaded(url, handle) => {
+    //     Message::ImageLoaded(url, handle) => {
     //         image_cache::set(url, handle);
     //         Task::none()
     //     }
-    //     MessageA::LinkClicked(url) => {
+    //     Message::LinkClicked(url) => {
     //         println!("link clicked: {}", url);
     //         Task::none()
     //     }
@@ -300,7 +290,7 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
 //     }
 // }
 
-// fn scroll_to_selection(state: &State) -> Task<MessageA> {
+// fn scroll_to_selection(state: &State) -> Task<Message> {
 //     if let Some(container_index) = state.get_selection_container_index() {
 //         if let Ok(cache) = LAYOUT_CACHE.lock() {
 //             if let Some(target_bounds) = cache.get(&container_index) {
@@ -340,8 +330,11 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
 //     Task::none()
 // }
 
-fn messageA_stream() -> impl futures::Stream<Item = MessageA> {
-    let receiver = globals::RECEIVER.lock().unwrap().take();
+fn message_stream() -> impl futures::Stream<Item = Message> {
+    let receiver = {
+        let mut guard = globals::RECEIVER.lock().unwrap();
+        guard.take()
+    };
 
     futures::stream::unfold(receiver, |state| async move {
         if let Some(mut receiver) = state {
@@ -355,13 +348,13 @@ fn messageA_stream() -> impl futures::Stream<Item = MessageA> {
     })
 }
 
-fn subscription(_state: &State) -> Subscription<MessageA> {
+fn subscription(_state: &State) -> Subscription<Message> {
     let keyboard_sub =
-        iced::keyboard::on_key_press(|key, modifiers| Some(MessageA::KeyPressed(key, modifiers)));
+        iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
 
-    let messageA_sub = Subscription::run(messageA_stream);
+    let message_sub = Subscription::run(message_stream);
 
-    Subscription::batch(vec![messageA_sub, keyboard_sub])
+    Subscription::batch(vec![message_sub, keyboard_sub])
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -413,7 +406,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         Ok(handle) => {
                             let sender = globals::SENDER.lock().unwrap().clone();
                             if let Some(mut s) = sender {
-                                let _ = s.send(MessageA::ImageLoaded(url, handle)).await;
+                                let _ = s.send(Message::ImageLoaded(url, handle)).await;
                             }
                         }
                         Err(_) => {
