@@ -3,6 +3,7 @@ use iced::{Color, Element, Length, Theme};
 
 use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
 use crate::components::column as positionable_column;
+use crate::screens::grid::GridMessage;
 use crate::{Message, image_cache, position};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
@@ -12,7 +13,7 @@ pub fn render_grid(
     selected_index: usize,
     column_id: position::Id,
     viewport: Option<&scrollable::Viewport>,
-) -> Element<'static, Message> {
+) -> Element<'static, GridMessage> {
     let layout_cache = crate::globals::LAYOUT_CACHE.lock().unwrap();
 
     let visible_range = viewport.map(|vp| {
@@ -94,7 +95,7 @@ pub fn render_grid_item(
     props: GridItemProps,
     is_selected: bool,
     should_load_visibility: bool,
-) -> Element<'static, Message> {
+) -> Element<'static, GridMessage> {
     let border_color = if is_selected {
         Color::from_rgb8(0x00, 0x7A, 0xFF)
     } else {
@@ -103,7 +104,7 @@ pub fn render_grid_item(
 
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
-    let content_widget: Element<'static, Message> = match &props.content {
+    let content_widget: Element<'static, GridMessage> = match &props.content {
         Some(GridItemContent::Image(path)) => {
             if path.starts_with("http://") || path.starts_with("https://") {
                 if let Some(handle) = image_cache::get(path) {

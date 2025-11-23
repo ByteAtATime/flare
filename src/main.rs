@@ -15,6 +15,7 @@ use globals::{LAYOUT_CACHE, POSITION_TRACKER, RUNTIME_SENDER, SCROLLABLE};
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
+use iced::widget::image::Handle;
 use iced::widget::{column, container, operation, scrollable, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use serde_json::Value;
@@ -23,10 +24,15 @@ use std::sync::{Arc, Mutex};
 use crate::components::types::ActionPanelItem;
 use crate::message::Message;
 use crate::screens::{Screen, Shell};
+use crate::types::Tree;
 
 #[derive(Clone, Debug)]
 pub enum MessageA {
+    UpdateTree(Tree),
     SearchTextChanged(String),
+    KeyPressed(iced::keyboard::Key, Modifiers),
+    ImageLoaded(String, Handle),
+
     Grid(screens::grid::GridMessage),
 }
 
@@ -123,9 +129,19 @@ fn view(state: &State) -> Element<'_, MessageA> {
 
 fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
     match messageA {
+        MessageA::UpdateTree(tree) => {
+            let first = tree.children.first();
+            if let Some(components::types::Component::Grid(grid)) = first {
+                state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone()));
+            }
+        }
         MessageA::SearchTextChanged(text) => {
             state.search_text = text.clone();
             state.screen.on_search(&text);
+        }
+        MessageA::KeyPressed(key, modifiers) => {}
+        MessageA::ImageLoaded(url, handle) => {
+            image_cache::set(url, handle);
         }
         MessageA::Grid(grid_message) => match &mut state.screen {
             Screen::Grid(grid_screen) => grid_screen.update(grid_message),
@@ -320,97 +336,97 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
 //     Task::none()
 // }
 
-// fn messageA_stream() -> impl futures::Stream<Item = MessageA> {
-//     let receiver = globals::RECEIVER.lock().unwrap().take();
+fn messageA_stream() -> impl futures::Stream<Item = MessageA> {
+    let receiver = globals::RECEIVER.lock().unwrap().take();
 
-//     futures::stream::unfold(receiver, |state| async move {
-//         if let Some(mut receiver) = state {
-//             if let Some(msg) = receiver.next().await {
-//                 return Some((msg, Some(receiver)));
-//             }
-//         } else {
-//             futures::future::pending::<()>().await;
-//         }
-//         None
-//     })
-// }
+    futures::stream::unfold(receiver, |state| async move {
+        if let Some(mut receiver) = state {
+            if let Some(msg) = receiver.next().await {
+                return Some((msg, Some(receiver)));
+            }
+        } else {
+            futures::future::pending::<()>().await;
+        }
+        None
+    })
+}
 
-// fn subscription(_state: &State) -> Subscription<MessageA> {
-//     let keyboard_sub =
-//         iced::keyboard::on_key_press(|key, modifiers| Some(MessageA::KeyPressed(key, modifiers)));
+fn subscription(_state: &State) -> Subscription<MessageA> {
+    let keyboard_sub =
+        iced::keyboard::on_key_press(|key, modifiers| Some(MessageA::KeyPressed(key, modifiers)));
 
-//     let messageA_sub = Subscription::run(messageA_stream);
+    let messageA_sub = Subscription::run(messageA_stream);
 
-//     Subscription::batch(vec![messageA_sub, keyboard_sub])
-// }
+    Subscription::batch(vec![messageA_sub, keyboard_sub])
+}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // let (sender, receiver) = mpsc::unbounded();
-    // *globals::SENDER.lock().unwrap() = Some(sender);
-    // *globals::RECEIVER.lock().unwrap() = Some(receiver);
+    let (sender, receiver) = mpsc::unbounded();
+    *globals::SENDER.lock().unwrap() = Some(sender);
+    *globals::RECEIVER.lock().unwrap() = Some(receiver);
 
     let (callback_sender, callback_receiver) = mpsc::unbounded::<(String, Value)>();
     *globals::RUNTIME_SENDER.lock().unwrap() = Some(callback_sender);
 
-    // let (image_sender, image_receiver) = std::sync::mpsc::channel::<String>();
-    // *globals::IMAGE_LOADER.lock().unwrap() = Some(image_sender);
+    let (image_sender, image_receiver) = std::sync::mpsc::channel::<String>();
+    *globals::IMAGE_LOADER.lock().unwrap() = Some(image_sender);
 
-    // let shared_receiver = Arc::new(Mutex::new(image_receiver));
+    let shared_receiver = Arc::new(Mutex::new(image_receiver));
 
-    // std::thread::spawn(move || {
-    //     let rt = tokio::runtime::Builder::new_multi_thread()
-    //         .worker_threads(4)
-    //         .enable_all()
-    //         .build()
-    //         .unwrap();
+    std::thread::spawn(move || {
+        let rt = tokio::runtime::Builder::new_multi_thread()
+            .worker_threads(4)
+            .enable_all()
+            .build()
+            .unwrap();
 
-    //     rt.block_on(async {
-    //         let client = reqwest::Client::builder()
-    //             .pool_max_idle_per_host(20)
-    //             .tcp_nodelay(true)
-    //             .build()
-    //             .unwrap();
+        rt.block_on(async {
+            let client = reqwest::Client::builder()
+                .pool_max_idle_per_host(20)
+                .tcp_nodelay(true)
+                .build()
+                .unwrap();
 
-    //         // apparently this prevents too many threads, i have no idea how it works it's above my paygrade
-    //         let semaphore = Arc::new(tokio::sync::Semaphore::new(10));
+            // apparently this prevents too many threads, i have no idea how it works it's above my paygrade
+            let semaphore = Arc::new(tokio::sync::Semaphore::new(10));
 
-    //         loop {
-    //             let url = {
-    //                 let lock = shared_receiver.lock().unwrap();
-    //                 match lock.recv() {
-    //                     Ok(u) => u,
-    //                     Err(_) => break,
-    //                 }
-    //             };
+            loop {
+                let url = {
+                    let lock = shared_receiver.lock().unwrap();
+                    match lock.recv() {
+                        Ok(u) => u,
+                        Err(_) => break,
+                    }
+                };
 
-    //             let client = client.clone();
-    //             let permit = semaphore.clone().acquire_owned().await.unwrap();
+                let client = client.clone();
+                let permit = semaphore.clone().acquire_owned().await.unwrap();
 
-    //             tokio::spawn(async move {
-    //                 let _permit = permit;
+                tokio::spawn(async move {
+                    let _permit = permit;
 
-    //                 match image_cache::fetch_and_cache(&client, url.clone()).await {
-    //                     Ok(handle) => {
-    //                         let sender = globals::SENDER.lock().unwrap().clone();
-    //                         if let Some(mut s) = sender {
-    //                             let _ = s.send(MessageA::ImageLoaded(url, handle)).await;
-    //                         }
-    //                     }
-    //                     Err(_) => {
-    //                         image_cache::clear_pending(&url);
-    //                     }
-    //                 }
-    //             });
-    //         }
-    //     });
-    // });
+                    match image_cache::fetch_and_cache(&client, url.clone()).await {
+                        Ok(handle) => {
+                            let sender = globals::SENDER.lock().unwrap().clone();
+                            if let Some(mut s) = sender {
+                                let _ = s.send(MessageA::ImageLoaded(url, handle)).await;
+                            }
+                        }
+                        Err(_) => {
+                            image_cache::clear_pending(&url);
+                        }
+                    }
+                });
+            }
+        });
+    });
 
     std::thread::spawn(move || {
         runtime::setup_and_run(callback_receiver);
     });
 
     iced::application(|| State::default(), update, view)
-        // .subscription(subscription)
+        .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .font(include_bytes!("./assets/icons.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)

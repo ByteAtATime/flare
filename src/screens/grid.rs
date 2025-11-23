@@ -1,7 +1,11 @@
 use iced::{Element, widget::text};
 
 use crate::{
-    components::types::{ActionPanel, GridProps},
+    components::{
+        grid::render_grid,
+        types::{ActionPanel, GridProps},
+    },
+    globals::POSITION_TRACKER,
     screens::Shell,
 };
 
@@ -22,7 +26,8 @@ impl GridScreen {
     }
 
     pub fn view(&self) -> Element<'static, GridMessage> {
-        text!("grid").into()
+        println!("props: {:?}", self.props);
+        render_grid(self.props.clone(), 0, POSITION_TRACKER.clone(), None).into()
     }
 }
 

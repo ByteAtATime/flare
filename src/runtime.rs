@@ -1,3 +1,4 @@
+use crate::MessageA;
 use crate::globals::SENDER;
 use crate::message::Message;
 use crate::types::{RustResponse, SidecarRequest, SidecarResponse, Tree};
@@ -77,42 +78,42 @@ fn handle_sidecar_response(
     let response: SidecarResponse = rmp_serde::from_slice(data)?;
 
     match response {
-        SidecarResponse::Initialized { success, error } => {
-            if !success {
-                eprintln!("Plugin initialization failed: {:?}", error);
-            }
-        }
-        SidecarResponse::CallbackResult { success, error } => {
-            if !success {
-                eprintln!("Callback failed: {:?}", error);
-            }
-        }
-        SidecarResponse::ShowToast {
-            id,
-            title,
-            message: _,
-            style: _,
-        } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::UpdateToast(title)).await {
-                            eprintln!("Failed to send toast message: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
+        // SidecarResponse::Initialized { success, error } => {
+        //     if !success {
+        //         eprintln!("Plugin initialization failed: {:?}", error);
+        //     }
+        // }
+        // SidecarResponse::CallbackResult { success, error } => {
+        //     if !success {
+        //         eprintln!("Callback failed: {:?}", error);
+        //     }
+        // }
+        // SidecarResponse::ShowToast {
+        //     id,
+        //     title,
+        //     message: _,
+        //     style: _,
+        // } => {
+        //     if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+        //         let stdin_clone = stdin.clone();
+        //         thread::spawn(move || {
+        //             iced::futures::executor::block_on(async move {
+        //                 if let Err(e) = sender.send(Message::UpdateToast(title)).await {
+        //                     eprintln!("Failed to send toast message: {:?}", e);
+        //                 }
+        //                 let response = RustResponse::Success { id, result: None };
+        //                 let _ = send_response(&response, &stdin_clone);
+        //             });
+        //         });
+        //     }
+        // }
         SidecarResponse::UpdateTree { id, tree } => {
             if let Ok(tree) = serde_json::from_value::<Tree>(tree) {
                 if let Some(mut sender) = SENDER.lock().unwrap().clone() {
                     let stdin_clone = stdin.clone();
                     thread::spawn(move || {
                         iced::futures::executor::block_on(async move {
-                            if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
+                            if let Err(e) = sender.send(MessageA::UpdateTree(tree)).await {
                                 eprintln!("Failed to send tree update: {:?}", e);
                             }
                             let response = RustResponse::Success { id, result: None };
@@ -121,67 +122,67 @@ fn handle_sidecar_response(
                     });
                 }
             }
-        }
-        SidecarResponse::CacheSet {
-            id,
-            namespace,
-            key,
-            data,
-        } => {
-            let result = match crate::cache::set(&namespace, &key, &data) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::CacheGet { id, namespace, key } => {
-            let result = match crate::cache::get(&namespace, &key) {
-                Some(data) => RustResponse::Success {
-                    id,
-                    result: Some(Value::String(data)),
-                },
-                None => RustResponse::Success {
-                    id,
-                    result: Some(Value::Null),
-                },
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::CacheHas { id, namespace, key } => {
-            let has = crate::cache::has(&namespace, &key);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(has)),
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::CacheRemove { id, namespace, key } => {
-            let removed = crate::cache::remove(&namespace, &key);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(removed)),
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::CacheClear { id, namespace } => {
-            let result = match crate::cache::clear(&namespace) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::CacheIsEmpty { id, namespace } => {
-            let is_empty = crate::cache::is_empty(&namespace);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(is_empty)),
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::Pop { id } => {
-            let result = RustResponse::Success { id, result: None };
-            send_response(&result, stdin)?;
-        }
+        } // SidecarResponse::CacheSet {
+        //     id,
+        //     namespace,
+        //     key,
+        //     data,
+        // } => {
+        //     let result = match crate::cache::set(&namespace, &key, &data) {
+        //         Ok(_) => RustResponse::Success { id, result: None },
+        //         Err(e) => RustResponse::Error { id, error: e },
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::CacheGet { id, namespace, key } => {
+        //     let result = match crate::cache::get(&namespace, &key) {
+        //         Some(data) => RustResponse::Success {
+        //             id,
+        //             result: Some(Value::String(data)),
+        //         },
+        //         None => RustResponse::Success {
+        //             id,
+        //             result: Some(Value::Null),
+        //         },
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::CacheHas { id, namespace, key } => {
+        //     let has = crate::cache::has(&namespace, &key);
+        //     let result = RustResponse::Success {
+        //         id,
+        //         result: Some(Value::Bool(has)),
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::CacheRemove { id, namespace, key } => {
+        //     let removed = crate::cache::remove(&namespace, &key);
+        //     let result = RustResponse::Success {
+        //         id,
+        //         result: Some(Value::Bool(removed)),
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::CacheClear { id, namespace } => {
+        //     let result = match crate::cache::clear(&namespace) {
+        //         Ok(_) => RustResponse::Success { id, result: None },
+        //         Err(e) => RustResponse::Error { id, error: e },
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::CacheIsEmpty { id, namespace } => {
+        //     let is_empty = crate::cache::is_empty(&namespace);
+        //     let result = RustResponse::Success {
+        //         id,
+        //         result: Some(Value::Bool(is_empty)),
+        //     };
+        //     send_response(&result, stdin)?;
+        // }
+        // SidecarResponse::Pop { id } => {
+        //     let result = RustResponse::Success { id, result: None };
+        //     send_response(&result, stdin)?;
+        // }
+        _ => {}
     }
 
     Ok(())

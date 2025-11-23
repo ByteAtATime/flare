@@ -1,3 +1,4 @@
+use crate::MessageA;
 use crate::message::Message;
 use crate::runtime::SidecarRuntime;
 use iced::Rectangle;
@@ -7,8 +8,8 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
-pub static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
-pub static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
+pub static SENDER: Mutex<Option<mpsc::UnboundedSender<MessageA>>> = Mutex::new(None);
+pub static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<MessageA>>> = Mutex::new(None);
 pub static RUNTIME_SENDER: Mutex<Option<mpsc::UnboundedSender<(String, Value)>>> = Mutex::new(None);
 pub static RUNTIME: Mutex<Option<SidecarRuntime>> = Mutex::new(None);
 
