@@ -30,10 +30,32 @@ use iced::advanced::layout::{self, Layout};
 use iced::advanced::widget::{Operation, Tree, Widget, tree};
 use iced::advanced::{Clipboard, Shell, overlay, renderer};
 use iced::alignment::{Alignment, Horizontal};
-use iced::{Element, Event, Length, Padding, Pixels, Rectangle, Size, Vector, event, mouse};
+use iced::{Element, Event, Length, Padding, Pixels, Rectangle, Size, Vector, mouse};
 
 use crate::{globals, position};
 
+/// A container that distributes its contents vertically.
+///
+/// # Example
+/// ```no_run
+/// # mod iced { pub mod widget { pub use iced_widget::*; } }
+/// # pub type State = ();
+/// # pub type Element<'a, Message> = iced_widget::core::Element<'a, Message, iced_widget::Theme, iced_widget::Renderer>;
+/// use iced::widget::{button, column};
+///
+/// #[derive(Debug, Clone)]
+/// enum Message {
+///     // ...
+/// }
+///
+/// fn view(state: &State) -> Element<'_, Message> {
+///     column![
+///         "I am on top!",
+///         button("I am in the center!"),
+///         "I am below.",
+///     ].into()
+/// }
+/// ```
 #[allow(missing_debug_implementations)]
 pub struct Column<'a, Message, Theme = iced::Theme, Renderer = iced::Renderer> {
     id: Option<position::Id>,
@@ -51,14 +73,17 @@ impl<'a, Message, Theme, Renderer> Column<'a, Message, Theme, Renderer>
 where
     Renderer: renderer::Renderer,
 {
+    /// Creates an empty [`Column`].
     pub fn new() -> Self {
         Self::from_vec(Vec::new())
     }
 
+    /// Creates a [`Column`] with the given capacity.
     pub fn with_capacity(capacity: usize) -> Self {
         Self::from_vec(Vec::with_capacity(capacity))
     }
 
+    /// Creates a [`Column`] with the given elements.
     pub fn with_children(
         children: impl IntoIterator<Item = Element<'a, Message, Theme, Renderer>>,
     ) -> Self {
@@ -67,6 +92,13 @@ where
         Self::with_capacity(iterator.size_hint().0).extend(iterator)
     }
 
+    /// Creates a [`Column`] from an already allocated [`Vec`].
+    ///
+    /// Keep in mind that the [`Column`] will not inspect the [`Vec`], which means
+    /// it won't automatically adapt to the sizing strategy of its contents.
+    ///
+    /// If any of the children have a [`Length::Fill`] strategy, you will need to
+    /// call [`Column::width`] or [`Column::height`] accordingly.
     pub fn from_vec(children: Vec<Element<'a, Message, Theme, Renderer>>) -> Self {
         Self {
             id: None,
@@ -86,52 +118,68 @@ where
         self
     }
 
+    /// Sets the vertical spacing _between_ elements.
+    ///
+    /// Custom margins per element do not exist in iced. You should use this
+    /// method instead! While less flexible, it helps you keep spacing between
+    /// elements consistent.
     pub fn spacing(mut self, amount: impl Into<Pixels>) -> Self {
         self.spacing = amount.into().0;
         self
     }
 
+    /// Sets the [`Padding`] of the [`Column`].
     pub fn padding<P: Into<Padding>>(mut self, padding: P) -> Self {
         self.padding = padding.into();
         self
     }
 
+    /// Sets the width of the [`Column`].
     pub fn width(mut self, width: impl Into<Length>) -> Self {
         self.width = width.into();
         self
     }
 
+    /// Sets the height of the [`Column`].
     pub fn height(mut self, height: impl Into<Length>) -> Self {
         self.height = height.into();
         self
     }
 
+    /// Sets the maximum width of the [`Column`].
     pub fn max_width(mut self, max_width: impl Into<Pixels>) -> Self {
         self.max_width = max_width.into().0;
         self
     }
 
+    /// Sets the horizontal alignment of the contents of the [`Column`] .
     pub fn align_x(mut self, align: impl Into<Horizontal>) -> Self {
         self.align = Alignment::from(align.into());
         self
     }
 
+    /// Sets whether the contents of the [`Column`] should be clipped on
+    /// overflow.
     pub fn clip(mut self, clip: bool) -> Self {
         self.clip = clip;
         self
     }
 
+    /// Adds an element to the [`Column`].
     pub fn push(mut self, child: impl Into<Element<'a, Message, Theme, Renderer>>) -> Self {
         let child = child.into();
         let child_size = child.as_widget().size_hint();
 
-        self.width = self.width.enclose(child_size.width);
-        self.height = self.height.enclose(child_size.height);
+        if !child_size.is_void() {
+            self.width = self.width.enclose(child_size.width);
+            self.height = self.height.enclose(child_size.height);
+            self.children.push(child);
+        }
 
-        self.children.push(child);
         self
     }
 
+    /// Adds an element to the [`Column`], if `Some`.
     pub fn push_maybe(
         self,
         child: Option<impl Into<Element<'a, Message, Theme, Renderer>>>,
@@ -143,6 +191,7 @@ where
         }
     }
 
+    /// Extends the [`Column`] with the given children.
     pub fn extend(
         self,
         children: impl IntoIterator<Item = Element<'a, Message, Theme, Renderer>>,
@@ -151,7 +200,7 @@ where
     }
 }
 
-impl<'a, Message, Renderer> Default for Column<'a, Message, Renderer>
+impl<Message, Renderer> Default for Column<'_, Message, Renderer>
 where
     Renderer: renderer::Renderer,
 {
@@ -199,8 +248,8 @@ impl position::Position for PositionMap {
     }
 }
 
-impl<'a, Message, Theme, Renderer> Widget<Message, Theme, Renderer>
-    for Column<'a, Message, Theme, Renderer>
+impl<Message, Theme, Renderer> Widget<Message, Theme, Renderer>
+    for Column<'_, Message, Theme, Renderer>
 where
     Renderer: renderer::Renderer,
 {
@@ -228,7 +277,7 @@ where
     }
 
     fn layout(
-        &self,
+        &mut self,
         tree: &mut Tree,
         renderer: &Renderer,
         limits: &layout::Limits,
@@ -247,7 +296,7 @@ where
             self.padding,
             self.spacing,
             self.align,
-            &self.children,
+            &mut self.children,
             &mut tree.children,
         );
 
@@ -276,61 +325,53 @@ where
     }
 
     fn operate(
-        &self,
+        &mut self,
         tree: &mut Tree,
         layout: Layout<'_>,
         renderer: &Renderer,
         operation: &mut dyn Operation,
     ) {
         let state = tree.state.downcast_mut::<State>();
+        let bounds = layout.bounds();
+        let id = self.id.as_ref().map(|id| &id.0);
 
-        operation.container(
-            self.id.as_ref().map(|id| &id.0),
-            layout.bounds(),
-            &mut |operation| {
-                self.children
-                    .iter()
-                    .zip(&mut tree.children)
-                    .zip(layout.children())
-                    .for_each(|((child, state), layout)| {
-                        child
-                            .as_widget()
-                            .operate(state, layout, renderer, operation);
-                    });
-            },
-        );
+        operation.container(id, bounds);
+        operation.traverse(&mut |operation| {
+            self.children
+                .iter_mut()
+                .zip(&mut tree.children)
+                .zip(layout.children())
+                .for_each(|((child, state), layout)| {
+                    child
+                        .as_widget_mut()
+                        .operate(state, layout, renderer, operation);
+                });
+        });
 
-        operation.custom(&mut state.positions, self.id.as_ref().map(|id| &id.0));
+        operation.custom(id, bounds, &mut state.positions);
     }
 
-    fn on_event(
+    fn update(
         &mut self,
         tree: &mut Tree,
-        event: Event,
+        event: &Event,
         layout: Layout<'_>,
         cursor: mouse::Cursor,
         renderer: &Renderer,
         clipboard: &mut dyn Clipboard,
         shell: &mut Shell<'_, Message>,
         viewport: &Rectangle,
-    ) -> event::Status {
-        self.children
+    ) {
+        for ((child, state), layout) in self
+            .children
             .iter_mut()
             .zip(&mut tree.children)
             .zip(layout.children())
-            .map(|((child, state), layout)| {
-                child.as_widget_mut().on_event(
-                    state,
-                    event.clone(),
-                    layout,
-                    cursor,
-                    renderer,
-                    clipboard,
-                    shell,
-                    viewport,
-                )
-            })
-            .fold(event::Status::Ignored, event::Status::merge)
+        {
+            child.as_widget_mut().update(
+                state, event, layout, cursor, renderer, clipboard, shell, viewport,
+            );
+        }
     }
 
     fn mouse_interaction(
@@ -365,25 +406,22 @@ where
         viewport: &Rectangle,
     ) {
         if let Some(clipped_viewport) = layout.bounds().intersection(viewport) {
+            let viewport = if self.clip {
+                &clipped_viewport
+            } else {
+                viewport
+            };
+
             for ((child, state), layout) in self
                 .children
                 .iter()
                 .zip(&tree.children)
                 .zip(layout.children())
+                .filter(|(_, layout)| layout.bounds().intersects(viewport))
             {
-                child.as_widget().draw(
-                    state,
-                    renderer,
-                    theme,
-                    style,
-                    layout,
-                    cursor,
-                    if self.clip {
-                        &clipped_viewport
-                    } else {
-                        viewport
-                    },
-                );
+                child
+                    .as_widget()
+                    .draw(state, renderer, theme, style, layout, cursor, viewport);
             }
         }
     }
@@ -391,11 +429,19 @@ where
     fn overlay<'b>(
         &'b mut self,
         tree: &'b mut Tree,
-        layout: Layout<'_>,
+        layout: Layout<'b>,
         renderer: &Renderer,
+        viewport: &Rectangle,
         translation: Vector,
     ) -> Option<overlay::Element<'b, Message, Theme, Renderer>> {
-        overlay::from_children(&mut self.children, tree, layout, renderer, translation)
+        overlay::from_children(
+            &mut self.children,
+            tree,
+            layout,
+            renderer,
+            viewport,
+            translation,
+        )
     }
 }
 
