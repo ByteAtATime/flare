@@ -43,10 +43,33 @@ pub struct GridItemProps {
     pub actions: Option<ActionPanel>,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+#[serde(tag = "type")]
+pub enum DetailMetadataItem {
+    #[serde(rename = "Detail.Metadata.Label")]
+    Label { props: MetadataLabelProps },
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataLabelProps {
+    pub title: String,
+    pub text: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct DetailMetadata {
+    #[serde(rename = "children")]
+    pub items: Vec<DetailMetadataItem>,
+}
+
 #[derive(Debug, Clone, Default, Deserialize)]
 pub struct DetailProps {
     #[serde(default)]
     pub markdown: String,
+    #[serde(default)]
+    pub metadata: Option<DetailMetadata>,
     #[serde(skip)]
     pub actions: Option<ActionPanel>,
 }
@@ -179,6 +202,8 @@ impl<'de> Deserialize<'de> for Component {
             markdown: String,
             #[serde(default)]
             actions: Option<Value>,
+            #[serde(default)]
+            metadata: Option<DetailMetadata>,
         }
 
         fn convert(raw: RawComponent) -> Component {
@@ -219,6 +244,7 @@ impl<'de> Deserialize<'de> for Component {
                     Component::Detail(DetailProps {
                         markdown: raw_props.markdown,
                         actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
+                        metadata: raw_props.metadata,
                     })
                 }
                 RawComponent::Unknown => Component::Unknown,
@@ -301,4 +327,22 @@ fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
         .collect();
 
     Some(ActionPanel { children })
+}
+
+fn deserialize_icon<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let v: Value = Value::deserialize(deserializer)?;
+    match v {
+        Value::String(s) => Ok(Some(s)),
+        Value::Object(map) => {
+            if let Some(Value::String(s)) = map.get("source") {
+                Ok(Some(s.clone()))
+            } else {
+                Ok(None)
+            }
+        }
+        _ => Ok(None),
+    }
 }
