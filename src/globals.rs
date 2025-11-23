@@ -1,5 +1,4 @@
 use crate::MessageA;
-use crate::message::Message;
 use crate::runtime::SidecarRuntime;
 use iced::Rectangle;
 use iced::futures::channel::mpsc;

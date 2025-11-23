@@ -1,6 +1,5 @@
 use crate::MessageA;
 use crate::globals::SENDER;
-use crate::message::Message;
 use crate::types::{RustResponse, SidecarRequest, SidecarResponse, Tree};
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
