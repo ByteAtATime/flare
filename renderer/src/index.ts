@@ -66,39 +66,39 @@ class Cache {
     this.subscribers = new Set();
   }
 
-  public get(key: string): string | undefined {
-    const result = protocol.cacheGet(this.namespace, key);
+  public async get(key: string): Promise<string | undefined> {
+    const result = await protocol.cacheGet(this.namespace, key);
     return result === null ? undefined : result;
   }
 
-  public has(key: string): boolean {
-    return protocol.cacheHas(this.namespace, key);
+  public async has(key: string): Promise<boolean> {
+    return await protocol.cacheHas(this.namespace, key);
   }
 
-  public set(key: string, data: string): void {
-    protocol.cacheSet(this.namespace, key, data);
+  public async set(key: string, data: string): Promise<void> {
+    await protocol.cacheSet(this.namespace, key, data);
     this.notifySubscribers(key, data);
   }
 
-  public remove(key: string): boolean {
-    const removed = protocol.cacheRemove(this.namespace, key);
+  public async remove(key: string): Promise<boolean> {
+    const removed = await protocol.cacheRemove(this.namespace, key);
     if (removed) {
       this.notifySubscribers(key, undefined);
     }
     return removed;
   }
 
-  public clear(
+  public async clear(
     options: { notifySubscribers: boolean } = { notifySubscribers: true }
-  ): void {
-    protocol.cacheClear(this.namespace);
+  ): Promise<void> {
+    await protocol.cacheClear(this.namespace);
     if (options.notifySubscribers) {
       this.notifySubscribers(undefined, undefined);
     }
   }
 
-  public get isEmpty(): boolean {
-    return protocol.cacheIsEmpty(this.namespace);
+  public async isEmpty(): Promise<boolean> {
+    return await protocol.cacheIsEmpty(this.namespace);
   }
 
   public subscribe(

@@ -78,4 +78,27 @@ pub enum SidecarResponse {
         key: String,
         data: String,
     },
+    CacheGet {
+        id: u32,
+        namespace: String,
+        key: String,
+    },
+    CacheHas {
+        id: u32,
+        namespace: String,
+        key: String,
+    },
+    CacheRemove {
+        id: u32,
+        namespace: String,
+        key: String,
+    },
+    CacheClear {
+        id: u32,
+        namespace: String,
+    },
+    CacheIsEmpty {
+        id: u32,
+        namespace: String,
+    },
 }

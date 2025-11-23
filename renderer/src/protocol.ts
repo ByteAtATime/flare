@@ -45,32 +45,45 @@ export const updateTree = async (tree: unknown): Promise<void> => {
   await sendRequest({ type: "updateTree", tree });
 };
 
-export const cacheSet = (
+export const cacheSet = async (
   namespace: string,
   key: string,
   data: string
-): void => {
-  sendRequest({ type: "cacheSet", namespace, key, data });
+): Promise<void> => {
+  await sendRequest({ type: "cacheSet", namespace, key, data });
 };
 
-export const cacheGet = (namespace: string, key: string): string | null => {
-  throw new Error("Sync cache operations not supported yet");
+export const cacheGet = async (
+  namespace: string,
+  key: string
+): Promise<string | null> => {
+  const result = await sendRequest({ type: "cacheGet", namespace, key });
+  return result as string | null;
 };
 
-export const cacheHas = (namespace: string, key: string): boolean => {
-  throw new Error("Sync cache operations not supported yet");
+export const cacheHas = async (
+  namespace: string,
+  key: string
+): Promise<boolean> => {
+  const result = await sendRequest({ type: "cacheHas", namespace, key });
+  return result as boolean;
 };
 
-export const cacheRemove = (namespace: string, key: string): boolean => {
-  throw new Error("Sync cache operations not supported yet");
+export const cacheRemove = async (
+  namespace: string,
+  key: string
+): Promise<boolean> => {
+  const result = await sendRequest({ type: "cacheRemove", namespace, key });
+  return result as boolean;
 };
 
-export const cacheClear = (namespace: string): void => {
-  throw new Error("Sync cache operations not supported yet");
+export const cacheClear = async (namespace: string): Promise<void> => {
+  await sendRequest({ type: "cacheClear", namespace });
 };
 
-export const cacheIsEmpty = (namespace: string): boolean => {
-  throw new Error("Sync cache operations not supported yet");
+export const cacheIsEmpty = async (namespace: string): Promise<boolean> => {
+  const result = await sendRequest({ type: "cacheIsEmpty", namespace });
+  return result as boolean;
 };
 
 export const handleRustResponse = (data: Buffer) => {

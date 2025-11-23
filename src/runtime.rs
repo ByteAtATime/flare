@@ -101,13 +101,7 @@ fn handle_sidecar_response(
                             eprintln!("Failed to send toast message: {:?}", e);
                         }
                         let response = RustResponse::Success { id, result: None };
-                        let mut stdin = stdin_clone.lock().unwrap();
-                        if let Ok(data) = rmp_serde::to_vec_named(&response) {
-                            let length = (data.len() as u32).to_be_bytes();
-                            let _ = stdin.write_all(&length);
-                            let _ = stdin.write_all(&data);
-                            let _ = stdin.flush();
-                        }
+                        let _ = send_response(&response, &stdin_clone);
                     });
                 });
             }
@@ -122,30 +116,84 @@ fn handle_sidecar_response(
                                 eprintln!("Failed to send tree update: {:?}", e);
                             }
                             let response = RustResponse::Success { id, result: None };
-                            let mut stdin = stdin_clone.lock().unwrap();
-                            if let Ok(data) = rmp_serde::to_vec_named(&response) {
-                                let length = (data.len() as u32).to_be_bytes();
-                                let _ = stdin.write_all(&length);
-                                let _ = stdin.write_all(&data);
-                                let _ = stdin.flush();
-                            }
+                            let _ = send_response(&response, &stdin_clone);
                         });
                     });
                 }
             }
         }
-        SidecarResponse::CacheSet { id, .. } => {
-            let response = RustResponse::Success { id, result: None };
-            let data = rmp_serde::to_vec_named(&response)?;
-            let length = (data.len() as u32).to_be_bytes();
-
-            let mut stdin = stdin.lock().unwrap();
-            stdin.write_all(&length)?;
-            stdin.write_all(&data)?;
-            stdin.flush()?;
+        SidecarResponse::CacheSet {
+            id,
+            namespace,
+            key,
+            data,
+        } => {
+            let result = match crate::cache::set(&namespace, &key, &data) {
+                Ok(_) => RustResponse::Success { id, result: None },
+                Err(e) => RustResponse::Error { id, error: e },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::CacheGet { id, namespace, key } => {
+            let result = match crate::cache::get(&namespace, &key) {
+                Some(data) => RustResponse::Success {
+                    id,
+                    result: Some(Value::String(data)),
+                },
+                None => RustResponse::Success {
+                    id,
+                    result: Some(Value::Null),
+                },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::CacheHas { id, namespace, key } => {
+            let has = crate::cache::has(&namespace, &key);
+            let result = RustResponse::Success {
+                id,
+                result: Some(Value::Bool(has)),
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::CacheRemove { id, namespace, key } => {
+            let removed = crate::cache::remove(&namespace, &key);
+            let result = RustResponse::Success {
+                id,
+                result: Some(Value::Bool(removed)),
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::CacheClear { id, namespace } => {
+            let result = match crate::cache::clear(&namespace) {
+                Ok(_) => RustResponse::Success { id, result: None },
+                Err(e) => RustResponse::Error { id, error: e },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::CacheIsEmpty { id, namespace } => {
+            let is_empty = crate::cache::is_empty(&namespace);
+            let result = RustResponse::Success {
+                id,
+                result: Some(Value::Bool(is_empty)),
+            };
+            send_response(&result, stdin)?;
         }
     }
 
+    Ok(())
+}
+
+fn send_response(
+    response: &RustResponse,
+    stdin: &Arc<Mutex<std::process::ChildStdin>>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let data = rmp_serde::to_vec_named(response)?;
+    let length = (data.len() as u32).to_be_bytes();
+
+    let mut stdin = stdin.lock().unwrap();
+    stdin.write_all(&length)?;
+    stdin.write_all(&data)?;
+    stdin.flush()?;
     Ok(())
 }
 
