@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::components::{self, Component};
 use crate::types::Tree;
 use iced::widget::markdown;
