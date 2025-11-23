@@ -82,7 +82,7 @@ impl GridScreen {
 
     pub fn view(&self) -> Element<'static, GridMessage> {
         render_grid(
-            self.filtered_props.clone(),
+            &self.filtered_props,
             self.selected_index,
             POSITION_TRACKER.clone(),
             self.viewport.as_ref(),

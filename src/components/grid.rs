@@ -9,7 +9,7 @@ use crate::{image_cache, position};
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
 pub fn render_grid(
-    props: GridProps,
+    props: &GridProps,
     selected_index: usize,
     column_id: position::Id,
     viewport: Option<&scrollable::Viewport>,
@@ -27,7 +27,7 @@ pub fn render_grid(
 
     let grid_view = props
         .sections
-        .into_iter()
+        .iter()
         .fold(
             positionable_column::Column::new().spacing(10).padding(10),
             |col, section| {
