@@ -1,4 +1,4 @@
-use iced::widget::{markdown, text};
+use iced::widget::markdown;
 use iced::{Element, Theme};
 
 use crate::{components::types::DetailProps, message::Message};

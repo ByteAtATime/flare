@@ -1,6 +1,4 @@
-use std::sync::Arc;
-
-use iced::{Color, widget::markdown};
+use iced::Color;
 use serde::Deserialize;
 use serde_json::Value;
 
