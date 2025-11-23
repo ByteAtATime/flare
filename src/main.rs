@@ -11,11 +11,11 @@ mod types;
 
 use components::actions::render_action_panel;
 use components::footer::render_footer;
-use globals::{LAYOUT_CACHE, POSITION_TRACKER, RECEIVER, RUNTIME_SENDER, SCROLLABLE};
+use globals::{LAYOUT_CACHE, POSITION_TRACKER, RUNTIME_SENDER, SCROLLABLE};
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
 use iced::keyboard::Modifiers;
-use iced::widget::{column, container, scrollable, stack, text_input};
+use iced::widget::{column, container, operation, scrollable, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use message::Message;
 use serde_json::Value;
@@ -250,10 +250,10 @@ fn scroll_to_selection(state: &State) -> Task<Message> {
                     };
 
                     if let Some(offset) = new_offset {
-                        return scrollable::scroll_to(SCROLLABLE.clone(), offset);
+                        return operation::scroll_to(SCROLLABLE.clone(), offset);
                     }
                 } else {
-                    return scrollable::scroll_to(
+                    return operation::scroll_to(
                         SCROLLABLE.clone(),
                         scrollable::AbsoluteOffset {
                             x: 0.0,
@@ -267,26 +267,28 @@ fn scroll_to_selection(state: &State) -> Task<Message> {
     Task::none()
 }
 
+fn message_stream() -> impl futures::Stream<Item = Message> {
+    let receiver = globals::RECEIVER.lock().unwrap().take();
+
+    futures::stream::unfold(receiver, |state| async move {
+        if let Some(mut receiver) = state {
+            if let Some(msg) = receiver.next().await {
+                return Some((msg, Some(receiver)));
+            }
+        } else {
+            futures::future::pending::<()>().await;
+        }
+        None
+    })
+}
+
 fn subscription(_state: &State) -> Subscription<Message> {
-    struct ToastListener;
-
-    let message_stream = if let Some(receiver) = RECEIVER.lock().unwrap().take() {
-        let stream = futures::stream::unfold(receiver, |mut receiver| async {
-            receiver.next().await.map(|message| (message, receiver))
-        });
-
-        Subscription::run_with_id(std::any::TypeId::of::<ToastListener>(), stream)
-    } else {
-        Subscription::run_with_id(
-            std::any::TypeId::of::<ToastListener>(),
-            futures::stream::pending(),
-        )
-    };
-
     let keyboard_sub =
         iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
 
-    Subscription::batch(vec![message_stream, keyboard_sub])
+    let message_sub = Subscription::run(message_stream);
+
+    Subscription::batch(vec![message_sub, keyboard_sub])
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -354,7 +356,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         runtime::setup_and_run(callback_receiver);
     });
 
-    iced::application("flare", update, view)
+    iced::application(|| State::default(), update, view)
         .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .font(include_bytes!("./assets/icons.ttf").as_slice())
