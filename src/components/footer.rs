@@ -3,11 +3,11 @@ use iced::{
     widget::{button, container, row, text},
 };
 
-use crate::{Message, components::types::ActionPanelItem, state::State};
+use crate::{Message, components::types::ActionPanelItem};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
-pub fn render_footer(state: &State) -> Element<'static, Message> {
+pub fn render_footer(state: &crate::State) -> Element<'static, Message> {
     let flattened_actions = state.selected_actions.iter().flat_map(|item| match item {
         ActionPanelItem::Action(action) => std::slice::from_ref(action).iter(),
         ActionPanelItem::Section(section) => section.children.iter(),

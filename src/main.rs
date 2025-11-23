@@ -9,8 +9,6 @@ mod runtime;
 mod screens;
 mod types;
 
-// use components::actions::render_action_panel;
-// use components::footer::render_footer;
 use globals::SCROLLABLE;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
@@ -28,6 +26,7 @@ struct State {
     search_text: String,
     action_panel_visible: bool,
     selected_actions: Vec<components::types::ActionPanelItem>,
+    toast_message: String,
 }
 
 impl Default for State {
@@ -44,6 +43,7 @@ impl Default for State {
             search_text: String::new(),
             action_panel_visible: false,
             selected_actions: Vec::new(),
+            toast_message: String::new(),
         }
     }
 }
@@ -83,6 +83,7 @@ fn view(state: &State) -> Element<'_, Message> {
             .height(Length::Fill)
             .id(SCROLLABLE.clone())
             .on_scroll(|viewport| Message::Grid(screens::grid::GridMessage::Scrolled(viewport))),
+        components::footer::render_footer(state),
     ];
 
     container(if state.action_panel_visible {
