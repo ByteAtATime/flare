@@ -1,5 +1,5 @@
-use iced::widget::{column, container, markdown, row, scrollable, text};
-use iced::{Element, Length, Theme};
+use iced::widget::{button, column, container, markdown, row, scrollable, text};
+use iced::{Border, Color, Element, Length, Theme};
 
 use crate::components::types::{DetailMetadata, DetailMetadataItem, DetailProps};
 use crate::screens::detail::DetailMessage;
@@ -12,6 +12,18 @@ fn render_metadata<'a>(metadata: &DetailMetadata) -> iced::Element<'a, DetailMes
             DetailMetadataItem::Label { props } => col.push(row![
                 text(format!("{}: ", props.title)),
                 text(props.text.clone().unwrap_or_default())
+            ]),
+            DetailMetadataItem::Link { props } => col.push(column![
+                text(format!("{}: ", props.title)),
+                button(text(props.text.clone()))
+                    .on_press(DetailMessage::LinkClicked(props.target.clone()))
+                    .style(|_theme, _status| button::Style {
+                        background: None,
+                        border: Border::default(),
+                        text_color: Color::from_rgb8(255, 255, 255).into(),
+                        ..Default::default()
+                    })
+                    .padding(0)
             ]),
         });
 

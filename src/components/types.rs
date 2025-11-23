@@ -48,6 +48,9 @@ pub struct GridItemProps {
 pub enum DetailMetadataItem {
     #[serde(rename = "Detail.Metadata.Label")]
     Label { props: MetadataLabelProps },
+
+    #[serde(rename = "Detail.Metadata.Link")]
+    Link { props: MetadataLinkProps },
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -56,6 +59,13 @@ pub struct MetadataLabelProps {
     pub text: Option<String>,
     #[serde(default, deserialize_with = "deserialize_icon")]
     pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataLinkProps {
+    pub title: String,
+    pub text: String,
+    pub target: String,
 }
 
 #[derive(Debug, Clone, Deserialize)]

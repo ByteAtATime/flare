@@ -36,9 +36,11 @@ const Action = createComponent("Action");
 const Detail = createComponent("Detail");
 const DetailMetadata = createComponent("Detail.Metadata");
 const DetailMetadataLabel = createComponent("Detail.Metadata.Label");
+const DetailMetadataLink = createComponent("Detail.Metadata.Link");
 
 Object.assign(DetailMetadata, {
   Label: DetailMetadataLabel,
+  Link: DetailMetadataLink,
 });
 
 Object.assign(Detail, {
