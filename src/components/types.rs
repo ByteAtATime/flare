@@ -49,9 +49,8 @@ pub struct GridItemProps {
 pub struct DetailProps {
     #[serde(default)]
     pub markdown: String,
-    // TODO: avoid cloning, and ideally not store parsed state as props?
     #[serde(skip)]
-    pub parsed: Option<Vec<markdown::Item>>,
+    pub actions: Option<ActionPanel>,
 }
 
 #[derive(Debug, Clone)]
@@ -158,7 +157,7 @@ impl<'de> Deserialize<'de> for Component {
             },
             Detail {
                 #[serde(default)]
-                props: Option<DetailProps>,
+                props: Option<RawDetailProps>,
             },
             #[serde(other)]
             Unknown,
@@ -172,6 +171,14 @@ impl<'de> Deserialize<'de> for Component {
             subtitle: Option<String>,
             #[serde(default, deserialize_with = "deserialize_content")]
             content: Option<GridItemContent>,
+            #[serde(default)]
+            actions: Option<Value>,
+        }
+
+        #[derive(Default, Deserialize)]
+        struct RawDetailProps {
+            #[serde(default)]
+            markdown: String,
             #[serde(default)]
             actions: Option<Value>,
         }
@@ -209,7 +216,13 @@ impl<'de> Deserialize<'de> for Component {
                         actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
                     })
                 }
-                RawComponent::Detail { props } => Component::Detail(props.unwrap_or_default()),
+                RawComponent::Detail { props } => {
+                    let raw_props = props.unwrap_or_default();
+                    Component::Detail(DetailProps {
+                        markdown: raw_props.markdown,
+                        actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
+                    })
+                }
                 RawComponent::Unknown => Component::Unknown,
             }
         }

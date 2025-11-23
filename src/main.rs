@@ -49,47 +49,59 @@ impl Default for State {
 }
 
 fn view(state: &State) -> Element<'_, Message> {
-    let search_bar = container(
-        text_input("Search...", &state.search_text)
-            .on_input(Message::SearchTextChanged)
-            .size(20)
-            .padding(12)
-            .style(|_theme: &Theme, status| {
-                let base = text_input::default(_theme, status);
-                text_input::Style {
-                    background: iced::Background::Color(iced::Color::TRANSPARENT),
-                    border: iced::Border::default(),
-                    ..base
-                }
+    let search_bar = if state.screen.can_search() {
+        Some(
+            container(
+                text_input("Search...", &state.search_text)
+                    .on_input(Message::SearchTextChanged)
+                    .size(20)
+                    .padding(12)
+                    .style(|_theme: &Theme, status| {
+                        let base = text_input::default(_theme, status);
+                        text_input::Style {
+                            background: iced::Background::Color(iced::Color::TRANSPARENT),
+                            border: iced::Border::default(),
+                            ..base
+                        }
+                    }),
+            )
+            .padding(10)
+            .style(|_theme: &Theme| container::Style {
+                border: iced::Border {
+                    color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
+                    width: 1.0,
+                    ..Default::default()
+                },
+                ..Default::default()
             }),
-    )
-    .padding(10)
-    .style(|_theme: &Theme| container::Style {
-        border: iced::Border {
-            color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
-            width: 1.0,
-            ..Default::default()
-        },
-        ..Default::default()
-    });
+        )
+    } else {
+        None
+    };
 
     let content = match &state.screen {
         Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
+        Screen::Detail(detail_screen) => detail_screen.view(),
     };
 
-    let base = column![
-        search_bar,
-        scrollable(content)
-            .height(Length::Fill)
-            .id(SCROLLABLE.clone())
-            .on_scroll(|viewport| Message::Grid(screens::grid::GridMessage::Scrolled(viewport))),
-        components::footer::render_footer(state),
-    ];
+    let mut base_col = column![];
+    if let Some(sb) = search_bar {
+        base_col = base_col.push(sb);
+    }
+
+    base_col = base_col
+        .push(
+            scrollable(content)
+                .height(Length::Fill)
+                .id(SCROLLABLE.clone())
+                .on_scroll(Message::Scrolled),
+        )
+        .push(components::footer::render_footer(state));
 
     container(if state.action_panel_visible {
-        stack![base, render_action_panel(state)].into()
+        stack![base_col, render_action_panel(state)].into()
     } else {
-        Element::from(base)
+        Element::from(base_col)
     })
     .into()
 }
@@ -98,12 +110,21 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
         Message::UpdateTree(tree) => {
             let first = tree.children.first();
-            if let Some(components::types::Component::Grid(grid)) = first {
-                let vp = match &state.screen {
-                    Screen::Grid(gs) => gs.get_viewport(),
-                };
-                state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp));
-                update_selected_actions(state);
+            match first {
+                Some(components::types::Component::Grid(grid)) => {
+                    let vp = match &state.screen {
+                        Screen::Grid(gs) => gs.get_viewport(),
+                        _ => None,
+                    };
+                    state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp));
+                    update_selected_actions(state);
+                }
+                Some(components::types::Component::Detail(detail)) => {
+                    state.screen =
+                        Screen::Detail(screens::detail::DetailScreen::new(detail.clone()));
+                    update_selected_actions(state);
+                }
+                _ => {}
             }
         }
         Message::SearchTextChanged(text) => {
@@ -182,6 +203,11 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     update_selected_actions(state);
                     return result;
                 }
+                Screen::Detail(detail_screen) => {
+                    let result = detail_screen.update(Message::KeyPressed(key, modifiers));
+                    update_selected_actions(state);
+                    return result;
+                }
             }
         }
         Message::ImageLoaded(url, handle) => {
@@ -193,6 +219,7 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                 update_selected_actions(state);
                 return result;
             }
+            _ => {}
         },
         Message::InvokeAction(callback_id) => {
             if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
@@ -209,7 +236,11 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
         }
-        Message::Scrolled(_viewport) => {}
+        Message::Scrolled(viewport) => {
+            if let Screen::Grid(grid_screen) = &mut state.screen {
+                let _ = grid_screen.update(screens::grid::GridMessage::Scrolled(viewport));
+            }
+        }
         Message::LinkClicked(_url) => {}
     }
     Task::none()
@@ -222,59 +253,6 @@ fn update_selected_actions(state: &mut State) {
         state.selected_actions.clear();
     }
 }
-
-// fn fire_action(action: &components::types::Action) {
-//     if let Some(callback) = &action.on_action {
-//         if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
-//             let callback_id = callback.id.clone();
-//             std::thread::spawn(move || {
-//                 futures::executor::block_on(async move {
-//                     sender.send((callback_id, Value::Null)).await.ok();
-//                 });
-//             });
-//         }
-//     }
-// }
-
-// fn scroll_to_selection(state: &State) -> Task<Message> {
-//     if let Some(container_index) = state.get_selection_container_index() {
-//         if let Ok(cache) = LAYOUT_CACHE.lock() {
-//             if let Some(target_bounds) = cache.get(&container_index) {
-//                 if let Some(viewport) = &state.viewport {
-//                     let view_top = viewport.absolute_offset().y;
-//                     let view_bottom = view_top + viewport.bounds().height;
-//                     let target_top = target_bounds.y;
-//                     let target_bottom = target_top + target_bounds.height;
-
-//                     let new_offset = if target_top < view_top {
-//                         Some(scrollable::AbsoluteOffset {
-//                             x: 0.0,
-//                             y: target_top,
-//                         })
-//                     } else if target_bottom > view_bottom {
-//                         let y = target_bottom - viewport.bounds().height;
-//                         Some(scrollable::AbsoluteOffset { x: 0.0, y })
-//                     } else {
-//                         None
-//                     };
-
-//                     if let Some(offset) = new_offset {
-//                         return operation::scroll_to(SCROLLABLE.clone(), offset);
-//                     }
-//                 } else {
-//                     return operation::scroll_to(
-//                         SCROLLABLE.clone(),
-//                         scrollable::AbsoluteOffset {
-//                             x: 0.0,
-//                             y: target_bounds.y,
-//                         },
-//                     );
-//                 }
-//             }
-//         }
-//     }
-//     Task::none()
-// }
 
 fn message_stream() -> impl futures::Stream<Item = Message> {
     let receiver = {

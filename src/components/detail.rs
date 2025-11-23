@@ -1,16 +1,13 @@
-use iced::{
-    Element, Theme,
-    widget::{markdown, text},
-};
+use iced::widget::{markdown, text};
+use iced::{Element, Theme};
 
 use crate::{components::types::DetailProps, message::Message};
 
-pub fn render_detail<'a>(props: &'a DetailProps) -> Element<'a, Message> {
-    if let Some(parsed) = &props.parsed {
-        markdown::view(parsed, Theme::TokyoNight)
-            .map(Message::LinkClicked)
-            .into()
-    } else {
-        text(&props.markdown).into()
-    }
+pub fn render_detail<'a>(
+    props: &'a DetailProps,
+    parsed: &'a Vec<markdown::Item>,
+) -> Element<'a, Message> {
+    markdown::view(parsed, Theme::TokyoNight)
+        .map(Message::LinkClicked)
+        .into()
 }
