@@ -31,7 +31,7 @@ fn render_action(action: &Action) -> iced::Element<'_, crate::Message> {
     button.into()
 }
 
-pub fn render_action_panel(state: &crate::state::State) -> iced::Element<'_, crate::Message> {
+pub fn render_action_panel(state: &crate::State) -> iced::Element<'_, crate::Message> {
     let actions = state
         .selected_actions
         .iter()

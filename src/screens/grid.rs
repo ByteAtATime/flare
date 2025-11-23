@@ -335,6 +335,20 @@ impl Shell for GridScreen {
     }
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
+        let mut global_index = 0;
+        for section in &mut self.filtered_props.sections {
+            let section_len = section.items.len();
+            if self.selected_index >= global_index
+                && self.selected_index < global_index + section_len
+            {
+                let item_index = self.selected_index - global_index;
+                return section
+                    .items
+                    .get_mut(item_index)
+                    .and_then(|item| item.actions.as_mut());
+            }
+            global_index += section_len;
+        }
         None
     }
 }

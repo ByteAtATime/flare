@@ -14,17 +14,20 @@ mod types;
 use globals::SCROLLABLE;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
-use iced::widget::{column, container, scrollable, text_input};
+use iced::widget::{column, container, scrollable, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
+use crate::components::actions::render_action_panel;
 use crate::message::Message;
 use crate::screens::{Screen, Shell};
 
 struct State {
     screen: Screen,
     search_text: String,
+    action_panel_visible: bool,
+    selected_actions: Vec<components::types::ActionPanelItem>,
 }
 
 impl Default for State {
@@ -39,28 +42,13 @@ impl Default for State {
                 None,
             )),
             search_text: String::new(),
+            action_panel_visible: false,
+            selected_actions: Vec::new(),
         }
     }
 }
 
 fn view(state: &State) -> Element<'_, Message> {
-    // let content = state
-    //     .filtered_tree
-    //     .as_ref()
-    //     .map(|tree| {
-    //         tree.children
-    //             .iter()
-    //             .fold(column![].height(Length::Shrink), |col, child| {
-    //                 col.push(components::render_component(
-    //                     child,
-    //                     state.selected_index,
-    //                     POSITION_TRACKER.clone(),
-    //                     state.viewport.as_ref(),
-    //                 ))
-    //             })
-    //     })
-    //     .unwrap_or_else(|| column![].height(Length::Shrink));
-
     let search_bar = container(
         text_input("Search...", &state.search_text)
             .on_input(Message::SearchTextChanged)
@@ -85,33 +73,23 @@ fn view(state: &State) -> Element<'_, Message> {
         ..Default::default()
     });
 
-    // let base = column![
-    //     search_bar,
-    //     scrollable(content)
-    //         .height(Length::Fill)
-    //         .id(SCROLLABLE.clone())
-    //         .on_scroll(Message::Scrolled),
-    //     render_footer(state)
-    // ];
-
-    // container(if state.action_panel_visible {
-    //     stack![base, render_action_panel(state)].into()
-    // } else {
-    //     Element::from(base)
-    // })
-    // .into()
-
     let content = match &state.screen {
         Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
     };
 
-    column![
+    let base = column![
         search_bar,
         scrollable(content)
             .height(Length::Fill)
             .id(SCROLLABLE.clone())
             .on_scroll(|viewport| Message::Grid(screens::grid::GridMessage::Scrolled(viewport))),
-    ]
+    ];
+
+    container(if state.action_panel_visible {
+        stack![base, render_action_panel(state)].into()
+    } else {
+        Element::from(base)
+    })
     .into()
 }
 
@@ -124,166 +102,124 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     Screen::Grid(gs) => gs.get_viewport(),
                 };
                 state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp));
+                update_selected_actions(state);
             }
         }
         Message::SearchTextChanged(text) => {
             state.search_text = text.clone();
             state.screen.on_search(&text);
+            update_selected_actions(state);
         }
-        Message::KeyPressed(key, modifiers) => match &mut state.screen {
-            Screen::Grid(grid_screen) => {
-                return grid_screen
-                    .update(screens::grid::GridMessage::KeyPressed(key, modifiers))
-                    .map(Message::Grid);
+        Message::KeyPressed(key, modifiers) => {
+            use iced::keyboard::{Key, Modifiers, key::Named};
+            if let Key::Named(named_key) = key {
+                if modifiers.is_empty() && named_key == Named::Escape {
+                    if state.action_panel_visible {
+                        state.action_panel_visible = false;
+                        return Task::none();
+                    }
+                }
+
+                if named_key == Named::Enter {
+                    let index = if modifiers.is_empty() {
+                        Some(0)
+                    } else if modifiers == iced::keyboard::Modifiers::COMMAND {
+                        Some(1)
+                    } else {
+                        None
+                    };
+
+                    if let Some(i) = index {
+                        if let Some(action) = state
+                            .selected_actions
+                            .iter()
+                            .flat_map(|item| match item {
+                                components::types::ActionPanelItem::Action(action) => {
+                                    std::slice::from_ref(action).iter()
+                                }
+                                components::types::ActionPanelItem::Section(section) => {
+                                    section.children.iter()
+                                }
+                            })
+                            .nth(i)
+                        {
+                            if let Some(callback) = &action.on_action {
+                                if let Some(mut sender) =
+                                    globals::RUNTIME_SENDER.lock().unwrap().clone()
+                                {
+                                    let callback_id = callback.id.clone();
+                                    std::thread::spawn(move || {
+                                        futures::executor::block_on(async move {
+                                            sender
+                                                .send((callback_id, serde_json::Value::Null))
+                                                .await
+                                                .ok();
+                                        });
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    return Task::none();
+                }
             }
-        },
+
+            if modifiers == Modifiers::COMMAND {
+                if let Key::Character(c) = key.clone() {
+                    if c == "k" {
+                        state.action_panel_visible = !state.action_panel_visible;
+                        return Task::none();
+                    }
+                }
+            }
+
+            match &mut state.screen {
+                Screen::Grid(grid_screen) => {
+                    let result = grid_screen
+                        .update(screens::grid::GridMessage::KeyPressed(key, modifiers))
+                        .map(Message::Grid);
+                    update_selected_actions(state);
+                    return result;
+                }
+            }
+        }
         Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }
         Message::Grid(grid_message) => match &mut state.screen {
             Screen::Grid(grid_screen) => {
-                return grid_screen.update(grid_message).map(Message::Grid);
+                let result = grid_screen.update(grid_message).map(Message::Grid);
+                update_selected_actions(state);
+                return result;
             }
         },
-        _ => {}
+        Message::InvokeAction(callback_id) => {
+            if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
+                std::thread::spawn(move || {
+                    futures::executor::block_on(async move {
+                        sender
+                            .send((callback_id, serde_json::Value::Null))
+                            .await
+                            .ok();
+                    });
+                });
+            }
+        }
+        Message::ToggleActionPanel(visibility) => {
+            state.action_panel_visible = visibility;
+        }
+        Message::Scrolled(_viewport) => {}
+        Message::LinkClicked(_url) => {}
     }
-    // match message {
-    //     Message::UpdateToast(new_message) => {
-    //         state.toast_message = new_message;
-    //         Task::none()
-    //     }
-    //     Message::UpdateTree(tree) => {
-    //         state.update_tree(tree);
-    //         Task::none()
-    //     }
-    //     Message::SearchTextChanged(text) => {
-    //         if let Some(callback_id) = state.update_search(text.clone()) {
-    //             if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
-    //                 let val = Value::String(text);
-    //                 std::thread::spawn(move || {
-    //                     futures::executor::block_on(async move {
-    //                         sender.send((callback_id, val)).await.ok();
-    //                     });
-    //                 });
-    //             }
-    //         }
-    //         Task::none()
-    //     }
-    //     Message::KeyPressed(key, modifiers) => {
-    //         use iced::keyboard::key::Named;
-
-    //         if let iced::keyboard::Key::Named(named_key) = key {
-    //             match named_key {
-    //                 Named::ArrowRight => {
-    //                     if state.select_next() {
-    //                         scroll_to_selection(state)
-    //                     } else {
-    //                         Task::none()
-    //                     }
-    //                 }
-    //                 Named::ArrowLeft => {
-    //                     if state.select_prev() {
-    //                         scroll_to_selection(state)
-    //                     } else {
-    //                         Task::none()
-    //                     }
-    //                 }
-    //                 Named::ArrowUp => {
-    //                     if state.select_up() {
-    //                         scroll_to_selection(state)
-    //                     } else {
-    //                         Task::none()
-    //                     }
-    //                 }
-    //                 Named::ArrowDown => {
-    //                     if state.select_down() {
-    //                         scroll_to_selection(state)
-    //                     } else {
-    //                         Task::none()
-    //                     }
-    //                 }
-    //                 Named::Enter => {
-    //                     let index = if modifiers.is_empty() {
-    //                         Some(0)
-    //                     } else if modifiers == Modifiers::COMMAND {
-    //                         Some(1)
-    //                     } else {
-    //                         None
-    //                     };
-
-    //                     if let Some(i) = index {
-    //                         let action_to_fire = state
-    //                             .selected_actions
-    //                             .iter()
-    //                             .flat_map(|item| match item {
-    //                                 ActionPanelItem::Action(action) => {
-    //                                     std::slice::from_ref(action).iter()
-    //                                 }
-    //                                 ActionPanelItem::Section(section) => section.children.iter(),
-    //                             })
-    //                             .nth(i);
-
-    //                         if let Some(action) = action_to_fire {
-    //                             fire_action(&action);
-    //                         }
-    //                     }
-    //                     Task::none()
-    //                 }
-    //                 Named::Escape => {
-    //                     if state.action_panel_visible {
-    //                         state.action_panel_visible = false;
-    //                         return Task::none();
-    //                     }
-
-    //                     if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
-    //                         let _ = runtime.send_request(&types::SidecarRequest::Pop);
-    //                     }
-    //                     Task::none()
-    //                 }
-    //                 _ => Task::none(),
-    //             }
-    //         } else {
-    //             if modifiers == Modifiers::COMMAND {
-    //                 if let iced::keyboard::Key::Character(c) = key {
-    //                     if c == "k" {
-    //                         state.action_panel_visible = !state.action_panel_visible;
-    //                     }
-    //                 }
-    //             }
-    //             Task::none()
-    //         }
-    //     }
-    //         }
-    //         Task::none()
-    //     }
-    //     Message::InvokeAction(callback_id) => {
-    //         if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
-    //             std::thread::spawn(move || {
-    //                 futures::executor::block_on(async move {
-    //                     sender.send((callback_id, Value::Null)).await.ok();
-    //                 });
-    //             });
-    //         }
-    //         Task::none()
-    //     }
-    //     Message::ToggleActionPanel(visibility) => {
-    //         state.action_panel_visible = visibility;
-    //         Task::none()
-    //     }
-    //     Message::Scrolled(viewport) => {
-    //         state.viewport = Some(viewport);
-    //         Task::none()
-    //     }
-    //     Message::ImageLoaded(url, handle) => {
-    //         image_cache::set(url, handle);
-    //         Task::none()
-    //     }
-    //     Message::LinkClicked(url) => {
-    //         println!("link clicked: {}", url);
-    //         Task::none()
-    //     }
-    // }
     Task::none()
+}
+
+fn update_selected_actions(state: &mut State) {
+    if let Some(action_panel) = state.screen.get_action_panel() {
+        state.selected_actions = action_panel.children.clone();
+    } else {
+        state.selected_actions.clear();
+    }
 }
 
 // fn fire_action(action: &components::types::Action) {

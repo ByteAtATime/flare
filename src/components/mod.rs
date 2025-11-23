@@ -1,4 +1,4 @@
-// pub mod actions;
+pub mod actions;
 pub mod column;
 // pub mod detail;
 // pub mod footer;
