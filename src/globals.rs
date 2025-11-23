@@ -1,7 +1,7 @@
 use crate::message::Message;
 use iced::Rectangle;
 use iced::futures::channel::mpsc;
-use iced::widget::scrollable;
+use iced::widget;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
@@ -12,8 +12,7 @@ pub static RUNTIME_SENDER: Mutex<Option<mpsc::UnboundedSender<(String, Value)>>>
 
 pub static IMAGE_LOADER: Mutex<Option<std::sync::mpsc::Sender<String>>> = Mutex::new(None);
 
-pub static SCROLLABLE: LazyLock<scrollable::Id> =
-    LazyLock::new(|| scrollable::Id::new("main_scrollable"));
+pub static SCROLLABLE: LazyLock<widget::Id> = LazyLock::new(|| widget::Id::new("main_scrollable"));
 pub static POSITION_TRACKER: LazyLock<crate::position::Id> =
     LazyLock::new(|| crate::position::Id::new("items_column"));
 
