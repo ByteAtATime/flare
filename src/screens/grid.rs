@@ -1,10 +1,9 @@
+use iced::widget::scrollable::Viewport;
+use iced::widget::{self, scrollable};
 use iced::{
     Element, Task,
     keyboard::{Key, Modifiers},
-    widget::{
-        operation,
-        scrollable::{self, Viewport},
-    },
+    widget::operation,
 };
 
 use crate::{
@@ -12,7 +11,7 @@ use crate::{
         grid::render_grid,
         types::{ActionPanel, GridProps},
     },
-    globals::{LAYOUT_CACHE, POSITION_TRACKER, SCROLLABLE},
+    globals::{LAYOUT_CACHE, POSITION_TRACKER},
     screens::Shell,
 };
 
@@ -21,6 +20,7 @@ pub struct GridScreen {
     filtered_props: GridProps,
     selected_index: usize,
     viewport: Option<Viewport>,
+    pub scrollable_id: widget::Id,
 }
 
 #[derive(Clone, Debug)]
@@ -30,12 +30,17 @@ pub enum GridMessage {
 }
 
 impl GridScreen {
-    pub fn new(props: GridProps, viewport: Option<Viewport>) -> Self {
+    pub fn new(
+        props: GridProps,
+        viewport: Option<Viewport>,
+        scrollable_id: Option<widget::Id>,
+    ) -> Self {
         Self {
             filtered_props: props.clone(),
             raw_props: props,
             selected_index: 0,
             viewport,
+            scrollable_id: scrollable_id.unwrap_or_else(widget::Id::unique),
         }
     }
 
@@ -81,13 +86,18 @@ impl GridScreen {
     }
 
     pub fn view(&self) -> Element<'static, GridMessage> {
-        render_grid(
+        let content = render_grid(
             &self.filtered_props,
             self.selected_index,
             POSITION_TRACKER.clone(),
             self.viewport.as_ref(),
-        )
-        .into()
+        );
+
+        scrollable(content)
+            .id(self.scrollable_id.clone())
+            .on_scroll(GridMessage::Scrolled)
+            .height(iced::Length::Fill)
+            .into()
     }
 
     fn scroll_to_selection(&self) -> Task<GridMessage> {
@@ -124,9 +134,10 @@ impl GridScreen {
         };
 
         match offset {
-            Some(y) => {
-                operation::scroll_to(SCROLLABLE.clone(), scrollable::AbsoluteOffset { x: 0.0, y })
-            }
+            Some(y) => operation::scroll_to(
+                self.scrollable_id.clone(),
+                scrollable::AbsoluteOffset { x: 0.0, y },
+            ),
             None => Task::none(),
         }
     }

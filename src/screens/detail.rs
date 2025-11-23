@@ -1,7 +1,7 @@
 use iced::{
     Element, Length, Task,
     keyboard::{Key, Modifiers},
-    widget::{container, markdown},
+    widget::{container, markdown, scrollable},
 };
 
 use crate::components::{
@@ -29,10 +29,13 @@ impl DetailScreen {
     }
 
     pub fn view(&self) -> Element<'_, DetailMessage> {
-        container(render_detail(&self.props, &self.parsed))
-            .padding(20)
-            .width(Length::Fill)
-            .into()
+        scrollable(
+            container(render_detail(&self.props, &self.parsed))
+                .padding(20)
+                .width(Length::Fill),
+        )
+        .height(Length::Fill)
+        .into()
     }
 
     pub fn update(&mut self, _message: DetailMessage) -> Task<DetailMessage> {

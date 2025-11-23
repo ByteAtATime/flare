@@ -9,10 +9,9 @@ mod runtime;
 mod screens;
 mod types;
 
-use globals::SCROLLABLE;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
-use iced::widget::{column, container, scrollable, stack, text_input};
+use iced::widget::{column, container, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
@@ -39,6 +38,7 @@ impl Default for State {
                     columns: None,
                     on_search_text_change: None,
                 },
+                None,
                 None,
             )),
             search_text: String::new(),
@@ -91,12 +91,7 @@ fn view(state: &State) -> Element<'_, Message> {
     }
 
     base_col = base_col
-        .push(
-            scrollable(content)
-                .height(Length::Fill)
-                .id(SCROLLABLE.clone())
-                .on_scroll(Message::Scrolled),
-        )
+        .push(container(content).width(Length::Fill).height(Length::Fill))
         .push(components::footer::render_footer(state));
 
     container(if state.action_panel_visible {
@@ -113,11 +108,12 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             let first = tree.children.first();
             match first {
                 Some(components::types::Component::Grid(grid)) => {
-                    let vp = match &state.screen {
-                        Screen::Grid(gs) => gs.get_viewport(),
-                        _ => None,
+                    let (vp, id) = match &state.screen {
+                        Screen::Grid(gs) => (gs.get_viewport(), Some(gs.scrollable_id.clone())),
+                        _ => (None, None),
                     };
-                    state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp));
+                    state.screen =
+                        Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp, id));
                     update_selected_actions(state);
                 }
                 Some(components::types::Component::Detail(detail)) => {
@@ -214,11 +210,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
-        }
-        Message::Scrolled(viewport) => {
-            if let Screen::Grid(grid_screen) = &mut state.screen {
-                let _ = grid_screen.update(screens::grid::GridMessage::Scrolled(viewport));
-            }
         }
         Message::ShowToast(message) => {
             state.toast_message = message;

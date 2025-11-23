@@ -1,6 +1,5 @@
 use crate::types::Tree;
 use iced::widget::image::Handle;
-use iced::widget::scrollable::Viewport;
 
 #[derive(Clone, Debug)]
 pub enum Message {
@@ -10,7 +9,6 @@ pub enum Message {
     ImageLoaded(String, Handle),
     InvokeAction(String),
     ToggleActionPanel(bool),
-    Scrolled(Viewport),
     ShowToast(String),
 
     Grid(crate::screens::grid::GridMessage),
