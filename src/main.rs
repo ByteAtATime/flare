@@ -139,7 +139,11 @@ fn update(state: &mut State, messageA: MessageA) -> Task<MessageA> {
             state.search_text = text.clone();
             state.screen.on_search(&text);
         }
-        MessageA::KeyPressed(key, modifiers) => {}
+        MessageA::KeyPressed(key, modifiers) => match &mut state.screen {
+            Screen::Grid(grid_screen) => {
+                grid_screen.update(screens::grid::GridMessage::KeyPressed(key, modifiers))
+            }
+        },
         MessageA::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }

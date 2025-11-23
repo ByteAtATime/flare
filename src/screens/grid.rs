@@ -1,4 +1,8 @@
-use iced::{Element, widget::text};
+use iced::{
+    Element,
+    keyboard::{Key, Modifiers},
+    widget::text,
+};
 
 use crate::{
     components::{
@@ -14,7 +18,9 @@ pub struct GridScreen {
 }
 
 #[derive(Clone, Debug)]
-pub enum GridMessage {}
+pub enum GridMessage {
+    KeyPressed(Key, Modifiers),
+}
 
 impl GridScreen {
     pub fn new(props: GridProps) -> Self {
@@ -26,7 +32,6 @@ impl GridScreen {
     }
 
     pub fn view(&self) -> Element<'static, GridMessage> {
-        println!("props: {:?}", self.props);
         render_grid(self.props.clone(), 0, POSITION_TRACKER.clone(), None).into()
     }
 }
