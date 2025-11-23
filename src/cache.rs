@@ -1,10 +1,22 @@
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
-const CACHE_DIR: &str = ".flare_cache";
+fn get_cache_root() -> PathBuf {
+    if let Some(cache_dir) = dirs::cache_dir() {
+        return cache_dir.join("flare");
+    }
+
+    // ideally these fallbacks wouldn't be necessary - when tf would your home dir not exist
+    if let Some(home_dir) = dirs::home_dir() {
+        return home_dir.join(".flare").join("cache");
+    }
+
+    PathBuf::from(".flare_cache")
+}
 
 fn get_path(namespace: &str, key: Option<&str>) -> PathBuf {
-    let root = Path::new(CACHE_DIR);
+    let root = get_cache_root();
+
     let ns = if namespace.is_empty() {
         "default"
     } else {
@@ -22,6 +34,7 @@ fn get_path(namespace: &str, key: Option<&str>) -> PathBuf {
 
 pub fn set(namespace: &str, key: &str, data: &str) -> Result<(), String> {
     let path = get_path(namespace, Some(key));
+
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|e| e.to_string())?;
     }
