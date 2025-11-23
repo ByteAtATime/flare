@@ -242,6 +242,9 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             }
         }
         Message::LinkClicked(_url) => {}
+        Message::ShowToast(message) => {
+            state.toast_message = message;
+        }
     }
     Task::none()
 }

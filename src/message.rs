@@ -12,6 +12,7 @@ pub enum Message {
     ToggleActionPanel(bool),
     Scrolled(Viewport),
     LinkClicked(String),
+    ShowToast(String),
 
     Grid(crate::screens::grid::GridMessage),
 }
