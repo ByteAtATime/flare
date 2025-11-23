@@ -167,19 +167,7 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                             .nth(i)
                         {
                             if let Some(callback) = &action.on_action {
-                                if let Some(mut sender) =
-                                    globals::RUNTIME_SENDER.lock().unwrap().clone()
-                                {
-                                    let callback_id = callback.id.clone();
-                                    std::thread::spawn(move || {
-                                        futures::executor::block_on(async move {
-                                            sender
-                                                .send((callback_id, serde_json::Value::Null))
-                                                .await
-                                                .ok();
-                                        });
-                                    });
-                                }
+                                execute_callback(callback.id.clone());
                             }
                         }
                     }
@@ -217,16 +205,7 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             image_cache::set(url, handle);
         }
         Message::InvokeAction(callback_id) => {
-            if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
-                std::thread::spawn(move || {
-                    futures::executor::block_on(async move {
-                        sender
-                            .send((callback_id, serde_json::Value::Null))
-                            .await
-                            .ok();
-                    });
-                });
-            }
+            execute_callback(callback_id);
         }
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
@@ -258,6 +237,19 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         },
     }
     Task::none()
+}
+
+fn execute_callback(callback_id: String) {
+    if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
+        std::thread::spawn(move || {
+            futures::executor::block_on(async move {
+                sender
+                    .send((callback_id, serde_json::Value::Null))
+                    .await
+                    .ok();
+            });
+        });
+    }
 }
 
 fn update_selected_actions(state: &mut State) {
