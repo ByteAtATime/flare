@@ -41,6 +41,7 @@ globalThis.console = stderrConsole;
 type Request =
   | { type: "initialize"; pluginPath: string }
   | { type: "invokeCallback"; callbackId: string; args: unknown }
+  | { type: "pop" }
   | { type: "response"; id: number; result?: unknown; error?: string };
 
 type Response =
@@ -75,6 +76,12 @@ const sendResponse = (response: Response) => {
   length.writeUInt32BE(message.length, 0);
   process.stdout.write(length);
   process.stdout.write(message);
+};
+
+let navigationPopFn: (() => void) | null = null;
+
+export const setNavigationPop = (popFn: () => void) => {
+  navigationPopFn = popFn;
 };
 
 const initializePlugin = async () => {
@@ -126,6 +133,19 @@ const startCommandLoop = () => {
         if (request.type === "invokeCallback") {
           try {
             invokeCallback(request.callbackId, request.args);
+            sendResponse({ type: "callbackResult", success: true });
+          } catch (error) {
+            sendResponse({
+              type: "callbackResult",
+              success: false,
+              error: String(error),
+            });
+          }
+        } else if (request.type === "pop") {
+          try {
+            if (navigationPopFn) {
+              navigationPopFn();
+            }
             sendResponse({ type: "callbackResult", success: true });
           } catch (error) {
             sendResponse({

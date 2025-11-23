@@ -3,10 +3,13 @@ import {
   Fragment,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
+import * as protocol from "../protocol";
+import { setNavigationPop } from "../index";
 
 declare module "react/jsx-runtime" {
   namespace JSX {
@@ -70,7 +73,7 @@ export const NavigationRoot: React.FC<{ children: ReactNode }> = (props) => {
         return prevRoutes.slice(0, -1);
       }
 
-      // TODO: implement popping extension (i.e. going to home)
+      protocol.pop();
       return prevRoutes;
     });
   }, []);
@@ -82,6 +85,11 @@ export const NavigationRoot: React.FC<{ children: ReactNode }> = (props) => {
     }),
     [push, pop]
   );
+
+  useEffect(() => {
+    // TODO: better way of handling this?
+    setNavigationPop(pop);
+  }, [pop]);
 
   return (
     <NavigationContext.Provider value={navigation}>

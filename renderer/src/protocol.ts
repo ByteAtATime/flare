@@ -8,7 +8,8 @@ type RustRequest =
   | { type: "cacheHas"; namespace: string; key: string }
   | { type: "cacheRemove"; namespace: string; key: string }
   | { type: "cacheClear"; namespace: string }
-  | { type: "cacheIsEmpty"; namespace: string };
+  | { type: "cacheIsEmpty"; namespace: string }
+  | { type: "pop" };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -84,6 +85,10 @@ export const cacheClear = async (namespace: string): Promise<void> => {
 export const cacheIsEmpty = async (namespace: string): Promise<boolean> => {
   const result = await sendRequest({ type: "cacheIsEmpty", namespace });
   return result as boolean;
+};
+
+export const pop = async (): Promise<void> => {
+  await sendRequest({ type: "pop" });
 };
 
 export const handleRustResponse = (data: Buffer) => {

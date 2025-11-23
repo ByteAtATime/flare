@@ -169,6 +169,11 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     Named::Escape => {
                         if state.action_panel_visible {
                             state.action_panel_visible = false;
+                            return Task::none();
+                        }
+
+                        if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
+                            let _ = runtime.send_request(&types::SidecarRequest::Pop);
                         }
                         Task::none()
                     }

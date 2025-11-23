@@ -178,6 +178,10 @@ fn handle_sidecar_response(
             };
             send_response(&result, stdin)?;
         }
+        SidecarResponse::Pop { id } => {
+            let result = RustResponse::Success { id, result: None };
+            send_response(&result, stdin)?;
+        }
     }
 
     Ok(())
@@ -204,7 +208,7 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
         .to_string_lossy()
         .to_string();
 
-    let mut runtime = match SidecarRuntime::new(&plugin_path) {
+    let runtime = match SidecarRuntime::new(&plugin_path) {
         Ok(r) => r,
         Err(e) => {
             eprintln!("Failed to start sidecar: {:?}", e);
@@ -212,14 +216,18 @@ pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Val
         }
     };
 
+    *crate::globals::RUNTIME.lock().unwrap() = Some(runtime);
+
     loop {
         let msg = iced::futures::executor::block_on(callback_receiver.next());
 
         match msg {
             Some((callback_id, args)) => {
                 let request = SidecarRequest::InvokeCallback { callback_id, args };
-                if let Err(e) = runtime.send_request(&request) {
-                    eprintln!("Failed to send callback request: {:?}", e);
+                if let Some(runtime) = crate::globals::RUNTIME.lock().unwrap().as_mut() {
+                    if let Err(e) = runtime.send_request(&request) {
+                        eprintln!("Failed to send callback request: {:?}", e);
+                    }
                 }
             }
             None => break,

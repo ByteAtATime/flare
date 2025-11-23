@@ -25,6 +25,7 @@ pub enum SidecarRequest {
         callback_id: String,
         args: serde_json::Value,
     },
+    Pop,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -100,5 +101,8 @@ pub enum SidecarResponse {
     CacheIsEmpty {
         id: u32,
         namespace: String,
+    },
+    Pop {
+        id: u32,
     },
 }
