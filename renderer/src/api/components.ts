@@ -34,5 +34,15 @@ Object.assign(ActionPanel, {
 const Action = createComponent("Action");
 
 const Detail = createComponent("Detail");
+const DetailMetadata = createComponent("Detail.Metadata");
+const DetailMetadataLabel = createComponent("Detail.Metadata.Label");
+
+Object.assign(DetailMetadata, {
+  Label: DetailMetadataLabel,
+});
+
+Object.assign(Detail, {
+  Metadata: DetailMetadata,
+});
 
 export { Grid, ActionPanel, Action, Detail };
