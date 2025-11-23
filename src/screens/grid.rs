@@ -1,7 +1,10 @@
 use iced::{
-    Element,
+    Element, Task,
     keyboard::{Key, Modifiers},
-    widget::scrollable::Viewport,
+    widget::{
+        operation,
+        scrollable::{self, Viewport},
+    },
 };
 
 use crate::{
@@ -9,7 +12,7 @@ use crate::{
         grid::render_grid,
         types::{ActionPanel, GridProps},
     },
-    globals::POSITION_TRACKER,
+    globals::{LAYOUT_CACHE, POSITION_TRACKER, SCROLLABLE},
     screens::Shell,
 };
 
@@ -23,41 +26,58 @@ pub struct GridScreen {
 #[derive(Clone, Debug)]
 pub enum GridMessage {
     KeyPressed(Key, Modifiers),
+    Scrolled(Viewport),
 }
 
 impl GridScreen {
-    pub fn new(props: GridProps) -> Self {
+    pub fn new(props: GridProps, viewport: Option<Viewport>) -> Self {
         Self {
             filtered_props: props.clone(),
             raw_props: props,
             selected_index: 0,
-            viewport: None,
+            viewport,
         }
     }
 
-    pub fn update(&mut self, message: GridMessage) {
+    pub fn update(&mut self, message: GridMessage) -> Task<GridMessage> {
         match message {
             GridMessage::KeyPressed(key, _modifiers) => {
                 if let Key::Named(named_key) = key {
                     use iced::keyboard::key::Named;
-                    match named_key {
+                    let moved = match named_key {
                         Named::ArrowRight => {
                             self.select_next();
+                            true
                         }
                         Named::ArrowLeft => {
                             self.select_prev();
+                            true
                         }
                         Named::ArrowUp => {
                             self.select_up();
+                            true
                         }
                         Named::ArrowDown => {
                             self.select_down();
+                            true
                         }
-                        _ => {}
+                        _ => false,
+                    };
+                    if moved {
+                        return self.scroll_to_selection();
                     }
                 }
+                Task::none()
+            }
+            GridMessage::Scrolled(viewport) => {
+                self.viewport = Some(viewport);
+                Task::none()
             }
         }
+    }
+
+    pub fn get_viewport(&self) -> Option<Viewport> {
+        self.viewport.clone()
     }
 
     pub fn view(&self) -> Element<'static, GridMessage> {
@@ -68,6 +88,47 @@ impl GridScreen {
             self.viewport.as_ref(),
         )
         .into()
+    }
+
+    fn scroll_to_selection(&self) -> Task<GridMessage> {
+        let container_index = match self.get_selection_container_index() {
+            Some(idx) => idx,
+            None => return Task::none(),
+        };
+
+        let target_bounds = match LAYOUT_CACHE
+            .lock()
+            .ok()
+            .and_then(|cache| cache.get(&container_index).copied())
+        {
+            Some(bounds) => bounds,
+            None => return Task::none(),
+        };
+
+        let offset = match &self.viewport {
+            Some(vp) => {
+                let view_top = vp.absolute_offset().y;
+                let view_bottom = view_top + vp.bounds().height;
+                let target_top = target_bounds.y;
+                let target_bottom = target_top + target_bounds.height;
+
+                if target_top < view_top {
+                    Some(target_top)
+                } else if target_bottom > view_bottom {
+                    Some(target_bottom - vp.bounds().height)
+                } else {
+                    None
+                }
+            }
+            None => Some(target_bounds.y),
+        };
+
+        match offset {
+            Some(y) => {
+                operation::scroll_to(SCROLLABLE.clone(), scrollable::AbsoluteOffset { x: 0.0, y })
+            }
+            None => Task::none(),
+        }
     }
 
     fn select_next(&mut self) {

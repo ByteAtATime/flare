@@ -36,6 +36,7 @@ impl Default for State {
                     columns: None,
                     on_search_text_change: None,
                 },
+                None,
             )),
             search_text: String::new(),
         }
@@ -108,7 +109,8 @@ fn view(state: &State) -> Element<'_, Message> {
         search_bar,
         scrollable(content)
             .height(Length::Fill)
-            .id(SCROLLABLE.clone()),
+            .id(SCROLLABLE.clone())
+            .on_scroll(|viewport| Message::Grid(screens::grid::GridMessage::Scrolled(viewport))),
     ]
     .into()
 }
@@ -118,7 +120,10 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::UpdateTree(tree) => {
             let first = tree.children.first();
             if let Some(components::types::Component::Grid(grid)) = first {
-                state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone()));
+                let vp = match &state.screen {
+                    Screen::Grid(gs) => gs.get_viewport(),
+                };
+                state.screen = Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp));
             }
         }
         Message::SearchTextChanged(text) => {
@@ -127,14 +132,18 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::KeyPressed(key, modifiers) => match &mut state.screen {
             Screen::Grid(grid_screen) => {
-                grid_screen.update(screens::grid::GridMessage::KeyPressed(key, modifiers))
+                return grid_screen
+                    .update(screens::grid::GridMessage::KeyPressed(key, modifiers))
+                    .map(Message::Grid);
             }
         },
         Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }
         Message::Grid(grid_message) => match &mut state.screen {
-            Screen::Grid(grid_screen) => grid_screen.update(grid_message),
+            Screen::Grid(grid_screen) => {
+                return grid_screen.update(grid_message).map(Message::Grid);
+            }
         },
         _ => {}
     }
