@@ -1,15 +1,24 @@
-use iced::{Element, Length, Task, widget::container, widget::markdown};
+use iced::{
+    Element, Length, Task,
+    keyboard::{Key, Modifiers},
+    widget::{container, markdown},
+};
 
 use crate::components::{
     detail::render_detail,
     types::{ActionPanel, DetailProps},
 };
-use crate::message::Message;
 use crate::screens::Shell;
 
 pub struct DetailScreen {
     props: DetailProps,
     parsed: Vec<markdown::Item>,
+}
+
+#[derive(Clone, Debug)]
+pub enum DetailMessage {
+    LinkClicked(String),
+    KeyPressed(Key, Modifiers),
 }
 
 impl DetailScreen {
@@ -19,14 +28,14 @@ impl DetailScreen {
         Self { props, parsed }
     }
 
-    pub fn view(&self) -> Element<'_, Message> {
+    pub fn view(&self) -> Element<'_, DetailMessage> {
         container(render_detail(&self.props, &self.parsed))
             .padding(20)
             .width(Length::Fill)
             .into()
     }
 
-    pub fn update(&mut self, _message: Message) -> Task<Message> {
+    pub fn update(&mut self, _message: DetailMessage) -> Task<DetailMessage> {
         Task::none()
     }
 }

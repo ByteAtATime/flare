@@ -15,4 +15,5 @@ pub enum Message {
     ShowToast(String),
 
     Grid(crate::screens::grid::GridMessage),
+    Detail(crate::screens::detail::DetailMessage),
 }

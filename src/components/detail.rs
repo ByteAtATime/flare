@@ -1,13 +1,14 @@
 use iced::widget::markdown;
 use iced::{Element, Theme};
 
-use crate::{components::types::DetailProps, message::Message};
+use crate::components::types::DetailProps;
+use crate::screens::detail::DetailMessage;
 
 pub fn render_detail<'a>(
     props: &'a DetailProps,
     parsed: &'a Vec<markdown::Item>,
-) -> Element<'a, Message> {
+) -> Element<'a, DetailMessage> {
     markdown::view(parsed, Theme::TokyoNight)
-        .map(Message::LinkClicked)
+        .map(DetailMessage::LinkClicked)
         .into()
 }

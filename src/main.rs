@@ -19,6 +19,7 @@ use std::sync::{Arc, Mutex};
 
 use crate::components::actions::render_action_panel;
 use crate::message::Message;
+use crate::screens::detail::DetailMessage;
 use crate::screens::{Screen, Shell};
 
 struct State {
@@ -81,7 +82,7 @@ fn view(state: &State) -> Element<'_, Message> {
 
     let content = match &state.screen {
         Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
-        Screen::Detail(detail_screen) => detail_screen.view(),
+        Screen::Detail(detail_screen) => detail_screen.view().map(Message::Detail),
     };
 
     let mut base_col = column![];
@@ -204,7 +205,9 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     return result;
                 }
                 Screen::Detail(detail_screen) => {
-                    let result = detail_screen.update(Message::KeyPressed(key, modifiers));
+                    let result = detail_screen
+                        .update(DetailMessage::KeyPressed(key, modifiers))
+                        .map(Message::Detail);
                     update_selected_actions(state);
                     return result;
                 }
@@ -213,14 +216,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }
-        Message::Grid(grid_message) => match &mut state.screen {
-            Screen::Grid(grid_screen) => {
-                let result = grid_screen.update(grid_message).map(Message::Grid);
-                update_selected_actions(state);
-                return result;
-            }
-            _ => {}
-        },
         Message::InvokeAction(callback_id) => {
             if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
                 std::thread::spawn(move || {
@@ -245,6 +240,23 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::ShowToast(message) => {
             state.toast_message = message;
         }
+
+        Message::Grid(grid_message) => match &mut state.screen {
+            Screen::Grid(grid_screen) => {
+                let result = grid_screen.update(grid_message).map(Message::Grid);
+                update_selected_actions(state);
+                return result;
+            }
+            _ => {}
+        },
+        Message::Detail(detail_message) => match &mut state.screen {
+            Screen::Detail(detail_screen) => {
+                let result = detail_screen.update(detail_message).map(Message::Detail);
+                update_selected_actions(state);
+                return result;
+            }
+            _ => {}
+        },
     }
     Task::none()
 }
