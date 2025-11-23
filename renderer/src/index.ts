@@ -3,7 +3,7 @@ import { Console } from "node:console";
 import { pack, unpack } from "msgpackr";
 import React from "react";
 import ReactJsxRuntime from "react/jsx-runtime";
-import { NavigationRoot } from "./navigation";
+import { NavigationRoot } from "./api/navigation";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { raycastApi } from "./api";
 import * as protocol from "./protocol";
