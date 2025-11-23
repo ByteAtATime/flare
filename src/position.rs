@@ -11,7 +11,8 @@ pub struct Id(pub widget::Id);
 impl Id {
     /// Creates a custom [`Id`].
     pub fn new(id: impl Into<Cow<'static, str>>) -> Self {
-        Self(widget::Id::new(id))
+        let cow = id.into();
+        Self(widget::Id::from(cow.into_owned()))
     }
 
     /// Creates a unique [`Id`].
@@ -68,20 +69,20 @@ pub fn find_position(target: Id, index: usize) -> Task<Option<Rectangle>> {
     }
 
     impl Operation<Option<Rectangle>> for FindPosition {
-        fn container(
+        fn traverse(
             &mut self,
-            id: Option<&widget::Id>,
-            _bounds: Rectangle,
             operate_on_children: &mut dyn FnMut(&mut dyn Operation<Option<Rectangle>>),
         ) {
-            if Some(&self.target.0) == id {
-                return;
-            }
-
             operate_on_children(self);
         }
 
-        fn custom(&mut self, state: &mut dyn Any, id: Option<&widget::Id>) {
+        fn container(&mut self, id: Option<&widget::Id>, _bounds: Rectangle) {
+            if Some(&self.target.0) == id {
+                return;
+            }
+        }
+
+        fn custom(&mut self, id: Option<&widget::Id>, _bounds: Rectangle, state: &mut dyn Any) {
             if Some(&self.target.0) == id {
                 if let Some(position_state) = state.downcast_mut::<PositionState>() {
                     self.found_bounds = position_state.as_position().get(self.index);
