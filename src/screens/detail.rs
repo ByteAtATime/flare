@@ -4,11 +4,14 @@ use iced::{
     widget::markdown,
 };
 
-use crate::components::{
-    detail::render_detail,
-    types::{ActionPanel, DetailProps},
-};
 use crate::screens::Shell;
+use crate::{
+    components::{
+        detail::render_detail,
+        types::{ActionPanel, DetailProps},
+    },
+    utils::open_url,
+};
 
 pub struct DetailScreen {
     props: DetailProps,
@@ -32,7 +35,13 @@ impl DetailScreen {
         render_detail(&self.props, &self.parsed).into()
     }
 
-    pub fn update(&mut self, _message: DetailMessage) -> Task<DetailMessage> {
+    pub fn update(&mut self, message: DetailMessage) -> Task<DetailMessage> {
+        match message {
+            DetailMessage::LinkClicked(url) => {
+                let _ = open_url(&url);
+            }
+            _ => {}
+        }
         Task::none()
     }
 }

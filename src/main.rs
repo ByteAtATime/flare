@@ -8,6 +8,7 @@ mod position;
 mod runtime;
 mod screens;
 mod types;
+mod utils;
 
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
