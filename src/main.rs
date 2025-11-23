@@ -141,6 +141,11 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         state.action_panel_visible = false;
                         return Task::none();
                     }
+
+                    if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
+                        let _ = runtime.send_request(&types::SidecarRequest::Pop);
+                        return Task::none();
+                    }
                 }
 
                 if named_key == Named::Enter {
