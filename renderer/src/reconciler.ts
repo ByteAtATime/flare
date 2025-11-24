@@ -235,6 +235,11 @@ const HostConfig: Reconciler.HostConfig<
   prepareForCommit: () => null,
   resetAfterCommit(node) {
     const navStackNode = node.children[0];
+
+    if (!navStackNode) {
+      return;
+    }
+
     if (
       typeof navStackNode !== "object" ||
       navStackNode?.type !== "flare-nav-stack"
@@ -284,9 +289,9 @@ const container = reconciler.createContainer(
   null, // concurrentUpdatesByDefaultOverride
 
   "", // identifierPrefix
-  console.log, // onUncaughtError
-  console.log, // onCaughtError
-  console.log, // onRecoverableError
+  console.error, // onUncaughtError
+  console.error, // onCaughtError
+  console.error, // onRecoverableError
   () => {}, // onDefaultTransitionIndicator
   null
 );
