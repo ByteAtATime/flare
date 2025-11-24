@@ -1,15 +1,95 @@
 use iced::widget::image;
 use iced::widget::{button, column, container, markdown, row, scrollable, space, text};
 use iced::{Border, Color, Element, Length, Theme};
+use serde::Deserialize;
 
-use crate::components::types::{
-    DetailMetadata, DetailMetadataItem, DetailProps, MetadataTagListItem,
-};
+use super::actions::ActionPanel;
+use super::types::{CallbackInfo, deserialize_icon};
 use crate::icons;
 use crate::image_cache::get;
 use crate::screens::detail::DetailMessage;
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct DetailProps {
+    #[serde(default)]
+    pub props: DetailProperties,
+    #[serde(skip)]
+    pub parsed: Option<Vec<markdown::Item>>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct DetailProperties {
+    #[serde(default)]
+    pub markdown: String,
+    #[serde(default)]
+    pub metadata: Option<DetailMetadata>,
+    #[serde(default)]
+    pub actions: Option<ActionPanel>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct DetailMetadata {
+    #[serde(rename = "children")]
+    pub items: Vec<DetailMetadataItem>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(tag = "type")]
+pub enum DetailMetadataItem {
+    #[serde(rename = "Detail.Metadata.Label")]
+    Label { props: MetadataLabelProps },
+
+    #[serde(rename = "Detail.Metadata.Link")]
+    Link { props: MetadataLinkProps },
+
+    #[serde(rename = "Detail.Metadata.TagList")]
+    TagList {
+        props: MetadataTagListProps,
+        children: Vec<MetadataTagListItem>,
+    },
+
+    #[serde(rename = "Detail.Metadata.Separator")]
+    Separator,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataLabelProps {
+    pub title: String,
+    pub text: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataLinkProps {
+    pub title: String,
+    pub text: String,
+    pub target: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataTagListProps {
+    pub title: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(tag = "type")]
+pub enum MetadataTagListItem {
+    #[serde(rename = "Detail.Metadata.TagList.Item")]
+    Item { props: MetadataTagListItemProps },
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataTagListItemProps {
+    pub text: Option<String>,
+    pub color: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    pub icon: Option<String>,
+    #[serde(rename = "onAction")]
+    pub on_action: Option<CallbackInfo>,
+}
 
 fn render_metadata<'a>(metadata: &'a DetailMetadata) -> iced::Element<'a, DetailMessage> {
     let metadata_items = metadata
@@ -92,7 +172,7 @@ pub fn render_detail<'a>(
     props: &'a DetailProps,
     parsed: &'a Vec<markdown::Item>,
 ) -> Element<'a, DetailMessage> {
-    let metadata = if let Some(metadata) = &props.metadata {
+    let metadata = if let Some(metadata) = &props.props.metadata {
         Some(render_metadata(&metadata))
     } else {
         None

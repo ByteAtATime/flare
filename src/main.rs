@@ -26,7 +26,7 @@ struct State {
     screen: Screen,
     search_text: String,
     action_panel_visible: bool,
-    selected_actions: Vec<components::types::ActionPanelItem>,
+    selected_actions: Vec<components::actions::ActionPanelItem>,
     toast_message: String,
 }
 
@@ -36,8 +36,10 @@ impl Default for State {
             screen: Screen::Grid(screens::grid::GridScreen::new(
                 components::types::GridProps {
                     sections: vec![],
-                    columns: None,
-                    on_search_text_change: None,
+                    props: components::grid::GridProperties {
+                        columns: None,
+                        on_search_text_change: None,
+                    },
                 },
                 None,
                 None,
@@ -159,16 +161,16 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                             .selected_actions
                             .iter()
                             .flat_map(|item| match item {
-                                components::types::ActionPanelItem::Action(action) => {
+                                components::actions::ActionPanelItem::Action(action) => {
                                     std::slice::from_ref(action).iter()
                                 }
-                                components::types::ActionPanelItem::Section(section) => {
+                                components::actions::ActionPanelItem::Section(section) => {
                                     section.children.iter()
                                 }
                             })
                             .nth(i)
                         {
-                            if let Some(callback) = &action.on_action {
+                            if let Some(callback) = &action.props.on_action {
                                 execute_callback(callback.id.clone());
                             }
                         }

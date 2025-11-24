@@ -6,10 +6,7 @@ use iced::{
 
 use crate::screens::Shell;
 use crate::{
-    components::{
-        detail::render_detail,
-        types::{ActionPanel, DetailProps},
-    },
+    components::{actions::ActionPanel, detail::render_detail, types::DetailProps},
     utils::open_url,
 };
 
@@ -26,7 +23,7 @@ pub enum DetailMessage {
 
 impl DetailScreen {
     pub fn new(props: DetailProps) -> Self {
-        let items: Vec<_> = markdown::parse(&props.markdown).collect();
+        let items: Vec<_> = markdown::parse(&props.props.markdown).collect();
         let parsed = items;
         Self { props, parsed }
     }
@@ -54,6 +51,6 @@ impl Shell for DetailScreen {
     fn on_search(&mut self, _query: &str) {}
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
-        self.props.actions.as_mut()
+        self.props.props.actions.as_mut()
     }
 }

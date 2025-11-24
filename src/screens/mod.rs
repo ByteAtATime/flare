@@ -1,4 +1,4 @@
-use crate::components::types::ActionPanel;
+use crate::components::actions::ActionPanel;
 
 pub mod detail;
 pub mod grid;

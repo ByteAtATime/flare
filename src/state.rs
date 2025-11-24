@@ -10,7 +10,7 @@ pub struct State {
     pub tree: Option<Tree>,
     pub filtered_tree: Option<Tree>,
     pub selected_index: usize,
-    pub selected_actions: Vec<components::types::ActionPanelItem>,
+    pub selected_actions: Vec<components::actions::ActionPanelItem>,
     pub action_panel_visible: bool,
     pub viewport: Option<Viewport>,
 }
@@ -19,7 +19,7 @@ impl State {
     pub fn update_tree(&mut self, mut tree: Tree) {
         for component in &mut tree.children {
             if let Component::Detail(props) = component {
-                let items: Vec<_> = markdown::parse(&props.markdown).collect();
+                let items: Vec<_> = markdown::parse(&props.props.markdown).collect();
                 props.parsed = Some(items);
             }
         }
@@ -42,7 +42,11 @@ impl State {
             .as_ref()
             .and_then(|t| t.children.first())
             .and_then(|c| match c {
-                Component::Grid(p) => p.on_search_text_change.as_ref().map(|cb| cb.id.clone()),
+                Component::Grid(p) => p
+                    .props
+                    .on_search_text_change
+                    .as_ref()
+                    .map(|cb| cb.id.clone()),
                 _ => None,
             });
 
@@ -63,31 +67,31 @@ impl State {
             }
 
             let mut new_tree = raw_tree.clone();
-            new_tree.children = new_tree
-                .children
-                .iter()
-                .map(|component| match component {
-                    Component::Grid(props) => {
-                        if props.on_search_text_change.is_some() {
-                            Component::Grid(props.clone())
-                        } else {
-                            let mut new_props = props.clone();
-                            new_props.sections.retain_mut(|section| {
-                                section.items.retain(|item| {
-                                    item.title.to_lowercase().contains(&query)
-                                        || item
-                                            .subtitle
-                                            .as_ref()
-                                            .map_or(false, |s| s.to_lowercase().contains(&query))
+            new_tree.children =
+                new_tree
+                    .children
+                    .iter()
+                    .map(|component| match component {
+                        Component::Grid(props) => {
+                            if props.props.on_search_text_change.is_some() {
+                                Component::Grid(props.clone())
+                            } else {
+                                let mut new_props = props.clone();
+                                new_props.sections.retain_mut(|section| {
+                                    section.items.retain(|item| {
+                                        item.props.title.to_lowercase().contains(&query)
+                                            || item.props.subtitle.as_ref().map_or(false, |s| {
+                                                s.to_lowercase().contains(&query)
+                                            })
+                                    });
+                                    !section.items.is_empty()
                                 });
-                                !section.items.is_empty()
-                            });
-                            Component::Grid(new_props)
+                                Component::Grid(new_props)
+                            }
                         }
-                    }
-                    _ => component.clone(),
-                })
-                .collect();
+                        _ => component.clone(),
+                    })
+                    .collect();
 
             self.filtered_tree = Some(new_tree);
         } else {
@@ -124,7 +128,7 @@ impl State {
                 }
                 None
             })
-            .and_then(|item| item.actions.as_ref())
+            .and_then(|item| item.props.actions.as_ref())
             .map(|p| p.children.clone())
             .unwrap_or_default();
     }

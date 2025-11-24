@@ -1,12 +1,103 @@
 use iced::widget::{column, container, image, row, scrollable, svg, text};
 use iced::{Color, Element, Length, Theme};
+use serde::Deserialize;
+use serde_json::Value;
 
-use super::types::{GridItemContent, GridItemProps, GridProps, parse_hex_color};
+use super::actions::ActionPanel;
+use super::types::{CallbackInfo, parse_hex_color};
 use crate::components::column as positionable_column;
 use crate::screens::grid::GridMessage;
 use crate::{image_cache, position};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridProps {
+    #[serde(default)]
+    pub props: GridProperties,
+    #[serde(default, rename = "children")]
+    pub sections: Vec<GridSectionProps>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridProperties {
+    #[serde(default)]
+    pub columns: Option<i32>,
+    #[serde(default, rename = "onSearchTextChange")]
+    pub on_search_text_change: Option<CallbackInfo>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridSectionProps {
+    #[serde(default)]
+    pub props: GridSectionProperties,
+    #[serde(default, rename = "children")]
+    pub items: Vec<GridItemProps>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridSectionProperties {
+    #[serde(default)]
+    pub title: String,
+    #[serde(default)]
+    pub columns: Option<i32>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridItemProps {
+    #[serde(default)]
+    pub props: GridItemProperties,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct GridItemProperties {
+    #[serde(default)]
+    pub title: String,
+    #[serde(default)]
+    pub subtitle: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_content")]
+    pub content: Option<GridItemContent>,
+    #[serde(default)]
+    pub actions: Option<ActionPanel>,
+}
+
+#[derive(Debug, Clone)]
+pub enum GridItemContent {
+    Color(GridItemColor),
+    Image(String),
+}
+
+#[derive(Debug, Clone, serde::Deserialize)]
+pub struct GridItemColor {
+    pub light: String,
+    pub dark: String,
+    #[serde(rename = "adjustContrast")]
+    pub adjust_contrast: bool,
+}
+
+fn deserialize_content<'de, D>(deserializer: D) -> Result<Option<GridItemContent>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    use serde::de::Error;
+
+    let value = Value::deserialize(deserializer)?;
+
+    match value {
+        Value::String(s) => Ok(Some(GridItemContent::Image(s))),
+        Value::Object(map) => {
+            if let Some(color_value) = map.get("color") {
+                let color: GridItemColor =
+                    serde_json::from_value(color_value.clone()).map_err(D::Error::custom)?;
+                Ok(Some(GridItemContent::Color(color)))
+            } else {
+                Ok(None)
+            }
+        }
+        Value::Null => Ok(None),
+        _ => Ok(None),
+    }
+}
 
 pub fn render_grid(
     props: &GridProps,
@@ -31,11 +122,11 @@ pub fn render_grid(
         .fold(
             positionable_column::Column::new().spacing(10).padding(10),
             |col, section| {
-                let section_title = text(section.title.clone()).size(16).font(INTER_FONT);
+                let section_title = text(section.props.title.clone()).size(16).font(INTER_FONT);
 
                 col_child_idx += 1;
 
-                let columns = section.columns.or(props.columns).unwrap_or(5) as usize;
+                let columns = section.props.columns.or(props.props.columns).unwrap_or(5) as usize;
 
                 let start_row_idx = col_child_idx;
                 let row_count = (section.items.len() + columns - 1) / columns;
@@ -104,7 +195,7 @@ pub fn render_grid_item(
 
     let border_width = if is_selected { 3.0 } else { 2.0 };
 
-    let content_widget: Element<'static, GridMessage> = match &props.content {
+    let content_widget: Element<'static, GridMessage> = match &props.props.content {
         Some(GridItemContent::Image(path)) => {
             if path.starts_with("http://") || path.starts_with("https://") {
                 if let Some(handle) = image_cache::get(path) {
@@ -197,8 +288,8 @@ pub fn render_grid_item(
     container(
         column![
             content_widget,
-            text(props.title).size(14).font(INTER_FONT),
-            text(props.subtitle.unwrap_or_default())
+            text(props.props.title).size(14).font(INTER_FONT),
+            text(props.props.subtitle.unwrap_or_default())
                 .size(12)
                 .font(INTER_FONT)
                 .style(|_theme: &Theme| text::Style {

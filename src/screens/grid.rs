@@ -7,10 +7,7 @@ use iced::{
 };
 
 use crate::{
-    components::{
-        grid::render_grid,
-        types::{ActionPanel, GridProps},
-    },
+    components::{actions::ActionPanel, grid::render_grid, types::GridProps},
     globals::{LAYOUT_CACHE, POSITION_TRACKER},
     screens::Shell,
 };
@@ -165,7 +162,7 @@ impl GridScreen {
     }
 
     fn move_vertical(&mut self, direction: i32) {
-        let default_cols = self.filtered_props.columns.unwrap_or(5).max(1) as usize;
+        let default_cols = self.filtered_props.props.columns.unwrap_or(5).max(1) as usize;
 
         struct Section {
             start: usize,
@@ -183,6 +180,7 @@ impl GridScreen {
                 let start = *acc;
                 let count = section.items.len();
                 let cols = section
+                    .props
                     .columns
                     .map(|c| c as usize)
                     .unwrap_or(default_cols)
@@ -273,7 +271,7 @@ impl GridScreen {
     }
 
     pub fn get_selection_container_index(&self) -> Option<usize> {
-        let default_columns = self.filtered_props.columns.unwrap_or(5).max(1) as usize;
+        let default_columns = self.filtered_props.props.columns.unwrap_or(5).max(1) as usize;
         let mut position_index = 0;
         let mut item_cursor = 0;
 
@@ -284,6 +282,7 @@ impl GridScreen {
             if self.selected_index >= item_cursor && self.selected_index < item_cursor + section_len
             {
                 let cols = section
+                    .props
                     .columns
                     .map(|c| c as usize)
                     .unwrap_or(default_columns)
@@ -295,6 +294,7 @@ impl GridScreen {
 
             item_cursor += section_len;
             let cols = section
+                .props
                 .columns
                 .map(|c| c as usize)
                 .unwrap_or(default_columns)
@@ -325,14 +325,15 @@ impl Shell for GridScreen {
 
         if query.is_empty() {
             self.filtered_props = self.raw_props.clone();
-        } else if self.raw_props.on_search_text_change.is_some() {
+        } else if self.raw_props.props.on_search_text_change.is_some() {
             self.filtered_props = self.raw_props.clone();
         } else {
             let mut new_props = self.raw_props.clone();
             new_props.sections.retain_mut(|section| {
                 section.items.retain(|item| {
-                    item.title.to_lowercase().contains(&query_lower)
+                    item.props.title.to_lowercase().contains(&query_lower)
                         || item
+                            .props
                             .subtitle
                             .as_ref()
                             .map_or(false, |s| s.to_lowercase().contains(&query_lower))
@@ -356,7 +357,7 @@ impl Shell for GridScreen {
                 return section
                     .items
                     .get_mut(item_index)
-                    .and_then(|item| item.actions.as_mut());
+                    .and_then(|item| item.props.actions.as_mut());
             }
             global_index += section_len;
         }
