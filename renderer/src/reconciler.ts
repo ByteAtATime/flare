@@ -1,9 +1,10 @@
 import Reconciler from "react-reconciler";
-import React, { createContext } from "react";
+import React from "react";
 import * as protocol from "./protocol";
 
 type HostComponent = {
   type: string;
+  props: Record<string, unknown>;
   children: HostComponent[];
 };
 
@@ -20,10 +21,6 @@ type Timeout = ReturnType<typeof setTimeout>;
 type RootContainer = {
   id: "root";
   children: ChildSet;
-};
-
-const notImpl = () => {
-  throw new Error("Function not implemented.");
 };
 
 const callbackRegistry = new Map<string, Function>();
@@ -50,81 +47,26 @@ export const invokeCallback = async (id: string, args: any) => {
   }
 };
 
-function serializeReactElement(element: React.ReactElement): unknown {
-  if (!element || typeof element !== "object") {
-    return element;
-  }
+function processProps(props: Record<string, unknown>): Record<string, unknown> {
+  const processed: Record<string, unknown> = {};
 
-  const { type, props } = element;
+  if (!props) return processed;
 
-  if (typeof type === "function") {
-    // this is a component, we need to render it
-    const Component = type as React.FunctionComponent;
-    const renderedElement = Component(props as object);
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "children") continue;
 
-    if (!React.isValidElement(renderedElement)) {
-      return renderedElement;
-    }
-
-    return serializeReactElement(renderedElement);
-  }
-
-  const typeName =
-    typeof type === "string"
-      ? type
-      : (type as { displayName?: string }).displayName || "Unknown";
-
-  const serializedProps: Record<string, unknown> = {};
-
-  if (props && typeof props === "object") {
-    for (const [key, value] of Object.entries(props)) {
-      if (key === "children") {
-        continue;
-      }
-
-      if (typeof value === "function") {
-        serializedProps[key] = registerCallback(value);
-        continue;
-      }
-
-      if (
-        value &&
-        typeof value === "object" &&
-        "type" in value &&
-        "props" in value
-      ) {
-        serializedProps[key] = serializeReactElement(
-          value as React.ReactElement
-        );
-      } else {
-        serializedProps[key] = value;
-      }
+    if (typeof value === "function") {
+      processed[key] = registerCallback(value);
+    } else {
+      processed[key] = value;
     }
   }
-
-  const children: unknown[] = [];
-  const propsWithChildren = props as { children?: React.ReactNode };
-  if (propsWithChildren.children) {
-    const childArray = React.Children.toArray(propsWithChildren.children);
-    for (const child of childArray) {
-      if (typeof child === "object" && child && "type" in child) {
-        children.push(serializeReactElement(child as React.ReactElement));
-      } else if (typeof child === "string" || typeof child === "number") {
-        children.push({ type: "TEXT", text: String(child) });
-      }
-    }
-  }
-
-  return {
-    type: typeName,
-    props: serializedProps,
-    children,
-  };
+  return processed;
 }
 
 const HostConfig: Reconciler.HostConfig<
   Type,
-  unknown, // Props
+  Record<string, unknown>, // Props
   RootContainer,
   Instance,
   TextInstance,
@@ -150,8 +92,8 @@ const HostConfig: Reconciler.HostConfig<
   getChildHostContext: () => ({}),
   shouldSetTextContent: () => false,
   finalizeInitialChildren: () => false,
+
   createInstance(type, props, rootContainer, hostContext, internalHandle) {
-    let serializedProps: Record<string, unknown> = {};
     if (type === "flare-nav-stack") {
       return {
         type: "flare-nav-stack",
@@ -160,33 +102,21 @@ const HostConfig: Reconciler.HostConfig<
       };
     }
 
-    if (!!props && typeof props === "object") {
-      for (const [key, value] of Object.entries(props)) {
-        if (key === "children") continue;
-
-        if (
-          value &&
-          typeof value === "object" &&
-          "type" in value &&
-          "props" in value
-        ) {
-          serializedProps[key] = serializeReactElement(
-            value as React.ReactElement
-          );
-        } else {
-          serializedProps[key] = value;
-        }
-      }
-    } else {
-      serializedProps = props as Record<string, unknown>;
+    if (type === "flare-slot") {
+      return {
+        type: "flare-slot",
+        props: props as Record<string, unknown>,
+        children: [],
+      };
     }
 
     return {
       type,
-      props: serializedProps,
+      props: processProps(props),
       children: [],
     };
   },
+
   cloneInstance(
     instance,
     type,
@@ -196,43 +126,24 @@ const HostConfig: Reconciler.HostConfig<
     keepChildren,
     recyclableInstance
   ) {
-    let serializedProps: Record<string, unknown> = {};
-
-    if (!!newProps && typeof newProps === "object") {
-      for (const [key, value] of Object.entries(newProps)) {
-        if (key === "children") continue;
-
-        if (
-          value &&
-          typeof value === "object" &&
-          "type" in value &&
-          "props" in value
-        ) {
-          serializedProps[key] = serializeReactElement(
-            value as React.ReactElement
-          );
-        } else {
-          serializedProps[key] = value;
-        }
-      }
-    } else {
-      serializedProps = newProps as Record<string, unknown>;
-    }
-
     return {
       type,
-      props: serializedProps,
+      props: processProps(newProps),
       children: keepChildren ? instance.children : [],
     };
   },
+
   createTextInstance(text, rootContainer, hostContext, internalHandle) {
     return {
       type: "TEXT",
+      props: {},
       text,
       children: [],
     };
   },
+
   prepareForCommit: () => null,
+
   resetAfterCommit(node) {
     const navStackNode = node.children[0];
 
@@ -257,21 +168,34 @@ const HostConfig: Reconciler.HostConfig<
       children: [activeComponent],
     });
   },
+
   appendInitialChild(parent, child) {
-    parent.children.push(child);
+    if (child.type === "flare-slot") {
+      const slotName = child.props.name as string;
+      if (child.children.length > 0) {
+        parent.props[slotName] = child.children[0];
+      }
+    } else {
+      parent.children.push(child);
+    }
   },
+
   createContainerChildSet(container) {
     return [];
   },
+
   appendChildToContainerChildSet(childSet, child) {
     childSet.push(child);
   },
+
   replaceContainerChildren(container, newChildren) {
     container.children = newChildren;
   },
+
   finalizeContainerChildren(container, newChildren) {
     container.children = newChildren;
   },
+
   detachDeletedInstance() {},
 
   getPublicInstance: (instance) => instance,

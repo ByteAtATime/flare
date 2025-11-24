@@ -1,18 +1,30 @@
-import { jsx } from "react/jsx-runtime";
 import React from "react";
 
 const createComponent = (name: string) => {
-  const ComponentFactory = ({
-    key,
+  const Component = ({
+    children,
     ...props
   }: {
     children?: React.ReactNode;
-    key?: string | number;
+    [key: string]: any;
   }) => {
-    return jsx(name as React.ElementType, props, key);
+    const slots: React.ReactNode[] = [];
+    const passThroughProps: Record<string, any> = {};
+
+    for (const [key, value] of Object.entries(props)) {
+      if (React.isValidElement(value)) {
+        slots.push(
+          React.createElement("flare-slot", { key, name: key }, value)
+        );
+      } else {
+        passThroughProps[key] = value;
+      }
+    }
+
+    return React.createElement(name, passThroughProps, ...slots, children);
   };
-  ComponentFactory.displayName = name;
-  return ComponentFactory;
+  Component.displayName = name;
+  return Component;
 };
 
 const Grid = createComponent("Grid");
