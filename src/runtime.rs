@@ -1,6 +1,6 @@
 use crate::globals::SENDER;
 use crate::message::Message;
-use crate::types::{RustResponse, SidecarRequest, SidecarResponse, Tree};
+use crate::types::{RustResponse, SidecarRequest, SidecarResponse};
 use iced::futures::channel::mpsc;
 use iced::futures::{SinkExt, StreamExt};
 use serde_json::Value;
@@ -107,19 +107,17 @@ fn handle_sidecar_response(
             }
         }
         SidecarResponse::UpdateTree { id, tree } => {
-            if let Ok(tree) = serde_json::from_value::<Tree>(tree) {
-                if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                    let stdin_clone = stdin.clone();
-                    thread::spawn(move || {
-                        iced::futures::executor::block_on(async move {
-                            if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
-                                eprintln!("Failed to send tree update: {:?}", e);
-                            }
-                            let response = RustResponse::Success { id, result: None };
-                            let _ = send_response(&response, &stdin_clone);
-                        });
+            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                let stdin_clone = stdin.clone();
+                thread::spawn(move || {
+                    iced::futures::executor::block_on(async move {
+                        if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
+                            eprintln!("Failed to send tree update: {:?}", e);
+                        }
+                        let response = RustResponse::Success { id, result: None };
+                        let _ = send_response(&response, &stdin_clone);
                     });
-                }
+                });
             }
         }
         SidecarResponse::CacheSet {

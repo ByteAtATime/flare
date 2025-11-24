@@ -1,5 +1,5 @@
 use iced::Color;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Debug, Clone)]
@@ -193,6 +193,90 @@ pub fn parse_hex_color(hex: &str) -> Color {
     Color::from_rgb8(r, g, b)
 }
 
+#[derive(Deserialize)]
+#[serde(tag = "type")]
+enum RawActionComponent {
+    ActionPanel {
+        #[serde(default)]
+        children: Vec<RawActionComponent>,
+        #[serde(default)]
+        props: serde::de::IgnoredAny,
+    },
+    #[serde(rename = "ActionPanel.Section")]
+    Section {
+        #[serde(default)]
+        children: Vec<RawActionComponent>,
+        #[serde(default)]
+        props: RawSectionProps,
+    },
+    Action {
+        #[serde(default)]
+        children: Vec<serde::de::IgnoredAny>,
+        #[serde(default)]
+        props: RawActionProps,
+    },
+}
+
+#[derive(Deserialize, Default)]
+struct RawSectionProps {
+    #[serde(default)]
+    title: String,
+}
+
+#[derive(Deserialize, Default)]
+struct RawActionProps {
+    #[serde(default)]
+    title: String,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    icon: Option<String>,
+    #[serde(default, rename = "onAction")]
+    on_action: Option<CallbackInfo>,
+}
+
+fn convert_action_panel(raw: RawActionComponent) -> Option<ActionPanel> {
+    match raw {
+        RawActionComponent::ActionPanel { children, .. } => {
+            let items = children
+                .into_iter()
+                .filter_map(convert_action_item)
+                .collect();
+            Some(ActionPanel { children: items })
+        }
+        _ => None,
+    }
+}
+
+fn convert_action_item(raw: RawActionComponent) -> Option<ActionPanelItem> {
+    match raw {
+        RawActionComponent::Section { props, children } => {
+            let items = children
+                .into_iter()
+                .filter_map(|c| {
+                    if let RawActionComponent::Action { props, .. } = c {
+                        Some(Action {
+                            title: props.title,
+                            icon: props.icon,
+                            on_action: props.on_action,
+                        })
+                    } else {
+                        None
+                    }
+                })
+                .collect();
+            Some(ActionPanelItem::Section(ActionPanelSection {
+                title: props.title,
+                children: items,
+            }))
+        }
+        RawActionComponent::Action { props, .. } => Some(ActionPanelItem::Action(Action {
+            title: props.title,
+            icon: props.icon,
+            on_action: props.on_action,
+        })),
+        _ => None,
+    }
+}
+
 impl<'de> Deserialize<'de> for Component {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -234,7 +318,7 @@ impl<'de> Deserialize<'de> for Component {
             #[serde(default, deserialize_with = "deserialize_content")]
             content: Option<GridItemContent>,
             #[serde(default)]
-            actions: Option<Value>,
+            actions: Option<RawActionComponent>,
         }
 
         #[derive(Default, Deserialize)]
@@ -242,7 +326,7 @@ impl<'de> Deserialize<'de> for Component {
             #[serde(default)]
             markdown: String,
             #[serde(default)]
-            actions: Option<Value>,
+            actions: Option<RawActionComponent>,
             #[serde(default)]
             metadata: Option<DetailMetadata>,
         }
@@ -277,14 +361,14 @@ impl<'de> Deserialize<'de> for Component {
                         title: raw_props.title,
                         subtitle: raw_props.subtitle,
                         content: raw_props.content,
-                        actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
+                        actions: raw_props.actions.and_then(convert_action_panel),
                     })
                 }
                 RawComponent::Detail { props } => {
                     let raw_props = props.unwrap_or_default();
                     Component::Detail(DetailProps {
                         markdown: raw_props.markdown,
-                        actions: raw_props.actions.and_then(|v| parse_action_panel(&v)),
+                        actions: raw_props.actions.and_then(convert_action_panel),
                         metadata: raw_props.metadata,
                     })
                 }
@@ -295,79 +379,6 @@ impl<'de> Deserialize<'de> for Component {
         let raw = RawComponent::deserialize(deserializer)?;
         Ok(convert(raw))
     }
-}
-
-fn parse_action_panel(value: &Value) -> Option<ActionPanel> {
-    #[derive(Deserialize)]
-    struct RawActionPanel {
-        children: Vec<Value>,
-    }
-
-    #[derive(Deserialize)]
-    #[serde(tag = "type")]
-    enum RawActionItem {
-        #[serde(rename = "ActionPanel.Section")]
-        Section {
-            props: RawSectionProps,
-            children: Vec<Value>,
-        },
-        Action {
-            props: RawActionProps,
-        },
-    }
-
-    #[derive(Deserialize)]
-    struct RawSectionProps {
-        title: String,
-    }
-
-    #[derive(Deserialize)]
-    struct RawActionProps {
-        title: String,
-        icon: Option<String>,
-        #[serde(rename = "onAction")]
-        on_action: Option<CallbackInfo>,
-    }
-
-    let panel: RawActionPanel = serde_json::from_value(value.clone()).ok()?;
-
-    let children = panel
-        .children
-        .into_iter()
-        .filter_map(|v| {
-            let item: RawActionItem = serde_json::from_value(v).ok()?;
-            match item {
-                RawActionItem::Section { props, children } => {
-                    Some(ActionPanelItem::Section(ActionPanelSection {
-                        title: props.title,
-                        children: children
-                            .into_iter()
-                            .filter_map(|v| {
-                                if let Ok(RawActionItem::Action { props }) =
-                                    serde_json::from_value(v)
-                                {
-                                    Some(Action {
-                                        title: props.title,
-                                        icon: props.icon,
-                                        on_action: props.on_action,
-                                    })
-                                } else {
-                                    None
-                                }
-                            })
-                            .collect(),
-                    }))
-                }
-                RawActionItem::Action { props } => Some(ActionPanelItem::Action(Action {
-                    title: props.title,
-                    icon: props.icon,
-                    on_action: props.on_action,
-                })),
-            }
-        })
-        .collect();
-
-    Some(ActionPanel { children })
 }
 
 fn deserialize_icon<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
