@@ -2,6 +2,7 @@ use crate::components::actions::ActionPanel;
 
 pub mod detail;
 pub mod grid;
+pub mod list;
 
 pub trait Shell {
     fn can_search(&self) -> bool;
@@ -13,6 +14,7 @@ pub trait Shell {
 pub enum Screen {
     Grid(grid::GridScreen),
     Detail(detail::DetailScreen),
+    List(list::ListScreen),
 }
 
 impl Shell for Screen {
@@ -20,6 +22,7 @@ impl Shell for Screen {
         match self {
             Screen::Grid(screen) => screen.can_search(),
             Screen::Detail(screen) => screen.can_search(),
+            Screen::List(screen) => screen.can_search(),
         }
     }
 
@@ -27,6 +30,7 @@ impl Shell for Screen {
         match self {
             Screen::Grid(screen) => screen.on_search(query),
             Screen::Detail(screen) => screen.on_search(query),
+            Screen::List(screen) => screen.on_search(query),
         }
     }
 
@@ -34,6 +38,7 @@ impl Shell for Screen {
         match self {
             Screen::Grid(screen) => screen.get_action_panel(),
             Screen::Detail(screen) => screen.get_action_panel(),
+            Screen::List(screen) => screen.get_action_panel(),
         }
     }
 }

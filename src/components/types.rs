@@ -4,6 +4,7 @@ use serde_json::Value;
 
 pub use super::detail::DetailProps;
 pub use super::grid::{GridItemProps, GridProps, GridSectionProps};
+pub use super::list::{ListItemProps, ListProps, ListSectionProps};
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "type")]
@@ -13,6 +14,13 @@ pub enum Component {
     GridSection(GridSectionProps),
     #[serde(rename = "Grid.Item")]
     GridItem(GridItemProps),
+
+    List(ListProps),
+    #[serde(rename = "List.Section")]
+    ListSection(ListSectionProps),
+    #[serde(rename = "List.Item")]
+    ListItem(ListItemProps),
+
     Detail(DetailProps),
     #[serde(other)]
     Unknown,

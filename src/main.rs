@@ -32,6 +32,7 @@ struct State {
 
 impl Default for State {
     fn default() -> Self {
+        // TODO: why do we need a default? is there some way to not prefer a certain component?
         Self {
             screen: Screen::Grid(screens::grid::GridScreen::new(
                 components::types::GridProps {
@@ -86,6 +87,7 @@ fn view(state: &State) -> Element<'_, Message> {
     let content = match &state.screen {
         Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
         Screen::Detail(detail_screen) => detail_screen.view().map(Message::Detail),
+        Screen::List(list_screen) => list_screen.view().map(Message::List),
     };
 
     let mut base_col = column![];
@@ -117,6 +119,15 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     };
                     state.screen =
                         Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp, id));
+                    update_selected_actions(state);
+                }
+                Some(components::types::Component::List(list)) => {
+                    let (vp, id) = match &state.screen {
+                        Screen::List(ls) => (ls.get_viewport(), Some(ls.scrollable_id.clone())),
+                        _ => (None, None),
+                    };
+                    state.screen =
+                        Screen::List(screens::list::ListScreen::new(list.clone(), vp, id));
                     update_selected_actions(state);
                 }
                 Some(components::types::Component::Detail(detail)) => {
@@ -196,6 +207,13 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     update_selected_actions(state);
                     return result;
                 }
+                Screen::List(list_screen) => {
+                    let result = list_screen
+                        .update(screens::list::ListMessage::KeyPressed(key, modifiers))
+                        .map(Message::List);
+                    update_selected_actions(state);
+                    return result;
+                }
                 Screen::Detail(detail_screen) => {
                     let result = detail_screen
                         .update(DetailMessage::KeyPressed(key, modifiers))
@@ -221,6 +239,14 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::Grid(grid_message) => match &mut state.screen {
             Screen::Grid(grid_screen) => {
                 let result = grid_screen.update(grid_message).map(Message::Grid);
+                update_selected_actions(state);
+                return result;
+            }
+            _ => {}
+        },
+        Message::List(list_message) => match &mut state.screen {
+            Screen::List(list_screen) => {
+                let result = list_screen.update(list_message).map(Message::List);
                 update_selected_actions(state);
                 return result;
             }

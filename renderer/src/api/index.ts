@@ -1,4 +1,4 @@
-import { Grid, ActionPanel, Action, Detail } from "./components";
+import { Grid, List, ActionPanel, Action, Detail } from "./components";
 import { Toast } from "./toast";
 import { Cache } from "./cache";
 import { LaunchType, environment, getPreferenceValues } from "./environment";
@@ -8,6 +8,7 @@ import { Icon } from "./icons";
 const raycastApi = {
   showToast: (message: string) => {},
   Grid,
+  List,
   ActionPanel,
   Action,
   Detail,

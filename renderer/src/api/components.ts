@@ -37,6 +37,15 @@ Object.assign(Grid, {
   Item: GridItem,
 });
 
+const List = createComponent("List");
+const ListSection = createComponent("List.Section");
+const ListItem = createComponent("List.Item");
+
+Object.assign(List, {
+  Section: ListSection,
+  Item: ListItem,
+});
+
 const ActionPanel = createComponent("ActionPanel");
 const ActionPanelSection = createComponent("ActionPanel.Section");
 
@@ -75,4 +84,4 @@ Object.assign(Detail, {
   Metadata: DetailMetadata,
 });
 
-export { Grid, ActionPanel, Action, Detail };
+export { Grid, List, ActionPanel, Action, Detail };

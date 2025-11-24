@@ -13,4 +13,5 @@ pub enum Message {
 
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),
+    List(crate::screens::list::ListMessage),
 }
