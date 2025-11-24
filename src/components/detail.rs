@@ -1,10 +1,16 @@
 use iced::widget::{button, column, container, markdown, row, scrollable, text};
 use iced::{Border, Color, Element, Length, Theme};
 
-use crate::components::types::{DetailMetadata, DetailMetadataItem, DetailProps};
+use crate::components::types::{
+    DetailMetadata, DetailMetadataItem, DetailProps, MetadataTagListItem, parse_hex_color,
+};
+use crate::icons;
 use crate::screens::detail::DetailMessage;
 
-fn render_metadata<'a>(metadata: &DetailMetadata) -> iced::Element<'a, DetailMessage> {
+const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
+
+fn render_metadata<'a>(metadata: &'a DetailMetadata) -> iced::Element<'a, DetailMessage> {
+    println!("rendering");
     let metadata_items = metadata
         .items
         .iter()
@@ -25,6 +31,49 @@ fn render_metadata<'a>(metadata: &DetailMetadata) -> iced::Element<'a, DetailMes
                     })
                     .padding(0)
             ]),
+            DetailMetadataItem::TagList { props, children } => {
+                let tags = children
+                    .iter()
+                    .fold(row![].spacing(5), |row, item| match item {
+                        MetadataTagListItem::Item { props } => {
+                            let mut tag_content =
+                                row![].spacing(4).align_y(iced::Alignment::Center);
+
+                            if let Some(icon_name) = &props.icon {
+                                if let Some(icon_char) = icons::get_icon(icon_name) {
+                                    tag_content = tag_content.push(text(icon_char).font(ICON_FONT));
+                                }
+                            }
+
+                            if let Some(text_content) = &props.text {
+                                tag_content = tag_content.push(text(text_content));
+                            }
+
+                            row.push(container(tag_content).padding([2, 6]).style(
+                                move |_theme: &Theme| container::Style {
+                                    border: Border {
+                                        radius: 4.0.into(),
+                                        ..Default::default()
+                                    },
+                                    ..Default::default()
+                                },
+                            ))
+                        }
+                    });
+
+                col.push(
+                    row![text(format!("{}: ", props.title)), tags].align_y(iced::Alignment::Center),
+                )
+            }
+            DetailMetadataItem::Separator => col.push(
+                container(row![])
+                    .height(1)
+                    .width(Length::Fill)
+                    .style(|_theme: &Theme| container::Style {
+                        background: Some(Color::from_rgba8(255, 255, 255, 0.1).into()),
+                        ..Default::default()
+                    }),
+            ),
         });
 
     container(metadata_items)

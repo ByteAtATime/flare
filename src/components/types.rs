@@ -51,6 +51,15 @@ pub enum DetailMetadataItem {
 
     #[serde(rename = "Detail.Metadata.Link")]
     Link { props: MetadataLinkProps },
+
+    #[serde(rename = "Detail.Metadata.TagList")]
+    TagList {
+        props: MetadataTagListProps,
+        children: Vec<MetadataTagListItem>,
+    },
+
+    #[serde(rename = "Detail.Metadata.Separator")]
+    Separator,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -66,6 +75,28 @@ pub struct MetadataLinkProps {
     pub title: String,
     pub text: String,
     pub target: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataTagListProps {
+    pub title: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(tag = "type")]
+pub enum MetadataTagListItem {
+    #[serde(rename = "Detail.Metadata.TagList.Item")]
+    Item { props: MetadataTagListItemProps },
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct MetadataTagListItemProps {
+    pub text: Option<String>,
+    pub color: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    pub icon: Option<String>,
+    #[serde(rename = "onAction")]
+    pub on_action: Option<CallbackInfo>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

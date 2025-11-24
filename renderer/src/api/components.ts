@@ -37,10 +37,21 @@ const Detail = createComponent("Detail");
 const DetailMetadata = createComponent("Detail.Metadata");
 const DetailMetadataLabel = createComponent("Detail.Metadata.Label");
 const DetailMetadataLink = createComponent("Detail.Metadata.Link");
+const DetailMetadataTagList = createComponent("Detail.Metadata.TagList");
+const DetailMetadataTagListItem = createComponent(
+  "Detail.Metadata.TagList.Item"
+);
+const DetailMetadataSeparator = createComponent("Detail.Metadata.Separator");
+
+Object.assign(DetailMetadataTagList, {
+  Item: DetailMetadataTagListItem,
+});
 
 Object.assign(DetailMetadata, {
   Label: DetailMetadataLabel,
   Link: DetailMetadataLink,
+  TagList: DetailMetadataTagList,
+  Separator: DetailMetadataSeparator,
 });
 
 Object.assign(Detail, {
