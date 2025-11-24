@@ -26,12 +26,12 @@ export type Route = {
 
 export type Navigation = {
   pop: () => void;
-  push: (element: React.ReactElement) => void;
+  push: (element: React.ReactElement, onPop?: () => void) => void;
 };
 
 const NavigationContext = createContext<Navigation>({
   pop: () => {},
-  push: (element) => {},
+  push: (element, onPop) => {},
 });
 
 export const useNavigation = () => useContext(NavigationContext);

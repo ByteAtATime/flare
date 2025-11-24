@@ -1,4 +1,5 @@
 import React from "react";
+import { Push } from "./actions";
 
 const createComponent = (name: string) => {
   const Component = ({
@@ -44,6 +45,10 @@ Object.assign(ActionPanel, {
 });
 
 const Action = createComponent("Action");
+
+Object.assign(Action, {
+  Push,
+});
 
 const Detail = createComponent("Detail");
 const DetailMetadata = createComponent("Detail.Metadata");
