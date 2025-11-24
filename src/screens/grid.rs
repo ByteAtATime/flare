@@ -363,4 +363,8 @@ impl Shell for GridScreen {
         }
         None
     }
+
+    fn get_search_bar_accessory(&self) -> Option<&crate::components::dropdown::Dropdown> {
+        self.raw_props.props.search_bar_accessory.as_ref()
+    }
 }

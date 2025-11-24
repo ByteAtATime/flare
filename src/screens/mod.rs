@@ -9,6 +9,10 @@ pub trait Shell {
     fn on_search(&mut self, query: &str);
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel>;
+
+    fn get_search_bar_accessory(&self) -> Option<&crate::components::dropdown::Dropdown> {
+        None
+    }
 }
 
 pub enum Screen {
@@ -39,6 +43,14 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.get_action_panel(),
             Screen::Detail(screen) => screen.get_action_panel(),
             Screen::List(screen) => screen.get_action_panel(),
+        }
+    }
+
+    fn get_search_bar_accessory(&self) -> Option<&crate::components::dropdown::Dropdown> {
+        match self {
+            Screen::Grid(screen) => screen.get_search_bar_accessory(),
+            Screen::Detail(screen) => screen.get_search_bar_accessory(),
+            Screen::List(screen) => screen.get_search_bar_accessory(),
         }
     }
 }

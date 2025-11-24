@@ -31,10 +31,19 @@ const createComponent = (name: string) => {
 const Grid = createComponent("Grid");
 const GridSection = createComponent("Grid.Section");
 const GridItem = createComponent("Grid.Item");
+const GridDropdown = createComponent("Grid.Dropdown");
+const GridDropdownSection = createComponent("Grid.Dropdown.Section");
+const GridDropdownItem = createComponent("Grid.Dropdown.Item");
+
+Object.assign(GridDropdown, {
+  Section: GridDropdownSection,
+  Item: GridDropdownItem,
+});
 
 Object.assign(Grid, {
   Section: GridSection,
   Item: GridItem,
+  Dropdown: GridDropdown,
 });
 
 const List = createComponent("List");

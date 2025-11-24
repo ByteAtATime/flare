@@ -12,7 +12,7 @@ mod utils;
 
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
-use iced::widget::{column, container, stack, text_input};
+use iced::widget::{column, container, pick_list, row, stack, text_input};
 use iced::{Element, Length, Subscription, Task, Theme};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
@@ -40,6 +40,7 @@ impl Default for State {
                     props: components::grid::GridProperties {
                         columns: None,
                         on_search_text_change: None,
+                        search_bar_accessory: None,
                     },
                 },
                 None,
@@ -53,32 +54,85 @@ impl Default for State {
     }
 }
 
+#[derive(Debug, Clone, PartialEq)]
+struct DropdownOption {
+    title: String,
+    value: String,
+}
+
+impl std::fmt::Display for DropdownOption {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.title)
+    }
+}
+
 fn view(state: &State) -> Element<'_, Message> {
     let search_bar = if state.screen.can_search() {
-        Some(
-            container(
-                text_input("Search...", &state.search_text)
-                    .on_input(Message::SearchTextChanged)
-                    .size(20)
-                    .padding(12)
-                    .style(|_theme: &Theme, status| {
-                        let base = text_input::default(_theme, status);
-                        text_input::Style {
-                            background: iced::Background::Color(iced::Color::TRANSPARENT),
-                            border: iced::Border::default(),
-                            ..base
-                        }
-                    }),
+        let text_input = text_input("Search...", &state.search_text)
+            .on_input(Message::SearchTextChanged)
+            .size(20)
+            .padding(12)
+            .style(|_theme: &Theme, status| {
+                let base = text_input::default(_theme, status);
+                text_input::Style {
+                    background: iced::Background::Color(iced::Color::TRANSPARENT),
+                    border: iced::Border::default(),
+                    ..base
+                }
+            });
+
+        let accessory = if let Some(dropdown) = state.screen.get_search_bar_accessory() {
+            let options: Vec<DropdownOption> = dropdown
+                .children
+                .iter()
+                .flat_map(|child| match child {
+                    components::dropdown::DropdownChild::Item(item) => {
+                        vec![DropdownOption {
+                            title: item.props.title.clone(),
+                            value: item.props.value.clone(),
+                        }]
+                    }
+                    components::dropdown::DropdownChild::Section(section) => section
+                        .children
+                        .iter()
+                        .map(|item| DropdownOption {
+                            title: item.props.title.clone(),
+                            value: item.props.value.clone(),
+                        })
+                        .collect(),
+                })
+                .collect();
+
+            let selected = dropdown
+                .props
+                .value
+                .as_ref()
+                .and_then(|val| options.iter().find(|opt| &opt.value == val).cloned());
+
+            Some(
+                pick_list(options, selected, |opt| Message::DropdownChanged(opt.value)).padding(10),
             )
-            .padding(10)
-            .style(|_theme: &Theme| container::Style {
-                border: iced::Border {
-                    color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
-                    width: 1.0,
+        } else {
+            None
+        };
+
+        let mut row_content = row![text_input].align_y(iced::Alignment::Center);
+
+        if let Some(acc) = accessory {
+            row_content = row_content.push(acc);
+        }
+
+        Some(
+            container(row_content)
+                .padding(10)
+                .style(|_theme: &Theme| container::Style {
+                    border: iced::Border {
+                        color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
+                        width: 1.0,
+                        ..Default::default()
+                    },
                     ..Default::default()
-                },
-                ..Default::default()
-            }),
+                }),
         )
     } else {
         None
@@ -142,6 +196,23 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             state.search_text = text.clone();
             state.screen.on_search(&text);
             update_selected_actions(state);
+        }
+        Message::DropdownChanged(value) => {
+            if let Some(dropdown) = state.screen.get_search_bar_accessory() {
+                if let Some(callback) = &dropdown.props.on_change {
+                    if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {
+                        let callback_id = callback.id.clone();
+                        std::thread::spawn(move || {
+                            futures::executor::block_on(async move {
+                                sender
+                                    .send((callback_id, serde_json::Value::String(value)))
+                                    .await
+                                    .ok();
+                            });
+                        });
+                    }
+                }
+            }
         }
         Message::KeyPressed(key, modifiers) => {
             use iced::keyboard::{Key, Modifiers, key::Named};

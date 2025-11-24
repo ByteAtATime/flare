@@ -4,6 +4,7 @@ use serde::Deserialize;
 use serde_json::Value;
 
 use super::actions::ActionPanel;
+use super::dropdown::Dropdown;
 use super::types::{CallbackInfo, parse_hex_color};
 use crate::components::column as positionable_column;
 use crate::screens::grid::GridMessage;
@@ -25,6 +26,8 @@ pub struct GridProperties {
     pub columns: Option<i32>,
     #[serde(default, rename = "onSearchTextChange")]
     pub on_search_text_change: Option<CallbackInfo>,
+    #[serde(default, rename = "searchBarAccessory")]
+    pub search_bar_accessory: Option<Dropdown>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]

@@ -10,6 +10,7 @@ pub enum Message {
     InvokeAction(String),
     ToggleActionPanel(bool),
     ShowToast(String),
+    DropdownChanged(String),
 
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),
