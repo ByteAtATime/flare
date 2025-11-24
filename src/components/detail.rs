@@ -1,16 +1,17 @@
-use iced::widget::{button, column, container, markdown, row, scrollable, text};
+use iced::widget::image;
+use iced::widget::{button, column, container, markdown, row, scrollable, space, text};
 use iced::{Border, Color, Element, Length, Theme};
 
 use crate::components::types::{
-    DetailMetadata, DetailMetadataItem, DetailProps, MetadataTagListItem, parse_hex_color,
+    DetailMetadata, DetailMetadataItem, DetailProps, MetadataTagListItem,
 };
 use crate::icons;
+use crate::image_cache::get;
 use crate::screens::detail::DetailMessage;
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
 fn render_metadata<'a>(metadata: &'a DetailMetadata) -> iced::Element<'a, DetailMessage> {
-    println!("rendering");
     let metadata_items = metadata
         .items
         .iter()
@@ -99,12 +100,38 @@ pub fn render_detail<'a>(
 
     row![
         scrollable(
-            container(markdown::view(parsed, Theme::TokyoNight).map(DetailMessage::LinkClicked))
-                .padding(20)
-                .width(Length::Fill),
+            container(markdown::view_with(
+                parsed,
+                Theme::TokyoNight,
+                &MarkdownViewer {}
+            ))
+            .padding(20)
+            .width(Length::Fill),
         )
         .height(Length::Fill),
         metadata
     ]
     .into()
+}
+
+struct MarkdownViewer {}
+
+impl<'a> markdown::Viewer<'a, DetailMessage> for MarkdownViewer {
+    fn on_link_click(url: markdown::Uri) -> DetailMessage {
+        DetailMessage::LinkClicked(url)
+    }
+
+    fn image(
+        &self,
+        _settings: markdown::Settings,
+        url: &'a markdown::Uri,
+        _title: &'a str,
+        _alt: &markdown::Text,
+    ) -> Element<'a, DetailMessage> {
+        if let Some(handle) = get(url) {
+            container(image(handle)).center(150.0).into()
+        } else {
+            container(space()).into()
+        }
+    }
 }
