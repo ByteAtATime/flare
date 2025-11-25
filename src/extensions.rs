@@ -130,68 +130,97 @@ pub enum AccessLevel {
     Private,
 }
 
+#[derive(Debug, Clone)]
+pub struct Extension {
+    pub manifest: RaycastManifest,
+    pub path: PathBuf,
+}
+
+#[derive(Debug, Clone)]
+pub struct ExtensionCommand {
+    pub extension_name: String,
+    pub extension_title: String,
+    pub extension_icon: Option<String>,
+    pub extension_path: PathBuf,
+    pub command_name: String,
+    pub command_title: String,
+    pub command_subtitle: Option<String>,
+    pub command_icon: Option<String>,
+    pub command_mode: CommandMode,
+}
+
 pub fn get_extensions_dir() -> Option<PathBuf> {
     dirs::data_dir().map(|d| d.join("flare").join("extensions"))
 }
 
-pub fn scan_extensions() {
+pub fn scan_extensions() -> Vec<Extension> {
     let Some(extensions_dir) = get_extensions_dir() else {
-        eprintln!("Couldn't find a valid path for extensions");
-        return;
+        return Vec::new();
     };
 
     if !extensions_dir.exists() {
-        eprintln!("Extensions directory does not exist: {:?}", extensions_dir);
-        return;
+        return Vec::new();
     }
 
-    match fs::read_dir(&extensions_dir) {
-        Ok(entries) => {
-            for entry in entries {
-                if let Ok(entry) = entry {
-                    let path = entry.path();
-                    if path.is_dir() {
-                        let package_json = path.join("package.json");
-                        if package_json.exists() {
-                            match fs::read_to_string(&package_json) {
-                                Ok(content) => {
-                                    match serde_json::from_str::<RaycastManifest>(&content) {
-                                        Ok(manifest) => {
-                                            println!(
-                                                "ooo extension: {} ({})",
-                                                manifest.title, manifest.name
-                                            );
-                                            for cmd in manifest.commands {
-                                                println!(
-                                                    "  command: {} ({}), mode: {:?}",
-                                                    cmd.title, cmd.name, cmd.mode
-                                                );
-                                            }
-                                        }
-                                        Err(e) => {
-                                            eprintln!(
-                                                "Error parsing package.json for {:?}: {}",
-                                                path.file_name().unwrap_or_default(),
-                                                e
-                                            );
-                                        }
-                                    }
-                                }
-                                Err(e) => {
-                                    eprintln!(
-                                        "Error reading package.json for {:?}: {}",
-                                        path.file_name().unwrap_or_default(),
-                                        e
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    let Ok(entries) = fs::read_dir(&extensions_dir) else {
+        return Vec::new();
+    };
+
+    let mut extensions = Vec::new();
+
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if !path.is_dir() {
+            continue;
         }
-        Err(e) => {
-            eprintln!("Error reading extensions: {}", e);
+
+        let package_json = path.join("package.json");
+        if !package_json.exists() {
+            continue;
+        }
+
+        let Ok(content) = fs::read_to_string(&package_json) else {
+            continue;
+        };
+
+        let Ok(manifest) = serde_json::from_str::<RaycastManifest>(&content) else {
+            continue;
+        };
+
+        extensions.push(Extension { manifest, path });
+    }
+
+    extensions
+}
+
+pub fn get_launchable_commands(extensions: &[Extension]) -> Vec<ExtensionCommand> {
+    let mut commands = Vec::new();
+
+    for ext in extensions {
+        let extension_icon = if ext.manifest.icon.is_empty() {
+            None
+        } else {
+            Some(ext.manifest.icon.clone())
+        };
+
+        for cmd in &ext.manifest.commands {
+            if cmd.mode != CommandMode::View {
+                continue;
+            }
+
+            commands.push(ExtensionCommand {
+                extension_name: ext.manifest.name.clone(),
+                extension_title: ext.manifest.title.clone(),
+                extension_icon: extension_icon.clone(),
+                extension_path: ext.path.clone(),
+                command_name: cmd.name.clone(),
+                command_title: cmd.title.clone(),
+                command_subtitle: cmd.subtitle.clone(),
+                command_icon: cmd.icon.clone(),
+                command_mode: cmd.mode.clone(),
+            });
         }
     }
+
+    commands
 }
