@@ -398,8 +398,7 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::LaunchCommand(command) => {
             let entry_path = command
                 .extension_path
-                .join("src")
-                .join(format!("{}.tsx", command.command_name));
+                .join(format!("{}.js", command.command_name));
             let entry_path_str = entry_path.to_string_lossy().to_string();
 
             state.search_text.clear();
