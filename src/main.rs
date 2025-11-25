@@ -145,6 +145,7 @@ fn view(state: &State) -> Element<'_, Message> {
     };
 
     let content = match &state.screen {
+        Screen::Root(root_screen) => root_screen.view().map(Message::Root),
         Screen::Grid(grid_screen) => grid_screen.view().map(Message::Grid),
         Screen::Detail(detail_screen) => detail_screen.view().map(Message::Detail),
         Screen::List(list_screen) => list_screen.view().map(Message::List),
@@ -311,6 +312,12 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             }
 
             match &mut state.screen {
+                Screen::Root(root_screen) => {
+                    let result = root_screen
+                        .update(screens::root::RootMessage::KeyPressed(key, modifiers))
+                        .map(Message::Root);
+                    return result;
+                }
                 Screen::Grid(grid_screen) => {
                     let result = grid_screen
                         .update(screens::grid::GridMessage::KeyPressed(key, modifiers))
@@ -371,6 +378,15 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             }
             _ => {}
         },
+        Message::Root(root_message) => match &mut state.screen {
+            Screen::Root(root_screen) => {
+                let result = root_screen.update(root_message).map(Message::Root);
+                return result;
+            }
+            _ => {}
+        },
+        Message::LaunchCommand(_command) => {
+        }
     }
     Task::none()
 }

@@ -1,3 +1,4 @@
+use crate::extensions::ExtensionCommand;
 use crate::types::Tree;
 use iced::widget::image::Handle;
 
@@ -11,7 +12,9 @@ pub enum Message {
     ToggleActionPanel(bool),
     ShowToast(String),
     DropdownChanged(String),
+    LaunchCommand(ExtensionCommand),
 
+    Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),
     List(crate::screens::list::ListMessage),
