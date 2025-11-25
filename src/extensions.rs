@@ -166,61 +166,52 @@ pub fn scan_extensions() -> Vec<Extension> {
         return Vec::new();
     };
 
-    let mut extensions = Vec::new();
+    entries
+        .flatten()
+        .filter(|entry| entry.path().is_dir())
+        .filter_map(|entry| {
+            let path = entry.path();
+            let package_json = path.join("package.json");
 
-    for entry in entries.flatten() {
-        let path = entry.path();
-        if !path.is_dir() {
-            continue;
-        }
+            if !package_json.exists() {
+                return None;
+            }
 
-        let package_json = path.join("package.json");
-        if !package_json.exists() {
-            continue;
-        }
+            let content = fs::read_to_string(&package_json).ok()?;
+            let manifest = serde_json::from_str::<RaycastManifest>(&content).ok()?;
 
-        let Ok(content) = fs::read_to_string(&package_json) else {
-            continue;
-        };
-
-        let Ok(manifest) = serde_json::from_str::<RaycastManifest>(&content) else {
-            continue;
-        };
-
-        extensions.push(Extension { manifest, path });
-    }
-
-    extensions
+            Some(Extension { manifest, path })
+        })
+        .collect()
 }
 
 pub fn get_launchable_commands(extensions: &[Extension]) -> Vec<ExtensionCommand> {
-    let mut commands = Vec::new();
+    extensions
+        .iter()
+        .flat_map(|ext| {
+            let extension_icon = if ext.manifest.icon.is_empty() {
+                None
+            } else {
+                Some(ext.manifest.icon.clone())
+            };
 
-    for ext in extensions {
-        let extension_icon = if ext.manifest.icon.is_empty() {
-            None
-        } else {
-            Some(ext.manifest.icon.clone())
-        };
+            ext.manifest.commands.iter().filter_map(move |cmd| {
+                if cmd.mode != CommandMode::View {
+                    return None;
+                }
 
-        for cmd in &ext.manifest.commands {
-            if cmd.mode != CommandMode::View {
-                continue;
-            }
-
-            commands.push(ExtensionCommand {
-                extension_name: ext.manifest.name.clone(),
-                extension_title: ext.manifest.title.clone(),
-                extension_icon: extension_icon.clone(),
-                extension_path: ext.path.clone(),
-                command_name: cmd.name.clone(),
-                command_title: cmd.title.clone(),
-                command_subtitle: cmd.subtitle.clone(),
-                command_icon: cmd.icon.clone(),
-                command_mode: cmd.mode.clone(),
-            });
-        }
-    }
-
-    commands
+                Some(ExtensionCommand {
+                    extension_name: ext.manifest.name.clone(),
+                    extension_title: ext.manifest.title.clone(),
+                    extension_icon: extension_icon.clone(),
+                    extension_path: ext.path.clone(),
+                    command_name: cmd.name.clone(),
+                    command_title: cmd.title.clone(),
+                    command_subtitle: cmd.subtitle.clone(),
+                    command_icon: cmd.icon.clone(),
+                    command_mode: cmd.mode.clone(),
+                })
+            })
+        })
+        .collect()
 }

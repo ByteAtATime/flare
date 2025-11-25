@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, Space, column, container, row, scrollable, text};
+use iced::widget::{self, column, container, row, scrollable, text};
 use iced::{
     Alignment, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
