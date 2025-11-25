@@ -1,0 +1,948 @@
+{
+  "HRK": {
+    "aliases": [
+      "克罗地亚库纳"
+    ],
+    "symbol": "HRK"
+  },
+  "HUF": {
+    "aliases": [
+      "匈牙利福林"
+    ],
+    "symbol": "HUF"
+  },
+  "CDF": {
+    "aliases": [
+      "刚果法郎"
+    ],
+    "symbol": "CDF"
+  },
+  "ILS": {
+    "aliases": [
+      "新以色列镑"
+    ],
+    "symbol": "ILS"
+  },
+  "NGN": {
+    "aliases": [
+      "尼日利亚奈拉"
+    ],
+    "symbol": "NGN"
+  },
+  "GYD": {
+    "aliases": [
+      "圭亚那元"
+    ],
+    "symbol": "GYD"
+  },
+  "BHD": {
+    "aliases": [
+      "巴林第纳尔"
+    ],
+    "symbol": "BHD"
+  },
+  "SZL": {
+    "aliases": [
+      "史瓦济兰里兰吉尼"
+    ],
+    "symbol": "SZL"
+  },
+  "INR": {
+    "aliases": [
+      "印度卢比"
+    ],
+    "symbol": "INR"
+  },
+  "SDG": {
+    "aliases": [
+      "苏丹镑"
+    ],
+    "symbol": "SDG"
+  },
+  "PEN": {
+    "aliases": [
+      "秘鲁索尔"
+    ],
+    "symbol": "PEN"
+  },
+  "EUR": {
+    "aliases": [
+      "欧元"
+    ],
+    "symbol": "EUR"
+  },
+  "QAR": {
+    "aliases": [
+      "卡塔尔利尔"
+    ],
+    "symbol": "QAR"
+  },
+  "PGK": {
+    "aliases": [
+      "巴布亚新几内亚基那"
+    ],
+    "symbol": "PGK"
+  },
+  "LRD": {
+    "aliases": [
+      "利比里亚元"
+    ],
+    "symbol": "LRD"
+  },
+  "ISK": {
+    "aliases": [
+      "冰岛克朗"
+    ],
+    "symbol": "ISK"
+  },
+  "SYP": {
+    "aliases": [
+      "叙利亚镑"
+    ],
+    "symbol": "SYP"
+  },
+  "TRY": {
+    "aliases": [
+      "土耳其新里拉"
+    ],
+    "symbol": "TRY"
+  },
+  "UAH": {
+    "aliases": [
+      "乌克兰格里夫纳"
+    ],
+    "symbol": "UAH"
+  },
+  "SGD": {
+    "aliases": [
+      "新加坡元"
+    ],
+    "symbol": "SGD"
+  },
+  "MMK": {
+    "aliases": [
+      "缅甸元"
+    ],
+    "symbol": "MMK"
+  },
+  "NIO": {
+    "aliases": [
+      "尼加拉瓜科多巴"
+    ],
+    "symbol": "NIO"
+  },
+  "BIF": {
+    "aliases": [
+      "布隆迪法郎"
+    ],
+    "symbol": "BIF"
+  },
+  "AFN": {
+    "aliases": [
+      "阿富汗尼"
+    ],
+    "symbol": "AFN"
+  },
+  "LKR": {
+    "aliases": [
+      "斯里兰卡卢比"
+    ],
+    "symbol": "LKR"
+  },
+  "GTQ": {
+    "aliases": [
+      "危地马拉格查尔"
+    ],
+    "symbol": "GTQ"
+  },
+  "LTC": {
+    "aliases": [
+      "莱特币",
+      "litecoins",
+      "litecoin"
+    ],
+    "symbol": "LTC"
+  },
+  "CHF": {
+    "aliases": [
+      "瑞士法郎"
+    ],
+    "symbol": "CHF"
+  },
+  "THB": {
+    "aliases": [
+      "泰国铢"
+    ],
+    "symbol": "THB"
+  },
+  "AMD": {
+    "aliases": [
+      "亚美尼亚德拉姆"
+    ],
+    "symbol": "AMD"
+  },
+  "AOA": {
+    "aliases": [
+      "安哥拉宽扎"
+    ],
+    "symbol": "AOA"
+  },
+  "SEK": {
+    "aliases": [
+      "瑞典克朗"
+    ],
+    "symbol": "SEK"
+  },
+  "SAR": {
+    "aliases": [
+      "沙特阿拉伯里亚尔"
+    ],
+    "symbol": "SAR"
+  },
+  "KWD": {
+    "aliases": [
+      "科威特第纳尔"
+    ],
+    "symbol": "KWD"
+  },
+  "IRR": {
+    "aliases": [
+      "伊朗里亚尔"
+    ],
+    "symbol": "IRR"
+  },
+  "WST": {
+    "aliases": [
+      "萨摩亚塔拉"
+    ],
+    "symbol": "WST"
+  },
+  "BMD": {
+    "aliases": [
+      "百慕大元"
+    ],
+    "symbol": "BMD"
+  },
+  "BGN": {
+    "aliases": [
+      "保加利亚列瓦"
+    ],
+    "symbol": "BGN"
+  },
+  "PHP": {
+    "aliases": [
+      "菲律宾比索"
+    ],
+    "symbol": "PHP"
+  },
+  "ZMW": {
+    "aliases": [
+      "尚比亚克瓦查"
+    ],
+    "symbol": "ZMW"
+  },
+  "XAF": {
+    "aliases": [
+      "刚果中非共同体法郎"
+    ],
+    "symbol": "XAF"
+  },
+  "BDT": {
+    "aliases": [
+      "孟加拉塔卡"
+    ],
+    "symbol": "BDT"
+  },
+  "NOK": {
+    "aliases": [
+      "挪威克朗"
+    ],
+    "symbol": "NOK"
+  },
+  "BOB": {
+    "aliases": [
+      "玻利维亚诺"
+    ],
+    "symbol": "BOB"
+  },
+  "TZS": {
+    "aliases": [
+      "坦桑尼亚先令"
+    ],
+    "symbol": "TZS"
+  },
+  "VES": {
+    "aliases": [
+      "委内瑞拉玻利瓦尔"
+    ],
+    "symbol": "VES"
+  },
+  "VUV": {
+    "aliases": [
+      "万那杜瓦图"
+    ],
+    "symbol": "VUV"
+  },
+  "ANG": {
+    "aliases": [
+      "列斯荷兰盾"
+    ],
+    "symbol": "ANG"
+  },
+  "BND": {
+    "aliases": [
+      "文莱元"
+    ],
+    "symbol": "BND"
+  },
+  "XCD": {
+    "aliases": [
+      "东加勒比元"
+    ],
+    "symbol": "XCD"
+  },
+  "SCR": {
+    "aliases": [
+      "赛舌尔法郎"
+    ],
+    "symbol": "SCR"
+  },
+  "KYD": {
+    "aliases": [
+      "开曼群岛元"
+    ],
+    "symbol": "KYD"
+  },
+  "DJF": {
+    "aliases": [
+      "吉布提法郎"
+    ],
+    "symbol": "DJF"
+  },
+  "LSL": {
+    "aliases": [
+      "莱索托洛提"
+    ],
+    "symbol": "LSL"
+  },
+  "MOP": {
+    "aliases": [
+      "澳门币"
+    ],
+    "symbol": "MOP"
+  },
+  "ALL": {
+    "aliases": [
+      "阿尔巴尼亚列克"
+    ],
+    "symbol": "ALL"
+  },
+  "UZS": {
+    "aliases": [
+      "乌兹别克斯坦苏母"
+    ],
+    "symbol": "UZS"
+  },
+  "UYU": {
+    "aliases": [
+      "乌拉圭比索"
+    ],
+    "symbol": "UYU"
+  },
+  "PLN": {
+    "aliases": [
+      "波兰兹罗提"
+    ],
+    "symbol": "PLN"
+  },
+  "LTL": {
+    "aliases": [
+      "立陶宛里塔斯"
+    ],
+    "symbol": "LTL"
+  },
+  "LYD": {
+    "aliases": [
+      "利比亚第纳尔"
+    ],
+    "symbol": "LYD"
+  },
+  "JPY": {
+    "aliases": [
+      "日元"
+    ],
+    "symbol": "JPY"
+  },
+  "MNT": {
+    "aliases": [
+      "图格里克"
+    ],
+    "symbol": "MNT"
+  },
+  "FJD": {
+    "aliases": [
+      "斐济元"
+    ],
+    "symbol": "FJD"
+  },
+  "PKR": {
+    "aliases": [
+      "巴基斯坦卢比"
+    ],
+    "symbol": "PKR"
+  },
+  "MRU": {
+    "aliases": [
+      "毛里塔尼亚乌吉亚"
+    ],
+    "symbol": "MRU"
+  },
+  "OMR": {
+    "aliases": [
+      "阿曼里亚尔"
+    ],
+    "symbol": "OMR"
+  },
+  "GBP": {
+    "aliases": [
+      "英镑"
+    ],
+    "symbol": "GBP"
+  },
+  "LVL": {
+    "aliases": [
+      "拉脱维亚拉图"
+    ],
+    "symbol": "LVL"
+  },
+  "SHP": {
+    "aliases": [
+      "圣赫勒拿群岛镑"
+    ],
+    "symbol": "SHP"
+  },
+  "GEL": {
+    "aliases": [
+      "格鲁吉亚拉里"
+    ],
+    "symbol": "GEL"
+  },
+  "TND": {
+    "aliases": [
+      "突尼斯第纳尔"
+    ],
+    "symbol": "TND"
+  },
+  "DKK": {
+    "aliases": [
+      "丹麦克朗"
+    ],
+    "symbol": "DKK"
+  },
+  "NPR": {
+    "aliases": [
+      "尼泊尔卢比"
+    ],
+    "symbol": "NPR"
+  },
+  "KRW": {
+    "aliases": [
+      "韩元"
+    ],
+    "symbol": "KRW"
+  },
+  "BSD": {
+    "aliases": [
+      "巴哈马元"
+    ],
+    "symbol": "BSD"
+  },
+  "CRC": {
+    "aliases": [
+      "哥斯达黎加科郎"
+    ],
+    "symbol": "CRC"
+  },
+  "EGP": {
+    "aliases": [
+      "埃及镑"
+    ],
+    "symbol": "EGP"
+  },
+  "MAD": {
+    "aliases": [
+      "摩洛哥道拉姆"
+    ],
+    "symbol": "MAD"
+  },
+  "AUD": {
+    "aliases": [
+      "澳大利亚元"
+    ],
+    "symbol": "AUD"
+  },
+  "BTC": {
+    "aliases": [
+      "比特币"
+    ],
+    "symbol": "BTC"
+  },
+  "SLL": {
+    "aliases": [
+      "塞拉利昂利昂"
+    ],
+    "symbol": "SLL"
+  },
+  "MWK": {
+    "aliases": [
+      "马拉维克瓦查"
+    ],
+    "symbol": "MWK"
+  },
+  "RSD": {
+    "aliases": [
+      "塞尔维亚第纳尔"
+    ],
+    "symbol": "RSD"
+  },
+  "NZD": {
+    "aliases": [
+      "新西兰元"
+    ],
+    "symbol": "NZD"
+  },
+  "SRD": {
+    "aliases": [
+      "苏利南元"
+    ],
+    "symbol": "SRD"
+  },
+  "CLP": {
+    "aliases": [
+      "智利比索"
+    ],
+    "symbol": "CLP"
+  },
+  "RUB": {
+    "aliases": [
+      "俄罗斯卢布"
+    ],
+    "symbol": "RUB"
+  },
+  "NAD": {
+    "aliases": [
+      "纳米比亚元"
+    ],
+    "symbol": "NAD"
+  },
+  "HKD": {
+    "aliases": [
+      "港币"
+    ],
+    "symbol": "HKD"
+  },
+  "GMD": {
+    "aliases": [
+      "冈比亚达拉西"
+    ],
+    "symbol": "GMD"
+  },
+  "VND": {
+    "aliases": [
+      "越南盾"
+    ],
+    "symbol": "VND"
+  },
+  "LAK": {
+    "aliases": [
+      "老挝基普"
+    ],
+    "symbol": "LAK"
+  },
+  "RON": {
+    "aliases": [
+      "罗马尼亚列伊"
+    ],
+    "symbol": "RON"
+  },
+  "MUR": {
+    "aliases": [
+      "毛里求斯卢比"
+    ],
+    "symbol": "MUR"
+  },
+  "MXN": {
+    "aliases": [
+      "墨西哥比索"
+    ],
+    "symbol": "MXN"
+  },
+  "BRL": {
+    "aliases": [
+      "巴西利亚伊"
+    ],
+    "symbol": "BRL"
+  },
+  "STD": {
+    "aliases": [
+      "圣多美和普林西比多布拉"
+    ],
+    "symbol": "STD"
+  },
+  "AWG": {
+    "aliases": [
+      "阿鲁巴弗罗林"
+    ],
+    "symbol": "AWG"
+  },
+  "MVR": {
+    "aliases": [
+      "马尔代夫卢非亚"
+    ],
+    "symbol": "MVR"
+  },
+  "PAB": {
+    "aliases": [
+      "巴拿马巴尔博亚"
+    ],
+    "symbol": "PAB"
+  },
+  "TJS": {
+    "aliases": [
+      "塔吉克索莫尼"
+    ],
+    "symbol": "TJS"
+  },
+  "GNF": {
+    "aliases": [
+      "几内亚法郎"
+    ],
+    "symbol": "GNF"
+  },
+  "ETB": {
+    "aliases": [
+      "埃塞俄比亚比尔"
+    ],
+    "symbol": "ETB"
+  },
+  "ZAR": {
+    "aliases": [
+      "南非兰特"
+    ],
+    "symbol": "ZAR"
+  },
+  "COP": {
+    "aliases": [
+      "哥伦比亚比索"
+    ],
+    "symbol": "COP"
+  },
+  "IDR": {
+    "aliases": [
+      "印度尼西亚卢比(盾)"
+    ],
+    "symbol": "IDR"
+  },
+  "SVC": {
+    "aliases": [
+      "萨尔瓦多科郎"
+    ],
+    "symbol": "SVC"
+  },
+  "CVE": {
+    "aliases": [
+      "佛得角埃斯库多"
+    ],
+    "symbol": "CVE"
+  },
+  "TTD": {
+    "aliases": [
+      "特立尼达和多巴哥元"
+    ],
+    "symbol": "TTD"
+  },
+  "GIP": {
+    "aliases": [
+      "直布罗陀镑"
+    ],
+    "symbol": "GIP"
+  },
+  "PYG": {
+    "aliases": [
+      "巴拉圭瓜拉尼"
+    ],
+    "symbol": "PYG"
+  },
+  "DOGE": {
+    "aliases": [
+      "多吉币",
+      "dogecoins",
+      "dogecoin"
+    ],
+    "symbol": "DOGE"
+  },
+  "MZN": {
+    "aliases": [
+      "莫三比克梅蒂卡尔"
+    ],
+    "symbol": "MZN"
+  },
+  "FKP": {
+    "aliases": [
+      "福克兰群岛镑"
+    ],
+    "symbol": "FKP"
+  },
+  "KZT": {
+    "aliases": [
+      "哈萨克斯坦腾格"
+    ],
+    "symbol": "KZT"
+  },
+  "USD": {
+    "aliases": [
+      "美元"
+    ],
+    "symbol": "USD"
+  },
+  "UGX": {
+    "aliases": [
+      "乌干达先令"
+    ],
+    "symbol": "UGX"
+  },
+  "RWF": {
+    "aliases": [
+      "卢旺达法郎"
+    ],
+    "symbol": "RWF"
+  },
+  "GHS": {
+    "aliases": [
+      "迦纳塞地"
+    ],
+    "symbol": "GHS"
+  },
+  "ARS": {
+    "aliases": [
+      "阿根廷比索"
+    ],
+    "symbol": "ARS"
+  },
+  "DOP": {
+    "aliases": [
+      "多米尼加比索"
+    ],
+    "symbol": "DOP"
+  },
+  "LBP": {
+    "aliases": [
+      "黎巴嫩镑"
+    ],
+    "symbol": "LBP"
+  },
+  "BZD": {
+    "aliases": [
+      "伯利兹元"
+    ],
+    "symbol": "BZD"
+  },
+  "BTN": {
+    "aliases": [
+      "不丹卢比"
+    ],
+    "symbol": "BTN"
+  },
+  "MYR": {
+    "aliases": [
+      "马来西亚林吉特"
+    ],
+    "symbol": "MYR"
+  },
+  "YER": {
+    "aliases": [
+      "也门里亚尔"
+    ],
+    "symbol": "YER"
+  },
+  "JMD": {
+    "aliases": [
+      "牙买加元"
+    ],
+    "symbol": "JMD"
+  },
+  "TOP": {
+    "aliases": [
+      "汤加潘加"
+    ],
+    "symbol": "TOP"
+  },
+  "SOS": {
+    "aliases": [
+      "索马里先令"
+    ],
+    "symbol": "SOS"
+  },
+  "TMT": {
+    "aliases": [
+      "土庫曼马纳特"
+    ],
+    "symbol": "TMT"
+  },
+  "MDL": {
+    "aliases": [
+      "摩尔多瓦列伊"
+    ],
+    "symbol": "MDL"
+  },
+  "XOF": {
+    "aliases": [
+      "中非法郎"
+    ],
+    "symbol": "XOF"
+  },
+  "ETH": {
+    "aliases": [
+      "ethereum"
+    ],
+    "symbol": "ETH"
+  },
+  "TWD": {
+    "aliases": [
+      "新台币"
+    ],
+    "symbol": "TWD"
+  },
+  "BBD": {
+    "aliases": [
+      "巴巴多斯元"
+    ],
+    "symbol": "BBD"
+  },
+  "CAD": {
+    "aliases": [
+      "加拿大元"
+    ],
+    "symbol": "CAD"
+  },
+  "CNY": {
+    "aliases": [
+      "人民币"
+    ],
+    "symbol": "CNY"
+  },
+  "JOD": {
+    "aliases": [
+      "约旦第纳尔"
+    ],
+    "symbol": "JOD"
+  },
+  "XPF": {
+    "aliases": [
+      "洋法郎"
+    ],
+    "symbol": "XPF"
+  },
+  "IQD": {
+    "aliases": [
+      "伊拉克第纳尔"
+    ],
+    "symbol": "IQD"
+  },
+  "HNL": {
+    "aliases": [
+      "洪都拉斯伦皮拉"
+    ],
+    "symbol": "HNL"
+  },
+  "AED": {
+    "aliases": [
+      "阿联酋迪拉姆"
+    ],
+    "symbol": "AED"
+  },
+  "KES": {
+    "aliases": [
+      "肯尼亚先令"
+    ],
+    "symbol": "KES"
+  },
+  "KMF": {
+    "aliases": [
+      "科摩罗法郎"
+    ],
+    "symbol": "KMF"
+  },
+  "MKD": {
+    "aliases": [
+      "马其顿第纳尔"
+    ],
+    "symbol": "MKD"
+  },
+  "DZD": {
+    "aliases": [
+      "阿尔及利亚第纳尔"
+    ],
+    "symbol": "DZD"
+  },
+  "CUP": {
+    "aliases": [
+      "古巴比索"
+    ],
+    "symbol": "CUP"
+  },
+  "BWP": {
+    "aliases": [
+      "博茨瓦纳普拉"
+    ],
+    "symbol": "BWP"
+  },
+  "SBD": {
+    "aliases": [
+      "所罗门群岛元"
+    ],
+    "symbol": "SBD"
+  },
+  "AZN": {
+    "aliases": [
+      "阿塞拜疆马纳特"
+    ],
+    "symbol": "AZN"
+  },
+  "KGS": {
+    "aliases": [
+      "吉尔吉斯斯坦索姆"
+    ],
+    "symbol": "KGS"
+  },
+  "BYN": {
+    "aliases": [
+      "白俄罗斯卢布"
+    ],
+    "symbol": "BYN"
+  },
+  "KHR": {
+    "aliases": [
+      "柬埔寨利尔斯"
+    ],
+    "symbol": "KHR"
+  },
+  "HTG": {
+    "aliases": [
+      "海地古德"
+    ],
+    "symbol": "HTG"
+  },
+  "CZK": {
+    "aliases": [
+      "捷克克朗"
+    ],
+    "symbol": "CZK"
+  },
+  "BAM": {
+    "aliases": [
+      " 波斯尼亚和黑塞哥维那"
+    ],
+    "symbol": "BAM"
+  }
+}

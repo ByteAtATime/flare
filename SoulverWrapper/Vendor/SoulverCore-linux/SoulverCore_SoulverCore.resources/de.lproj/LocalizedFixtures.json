@@ -1,0 +1,94 @@
+{
+  "fixtures": {
+    "nextDateQualifiers": [
+      "nächste",
+      "nächsten",
+      "nächstes",
+      "nächster",
+      "folgende",
+      "folgenden",
+      "folgendes",
+      "folgender",
+      "kommende",
+      "kommenden",
+      "kommendes",
+      "kommender"
+    ],
+    "converterSymbols": [
+      "bis",
+      "als",
+      "nach",
+      "mit"
+    ],
+    "percentWords": [
+      "Prozent",
+      "Prozentrechnung"
+    ],
+    "hereAliases": [
+      "hier"
+    ],
+    "nowDateAliases": [
+      "jetzt"
+    ],
+    "piAliases": [
+      "π"
+    ],
+    "divisionOperators": [
+      "÷",
+      "pro"
+    ],
+    "dayOfWeekDateAliases": [
+    ],
+    "previousDateQualifiers": [
+      "vergangene",
+      "vergangenes",
+      "vergangener",
+      "vergangenen",
+      "letzte",
+      "letztes",
+      "letzter",
+      "letzten"
+    ],
+    "lessThanOrEqualToOperators": [
+      "<=",
+      "=<"
+    ],
+    "prepositionWordsAt": [
+      "zu",
+      "je"
+    ],
+    "subtractionOperators": [
+      "−",
+      "–"
+    ],
+    "conjunctionWordsOr": [
+      "oder"
+    ],
+    "todayDateAliases": [
+      "heute"
+    ],
+    "additionOperators": [
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "greaterThanOrEqualToOperators": [
+      ">=",
+      "=>"
+    ],
+    "multiplicationOperators": [
+      "×",
+      "x"
+    ],
+    "yesterdayDateAliases": [
+      "gestern"
+    ],
+    "conjunctionWordsAnd": [
+      "und"
+    ],
+    "tomorrowDateAliases": [
+      "morgen"
+    ]
+  }
+}

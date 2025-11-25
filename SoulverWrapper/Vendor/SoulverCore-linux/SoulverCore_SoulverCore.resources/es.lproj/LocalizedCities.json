@@ -1,0 +1,2126 @@
+[
+  {
+    "identifier": "shanghai",
+    "name": "Shanghai"
+  },
+  {
+    "identifier": "istanbul",
+    "name": "Estambul"
+  },
+  {
+    "identifier": "buenos aires",
+    "name": "Buenos Aires"
+  },
+  {
+    "identifier": "mumbai",
+    "name": "Bombay"
+  },
+  {
+    "identifier": "mexico city",
+    "name": "Ciudad de México"
+  },
+  {
+    "identifier": "beijing",
+    "name": "Pekín"
+  },
+  {
+    "identifier": "karachi",
+    "name": "Karachi"
+  },
+  {
+    "identifier": "tianjin",
+    "name": "Tianjin"
+  },
+  {
+    "identifier": "guangzhou",
+    "name": "Guangzhou"
+  },
+  {
+    "identifier": "delhi",
+    "name": "Delhi"
+  },
+  {
+    "identifier": "moscow",
+    "name": "Moscú"
+  },
+  {
+    "identifier": "shenzhen",
+    "name": "Shenzhen"
+  },
+  {
+    "identifier": "dhaka",
+    "name": "Dhaka"
+  },
+  {
+    "identifier": "seoul",
+    "name": "Seúl"
+  },
+  {
+    "identifier": "sao paulo",
+    "name": "Sao Paulo"
+  },
+  {
+    "identifier": "wuhan",
+    "name": "Wuhan"
+  },
+  {
+    "identifier": "lagos",
+    "name": "Lagos"
+  },
+  {
+    "identifier": "jakarta",
+    "name": "Yakarta"
+  },
+  {
+    "identifier": "tokyo",
+    "name": "Tokio"
+  },
+  {
+    "aliases": [
+      "NYC"
+    ],
+    "identifier": "new york",
+    "name": "Nueva York"
+  },
+  {
+    "identifier": "dongguan",
+    "name": "Dongguan"
+  },
+  {
+    "identifier": "taipei",
+    "name": "Taipei"
+  },
+  {
+    "identifier": "kinshasa",
+    "name": "Kinshasa"
+  },
+  {
+    "identifier": "cairo",
+    "name": "Cairo"
+  },
+  {
+    "identifier": "bogota",
+    "name": "Bogota"
+  },
+  {
+    "identifier": "london",
+    "name": "Londres"
+  },
+  {
+    "identifier": "chongqing",
+    "name": "Chongqing"
+  },
+  {
+    "identifier": "chengdu",
+    "name": "Chengdu"
+  },
+  {
+    "identifier": "baghdad",
+    "name": "Bagdad"
+  },
+  {
+    "identifier": "nanjing",
+    "name": "Nanjing"
+  },
+  {
+    "identifier": "tehran",
+    "name": "Teherán"
+  },
+  {
+    "identifier": "nanchong",
+    "name": "Nanchong"
+  },
+  {
+    "identifier": "hong kong",
+    "name": "Hong Kong"
+  },
+  {
+    "identifier": "xi'an",
+    "name": "Xi'an"
+  },
+  {
+    "identifier": "rio de janeiro",
+    "name": "Río de Janeiro"
+  },
+  {
+    "identifier": "bangkok",
+    "name": "Bangkok"
+  },
+  {
+    "identifier": "bengaluru",
+    "name": "Bengaluru"
+  },
+  {
+    "identifier": "saint petersburg",
+    "name": "San Petersburgo"
+  },
+  {
+    "identifier": "santiago",
+    "name": "Santiago"
+  },
+  {
+    "identifier": "kolkata",
+    "name": "Kolkata"
+  },
+  {
+    "identifier": "sydney",
+    "name": "Sydney"
+  },
+  {
+    "identifier": "yangon",
+    "name": "Yangon"
+  },
+  {
+    "identifier": "chennai",
+    "name": "Chennai"
+  },
+  {
+    "identifier": "melbourne",
+    "name": "Melbourne"
+  },
+  {
+    "identifier": "riyadh",
+    "name": "Riyadh"
+  },
+  {
+    "identifier": "los angeles",
+    "name": "Los Ángeles"
+  },
+  {
+    "identifier": "chittagong",
+    "name": "Chittagong"
+  },
+  {
+    "identifier": "alexandria",
+    "name": "Alexandria"
+  },
+  {
+    "identifier": "ahmedabad",
+    "name": "Ahmedabad"
+  },
+  {
+    "identifier": "busan",
+    "name": "Busan"
+  },
+  {
+    "identifier": "abidjan",
+    "name": "Abidjan"
+  },
+  {
+    "identifier": "kano",
+    "name": "Kano"
+  },
+  {
+    "identifier": "hyderabad",
+    "name": "Hyderabad"
+  },
+  {
+    "identifier": "yokohama",
+    "name": "Yokohama"
+  },
+  {
+    "identifier": "ibadan",
+    "name": "Ibadan"
+  },
+  {
+    "identifier": "singapore",
+    "name": "Singapore"
+  },
+  {
+    "identifier": "ankara",
+    "name": "Ankara"
+  },
+  {
+    "identifier": "ho chi minh city",
+    "name": "Ho Chi Minh City"
+  },
+  {
+    "identifier": "cape town",
+    "name": "Cape Town"
+  },
+  {
+    "identifier": "berlin",
+    "name": "Berlin"
+  },
+  {
+    "identifier": "madrid",
+    "name": "Madrid"
+  },
+  {
+    "identifier": "pyongyang",
+    "name": "Pyongyang"
+  },
+  {
+    "identifier": "casablanca",
+    "name": "Casablanca"
+  },
+  {
+    "identifier": "zhongshan",
+    "name": "Zhongshan"
+  },
+  {
+    "identifier": "durban",
+    "name": "Durban"
+  },
+  {
+    "identifier": "kabul",
+    "name": "Kabul"
+  },
+  {
+    "name": "Urumqi",
+    "identifier": "urumqi",
+  },
+  {
+    "identifier": "caracas",
+    "name": "Caracas"
+  },
+  {
+    "identifier": "dubai",
+    "name": "Dubai"
+  },
+  {
+    "identifier": "jeddah",
+    "name": "Jeddah"
+  },
+  {
+    "aliases": [
+      "Kyiv"
+    ],
+    "identifier": "kyiv",
+    "name": "Kiev"
+  },
+  {
+    "identifier": "luanda",
+    "name": "Luanda"
+  },
+  {
+    "identifier": "quezon city",
+    "name": "Quezon City"
+  },
+  {
+    "identifier": "addis ababa",
+    "name": "Addis Ababa"
+  },
+  {
+    "identifier": "nairobi",
+    "name": "Nairobi"
+  },
+  {
+    "identifier": "chicago",
+    "name": "Chicago"
+  },
+  {
+    "identifier": "salvador",
+    "name": "Salvador"
+  },
+  {
+    "identifier": "dar es salaam",
+    "name": "Dar es Salaam"
+  },
+  {
+    "identifier": "toronto",
+    "name": "Toronto"
+  },
+  {
+    "identifier": "osaka",
+    "name": "Osaka"
+  },
+  {
+    "identifier": "mogadishu",
+    "name": "Mogadishu"
+  },
+  {
+    "identifier": "izmir",
+    "name": "Izmir"
+  },
+  {
+    "identifier": "dakar",
+    "name": "Dakar"
+  },
+  {
+    "identifier": "giza",
+    "name": "Giza"
+  },
+  {
+    "identifier": "fortaleza",
+    "name": "Fortaleza"
+  },
+  {
+    "identifier": "surabaya",
+    "name": "Surabaya"
+  },
+  {
+    "identifier": "belo horizonte",
+    "name": "Belo Horizonte"
+  },
+  {
+    "identifier": "rome",
+    "name": "Roma"
+  },
+  {
+    "identifier": "mashhad",
+    "name": "Mashhad"
+  },
+  {
+    "identifier": "brooklyn",
+    "name": "Brooklyn"
+  },
+  {
+    "identifier": "houston",
+    "name": "Houston"
+  },
+  {
+    "identifier": "queens",
+    "name": "Queens"
+  },
+  {
+    "identifier": "brasilia",
+    "name": "Brasilia"
+  },
+  {
+    "identifier": "santo domingo",
+    "name": "Santo Domingo"
+  },
+  {
+    "identifier": "nagoya",
+    "name": "Nagoya"
+  },
+  {
+    "identifier": "brisbane",
+    "name": "Brisbane"
+  },
+  {
+    "identifier": "havana",
+    "name": "La Habana"
+  },
+  {
+    "identifier": "paris",
+    "name": "París"
+  },
+  {
+    "identifier": "johannesburg",
+    "name": "Johannesburg"
+  },
+  {
+    "identifier": "almaty",
+    "name": "Almaty"
+  },
+  {
+    "identifier": "tashkent",
+    "name": "Tashkent"
+  },
+  {
+    "identifier": "algiers",
+    "name": "Algiers"
+  },
+  {
+    "identifier": "khartoum",
+    "name": "Khartoum"
+  },
+  {
+    "identifier": "accra",
+    "name": "Accra"
+  },
+  {
+    "identifier": "guayaquil",
+    "name": "Guayaquil"
+  },
+  {
+    "identifier": "sanaa",
+    "name": "Sanaa"
+  },
+  {
+    "identifier": "beirut",
+    "name": "Beirut"
+  },
+  {
+    "identifier": "perth",
+    "name": "Perth"
+  },
+  {
+    "identifier": "sapporo",
+    "name": "Sapporo"
+  },
+  {
+    "identifier": "bucharest",
+    "name": "Bucharest"
+  },
+  {
+    "identifier": "camayenne",
+    "name": "Camayenne"
+  },
+  {
+    "identifier": "conakry",
+    "name": "Conakry"
+  },
+  {
+    "identifier": "minsk",
+    "name": "Minsk"
+  },
+  {
+    "identifier": "budapest",
+    "name": "Budapest"
+  },
+  {
+    "identifier": "hamburg",
+    "name": "Hamburg"
+  },
+  {
+    "identifier": "warsaw",
+    "name": "Varsovia"
+  },
+  {
+    "identifier": "soweto",
+    "name": "Soweto"
+  },
+  {
+    "identifier": "vienna",
+    "name": "Viena"
+  },
+  {
+    "identifier": "rabat",
+    "name": "Rabat"
+  },
+  {
+    "identifier": "barcelona",
+    "name": "Barcelona"
+  },
+  {
+    "identifier": "pretoria",
+    "name": "Pretoria"
+  },
+  {
+    "identifier": "aleppo",
+    "name": "Aleppo"
+  },
+  {
+    "identifier": "manila",
+    "name": "Manila"
+  },
+  {
+    "identifier": "montreal",
+    "name": "Montreal"
+  },
+  {
+    "identifier": "kaduna",
+    "name": "Kaduna"
+  },
+  {
+    "identifier": "phnom penh",
+    "name": "Phnom Penh"
+  },
+  {
+    "identifier": "damascus",
+    "name": "Damascus"
+  },
+  {
+    "identifier": "philadelphia",
+    "name": "Philadelphia"
+  },
+  {
+    "identifier": "phoenix",
+    "name": "Phoenix"
+  },
+  {
+    "identifier": "isfahan",
+    "name": "Isfahan"
+  },
+  {
+    "identifier": "harare",
+    "name": "Harare"
+  },
+  {
+    "identifier": "kobe",
+    "name": "Kobe"
+  },
+  {
+    "identifier": "stockholm",
+    "name": "Estocolmo"
+  },
+  {
+    "identifier": "manhattan",
+    "name": "Manhattan"
+  },
+  {
+    "identifier": "asuncion",
+    "name": "Asuncion"
+  },
+  {
+    "identifier": "recife",
+    "name": "Recife"
+  },
+  {
+    "identifier": "san antonio",
+    "name": "San Antonio"
+  },
+  {
+    "identifier": "kumasi",
+    "name": "Kumasi"
+  },
+  {
+    "identifier": "kota bharu",
+    "name": "Kota Bharu"
+  },
+  {
+    "identifier": "kyoto",
+    "name": "Kioto"
+  },
+  {
+    "identifier": "kuala lumpur",
+    "name": "Kuala Lumpur"
+  },
+  {
+    "identifier": "karaj",
+    "name": "Karaj"
+  },
+  {
+    "identifier": "kathmandu",
+    "name": "Kathmandu"
+  },
+  {
+    "identifier": "hanoi",
+    "name": "Hanoi"
+  },
+  {
+    "identifier": "kharkiv",
+    "name": "Kharkiv"
+  },
+  {
+    "identifier": "cordoba",
+    "name": "Cordoba"
+  },
+  {
+    "identifier": "tabriz",
+    "name": "Tabriz"
+  },
+  {
+    "identifier": "novosibirsk",
+    "name": "Novosibirsk"
+  },
+  {
+    "identifier": "belem",
+    "name": "Belem"
+  },
+  {
+    "identifier": "quito",
+    "name": "Quito"
+  },
+  {
+    "identifier": "san diego",
+    "name": "San Diego"
+  },
+  {
+    "identifier": "fukuoka",
+    "name": "Fukuoka"
+  },
+  {
+    "identifier": "antananarivo",
+    "name": "Antananarivo"
+  },
+  {
+    "identifier": "the bronx",
+    "name": "The Bronx"
+  },
+  {
+    "identifier": "lubumbashi",
+    "name": "Lubumbashi"
+  },
+  {
+    "identifier": "santa cruz de la sierra",
+    "name": "Santa Cruz de la Sierra"
+  },
+  {
+    "identifier": "kampala",
+    "name": "Kampala"
+  },
+  {
+    "identifier": "yekaterinburg",
+    "name": "Yekaterinburg"
+  },
+  {
+    "identifier": "douala",
+    "name": "Douala"
+  },
+  {
+    "identifier": "sharjah",
+    "name": "Sharjah"
+  },
+  {
+    "identifier": "mecca",
+    "name": "Mecca"
+  },
+  {
+    "identifier": "makassar",
+    "name": "Makassar"
+  },
+  {
+    "identifier": "juarez",
+    "name": "Juarez"
+  },
+  {
+    "identifier": "kawasaki",
+    "name": "Kawasaki"
+  },
+  {
+    "identifier": "tijuana",
+    "name": "Tijuana"
+  },
+  {
+    "identifier": "dallas",
+    "name": "Dallas"
+  },
+  {
+    "identifier": "medina",
+    "name": "Medina"
+  },
+  {
+    "identifier": "yaounde",
+    "name": "Yaounde"
+  },
+  {
+    "identifier": "bamako",
+    "name": "Bamako"
+  },
+  {
+    "identifier": "brazzaville",
+    "name": "Brazzaville"
+  },
+  {
+    "identifier": "nizhniy novgorod",
+    "name": "Nizhniy Novgorod"
+  },
+  {
+    "identifier": "amman",
+    "name": "Amman"
+  },
+  {
+    "identifier": "belgrade",
+    "name": "Belgrade"
+  },
+  {
+    "identifier": "montevideo",
+    "name": "Montevideo"
+  },
+  {
+    "identifier": "lusaka",
+    "name": "Lusaka"
+  },
+  {
+    "identifier": "munich",
+    "name": "Múnich"
+  },
+  {
+    "identifier": "shiraz",
+    "name": "Shiraz"
+  },
+  {
+    "identifier": "milan",
+    "name": "Milán"
+  },
+  {
+    "identifier": "port-au-prince",
+    "name": "Port-au-Prince"
+  },
+  {
+    "identifier": "adelaide",
+    "name": "Adelaide"
+  },
+  {
+    "identifier": "omdurman",
+    "name": "Omdurman"
+  },
+  {
+    "identifier": "saitama",
+    "name": "Saitama"
+  },
+  {
+    "identifier": "maputo",
+    "name": "Maputo"
+  },
+  {
+    "identifier": "prague",
+    "name": "Praga"
+  },
+  {
+    "identifier": "copenhagen",
+    "name": "Copenhague"
+  },
+  {
+    "identifier": "sofia",
+    "name": "Sofia"
+  },
+  {
+    "identifier": "tripoli",
+    "name": "Tripoli"
+  },
+  {
+    "identifier": "port harcourt",
+    "name": "Port Harcourt"
+  },
+  {
+    "identifier": "hiroshima",
+    "name": "Hiroshima"
+  },
+  {
+    "identifier": "monterrey",
+    "name": "Monterrey"
+  },
+  {
+    "identifier": "samara",
+    "name": "Samara"
+  },
+  {
+    "identifier": "omsk",
+    "name": "Omsk"
+  },
+  {
+    "identifier": "benin city",
+    "name": "Benin City"
+  },
+  {
+    "identifier": "baku",
+    "name": "Baku"
+  },
+  {
+    "identifier": "maiduguri",
+    "name": "Maiduguri"
+  },
+  {
+    "identifier": "kazan",
+    "name": "Kazan"
+  },
+  {
+    "identifier": "yerevan",
+    "name": "Yerevan"
+  },
+  {
+    "identifier": "ouagadougou",
+    "name": "Ouagadougou"
+  },
+  {
+    "identifier": "rostov-na-donu",
+    "name": "Rostov-na-Donu"
+  },
+  {
+    "identifier": "chelyabinsk",
+    "name": "Chelyabinsk"
+  },
+  {
+    "identifier": "Batumi",
+    "name": "Batumi"
+  },
+  {
+    "identifier": "tbilisi",
+    "name": "Tbilisi"
+  },
+  {
+    "identifier": "ufa",
+    "name": "Ufa"
+  },
+  {
+    "identifier": "san jose",
+    "name": "San Jose"
+  },
+  {
+    "identifier": "dublin",
+    "name": "Dublín"
+  },
+  {
+    "identifier": "calgary",
+    "name": "Calgary"
+  },
+  {
+    "identifier": "brussels",
+    "name": "Bruselas"
+  },
+  {
+    "identifier": "volgograd",
+    "name": "Volgograd"
+  },
+  {
+    "identifier": "odessa",
+    "name": "Odessa"
+  },
+  {
+    "identifier": "guatemala city",
+    "name": "Guatemala City"
+  },
+  {
+    "identifier": "birmingham",
+    "name": "Birmingham"
+  },
+  {
+    "identifier": "perm",
+    "name": "Perm"
+  },
+  {
+    "identifier": "zaria",
+    "name": "Zaria"
+  },
+  {
+    "identifier": "port elizabeth",
+    "name": "Port Elizabeth"
+  },
+  {
+    "identifier": "fes",
+    "name": "Fes"
+  },
+  {
+    "identifier": "cologne",
+    "name": "Cologne"
+  },
+  {
+    "identifier": "naples",
+    "name": "Nápoles"
+  },
+  {
+    "identifier": "maceio",
+    "name": "Maceio"
+  },
+  {
+    "identifier": "monrovia",
+    "name": "Monrovia"
+  },
+  {
+    "identifier": "kingston",
+    "name": "Kingston"
+  },
+  {
+    "identifier": "austin",
+    "name": "Austin"
+  },
+  {
+    "identifier": "krasnoyarsk",
+    "name": "Krasnoyarsk"
+  },
+  {
+    "identifier": "sale",
+    "name": "Sale"
+  },
+  {
+    "identifier": "qom",
+    "name": "Qom"
+  },
+  {
+    "identifier": "bishkek",
+    "name": "Bishkek"
+  },
+  {
+    "identifier": "abobo",
+    "name": "Abobo"
+  },
+  {
+    "identifier": "aba",
+    "name": "Aba"
+  },
+  {
+    "identifier": "mendoza",
+    "name": "Mendoza"
+  },
+  {
+    "identifier": "mbuji-mayi",
+    "name": "Mbuji-Mayi"
+  },
+  {
+    "identifier": "pikine",
+    "name": "Pikine"
+  },
+  {
+    "identifier": "turin",
+    "name": "Turin"
+  },
+  {
+    "aliases": [
+      "San Fran"
+    ],
+    "identifier": "san francisco",
+    "name": "San Francisco"
+  },
+  {
+    "identifier": "liverpool",
+    "name": "Liverpool"
+  },
+  {
+    "identifier": "saratov",
+    "name": "Saratov"
+  },
+  {
+    "identifier": "tegucigalpa",
+    "name": "Tegucigalpa"
+  },
+  {
+    "identifier": "voronezh",
+    "name": "Voronezh"
+  },
+  {
+    "identifier": "ulan bator",
+    "name": "Ulan Bator"
+  },
+  {
+    "identifier": "ahvaz",
+    "name": "Ahvaz"
+  },
+  {
+    "identifier": "marrakesh",
+    "name": "Marrakesh"
+  },
+  {
+    "aliases": [
+      "Bali"
+    ],
+    "identifier": "denpasar",
+    "name": "Denpasar"
+  },
+  {
+    "identifier": "fort worth",
+    "name": "Fort Worth"
+  },
+  {
+    "identifier": "indianapolis",
+    "name": "Indianapolis"
+  },
+  {
+    "identifier": "jos",
+    "name": "Jos"
+  },
+  {
+    "identifier": "valencia",
+    "name": "Valencia"
+  },
+  {
+    "identifier": "ilorin",
+    "name": "Ilorin"
+  },
+  {
+    "identifier": "la paz",
+    "name": "La Paz"
+  },
+  {
+    "identifier": "ottawa",
+    "name": "Ottawa"
+  },
+  {
+    "identifier": "freetown",
+    "name": "Freetown"
+  },
+  {
+    "identifier": "jerusalem",
+    "name": "Jerusalem"
+  },
+  {
+    "identifier": "muscat",
+    "name": "Muscat"
+  },
+  {
+    "identifier": "marseille",
+    "name": "Marseille"
+  },
+  {
+    "identifier": "pasragad branch",
+    "name": "Pasragad Branch"
+  },
+  {
+    "identifier": "boumerdas",
+    "name": "Boumerdas"
+  },
+  {
+    "identifier": "san miguel de tucuman",
+    "name": "San Miguel de Tucuman"
+  },
+  {
+    "identifier": "merida",
+    "name": "Merida"
+  },
+  {
+    "identifier": "niamey",
+    "name": "Niamey"
+  },
+  {
+    "identifier": "kahriz",
+    "name": "Kahriz"
+  },
+  {
+    "identifier": "krakow",
+    "name": "Cracovia"
+  },
+  {
+    "identifier": "da nang",
+    "name": "Da Nang"
+  },
+  {
+    "identifier": "pietermaritzburg",
+    "name": "Pietermaritzburg"
+  },
+  {
+    "identifier": "lome",
+    "name": "Lome"
+  },
+  {
+    "identifier": "kigali",
+    "name": "Kigali"
+  },
+  {
+    "identifier": "riga",
+    "name": "Riga"
+  },
+  {
+    "identifier": "amsterdam",
+    "name": "Ámsterdam"
+  },
+  {
+    "identifier": "oyo",
+    "name": "Oyo"
+  },
+  {
+    "identifier": "nottingham",
+    "name": "Nottingham"
+  },
+  {
+    "identifier": "campo grande",
+    "name": "Campo Grande"
+  },
+  {
+    "identifier": "ashgabat",
+    "name": "Ashgabat"
+  },
+  {
+    "identifier": "n'djamena",
+    "name": "N'Djamena"
+  },
+  {
+    "identifier": "lviv",
+    "name": "Lviv"
+  },
+  {
+    "identifier": "hermosillo",
+    "name": "Hermosillo"
+  },
+  {
+    "identifier": "edmonton",
+    "name": "Edmonton"
+  },
+  {
+    "identifier": "bulawayo",
+    "name": "Bulawayo"
+  },
+  {
+    "identifier": "zagreb",
+    "name": "Zagreb"
+  },
+  {
+    "identifier": "agadir",
+    "name": "Agadir"
+  },
+  {
+    "identifier": "sarajevo",
+    "name": "Sarajevo"
+  },
+  {
+    "identifier": "enugu",
+    "name": "Enugu"
+  },
+  {
+    "identifier": "tangier",
+    "name": "Tangier"
+  },
+  {
+    "identifier": "sheffield",
+    "name": "Sheffield"
+  },
+  {
+    "identifier": "seattle",
+    "name": "Seattle"
+  },
+  {
+    "identifier": "denver",
+    "name": "Denver"
+  },
+  {
+    "identifier": "el paso",
+    "name": "El Paso"
+  },
+  {
+    "identifier": "dushanbe",
+    "name": "Dushanbe"
+  },
+  {
+    "identifier": "detroit",
+    "name": "Detroit"
+  },
+  {
+    "identifier": "culiacan",
+    "name": "Culiacan"
+  },
+  {
+    "identifier": "matola",
+    "name": "Matola"
+  },
+  {
+    "identifier": "boston",
+    "name": "Boston"
+  },
+  {
+    "identifier": "athens",
+    "name": "Atenas"
+  },
+  {
+    "identifier": "nouakchott",
+    "name": "Nouakchott"
+  },
+  {
+    "identifier": "pointe-noire",
+    "name": "Pointe-Noire"
+  },
+  {
+    "identifier": "memphis",
+    "name": "Memphis"
+  },
+  {
+    "aliases": [
+      "Frankfurt"
+    ],
+    "identifier": "frankfurt am main",
+    "name": "Frankfurt am Main"
+  },
+  {
+    "identifier": "krasnodar",
+    "name": "Krasnodar"
+  },
+  {
+    "identifier": "palermo",
+    "name": "Palermo"
+  },
+  {
+    "identifier": "colombo",
+    "name": "Colombo"
+  },
+  {
+    "identifier": "lilongwe",
+    "name": "Lilongwe"
+  },
+  {
+    "identifier": "oran",
+    "name": "Oran"
+  },
+  {
+    "identifier": "chisinau",
+    "name": "Chisinau"
+  },
+  {
+    "identifier": "tebessa",
+    "name": "Tebessa"
+  },
+  {
+    "identifier": "portland",
+    "name": "Portland"
+  },
+  {
+    "identifier": "winnipeg",
+    "name": "Winnipeg"
+  },
+  {
+    "identifier": "oklahoma city",
+    "name": "Oklahoma City"
+  },
+  {
+    "identifier": "cancun",
+    "name": "Cancun"
+  },
+  {
+    "identifier": "djibouti",
+    "name": "Djibouti"
+  },
+  {
+    "identifier": "baltimore",
+    "name": "Baltimore"
+  },
+  {
+    "identifier": "kermanshah",
+    "name": "Kermanshah"
+  },
+  {
+    "identifier": "bristol",
+    "name": "Bristol"
+  },
+  {
+    "identifier": "benoni",
+    "name": "Benoni"
+  },
+  {
+    "identifier": "abu dhabi",
+    "name": "Abu Dhabi"
+  },
+  {
+    "identifier": "washington",
+    "name": "Washington"
+  },
+  {
+    "identifier": "milwaukee",
+    "name": "Milwaukee"
+  },
+  {
+    "identifier": "vancouver",
+    "name": "Vancouver"
+  },
+  {
+    "identifier": "barnaul",
+    "name": "Barnaul"
+  },
+  {
+    "identifier": "rotterdam",
+    "name": "Rotterdam"
+  },
+  {
+    "identifier": "rasht",
+    "name": "Rasht"
+  },
+  {
+    "identifier": "abeokuta",
+    "name": "Abeokuta"
+  },
+  {
+    "identifier": "essen",
+    "name": "Essen"
+  },
+  {
+    "identifier": "glasgow",
+    "name": "Glasgow"
+  },
+  {
+    "identifier": "gold coast",
+    "name": "Gold Coast"
+  },
+  {
+    "identifier": "abuja",
+    "name": "Abuja"
+  },
+  {
+    "identifier": "stuttgart",
+    "name": "Stuttgart"
+  },
+  {
+    "identifier": "dortmund",
+    "name": "Dortmund"
+  },
+  {
+    "identifier": "vladivostok",
+    "name": "Vladivostok"
+  },
+  {
+    "identifier": "irkutsk",
+    "name": "Irkutsk"
+  },
+  {
+    "identifier": "blantyre",
+    "name": "Blantyre"
+  },
+  {
+    "identifier": "genoa",
+    "name": "Genoa"
+  },
+  {
+    "identifier": "oslo",
+    "name": "Oslo"
+  },
+  {
+    "identifier": "libreville",
+    "name": "Libreville"
+  },
+  {
+    "identifier": "kerman",
+    "name": "Kerman"
+  },
+  {
+    "identifier": "dusseldorf",
+    "aliases": [
+      "düsseldorf"
+    ],
+    "name": "Dusseldorf"
+  },
+  {
+    "identifier": "kuching",
+    "name": "Kuching"
+  },
+  {
+    "identifier": "albuquerque",
+    "name": "Albuquerque"
+  },
+  {
+    "identifier": "helsinki",
+    "name": "Helsinki"
+  },
+  {
+    "identifier": "aden",
+    "name": "Aden"
+  },
+  {
+    "identifier": "orenburg",
+    "name": "Orenburg"
+  },
+  {
+    "identifier": "pristina",
+    "name": "Pristina"
+  },
+  {
+    "identifier": "bremen",
+    "name": "Bremen"
+  },
+  {
+    "identifier": "vilnius",
+    "name": "Vilnius"
+  },
+  {
+    "identifier": "nashville",
+    "name": "Nashville"
+  },
+  {
+    "identifier": "quebec",
+    "name": "Quebec"
+  },
+  {
+    "identifier": "san salvador",
+    "name": "San Salvador"
+  },
+  {
+    "identifier": "macau",
+    "name": "Macau"
+  },
+  {
+    "identifier": "tyumen",
+    "name": "Tyumen"
+  },
+  {
+    "identifier": "lisbon",
+    "name": "Lisboa"
+  },
+  {
+    "identifier": "hannover",
+    "name": "Hannover"
+  },
+  {
+    "identifier": "salta",
+    "name": "Salta"
+  },
+  {
+    "identifier": "leicester",
+    "name": "Leicester"
+  },
+  {
+    "identifier": "leipzig",
+    "name": "Leipzig"
+  },
+  {
+    "identifier": "duisburg",
+    "name": "Duisburg"
+  },
+  {
+    "identifier": "astrakhan",
+    "name": "Astrakhan"
+  },
+  {
+    "identifier": "nuremberg",
+    "aliases": [
+      "nürnberg"
+    ],
+    "name": "Nuremberg"
+  },
+  {
+    "identifier": "dresden",
+    "name": "Dresden"
+  },
+  {
+    "identifier": "tomsk",
+    "name": "Tomsk"
+  },
+  {
+    "identifier": "yazd",
+    "name": "Yazd"
+  },
+  {
+    "identifier": "kansas city",
+    "name": "Kansas City"
+  },
+  {
+    "identifier": "skopje",
+    "name": "Skopje"
+  },
+  {
+    "identifier": "the hague",
+    "name": "The Hague"
+  },
+  {
+    "identifier": "lyon",
+    "name": "Lyon"
+  },
+  {
+    "identifier": "edinburgh",
+    "name": "Edimburgo"
+  },
+  {
+    "identifier": "antwerpen",
+    "name": "Antwerpen"
+  },
+  {
+    "identifier": "pontianak",
+    "name": "Pontianak"
+  },
+  {
+    "identifier": "leeds",
+    "name": "Leeds"
+  },
+  {
+    "identifier": "cardiff",
+    "name": "Cardiff"
+  },
+  {
+    "identifier": "san juan",
+    "name": "San Juan"
+  },
+  {
+    "identifier": "omaha",
+    "name": "Omaha"
+  },
+  {
+    "identifier": "carrefour",
+    "name": "Carrefour"
+  },
+  {
+    "identifier": "miami",
+    "name": "Miami"
+  },
+  {
+    "identifier": "kaliningrad",
+    "name": "Kaliningrad"
+  },
+  {
+    "identifier": "toulouse",
+    "name": "Toulouse"
+  },
+  {
+    "identifier": "tel aviv",
+    "name": "Tel Aviv-Yafo"
+  },
+  {
+    "identifier": "east jerusalem",
+    "name": "East Jerusalem"
+  },
+  {
+    "identifier": "bratislava",
+    "name": "Bratislava"
+  },
+  {
+    "identifier": "auckland",
+    "name": "Auckland"
+  },
+  {
+    "identifier": "sevastopol",
+    "name": "Sevastopol"
+  },
+  {
+    "identifier": "minneapolis",
+    "name": "Minneapolis"
+  },
+  {
+    "identifier": "gaza",
+    "name": "Gaza"
+  },
+  {
+    "identifier": "kursk",
+    "name": "Kursk"
+  },
+  {
+    "identifier": "panama",
+    "name": "Panamá"
+  },
+  {
+    "identifier": "tulsa",
+    "name": "Tulsa"
+  },
+  {
+    "identifier": "tver",
+    "name": "Tver"
+  },
+  {
+    "identifier": "manchester",
+    "name": "Manchester"
+  },
+  {
+    "identifier": "tallinn",
+    "name": "Tallinn"
+  },
+  {
+    "identifier": "kandahar",
+    "name": "Kandahar"
+  },
+  {
+    "identifier": "wichita",
+    "name": "Wichita"
+  },
+  {
+    "identifier": "new orleans",
+    "name": "Nueva Orleans"
+  },
+  {
+    "identifier": "wellington",
+    "name": "Wellington"
+  },
+  {
+    "identifier": "las palmas de gran canaria",
+    "name": "Las Palmas de Gran Canaria"
+  },
+  {
+    "identifier": "mazatlan",
+    "name": "Mazatlan"
+  },
+  {
+    "identifier": "tirana",
+    "name": "Tirana"
+  },
+  {
+    "identifier": "kaunas",
+    "name": "Kaunas"
+  },
+  {
+    "identifier": "honolulu",
+    "name": "Honolulu"
+  },
+  {
+    "identifier": "canberra",
+    "name": "Canberra"
+  },
+  {
+    "identifier": "bologna",
+    "name": "Bologna"
+  },
+  {
+    "identifier": "christchurch",
+    "name": "Christchurch"
+  },
+  {
+    "identifier": "halifax",
+    "name": "Halifax"
+  },
+  {
+    "identifier": "ambon",
+    "name": "Ambon"
+  },
+  {
+    "identifier": "florence",
+    "name": "Florencia"
+  },
+  {
+    "identifier": "doha",
+    "name": "Doha"
+  },
+  {
+    "identifier": "zurich",
+    "name": "Zúrich"
+  },
+  {
+    "identifier": "nice",
+    "name": "Nice"
+  },
+  {
+    "identifier": "simferopol",
+    "name": "Simferopol"
+  },
+  {
+    "identifier": "tepic",
+    "name": "Tepic"
+  },
+  {
+    "identifier": "sochi",
+    "name": "Sochi"
+  },
+  {
+    "identifier": "smolensk",
+    "name": "Smolensk"
+  },
+  {
+    "identifier": "samarkand",
+    "name": "Samarkand"
+  },
+  {
+    "identifier": "murmansk",
+    "name": "Murmansk"
+  },
+  {
+    "identifier": "vladikavkaz",
+    "name": "Vladikavkaz"
+  },
+  {
+    "identifier": "chita",
+    "name": "Chita"
+  },
+  {
+    "identifier": "newcastle",
+    "name": "Newcastle"
+  },
+  {
+    "identifier": "porto velho",
+    "name": "Porto Velho"
+  },
+  {
+    "identifier": "san salvador de jujuy",
+    "name": "San Salvador de Jujuy"
+  },
+  {
+    "identifier": "pittsburgh",
+    "name": "Pittsburgh"
+  },
+  {
+    "identifier": "brest",
+    "name": "Brest"
+  },
+  {
+    "identifier": "anchorage",
+    "name": "Anchorage"
+  },
+  {
+    "identifier": "cincinnati",
+    "name": "Cincinnati"
+  },
+  {
+    "identifier": "wollongong",
+    "name": "Wollongong"
+  },
+  {
+    "identifier": "catania",
+    "name": "Catania"
+  },
+  {
+    "identifier": "utrecht",
+    "name": "Utrecht"
+  },
+  {
+    "identifier": "victoria",
+    "name": "Victoria"
+  },
+  {
+    "identifier": "port moresby",
+    "name": "Port Moresby"
+  },
+  {
+    "identifier": "logan city",
+    "name": "Logan City"
+  },
+  {
+    "identifier": "bari",
+    "name": "Bari"
+  },
+  {
+    "identifier": "nantes",
+    "name": "Nantes"
+  },
+  {
+    "identifier": "strasbourg",
+    "name": "Strasbourg"
+  },
+  {
+    "identifier": "belfast",
+    "name": "Belfast"
+  },
+  {
+    "identifier": "ljubljana",
+    "name": "Ljubljana"
+  },
+  {
+    "identifier": "orlando",
+    "name": "Orlando"
+  },
+  {
+    "identifier": "petrozavodsk",
+    "name": "Petrozavodsk"
+  },
+  {
+    "identifier": "plymouth",
+    "name": "Plymouth"
+  },
+  {
+    "identifier": "rio branco",
+    "name": "Rio Branco"
+  },
+  {
+    "identifier": "los mochis",
+    "name": "Los Mochis"
+  },
+  {
+    "identifier": "porto",
+    "name": "Oporto"
+  },
+  {
+    "identifier": "madison",
+    "name": "Madison"
+  },
+  {
+    "identifier": "montpellier",
+    "name": "Montpellier"
+  },
+  {
+    "identifier": "arhus",
+    "name": "Arhus"
+  },
+  {
+    "identifier": "yakutsk",
+    "name": "Yakutsk"
+  },
+  {
+    "identifier": "georgetown",
+    "name": "Georgetown"
+  },
+  {
+    "identifier": "bordeaux",
+    "name": "Bordeaux"
+  },
+  {
+    "identifier": "gent",
+    "name": "Gent"
+  },
+  {
+    "identifier": "baton rouge",
+    "name": "Baton Rouge"
+  },
+  {
+    "identifier": "lille",
+    "name": "Lille"
+  },
+  {
+    "identifier": "nassau",
+    "name": "Nassau"
+  },
+  {
+    "identifier": "geelong",
+    "name": "Geelong"
+  },
+  {
+    "identifier": "paramaribo",
+    "name": "Paramaribo"
+  },
+  {
+    "identifier": "santa cruz de tenerife",
+    "name": "Santa Cruz de Tenerife"
+  },
+  {
+    "identifier": "graz",
+    "name": "Graz"
+  },
+  {
+    "identifier": "messina",
+    "name": "Messina"
+  },
+  {
+    "identifier": "verona",
+    "name": "Verona"
+  },
+  {
+    "identifier": "hobart",
+    "name": "Hobart"
+  },
+  {
+    "identifier": "novi sad",
+    "name": "Novi Sad"
+  },
+  {
+    "identifier": "bergen",
+    "name": "Bergen"
+  },
+  {
+    "identifier": "des moines",
+    "name": "Des Moines"
+  },
+  {
+    "identifier": "kostanay",
+    "name": "Kostanay"
+  },
+  {
+    "identifier": "linz",
+    "name": "Linz"
+  },
+  {
+    "identifier": "padova",
+    "name": "Padova"
+  },
+  {
+    "identifier": "pskov",
+    "name": "Pskov"
+  },
+  {
+    "identifier": "chiang mai",
+    "name": "Chiang Mai"
+  },
+  {
+    "identifier": "nicosia",
+    "name": "Nicosia"
+  },
+  {
+    "identifier": "oral",
+    "name": "Oral"
+  },
+  {
+    "identifier": "osh",
+    "name": "Osh"
+  },
+  {
+    "identifier": "saskatoon",
+    "name": "Saskatoon"
+  },
+  {
+    "identifier": "little rock",
+    "name": "Little Rock"
+  },
+  {
+    "identifier": "vientiane",
+    "name": "Vientiane"
+  },
+  {
+    "identifier": "aberdeen",
+    "name": "Aberdeen"
+  },
+  {
+    "identifier": "palmas",
+    "name": "Palmas"
+  },
+  {
+    "identifier": "townsville",
+    "name": "Townsville"
+  },
+  {
+    "identifier": "salt lake city",
+    "name": "Salt Lake City"
+  },
+  {
+    "identifier": "cork",
+    "name": "Cork"
+  },
+  {
+    "identifier": "tallahassee",
+    "name": "Tallahassee"
+  },
+  {
+    "identifier": "santarem",
+    "name": "Santarem"
+  },
+  {
+    "name": "San Fernando del Valle de Catamarca",
+    "identifier": "san fernando del valle de catamarca"
+  },
+  {
+    "identifier": "trieste",
+    "name": "Trieste"
+  },
+  {
+    "identifier": "san luis",
+    "name": "San Luis"
+  },
+  {
+    "identifier": "geneva",
+    "name": "Ginebra"
+  },
+  {
+    "identifier": "atyrau",
+    "name": "Atyrau"
+  },
+  {
+    "identifier": "kutaisi",
+    "name": "Kutaisi"
+  },
+  {
+    "identifier": "yuzhno-sakhalinsk",
+    "name": "Yuzhno-Sakhalinsk"
+  },
+  {
+    "identifier": "split",
+    "name": "Split"
+  },
+  {
+    "identifier": "regina",
+    "name": "Regina"
+  },
+  {
+    "identifier": "raleigh",
+    "name": "Raleigh"
+  },
+  {
+    "identifier": "turku",
+    "name": "Turku"
+  },
+  {
+    "identifier": "oxford",
+    "name": "Oxford"
+  },
+  {
+    "identifier": "jackson",
+    "name": "Jackson"
+  },
+  {
+    "identifier": "springfield",
+    "name": "Springfield"
+  },
+  {
+    "identifier": "basel",
+    "name": "Basel"
+  },
+  {
+    "identifier": "la rioja",
+    "name": "La Rioja"
+  },
+  {
+    "identifier": "hebron",
+    "name": "Hebron"
+  },
+  {
+    "identifier": "modena",
+    "name": "Modena"
+  },
+  {
+    "identifier": "cambridge",
+    "name": "Cambridge"
+  },
+  {
+    "identifier": "frisco",
+    "name": "Frisco"
+  },
+  {
+    "identifier": "pasadena",
+    "name": "Pasadena"
+  },
+  {
+    "identifier": "york",
+    "name": "York"
+  },
+  {
+    "identifier": "salzburg",
+    "name": "Salzburg"
+  },
+  {
+    "identifier": "cairns",
+    "name": "Cairns"
+  },
+  {
+    "identifier": "hamilton",
+    "name": "Hamilton"
+  },
+  {
+    "identifier": "la laguna",
+    "name": "La Laguna"
+  },
+  {
+    "identifier": "dili",
+    "name": "Dili"
+  },
+  {
+    "identifier": "dijon",
+    "name": "Dijon"
+  },
+  {
+    "identifier": "uppsala",
+    "name": "Uppsala"
+  },
+  {
+    "identifier": "trondheim",
+    "name": "Trondheim"
+  },
+  {
+    "identifier": "manama",
+    "name": "Manama"
+  },
+  {
+    "identifier": "parma",
+    "name": "Parma"
+  },
+  {
+    "identifier": "boise",
+    "name": "Boise"
+  },
+  {
+    "identifier": "odense",
+    "name": "Odense"
+  },
+  {
+    "identifier": "amiens",
+    "name": "Amiens"
+  },
+  {
+    "identifier": "tours",
+    "name": "Tours"
+  },
+  {
+    "identifier": "podgorica",
+    "name": "Podgorica"
+  },
+  {
+    "identifier": "innsbruck",
+    "name": "Innsbruck"
+  },
+  {
+    "identifier": "toowoomba",
+    "name": "Toowoomba"
+  },
+  {
+    "identifier": "darwin",
+    "name": "Darwin"
+  },
+  {
+    "identifier": "bern",
+    "name": "Bern"
+  },
+  {
+    "identifier": "venice",
+    "name": "Venecia"
+  },
+  {
+    "identifier": "tunis",
+    "name": "Tunis"
+  },
+  {
+    "identifier": "islamabad",
+    "name": "Islamabad"
+  },
+  {
+    "identifier": "bandar seri begawan",
+    "name": "Bandar Seri Begawan"
+  },
+  {
+    "identifier": "male",
+    "name": "Malé"
+  },
+  {
+    "identifier": "astana",
+    "name": "Nur-Sultan"
+  },
+  {
+    "identifier": "antalya",
+    "name": "Antalya"
+  },
+  {
+    "identifier": "valletta",
+    "name": "Valletta"
+  },
+  {
+    "identifier": "luxembourg city",
+    "name": "Luxembourg City"
+  },
+  {
+    "identifier": "reykjavik",
+    "name": "Reykjavik"
+  },
+  {
+    "identifier": "sacramento",
+    "name": "Sacramento"
+  },
+  {
+    "identifier": "kuwait city",
+    "name": "Kuwait City"
+  },
+  {
+    "identifier": "lima",
+    "name": "Lima"
+  },
+  {
+    "aliases": [
+      "Apple Park"
+    ],
+    "identifier": "cupertino",
+    "name": "Cupertino"
+  }
+]

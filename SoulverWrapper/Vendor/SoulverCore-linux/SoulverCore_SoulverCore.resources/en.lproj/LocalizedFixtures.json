@@ -1,0 +1,175 @@
+{
+  "fixtures": {
+    "colons": [
+      ":",
+      "："
+    ],
+    "nextDateQualifiers": [
+      "next"
+    ],
+    "converterSymbols": [
+      "to",
+      "as"
+    ],
+    "powerOperators": [
+      "^",
+      "ˆ",
+      "**"
+    ],
+    "percentWords": [
+      "percent",
+      "percentage",
+      "per cent"
+    ],
+    "hereAliases": [
+      "here"
+    ],
+    "nowDateAliases": [
+      "now"
+    ],
+    "ordinalSuffixes": [
+      "st",
+      "nd",
+      "rd",
+      "th"
+    ],
+    "conjunctionWordsAnd": [
+        "and"
+    ],
+    "conjunctionWordsOr": [
+        "or"
+    ],
+    "prepositionWordsUntil" : [
+      "until",
+      "till"
+    ],
+    "grammerWordsOf" : [
+      "of"
+    ],
+    "prepositionWordsWith" : [
+      "with"
+    ],
+    "prepositionWordsAt" : [
+      "at",
+      "@"
+    ],
+    "piAliases": [
+      "π"
+    ],
+    "thisDateQualifiers": [
+      "this"
+    ],
+    "divisionOperators": [
+      "÷",
+      "per"
+    ],
+    "midnightAliases": [
+      "midnight"
+    ],
+    "previousDateQualifiers": [
+      "previous",
+      "last"
+    ],
+    "timeWords": [
+      "time"
+    ],
+    "timespanWords": [
+      "timespan"
+    ],
+    "pmAliases": [
+      "pm",
+      "p.m.",
+      "P.M."
+    ],
+    "lessThanOrEqualToOperators": [
+      "<=",
+      "=<"
+    ],
+    "subtractionOperators": [
+      "−",
+      "–",
+      "minus"
+    ],
+    "middayAliases": [
+      "midday",
+      "noon"
+    ],
+    "reverseSubtractionOperators": [
+    ],
+    "amAliases": [
+      "am",
+      "a.m.",
+      "A.M."
+    ],
+    "todayDateAliases": [
+      "today"
+    ],
+    "additionOperators": [
+      "plus"
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "greaterThanOrEqualToOperators": [
+      ">=",
+      "=>"
+    ],
+    "multiplicationOperators": [
+      "×",
+      "x",
+      "⋅",
+      "·"
+    ],
+    "averageAliases": [
+      "average",
+      "mean"
+    ],
+    "totalAliases": [
+      "total",
+      "sum"
+    ],
+    "medianAliases": [
+      "median"
+    ],
+    "countAliases": [
+      "count"
+    ],
+    "greaterAliases": [
+      "greater",
+      "larger",
+      "max"
+    ],
+    "lesserAliases": [
+      "lesser",
+      "smaller",
+      "min"
+    ],
+    "standardDeviationAliases": [
+      "standard deviation",
+      "std dev"
+    ],
+    "gcdAliases": [
+        "greatest common factor",
+        "greatest common divisor",
+        "gcd",
+        "gcf"
+    ],
+    "lcmAliases": [
+        "lowest common multiple",
+        "lcm"
+    ],    
+    "yesterdayDateAliases": [
+      "yesterday"
+    ],
+    "tomorrowDateAliases": [
+      "tomorrow"
+    ],
+    "openBracketAliases": [
+        "（"
+    ],
+    "closeBracketAliases": [
+        "）"
+    ]
+  }
+}

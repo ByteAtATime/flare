@@ -1,0 +1,605 @@
+[
+    {
+      "capital": "London",
+      "capitalCityTimezoneID": "Europe/London",
+      "country": "United Kingdom",
+      "name": "England",
+      "aliases": [
+        "england",
+        "eng"
+      ]
+    },
+    {
+      "capital": "Edinburgh",
+      "capitalCityTimezoneID": "Europe/London",
+      "country": "United Kingdom",
+      "name": "Scotland",
+      "aliases": [
+        "scotland",
+        "sco"
+      ]
+    },
+    {
+      "capital": "Cardiff",
+      "capitalCityTimezoneID": "Europe/London",
+      "country": "United Kingdom",
+      "name": "Wales",
+      "aliases": [
+        "wales",
+        "wal"
+      ]
+    },
+    {
+      "capital": "Belfast",
+      "capitalCityTimezoneID": "Europe/London",
+      "country": "United Kingdom",
+      "name": "Northern Ireland",
+      "aliases": [
+        "northern ireland",
+        "ni",
+        "nir"
+      ]
+    },
+  {
+    "capital": "Sydney",
+    "capitalCityTimezoneID": "Australia/Sydney",
+    "country": "Australia",
+    "name": "New South Wales",
+    "aliases": [
+      "nsw"
+    ]
+  },
+  {
+    "capital": "Adelaide",
+    "capitalCityTimezoneID": "Australia/Adelaide",
+    "country": "Australia",
+    "name": "South Australia",
+    "aliases": [
+      "sa"
+    ]
+  },
+  {
+    "capital": "Brisbane",
+    "capitalCityTimezoneID": "Australia/Brisbane",
+    "country": "Australia",
+    "name": "Queensland",
+    "aliases": [
+      "qld"
+    ]
+  },
+  {
+    "capital": "Darwin",
+    "capitalCityTimezoneID": "Australia/Darwin",
+    "country": "Australia",
+    "name": "Northern Territory",
+    "aliases": [
+      "nt"
+    ]
+  },
+  {
+    "capital": "Perth",
+    "capitalCityTimezoneID": "Australia/Perth",
+    "country": "Australia",
+    "name": "Western Australia",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Melbourne",
+    "capitalCityTimezoneID": "Australia/Melbourne",
+    "country": "Australia",
+    "name": "Victoria",
+    "aliases": [
+      "vic"
+    ]
+  },
+  {
+    "capital": "Hobart",
+    "capitalCityTimezoneID": "Australia/Hobart",
+    "country": "Australia",
+    "name": "Tasmania",
+    "aliases": [
+      "tas",
+      "tasmania"
+    ]
+  },
+  {
+    "capital": "Canberra",
+    "capitalCityTimezoneID": "Australia/Canberra",
+    "country": "Australia",
+    "name": "Australian Capital Territory",
+    "aliases": [
+      "act"
+    ]
+  },
+  {
+    "capital": "Toronto",
+    "capitalCityTimezoneID": "America/Toronto",
+    "country": "Canada",
+    "name": "Ontario",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Montreal",
+    "capitalCityTimezoneID": "America/Montreal",
+    "country": "Canada",
+    "name": "Quebec",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Vancouver",
+    "capitalCityTimezoneID": "America/Vancouver",
+    "country": "Canada",
+    "name": "British Columbia",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Edmonton",
+    "capitalCityTimezoneID": "America/Edmonton",
+    "country": "Canada",
+    "name": "Alberta",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Winnipeg",
+    "capitalCityTimezoneID": "America/Winnipeg",
+    "country": "Canada",
+    "name": "Manitoba",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Regina",
+    "capitalCityTimezoneID": "America/Regina",
+    "country": "Canada",
+    "name": "Saskatchewan",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Halifax",
+    "capitalCityTimezoneID": "America/Halifax",
+    "country": "Canada",
+    "name": "Nova Scotia",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "St. John's",
+    "capitalCityTimezoneID": "America/St_Johns",
+    "country": "Canada",
+    "name": "Newfoundland and Labrador",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Fredericton",
+    "capitalCityTimezoneID": "America/Moncton",
+    "country": "Canada",
+    "name": "New Brunswick",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Whitehorse",
+    "capitalCityTimezoneID": "America/Whitehorse",
+    "country": "Canada",
+    "name": "Yukon",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Yellowknife",
+    "capitalCityTimezoneID": "America/Yellowknife",
+    "country": "Canada",
+    "name": "Northwest Territories",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Iqaluit",
+    "capitalCityTimezoneID": "America/Iqaluit",
+    "country": "Canada",
+    "name": "Nunavut",
+    "aliases": [
+    ]
+  },
+  {
+    "capital": "Charlottetown",
+    "capitalCityTimezoneID": "America/Halifax",
+    "country": "Canada",
+    "name": "Prince Edward Island",
+    "aliases": [
+    ]
+  },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["ny"],
+      "capital": "Albany",
+      "name": "New York State",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Los_Angeles",
+      "aliases": ["ca"],
+      "capital": "Sacramento",
+      "name": "California",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["il"],
+      "capital": "Springfield",
+      "name": "Illinois",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["co"],
+      "capital": "Denver",
+      "name": "Colorado",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Phoenix",
+      "aliases": ["az"],
+      "capital": "Phoenix",
+      "name": "Arizona",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Indiana/Indianapolis",
+      "aliases": [],
+      "capital": "Indianapolis",
+      "name": "Indiana",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": [],
+      "capital": "Jackson",
+      "name": "Mississippi",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["sd"],
+      "capital": "Pierre",
+      "name": "South Dakota",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["va"],
+      "capital": "Richmond",
+      "name": "Virginia",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["ut"],
+      "capital": "Salt Lake City",
+      "name": "Utah",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["ia"],
+      "capital": "Des Moines",
+      "name": "Iowa",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["ks"],
+      "capital": "Topeka",
+      "name": "Kansas",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["tx"],
+      "capital": "Austin",
+      "name": "Texas",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["mo"],
+      "capital": "Jefferson City",
+      "name": "Missouri",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Los_Angeles",
+      "aliases": [],
+      "capital": "Salem",
+      "name": "Oregon",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Anchorage",
+      "aliases": ["ak"],
+      "capital": "Juneau",
+      "name": "Alaska",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "Pacific/Honolulu",
+      "aliases": [],
+      "capital": "Honolulu",
+      "name": "Hawaii",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["ma"],
+      "capital": "Boston",
+      "name": "Massachusetts",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Detroit",
+      "aliases": ["mi"],
+      "capital": "Lansing",
+      "name": "Michigan",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["ct"],
+      "capital": "Hartford",
+      "name": "Connecticut",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": [],
+      "capital": "Dover",
+      "name": "Delaware",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["ga"],
+      "capital": "Atlanta",
+      "name": "Georgia",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["fl"],
+      "capital": "Tallahassee",
+      "name": "Florida",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Los_Angeles",
+      "aliases": ["nv"],
+      "capital": "Carson City",
+      "name": "Nevada",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": [],
+      "capital": "Baton Rouge",
+      "name": "Louisiana",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["md"],
+      "capital": "Annapolis",
+      "name": "Maryland",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": [],
+      "capital": "Augusta",
+      "name": "Maine",
+      "country": "United States"
+    },
+    {
+        "capitalCityTimezoneID": "America/New_York",
+        "aliases": ["ky"],
+        "capital": "Frankfort",
+        "name": "Kentucky",
+        "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["nh"],
+      "capital": "Concord",
+      "name": "New Hampshire",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["nj"],
+      "capital": "Trenton",
+      "name": "New Jersey",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["nm"],
+      "capital": "Santa Fe",
+      "name": "New Mexico",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["nc"],
+      "capital": "Raleigh",
+      "name": "North Carolina",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/North_Dakota/Center",
+      "aliases": ["nd"],
+      "capital": "Bismarck",
+      "name": "North Dakota",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["oh"],
+      "capital": "Columbus",
+      "name": "Ohio",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": [],
+      "capital": "Oklahoma City",
+      "name": "Oklahoma",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Los_Angeles",
+      "aliases": [],
+      "capital": "Salem",
+      "name": "Oregon",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["pa"],
+      "capital": "Harrisburg",
+      "name": "Pennsylvania",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["ri"],
+      "capital": "Providence",
+      "name": "Rhode Island",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["sc"],
+      "capital": "Columbia",
+      "name": "South Carolina",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["sd"],
+      "capital": "Pierre",
+      "name": "South Dakota",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["tn"],
+      "capital": "Nashville",
+      "name": "Tennessee",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["tx"],
+      "capital": "Austin",
+      "name": "Texas",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["ut"],
+      "capital": "Salt Lake City",
+      "name": "Utah",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["vt"],
+      "capital": "Montpelier",
+      "name": "Vermont",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["va"],
+      "capital": "Richmond",
+      "name": "Virginia",
+      "country": "United States"
+    },
+  {
+      "capitalCityTimezoneID": "America/Los_Angeles",
+      "aliases": ["wa"],
+      "capital": "Olympia",
+      "name": "Washington",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/New_York",
+      "aliases": ["wv"],
+      "capital": "Charleston",
+      "name": "West Virginia",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["wi"],
+      "capital": "Madison",
+      "name": "Wisconsin",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["wy"],
+      "capital": "Cheyenne",
+      "name": "Wyoming",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": [],
+      "capital": "Montgomery",
+      "name": "Alabama",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["ar"],
+      "capital": "Little Rock",
+      "name": "Arkansas",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Boise",
+      "aliases": ["id"],
+      "capital": "Boise",
+      "name": "Idaho",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["mn"],
+      "capital": "Saint Paul",
+      "name": "Minnesota",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Chicago",
+      "aliases": ["ne"],
+      "capital": "Lincoln",
+      "name": "Nebraska",
+      "country": "United States"
+    },
+    {
+      "capitalCityTimezoneID": "America/Denver",
+      "aliases": ["mt"],
+      "capital": "Helena",
+      "name": "Montana",
+      "country": "United States"
+    }
+
+]

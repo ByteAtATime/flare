@@ -1,0 +1,58 @@
+{
+  "sets": [
+    {
+      "system": "standard",
+      "scalars": {
+        "thousand": { "symbol": "k", "aliases": [] },
+        "million": { "symbol": "M", "aliases": [] },
+        "billion": { "symbol": "G", "aliases": [] },
+        "trillion": { "symbol": "T", "aliases": [] }
+      }
+    },
+    {
+      "system": "chinese",
+      "scalars": {
+        "thousand": { "symbol": "千", "aliases": [] },
+        "million": { "symbol": "M", "aliases": [] },
+        "billion": { "symbol": "G", "aliases": [] },
+        "trillion": { "symbol": "T", "aliases": [] }
+      }
+    },
+    {
+      "system": "russian",
+      "scalars": {
+        "thousand": { "symbol": "К", "aliases": ["к"] },
+        "million": { "symbol": "М", "aliases": [] },
+        "billion": { "symbol": "Г", "aliases": [] },
+        "trillion": { "symbol": "Т", "aliases": [] }
+      }
+    },
+    {
+      "system": "currencyUppercase",
+      "scalars": {
+        "thousand": { "symbol": "K", "aliases": [] },
+        "million": { "symbol": "M", "aliases": [] },
+        "billion": { "symbol": "B", "aliases": [] },
+        "trillion": { "symbol": "T", "aliases": [] }
+      }
+    },
+    {
+      "system": "currencyLowercase",
+      "scalars": {
+        "thousand": { "symbol": "k", "aliases": [] },
+        "million": { "symbol": "m", "aliases": ["mm"] },
+        "billion": { "symbol": "b", "aliases": [] },
+        "trillion": { "symbol": "t", "aliases": [] }
+      }
+    },
+    {
+      "system": "currencyBritish",
+      "scalars": {
+        "thousand": { "symbol": "k", "aliases": [] },
+        "million": { "symbol": "mn", "aliases": [] },
+        "billion": { "symbol": "bn", "aliases": [] },
+        "trillion": { "symbol": "tn", "aliases": [] }
+      }
+    }
+  ]
+}

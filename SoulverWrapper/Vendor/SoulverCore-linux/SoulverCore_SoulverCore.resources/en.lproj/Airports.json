@@ -1,0 +1,2312 @@
+[
+	{
+		"iata_code": "POM",
+		"cityIdentifier": "port moresby",
+		"elevation": 146,
+		"name": "Port Moresby Jacksons International Airport",
+		"coordinates": "147.22000122070312, -9.443380355834961"
+	},
+	{
+		"iata_code": "KEF",
+		"cityIdentifier": "reykjavik",
+		"elevation": 171,
+		"name": "Keflavik International Airport",
+		"coordinates": "-22.6056, 63.985001"
+	},
+	{
+		"iata_code": "PRN",
+		"cityIdentifier": "pristina",
+		"elevation": 1789,
+		"name": "Pristina International Airport",
+		"coordinates": "21.035801, 42.5728"
+	},
+	{
+		"iata_code": "YEG",
+		"cityIdentifier": "edmonton",
+		"elevation": 2373,
+		"name": "Edmonton International Airport",
+		"coordinates": "-113.580001831, 53.309700012200004"
+	},
+	{
+		"iata_code": "YHZ",
+		"cityIdentifier": "halifax",
+		"elevation": 477,
+		"name": "Halifax / Stanfield International Airport",
+		"coordinates": "-63.5085983276, 44.8807983398"
+	},
+	{
+		"iata_code": "YOW",
+		"cityIdentifier": "ottawa",
+		"elevation": 374,
+		"name": "Ottawa Macdonald-Cartier International Airport",
+		"coordinates": "-75.66919708251953, 45.3224983215332"
+	},
+	{
+		"iata_code": "YUL",
+		"cityIdentifier": "montreal",
+		"elevation": 118,
+		"name": "Montreal / Pierre Elliott Trudeau International Airport",
+		"coordinates": "-73.7407989502, 45.4706001282"
+	},
+	{
+		"iata_code": "YVR",
+		"cityIdentifier": "vancouver",
+		"elevation": 14,
+		"name": "Vancouver International Airport",
+		"coordinates": "-123.183998108, 49.193901062"
+	},
+	{
+		"iata_code": "YWG",
+		"cityIdentifier": "winnipeg",
+		"elevation": 783,
+		"name": "Winnipeg / James Armstrong Richardson International Airport",
+		"coordinates": "-97.2398986816, 49.909999847399995"
+	},
+	{
+		"iata_code": "YYC",
+		"cityIdentifier": "calgary",
+		"elevation": 3557,
+		"name": "Calgary International Airport",
+		"coordinates": "-114.019996643, 51.113899231"
+	},
+	{
+		"iata_code": "YYJ",
+		"cityIdentifier": "victoria",
+		"elevation": 63,
+		"name": "Victoria International Airport",
+		"coordinates": "-123.426002502, 48.646900177"
+	},
+	{
+		"iata_code": "YYZ",
+		"cityIdentifier": "toronto",
+		"elevation": 569,
+		"name": "Lester B. Pearson International Airport",
+		"coordinates": "-79.63059997559999, 43.6772003174"
+	},
+	{
+		"iata_code": "ALG",
+		"cityIdentifier": "algiers",
+		"elevation": 82,
+		"name": "Houari Boumediene Airport",
+		"coordinates": "3.215409994125366, 36.691001892089844"
+	},
+	{
+		"iata_code": "OUA",
+		"cityIdentifier": "ouagadougou",
+		"elevation": 1037,
+		"name": "Ouagadougou Airport",
+		"coordinates": "-1.51242, 12.3532"
+	},
+	{
+		"iata_code": "ACC",
+		"cityIdentifier": "accra",
+		"elevation": 205,
+		"name": "Kotoka International Airport",
+		"coordinates": "-0.16678600013256073, 5.605189800262451"
+	},
+	{
+		"iata_code": "ABV",
+		"cityIdentifier": "abuja",
+		"elevation": 1123,
+		"name": "Nnamdi Azikiwe International Airport",
+		"coordinates": "7.263169765472412, 9.006790161132812"
+	},
+	{
+		"iata_code": "NIM",
+		"cityIdentifier": "niamey",
+		"elevation": 732,
+		"name": "Diori Hamani International Airport",
+		"coordinates": "2.18361, 13.4815"
+	},
+	{
+		"iata_code": "TUN",
+		"cityIdentifier": "tunis",
+		"elevation": 22,
+		"name": "Tunis Carthage International Airport",
+		"coordinates": "10.22719955444336, 36.85100173950195"
+	},
+	{
+		"iata_code": "BRU",
+		"cityIdentifier": "brussels",
+		"elevation": 184,
+		"name": "Brussels Airport",
+		"coordinates": "4.48443984985, 50.901401519800004"
+	},
+	{
+		"iata_code": "CRL",
+		"cityIdentifier": "brussels",
+		"elevation": 614,
+		"name": "Brussels South Charleroi Airport",
+		"coordinates": "4.45382, 50.459202"
+	},
+	{
+		"iata_code": "SXF",
+		"cityIdentifier": "berlin",
+		"elevation": 157,
+		"name": "Berlin-Schönefeld Airport",
+		"coordinates": "13.5225, 52.380001"
+	},
+	{
+		"iata_code": "DRS",
+		"cityIdentifier": "dresden",
+		"elevation": 755,
+		"name": "Dresden Airport",
+		"coordinates": "13.767200469970703, 51.1328010559082"
+	},
+	{
+		"iata_code": "FRA",
+		"cityIdentifier": "frankfurt am main",
+		"elevation": 364,
+		"name": "Frankfurt am Main Airport",
+		"coordinates": "8.570556, 50.033333"
+	},
+	{
+		"iata_code": "HAM",
+		"cityIdentifier": "hamburg",
+		"elevation": 53,
+		"name": "Hamburg Airport",
+		"coordinates": "9.9882297515869, 53.630401611328"
+	},
+	{
+		"iata_code": "CGN",
+		"cityIdentifier": "cologne",
+		"elevation": 302,
+		"name": "Cologne Bonn Airport",
+		"coordinates": "7.1427397728, 50.8658981323"
+	},
+	{
+		"iata_code": "MUC",
+		"cityIdentifier": "munich",
+		"elevation": 1487,
+		"name": "Munich Airport",
+		"coordinates": "11.7861, 48.353802"
+	},
+	{
+		"iata_code": "LEJ",
+		"cityIdentifier": "leipzig",
+		"elevation": 465,
+		"name": "Leipzig/Halle Airport",
+		"coordinates": "12.236389, 51.423889"
+	},
+	{
+		"iata_code": "STR",
+		"cityIdentifier": "stuttgart",
+		"elevation": 1276,
+		"name": "Stuttgart Airport",
+		"coordinates": "9.22196006775, 48.689899444599995"
+	},
+	{
+		"iata_code": "TXL",
+		"cityIdentifier": "berlin",
+		"elevation": 122,
+		"name": "Berlin-Tegel Airport",
+		"coordinates": "13.2877, 52.5597"
+	},
+	{
+		"iata_code": "HAJ",
+		"cityIdentifier": "hannover",
+		"elevation": 183,
+		"name": "Hannover Airport",
+		"coordinates": "9.685079574580001, 52.461101532"
+	},
+	{
+		"iata_code": "BRE",
+		"cityIdentifier": "bremen",
+		"elevation": 14,
+		"name": "Bremen Airport",
+		"coordinates": "8.78666973114, 53.0475006104"
+	},
+	{
+		"iata_code": "DTM",
+		"cityIdentifier": "dortmund",
+		"elevation": 425,
+		"name": "Dortmund Airport",
+		"coordinates": "7.61223983765, 51.51829910279999"
+	},
+	{
+		"iata_code": "TLL",
+		"cityIdentifier": "tallinn",
+		"elevation": 131,
+		"name": "Lennart Meri Tallinn Airport",
+		"coordinates": "24.832799911499997, 59.41329956049999"
+	},
+	{
+		"iata_code": "HEL",
+		"cityIdentifier": "helsinki",
+		"elevation": 179,
+		"name": "Helsinki Vantaa Airport",
+		"coordinates": "24.963300704956, 60.317199707031"
+	},
+	{
+		"iata_code": "BFS",
+		"cityIdentifier": "belfast",
+		"elevation": 268,
+		"name": "Belfast International Airport",
+		"coordinates": "-6.2158298492399995, 54.6575012207"
+	},
+	{
+		"iata_code": "BHD",
+		"cityIdentifier": "belfast",
+		"elevation": 15,
+		"name": "George Best Belfast City Airport",
+		"coordinates": "-5.872499942779541, 54.618099212646484"
+	},
+	{
+		"iata_code": "BHX",
+		"cityIdentifier": "birmingham",
+		"elevation": 327,
+		"name": "Birmingham International Airport",
+		"coordinates": "-1.74802994728, 52.453899383499994"
+	},
+	{
+		"iata_code": "MAN",
+		"cityIdentifier": "manchester",
+		"elevation": 257,
+		"name": "Manchester Airport",
+		"coordinates": "-2.2749500274658203, 53.35369873046875"
+	},
+	{
+		"iata_code": "DSA",
+		"cityIdentifier": "london",
+		"elevation": 55,
+		"name": "Robin Hood Doncaster Sheffield Airport",
+		"coordinates": "-1.01065635681, 53.4805378105"
+	},
+	{
+		"iata_code": "CWL",
+		"cityIdentifier": "cardiff",
+		"elevation": 220,
+		"name": "Cardiff International Airport",
+		"coordinates": "-3.343329906463623, 51.39670181274414"
+	},
+	{
+		"iata_code": "BRS",
+		"cityIdentifier": "bristol",
+		"elevation": 622,
+		"name": "Bristol Airport",
+		"coordinates": "-2.71909, 51.382702"
+	},
+	{
+		"iata_code": "LPL",
+		"cityIdentifier": "liverpool",
+		"elevation": 80,
+		"name": "Liverpool John Lennon Airport",
+		"coordinates": "-2.849720001220703, 53.33359909057617"
+	},
+	{
+		"iata_code": "LTN",
+		"cityIdentifier": "london",
+		"elevation": 526,
+		"name": "London Luton Airport",
+		"coordinates": "-0.36833301186561584, 51.874698638916016"
+	},
+	{
+		"iata_code": "BOH",
+		"cityIdentifier": "london",
+		"elevation": 38,
+		"name": "Bournemouth Airport",
+		"coordinates": "-1.8424999713897705, 50.779998779296875"
+	},
+	{
+		"iata_code": "SOU",
+		"cityIdentifier": "london",
+		"elevation": 44,
+		"name": "Southampton Airport",
+		"coordinates": "-1.3567999601364136, 50.95029830932617"
+	},
+	{
+		"iata_code": "LGW",
+		"cityIdentifier": "london",
+		"elevation": 202,
+		"name": "London Gatwick Airport",
+		"coordinates": "-0.190278, 51.148102"
+	},
+	{
+		"iata_code": "LHR",
+		"cityIdentifier": "london",
+		"elevation": 83,
+		"name": "London Heathrow Airport",
+		"coordinates": "-0.461941, 51.4706"
+	},
+	{
+		"iata_code": "LBA",
+		"cityIdentifier": "leeds",
+		"elevation": 681,
+		"name": "Leeds Bradford Airport",
+		"coordinates": "-1.6605700254440308, 53.86589813232422"
+	},
+	{
+		"iata_code": "NCL",
+		"cityIdentifier": "newcastle",
+		"elevation": 266,
+		"name": "Newcastle Airport",
+		"coordinates": "-1.6916699409484863, 55.037498474121094"
+	},
+	{
+		"iata_code": "ABZ",
+		"cityIdentifier": "aberdeen",
+		"elevation": 215,
+		"name": "Aberdeen Dyce Airport",
+		"coordinates": "-2.197779893875122, 57.201900482177734"
+	},
+	{
+		"iata_code": "GLA",
+		"cityIdentifier": "glasgow",
+		"elevation": 26,
+		"name": "Glasgow International Airport",
+		"coordinates": "-4.43306, 55.871899"
+	},
+	{
+		"iata_code": "EDI",
+		"cityIdentifier": "edinburgh",
+		"elevation": 135,
+		"name": "Edinburgh Airport",
+		"coordinates": "-3.372499942779541, 55.95000076293945"
+	},
+	{
+		"iata_code": "STN",
+		"cityIdentifier": "london",
+		"elevation": 348,
+		"name": "London Stansted Airport",
+		"coordinates": "0.234999999404, 51.8849983215"
+	},
+	{
+		"iata_code": "AMS",
+		"cityIdentifier": "amsterdam",
+		"elevation": -11,
+		"name": "Amsterdam Airport Schiphol",
+		"coordinates": "4.76389, 52.308601"
+	},
+	{
+		"iata_code": "ORK",
+		"cityIdentifier": "cork",
+		"elevation": 502,
+		"name": "Cork Airport",
+		"coordinates": "-8.491109848022461, 51.84130096435547"
+	},
+	{
+		"iata_code": "DUB",
+		"cityIdentifier": "dublin",
+		"elevation": 242,
+		"name": "Dublin Airport",
+		"coordinates": "-6.27007, 53.421299"
+	},
+	{
+		"iata_code": "CPH",
+		"cityIdentifier": "copenhagen",
+		"elevation": 17,
+		"name": "Copenhagen Kastrup Airport",
+		"coordinates": "12.656000137329, 55.617900848389"
+	},
+	{
+		"iata_code": "LUX",
+		"cityIdentifier": "luxembourg city",
+		"elevation": 1234,
+		"name": "Luxembourg-Findel International Airport",
+		"coordinates": "6.2044444, 49.6233333"
+	},
+	{
+		"iata_code": "BGO",
+		"cityIdentifier": "bergen",
+		"elevation": 170,
+		"name": "Bergen Airport Flesland",
+		"coordinates": "5.218140125, 60.29339981"
+	},
+	{
+		"iata_code": "OSL",
+		"cityIdentifier": "oslo",
+		"elevation": 681,
+		"name": "Oslo Gardermoen Airport",
+		"coordinates": "11.100399971008, 60.193901062012"
+	},
+	{
+		"iata_code": "TRD",
+		"cityIdentifier": "trondheim",
+		"elevation": 56,
+		"name": "Trondheim Airport",
+		"coordinates": "10.9239998, 63.4578018"
+	},
+	{
+		"iata_code": "KRK",
+		"cityIdentifier": "krakow",
+		"elevation": 791,
+		"name": "Kraków John Paul II International Airport",
+		"coordinates": "19.7848, 50.077702"
+	},
+	{
+		"iata_code": "WAW",
+		"cityIdentifier": "warsaw",
+		"elevation": 362,
+		"name": "Warsaw Chopin Airport",
+		"coordinates": "20.967100143399996, 52.1656990051"
+	},
+	{
+		"iata_code": "ARN",
+		"cityIdentifier": "stockholm",
+		"elevation": 137,
+		"name": "Stockholm-Arlanda Airport",
+		"coordinates": "17.918600082397, 59.651901245117"
+	},
+	{
+		"iata_code": "RIX",
+		"cityIdentifier": "riga",
+		"elevation": 36,
+		"name": "Riga International Airport",
+		"coordinates": "23.971099853515625, 56.92359924316406"
+	},
+	{
+		"iata_code": "VNO",
+		"cityIdentifier": "vilnius",
+		"elevation": 648,
+		"name": "Vilnius International Airport",
+		"coordinates": "25.285801, 54.634102"
+	},
+	{
+		"iata_code": "CPT",
+		"cityIdentifier": "cape town",
+		"elevation": 151,
+		"name": "Cape Town International Airport",
+		"coordinates": "18.6016998291, -33.9648017883"
+	},
+	{
+		"iata_code": "GRJ",
+		"cityIdentifier": "georgetown",
+		"elevation": 648,
+		"name": "George Airport",
+		"coordinates": "22.378902, -34.0056"
+	},
+	{
+		"iata_code": "MPM",
+		"cityIdentifier": "maputo",
+		"elevation": 145,
+		"name": "Maputo Airport",
+		"coordinates": "32.572601, -25.920799"
+	},
+	{
+		"iata_code": "NDJ",
+		"cityIdentifier": "n'djamena",
+		"elevation": 968,
+		"name": "N'Djamena International Airport",
+		"coordinates": "15.034, 12.1337"
+	},
+	{
+		"iata_code": "NKC",
+		"cityIdentifier": "nouakchott",
+		"elevation": 9,
+		"name": "Nouakchott–Oumtounsy International Airport",
+		"coordinates": "-15.9697222, 18.31"
+	},
+	{
+		"iata_code": "ADD",
+		"cityIdentifier": "addis ababa",
+		"elevation": 7630,
+		"name": "Addis Ababa Bole International Airport",
+		"coordinates": "38.799301147499996, 8.97789001465"
+	},
+	{
+		"iata_code": "CAI",
+		"cityIdentifier": "cairo",
+		"elevation": 382,
+		"name": "Cairo International Airport",
+		"coordinates": "31.40559959411621, 30.12190055847168"
+	},
+	{
+		"iata_code": "TIP",
+		"cityIdentifier": "tripoli",
+		"elevation": 263,
+		"name": "Tripoli International Airport",
+		"coordinates": "13.1590003967, 32.6635017395"
+	},
+	{
+		"iata_code": "KGL",
+		"cityIdentifier": "kigali",
+		"elevation": 4859,
+		"name": "Kigali International Airport",
+		"coordinates": "30.1395, -1.96863"
+	},
+	{
+		"iata_code": "KRT",
+		"cityIdentifier": "khartoum",
+		"elevation": 1265,
+		"name": "Khartoum International Airport",
+		"coordinates": "32.553199768066406, 15.589500427246094"
+	},
+	{
+		"iata_code": "ABQ",
+		"cityIdentifier": "albuquerque",
+		"elevation": 5355,
+		"name": "Albuquerque International Sunport",
+		"coordinates": "-106.609001, 35.040199"
+	},
+	{
+		"iata_code": "AFW",
+		"cityIdentifier": "fort worth",
+		"elevation": 722,
+		"name": "Fort Worth Alliance Airport",
+		"coordinates": "-97.31880187990001, 32.9875984192"
+	},
+	{
+		"iata_code": "AUS",
+		"cityIdentifier": "austin",
+		"elevation": 542,
+		"name": "Austin Bergstrom International Airport",
+		"coordinates": "-97.6698989868164, 30.194499969482422"
+	},
+	{
+		"iata_code": "BHM",
+		"cityIdentifier": "birmingham",
+		"elevation": 650,
+		"name": "Birmingham-Shuttlesworth International Airport",
+		"coordinates": "-86.75350189, 33.56290054"
+	},
+	{
+		"iata_code": "BNA",
+		"cityIdentifier": "nashville",
+		"elevation": 599,
+		"name": "Nashville International Airport",
+		"coordinates": "-86.6781997680664, 36.1245002746582"
+	},
+	{
+		"iata_code": "BOI",
+		"cityIdentifier": "boise",
+		"elevation": 2871,
+		"name": "Boise Air Terminal/Gowen Field",
+		"coordinates": "-116.223, 43.5644"
+	},
+	{
+		"iata_code": "BWI",
+		"cityIdentifier": "baltimore",
+		"elevation": 146,
+		"name": "Baltimore/Washington International Thurgood Marshall Airport",
+		"coordinates": "-76.668297, 39.1754"
+	},
+	{
+		"iata_code": "CVG",
+		"cityIdentifier": "cincinnati",
+		"elevation": 896,
+		"name": "Cincinnati Northern Kentucky International Airport",
+		"coordinates": "-84.667801, 39.048801"
+	},
+	{
+		"iata_code": "DAL",
+		"cityIdentifier": "dallas",
+		"elevation": 487,
+		"name": "Dallas Love Field",
+		"coordinates": "-96.851799, 32.847099"
+	},
+	{
+		"iata_code": "DCA",
+		"cityIdentifier": "washington",
+		"elevation": 15,
+		"name": "Ronald Reagan Washington National Airport",
+		"coordinates": "-77.037697, 38.8521"
+	},
+	{
+		"iata_code": "DEN",
+		"cityIdentifier": "denver",
+		"elevation": 5431,
+		"name": "Denver International Airport",
+		"coordinates": "-104.672996521, 39.861698150635"
+	},
+	{
+		"iata_code": "DFW",
+		"cityIdentifier": "dallas",
+		"elevation": 607,
+		"name": "Dallas Fort Worth International Airport",
+		"coordinates": "-97.038002, 32.896801"
+	},
+	{
+		"iata_code": "DSM",
+		"cityIdentifier": "des moines",
+		"elevation": 958,
+		"name": "Des Moines International Airport",
+		"coordinates": "-93.66310119628906, 41.534000396728516"
+	},
+	{
+		"iata_code": "DTW",
+		"cityIdentifier": "detroit",
+		"elevation": 645,
+		"name": "Detroit Metropolitan Wayne County Airport",
+		"coordinates": "-83.35340118408203, 42.212398529052734"
+	},
+	{
+		"iata_code": "EWR",
+		"cityIdentifier": "new york",
+		"elevation": 18,
+		"name": "Newark Liberty International Airport",
+		"coordinates": "-74.168701171875, 40.692501068115234"
+	},
+	{
+		"iata_code": "FLL",
+		"cityIdentifier": "miami",
+		"elevation": 9,
+		"name": "Fort Lauderdale Hollywood International Airport",
+		"coordinates": "-80.152702, 26.072599"
+	},
+	{
+		"iata_code": "GRB",
+		"cityIdentifier": "austin",
+		"elevation": 695,
+		"name": "Austin Straubel International Airport",
+		"coordinates": "-88.12960052490234, 44.48509979248047"
+	},
+	{
+		"iata_code": "IAD",
+		"cityIdentifier": "washington",
+		"elevation": 312,
+		"name": "Washington Dulles International Airport",
+		"coordinates": "-77.45580292, 38.94449997"
+	},
+	{
+		"iata_code": "IAH",
+		"cityIdentifier": "houston",
+		"elevation": 97,
+		"name": "George Bush Intercontinental Houston Airport",
+		"coordinates": "-95.34140014648438, 29.984399795532227"
+	},
+	{
+		"iata_code": "ICT",
+		"cityIdentifier": "wichita",
+		"elevation": 1333,
+		"name": "Wichita Eisenhower National Airport",
+		"coordinates": "-97.433098, 37.649899"
+	},
+	{
+		"iata_code": "IND",
+		"cityIdentifier": "indianapolis",
+		"elevation": 797,
+		"name": "Indianapolis International Airport",
+		"coordinates": "-86.294403, 39.7173"
+	},
+	{
+		"iata_code": "JAN",
+		"cityIdentifier": "jackson",
+		"elevation": 346,
+		"name": "Jackson-Medgar Wiley Evers International Airport",
+		"coordinates": "-90.0758972168, 32.3111991882"
+	},
+	{
+		"iata_code": "JAX",
+		"cityIdentifier": "jackson",
+		"elevation": 30,
+		"name": "Jacksonville International Airport",
+		"coordinates": "-81.68789672851562, 30.49410057067871"
+	},
+	{
+		"iata_code": "JFK",
+		"cityIdentifier": "new york",
+		"elevation": 13,
+		"name": "John F Kennedy International Airport",
+		"coordinates": "-73.7789, 40.639801"
+	},
+	{
+		"iata_code": "LAX",
+		"cityIdentifier": "los angeles",
+		"elevation": 125,
+		"name": "Los Angeles International Airport",
+		"coordinates": "-118.407997, 33.942501"
+	},
+	{
+		"iata_code": "LGA",
+		"cityIdentifier": "new york",
+		"elevation": 21,
+		"name": "La Guardia Airport",
+		"coordinates": "-73.872597, 40.777199"
+	},
+	{
+		"iata_code": "MCI",
+		"cityIdentifier": "kansas city",
+		"elevation": 1026,
+		"name": "Kansas City International Airport",
+		"coordinates": "-94.713898, 39.2976"
+	},
+	{
+		"iata_code": "MCO",
+		"cityIdentifier": "orlando",
+		"elevation": 96,
+		"name": "Orlando International Airport",
+		"coordinates": "-81.30899810791016, 28.429399490356445"
+	},
+	{
+		"iata_code": "MDW",
+		"cityIdentifier": "chicago",
+		"elevation": 620,
+		"name": "Chicago Midway International Airport",
+		"coordinates": "-87.752403, 41.785999"
+	},
+	{
+		"iata_code": "MEM",
+		"cityIdentifier": "memphis",
+		"elevation": 341,
+		"name": "Memphis International Airport",
+		"coordinates": "-89.97669982910156, 35.04240036010742"
+	},
+	{
+		"iata_code": "MIA",
+		"cityIdentifier": "miami",
+		"elevation": 8,
+		"name": "Miami International Airport",
+		"coordinates": "-80.29060363769531, 25.79319953918457"
+	},
+	{
+		"iata_code": "MSP",
+		"cityIdentifier": "minneapolis",
+		"elevation": 841,
+		"name": "Minneapolis-St Paul International/Wold-Chamberlain Airport",
+		"coordinates": "-93.221802, 44.882"
+	},
+	{
+		"iata_code": "MSY",
+		"cityIdentifier": "new orleans",
+		"elevation": 4,
+		"name": "Louis Armstrong New Orleans International Airport",
+		"coordinates": "-90.25800323486328, 29.99340057373047"
+	},
+	{
+		"iata_code": "OAK",
+		"cityIdentifier": "san francisco",
+		"elevation": 9,
+		"name": "Metropolitan Oakland International Airport",
+		"coordinates": "-122.221001, 37.721298"
+	},
+	{
+		"iata_code": "OKC",
+		"cityIdentifier": "oklahoma city",
+		"elevation": 1295,
+		"name": "Will Rogers World Airport",
+		"coordinates": "-97.60070037841797, 35.39310073852539"
+	},
+	{
+		"iata_code": "ONT",
+		"cityIdentifier": "ottawa",
+		"elevation": 944,
+		"name": "Ontario International Airport",
+		"coordinates": "-117.60099792480469, 34.055999755859375"
+	},
+	{
+		"iata_code": "ORD",
+		"cityIdentifier": "chicago",
+		"elevation": 672,
+		"name": "Chicago O'Hare International Airport",
+		"coordinates": "-87.9048, 41.9786"
+	},
+	{
+		"iata_code": "PBI",
+		"cityIdentifier": "miami",
+		"elevation": 19,
+		"name": "Palm Beach International Airport",
+		"coordinates": "-80.09559631347656, 26.68320083618164"
+	},
+	{
+		"iata_code": "PDX",
+		"cityIdentifier": "portland",
+		"elevation": 31,
+		"name": "Portland International Airport",
+		"coordinates": "-122.5979996, 45.58869934"
+	},
+	{
+		"iata_code": "PHL",
+		"cityIdentifier": "philadelphia",
+		"elevation": 36,
+		"name": "Philadelphia International Airport",
+		"coordinates": "-75.24109649658203, 39.87189865112305"
+	},
+	{
+		"iata_code": "PHX",
+		"cityIdentifier": "phoenix",
+		"elevation": 1135,
+		"name": "Phoenix Sky Harbor International Airport",
+		"coordinates": "-112.01200103759766, 33.43429946899414"
+	},
+	{
+		"iata_code": "PIT",
+		"cityIdentifier": "pittsburgh",
+		"elevation": 1203,
+		"name": "Pittsburgh International Airport",
+		"coordinates": "-80.23290253, 40.49150085"
+	},
+	{
+		"iata_code": "PWM",
+		"cityIdentifier": "portland",
+		"elevation": 76,
+		"name": "Portland International Jetport",
+		"coordinates": "-70.309303, 43.646198"
+	},
+	{
+		"iata_code": "RFD",
+		"cityIdentifier": "chicago",
+		"elevation": 742,
+		"name": "Chicago Rockford International Airport",
+		"coordinates": "-89.09719848632812, 42.19540023803711"
+	},
+	{
+		"iata_code": "RSW",
+		"cityIdentifier": "miami",
+		"elevation": 30,
+		"name": "Southwest Florida International Airport",
+		"coordinates": "-81.75520324707031, 26.53619956970215"
+	},
+	{
+		"iata_code": "SAN",
+		"cityIdentifier": "san diego",
+		"elevation": 17,
+		"name": "San Diego International Airport",
+		"coordinates": "-117.190002441, 32.7336006165"
+	},
+	{
+		"iata_code": "SAT",
+		"cityIdentifier": "san antonio",
+		"elevation": 809,
+		"name": "San Antonio International Airport",
+		"coordinates": "-98.469803, 29.533701"
+	},
+	{
+		"iata_code": "SEA",
+		"cityIdentifier": "seattle",
+		"elevation": 433,
+		"name": "Seattle Tacoma International Airport",
+		"coordinates": "-122.308998, 47.449001"
+	},
+	{
+		"iata_code": "SFB",
+		"cityIdentifier": "orlando",
+		"elevation": 55,
+		"name": "Orlando Sanford International Airport",
+		"coordinates": "-81.23750305175781, 28.777599334716797"
+	},
+	{
+		"iata_code": "SFO",
+		"cityIdentifier": "san francisco",
+		"elevation": 13,
+		"name": "San Francisco International Airport",
+		"coordinates": "-122.375, 37.61899948120117"
+	},
+	{
+		"iata_code": "SGF",
+		"cityIdentifier": "springfield",
+		"elevation": 1268,
+		"name": "Springfield Branson National Airport",
+		"coordinates": "-93.38860321, 37.24570084"
+	},
+	{
+		"iata_code": "SJC",
+		"cityIdentifier": "cupertino",
+		"elevation": 62,
+		"name": "Norman Y. Mineta San Jose International Airport",
+		"coordinates": "-121.929001, 37.362598"
+	},
+	{
+		"iata_code": "SLC",
+		"cityIdentifier": "salt lake city",
+		"elevation": 4227,
+		"name": "Salt Lake City International Airport",
+		"coordinates": "-111.97799682617188, 40.78839874267578"
+	},
+	{
+		"iata_code": "SMF",
+		"cityIdentifier": "sacramento",
+		"elevation": 27,
+		"name": "Sacramento International Airport",
+		"coordinates": "-121.59100341796875, 38.69540023803711"
+	},
+	{
+		"iata_code": "SNA",
+		"cityIdentifier": "los angeles",
+		"elevation": 56,
+		"name": "John Wayne Airport-Orange County Airport",
+		"coordinates": "-117.8679962, 33.67570114"
+	},
+	{
+		"iata_code": "SPI",
+		"cityIdentifier": "springfield",
+		"elevation": 598,
+		"name": "Abraham Lincoln Capital Airport",
+		"coordinates": "-89.67790222, 39.84410095"
+	},
+	{
+		"iata_code": "TLH",
+		"cityIdentifier": "tallahassee",
+		"elevation": 81,
+		"name": "Tallahassee Regional Airport",
+		"coordinates": "-84.35030364990234, 30.396499633789062"
+	},
+	{
+		"iata_code": "TUL",
+		"cityIdentifier": "tulsa",
+		"elevation": 677,
+		"name": "Tulsa International Airport",
+		"coordinates": "-95.88809967041016, 36.19839859008789"
+	},
+	{
+		"iata_code": "TIA",
+		"cityIdentifier": "tirana",
+		"elevation": 126,
+		"name": "Tirana International Airport Mother Teresa",
+		"coordinates": "19.7206001282, 41.4146995544"
+	},
+	{
+		"iata_code": "SOF",
+		"cityIdentifier": "sofia",
+		"elevation": 1742,
+		"name": "Sofia Airport",
+		"coordinates": "23.411436080932617, 42.696693420410156"
+	},
+	{
+		"iata_code": "ZAG",
+		"cityIdentifier": "zagreb",
+		"elevation": 353,
+		"name": "Zagreb Airport",
+		"coordinates": "16.0687999725, 45.7429008484"
+	},
+	{
+		"iata_code": "BCN",
+		"cityIdentifier": "barcelona",
+		"elevation": 12,
+		"name": "Barcelona International Airport",
+		"coordinates": "2.07846, 41.2971"
+	},
+	{
+		"iata_code": "MAD",
+		"cityIdentifier": "madrid",
+		"elevation": 1998,
+		"name": "Madrid-Barajas Adolfo Suárez Airport",
+		"coordinates": "-3.56264, 40.471926"
+	},
+	{
+		"iata_code": "SCQ",
+		"cityIdentifier": "santiago",
+		"elevation": 1213,
+		"name": "Santiago de Compostela Airport",
+		"coordinates": "-8.415140151977539, 42.89630126953125"
+	},
+	{
+		"iata_code": "BOD",
+		"cityIdentifier": "bordeaux",
+		"elevation": 162,
+		"name": "Bordeaux-Mérignac Airport",
+		"coordinates": "-0.715556025505, 44.828300476100004"
+	},
+	{
+		"iata_code": "TLS",
+		"cityIdentifier": "toulouse",
+		"elevation": 499,
+		"name": "Toulouse-Blagnac Airport",
+		"coordinates": "1.36382, 43.629101"
+	},
+	{
+		"iata_code": "LYS",
+		"cityIdentifier": "lyon",
+		"elevation": 821,
+		"name": "Lyon Saint-Exupéry Airport",
+		"coordinates": "5.081111, 45.725556"
+	},
+	{
+		"iata_code": "MRS",
+		"cityIdentifier": "marseille",
+		"elevation": 74,
+		"name": "Marseille Provence Airport",
+		"coordinates": "5.22142410278, 43.439271922"
+	},
+	{
+		"iata_code": "NCE",
+		"cityIdentifier": "nice",
+		"elevation": 12,
+		"name": "Nice-Cà´te d'Azur Airport",
+		"coordinates": "7.215869903560001, 43.6584014893"
+	},
+	{
+		"iata_code": "CDG",
+		"cityIdentifier": "paris",
+		"elevation": 392,
+		"name": "Charles de Gaulle International Airport",
+		"coordinates": "2.55, 49.012798"
+	},
+	{
+		"iata_code": "ORY",
+		"cityIdentifier": "paris",
+		"elevation": 291,
+		"name": "Paris-Orly Airport",
+		"coordinates": "2.3794444, 48.7233333"
+	},
+	{
+		"iata_code": "BSL",
+		"cityIdentifier": "basel",
+		"elevation": 885,
+		"name": "EuroAirport Basel-Mulhouse-Freiburg Airport",
+		"coordinates": "7.529167, 47.59"
+	},
+	{
+		"iata_code": "BUD",
+		"cityIdentifier": "budapest",
+		"elevation": 495,
+		"name": "Budapest Liszt Ferenc International Airport",
+		"coordinates": "19.261093, 47.42976"
+	},
+	{
+		"iata_code": "BRI",
+		"cityIdentifier": "bari",
+		"elevation": 177,
+		"name": "Bari Karol WojtyÅa Airport",
+		"coordinates": "16.760599, 41.138901"
+	},
+	{
+		"iata_code": "CTA",
+		"cityIdentifier": "catania",
+		"elevation": 39,
+		"name": "Catania-Fontanarossa Airport",
+		"coordinates": "15.0664, 37.466801"
+	},
+	{
+		"iata_code": "PMO",
+		"cityIdentifier": "palermo",
+		"elevation": 65,
+		"name": "Palermo Airport",
+		"coordinates": "13.091, 38.175999"
+	},
+	{
+		"iata_code": "BGY",
+		"cityIdentifier": "milan",
+		"elevation": 782,
+		"name": "Milan Bergamo Airport",
+		"coordinates": "9.70417, 45.673901"
+	},
+	{
+		"iata_code": "TRN",
+		"cityIdentifier": "turin",
+		"elevation": 989,
+		"name": "Turin Airport",
+		"coordinates": "7.64963, 45.200802"
+	},
+	{
+		"iata_code": "GOA",
+		"cityIdentifier": "genoa",
+		"elevation": 13,
+		"name": "Genoa Cristoforo Colombo Airport",
+		"coordinates": "8.8375, 44.4133"
+	},
+	{
+		"iata_code": "LIN",
+		"cityIdentifier": "milan",
+		"elevation": 353,
+		"name": "Milano Linate Airport",
+		"coordinates": "9.27674, 45.445099"
+	},
+	{
+		"iata_code": "BLQ",
+		"cityIdentifier": "bologna",
+		"elevation": 123,
+		"name": "Bologna Guglielmo Marconi Airport",
+		"coordinates": "11.2887, 44.5354"
+	},
+	{
+		"iata_code": "VRN",
+		"cityIdentifier": "verona",
+		"elevation": 239,
+		"name": "Verona Villafranca Airport",
+		"coordinates": "10.8885, 45.395699"
+	},
+	{
+		"iata_code": "VCE",
+		"cityIdentifier": "venice",
+		"elevation": 7,
+		"name": "Venice Marco Polo Airport",
+		"coordinates": "12.3519, 45.505299"
+	},
+	{
+		"iata_code": "FCO",
+		"cityIdentifier": "rome",
+		"elevation": 13,
+		"name": "Leonardo da Vinci International Airport",
+		"coordinates": "12.2388889, 41.8002778"
+	},
+	{
+		"iata_code": "NAP",
+		"cityIdentifier": "naples",
+		"elevation": 294,
+		"name": "Naples International Airport",
+		"coordinates": "14.2908, 40.886002"
+	},
+	{
+		"iata_code": "LJU",
+		"cityIdentifier": "ljubljana",
+		"elevation": 1273,
+		"name": "Ljubljana Jože Pučnik Airport",
+		"coordinates": "14.4576, 46.223701"
+	},
+	{
+		"iata_code": "PRG",
+		"cityIdentifier": "prague",
+		"elevation": 1247,
+		"name": "Và¡clav Havel Airport Prague",
+		"coordinates": "14.26, 50.1008"
+	},
+	{
+		"iata_code": "TLV",
+		"cityIdentifier": "tel aviv",
+		"elevation": 135,
+		"name": "Ben Gurion International Airport",
+		"coordinates": "34.88669967651367, 32.01139831542969"
+	},
+	{
+		"iata_code": "MLA",
+		"cityIdentifier": "valletta",
+		"elevation": 300,
+		"name": "Malta International Airport",
+		"coordinates": "14.4775, 35.857498"
+	},
+	{
+		"iata_code": "VIE",
+		"cityIdentifier": "vienna",
+		"elevation": 600,
+		"name": "Vienna International Airport",
+		"coordinates": "16.569700241089, 48.110298156738"
+	},
+	{
+		"iata_code": "OPO",
+		"cityIdentifier": "porto",
+		"elevation": 228,
+		"name": "Francisco de Sà¡ Carneiro Airport",
+		"coordinates": "-8.68138980865, 41.2481002808"
+	},
+	{
+		"iata_code": "LIS",
+		"cityIdentifier": "lisbon",
+		"elevation": 374,
+		"name": "Humberto Delgado Airport (Lisbon Portela Airport)",
+		"coordinates": "-9.13592, 38.7813"
+	},
+	{
+		"iata_code": "SJJ",
+		"cityIdentifier": "sarajevo",
+		"elevation": 1708,
+		"name": "Sarajevo International Airport",
+		"coordinates": "18.331499099731445, 43.82460021972656"
+	},
+	{
+		"iata_code": "OTP",
+		"cityIdentifier": "bucharest",
+		"elevation": 314,
+		"name": "Henri CoandÄ International Airport",
+		"coordinates": "26.085, 44.5711111"
+	},
+	{
+		"iata_code": "GVA",
+		"cityIdentifier": "geneva",
+		"elevation": 1411,
+		"name": "Geneva Cointrin International Airport",
+		"coordinates": "6.108950138092041, 46.23809814453125"
+	},
+	{
+		"iata_code": "ZRH",
+		"cityIdentifier": "zurich",
+		"elevation": 1416,
+		"name": "Zürich Airport",
+		"coordinates": "8.54917, 47.464699"
+	},
+	{
+		"iata_code": "ESB",
+		"cityIdentifier": "ankara",
+		"elevation": 3125,
+		"name": "Ankara Esenboga Airport",
+		"coordinates": "32.995098114, 40.128101348899996"
+	},
+	{
+		"iata_code": "AYT",
+		"cityIdentifier": "antalya",
+		"elevation": 177,
+		"name": "Antalya International Airport",
+		"coordinates": "30.800501, 36.898701"
+	},
+	{
+		"iata_code": "ADB",
+		"cityIdentifier": "izmir",
+		"elevation": 412,
+		"name": "Adnan Menderes International Airport",
+		"coordinates": "27.156999588, 38.2924003601"
+	},
+	{
+		"iata_code": "IST",
+		"cityIdentifier": "istanbul",
+		"elevation": 325,
+		"name": "Istanbul Airport",
+		"coordinates": "28.751944, 41.275278"
+	},
+	{
+		"iata_code": "SKP",
+		"cityIdentifier": "skopje",
+		"elevation": 781,
+		"name": "Skopje International Airport",
+		"coordinates": "21.621401, 41.961601"
+	},
+	{
+		"iata_code": "BEG",
+		"cityIdentifier": "belgrade",
+		"elevation": 335,
+		"name": "Belgrade Nikola Tesla Airport",
+		"coordinates": "20.3090991974, 44.8184013367"
+	},
+	{
+		"iata_code": "TGD",
+		"cityIdentifier": "podgorica",
+		"elevation": 141,
+		"name": "Podgorica Airport",
+		"coordinates": "19.2519, 42.359402"
+	},
+	{
+		"iata_code": "SDQ",
+		"cityIdentifier": "santo domingo",
+		"elevation": 59,
+		"name": "Las Américas International Airport",
+		"coordinates": "-69.668899536133, 18.42970085144"
+	},
+	{
+		"iata_code": "KIN",
+		"cityIdentifier": "kingston",
+		"elevation": 10,
+		"name": "Norman Manley International Airport",
+		"coordinates": "-76.7874984741211, 17.935699462890625"
+	},
+	{
+		"iata_code": "MEX",
+		"cityIdentifier": "mexico city",
+		"elevation": 7316,
+		"name": "Licenciado Benito Juarez International Airport",
+		"coordinates": "-99.072098, 19.4363"
+	},
+	{
+		"iata_code": "HAV",
+		"cityIdentifier": "jos",
+		"elevation": 210,
+		"name": "José Martà­ International Airport",
+		"coordinates": "-82.40910339355469, 22.989200592041016"
+	},
+	{
+		"iata_code": "AKL",
+		"cityIdentifier": "auckland",
+		"elevation": 23,
+		"name": "Auckland International Airport",
+		"coordinates": "174.792007446, -37.008098602299995"
+	},
+	{
+		"iata_code": "CHC",
+		"cityIdentifier": "christchurch",
+		"elevation": 123,
+		"name": "Christchurch International Airport",
+		"coordinates": "172.53199768066406, -43.48939895629883"
+	},
+	{
+		"iata_code": "WLG",
+		"cityIdentifier": "wellington",
+		"elevation": 41,
+		"name": "Wellington International Airport",
+		"coordinates": "174.804992676, -41.3272018433"
+	},
+	{
+		"iata_code": "BAH",
+		"cityIdentifier": "manama",
+		"elevation": 6,
+		"name": "Bahrain International Airport",
+		"coordinates": "50.63359832763672, 26.27079963684082"
+	},
+	{
+		"iata_code": "IKA",
+		"cityIdentifier": "tehran",
+		"elevation": 3305,
+		"name": "Imam Khomeini International Airport",
+		"coordinates": "51.152198791503906, 35.416099548339844"
+	},
+	{
+		"iata_code": "THR",
+		"cityIdentifier": "tehran",
+		"elevation": 3962,
+		"name": "Mehrabad International Airport",
+		"coordinates": "51.31340026855469, 35.68920135498047"
+	},
+	{
+		"iata_code": "MHD",
+		"cityIdentifier": "mashhad",
+		"elevation": 3263,
+		"name": "Mashhad International Airport",
+		"coordinates": "59.64099884033203, 36.235198974609375"
+	},
+	{
+		"iata_code": "SYZ",
+		"cityIdentifier": "shiraz",
+		"elevation": 4927,
+		"name": "Shiraz Shahid Dastghaib International Airport",
+		"coordinates": "52.589802, 29.5392"
+	},
+	{
+		"iata_code": "TBZ",
+		"cityIdentifier": "tabriz",
+		"elevation": 4459,
+		"name": "Tabriz International Airport",
+		"coordinates": "46.23500061035156, 38.1338996887207"
+	},
+	{
+		"iata_code": "AMM",
+		"cityIdentifier": "amman",
+		"elevation": 2395,
+		"name": "Queen Alia International Airport",
+		"coordinates": "35.9931983948, 31.7226009369"
+	},
+	{
+		"iata_code": "KWI",
+		"cityIdentifier": "kuwait city",
+		"elevation": 206,
+		"name": "Kuwait International Airport",
+		"coordinates": "47.96889877319336, 29.226600646972656"
+	},
+	{
+		"iata_code": "BEY",
+		"cityIdentifier": "beirut",
+		"elevation": 87,
+		"name": "Beirut Rafic Hariri International Airport",
+		"coordinates": "35.488399505615234, 33.820899963378906"
+	},
+	{
+		"iata_code": "DQM",
+		"cityIdentifier": "muscat",
+		"elevation": 364,
+		"name": "Duqm International Airport",
+		"coordinates": "57.634167, 19.501944"
+	},
+	{
+		"iata_code": "MNH",
+		"cityIdentifier": "muscat",
+		"elevation": 349,
+		"name": "Rustaq Airport",
+		"coordinates": "57.4875, 23.640556"
+	},
+	{
+		"iata_code": "AUH",
+		"cityIdentifier": "abu dhabi",
+		"elevation": 88,
+		"name": "Abu Dhabi International Airport",
+		"coordinates": "54.651100158691406, 24.433000564575195"
+	},
+	{
+		"iata_code": "DXB",
+		"cityIdentifier": "dubai",
+		"elevation": 62,
+		"name": "Dubai International Airport",
+		"coordinates": "55.3643989563, 25.2527999878"
+	},
+	{
+		"iata_code": "DWC",
+		"cityIdentifier": "dubai",
+		"elevation": 114,
+		"name": "Al Maktoum International Airport",
+		"coordinates": "55.161389, 24.896356"
+	},
+	{
+		"iata_code": "SHJ",
+		"cityIdentifier": "sharjah",
+		"elevation": 111,
+		"name": "Sharjah International Airport",
+		"coordinates": "55.5172004699707, 25.32859992980957"
+	},
+	{
+		"iata_code": "MCT",
+		"cityIdentifier": "muscat",
+		"elevation": 48,
+		"name": "Muscat International Airport",
+		"coordinates": "58.284400939941406, 23.593299865722656"
+	},
+	{
+		"iata_code": "ISB",
+		"cityIdentifier": "islamabad",
+		"elevation": 1761,
+		"name": "Islamabad International Airport",
+		"coordinates": "72.82566, 33.549"
+	},
+	{
+		"iata_code": "SKT",
+		"cityIdentifier": "islamabad",
+		"elevation": 837,
+		"name": "Sialkot Airport",
+		"coordinates": "74.3638916016, 32.5355567932"
+	},
+	{
+		"iata_code": "BGW",
+		"cityIdentifier": "baghdad",
+		"elevation": 114,
+		"name": "Baghdad International Airport",
+		"coordinates": "44.2346000671, 33.262500762900004"
+	},
+	{
+		"iata_code": "BSR",
+		"cityIdentifier": "baghdad",
+		"elevation": 11,
+		"name": "Basrah International Airport",
+		"coordinates": "47.66210174560547, 30.549100875854492"
+	},
+	{
+		"iata_code": "ALP",
+		"cityIdentifier": "aleppo",
+		"elevation": 1276,
+		"name": "Aleppo International Airport",
+		"coordinates": "37.22439956665039, 36.18069839477539"
+	},
+	{
+		"iata_code": "DAM",
+		"cityIdentifier": "damascus",
+		"elevation": 2020,
+		"name": "Damascus International Airport",
+		"coordinates": "36.51559829711914, 33.4114990234375"
+	},
+	{
+		"iata_code": "LTK",
+		"cityIdentifier": "damascus",
+		"elevation": 157,
+		"name": "Bassel Al-Assad International Airport",
+		"coordinates": "35.948699951171875, 35.401100158691406"
+	},
+	{
+		"iata_code": "DOH",
+		"cityIdentifier": "doha",
+		"elevation": 13,
+		"name": "Hamad International Airport",
+		"coordinates": "51.608056, 25.273056"
+	},
+	{
+		"iata_code": "FAI",
+		"cityIdentifier": "anchorage",
+		"elevation": 439,
+		"name": "Fairbanks International Airport",
+		"coordinates": "-147.8560028, 64.81510162"
+	},
+	{
+		"iata_code": "ANC",
+		"cityIdentifier": "anchorage",
+		"elevation": 152,
+		"name": "Ted Stevens Anchorage International Airport",
+		"coordinates": "-149.99600219726562, 61.174400329589844"
+	},
+	{
+		"iata_code": "CGY",
+		"cityIdentifier": "manila",
+		"elevation": 190,
+		"name": "Laguindingan Airport",
+		"coordinates": "124.456496, 8.612203"
+	},
+	{
+		"iata_code": "HNL",
+		"cityIdentifier": "honolulu",
+		"elevation": 13,
+		"name": "Daniel K Inouye International Airport",
+		"coordinates": "-157.924228, 21.32062"
+	},
+	{
+		"iata_code": "KHH",
+		"cityIdentifier": "taipei",
+		"elevation": 31,
+		"name": "Kaohsiung International Airport",
+		"coordinates": "120.3499984741211, 22.57710075378418"
+	},
+	{
+		"iata_code": "TPE",
+		"cityIdentifier": "taipei",
+		"elevation": 106,
+		"name": "Taiwan Taoyuan International Airport",
+		"coordinates": "121.233002, 25.0777"
+	},
+	{
+		"iata_code": "NRT",
+		"cityIdentifier": "tokyo",
+		"elevation": 141,
+		"name": "Narita International Airport",
+		"coordinates": "140.386002, 35.764702"
+	},
+	{
+		"iata_code": "KIX",
+		"cityIdentifier": "tokyo",
+		"elevation": 26,
+		"name": "Kansai International Airport",
+		"coordinates": "135.24400329589844, 34.42729949951172"
+	},
+	{
+		"iata_code": "CTS",
+		"cityIdentifier": "tokyo",
+		"elevation": 82,
+		"name": "New Chitose Airport",
+		"coordinates": "141.69200134277344, 42.77519989013672"
+	},
+	{
+		"iata_code": "FUK",
+		"cityIdentifier": "fukuoka",
+		"elevation": 32,
+		"name": "Fukuoka Airport",
+		"coordinates": "130.4510040283203, 33.585899353027344"
+	},
+	{
+		"iata_code": "KOJ",
+		"cityIdentifier": "tokyo",
+		"elevation": 906,
+		"name": "Kagoshima Airport",
+		"coordinates": "130.718994140625, 31.80340003967285"
+	},
+	{
+		"iata_code": "NGO",
+		"cityIdentifier": "tokyo",
+		"elevation": 15,
+		"name": "Chubu Centrair International Airport",
+		"coordinates": "136.80499267578125, 34.8583984375"
+	},
+	{
+		"iata_code": "FSZ",
+		"cityIdentifier": "tokyo",
+		"elevation": 433,
+		"name": "Mt. Fuji Shizuoka Airport",
+		"coordinates": "138.18775177, 34.7960434679"
+	},
+	{
+		"iata_code": "ITM",
+		"cityIdentifier": "osaka",
+		"elevation": 50,
+		"name": "Osaka International Airport",
+		"coordinates": "135.43800354003906, 34.785499572753906"
+	},
+	{
+		"iata_code": "HND",
+		"cityIdentifier": "tokyo",
+		"elevation": 35,
+		"name": "Tokyo Haneda International Airport",
+		"coordinates": "139.779999, 35.552299"
+	},
+	{
+		"iata_code": "MWX",
+		"cityIdentifier": "seoul",
+		"elevation": 35,
+		"name": "Muan International Airport",
+		"coordinates": "126.382814, 34.991406"
+	},
+	{
+		"iata_code": "CJU",
+		"cityIdentifier": "seoul",
+		"elevation": 118,
+		"name": "Jeju International Airport",
+		"coordinates": "126.49299621582031, 33.51129913330078"
+	},
+	{
+		"iata_code": "PUS",
+		"cityIdentifier": "seoul",
+		"elevation": 6,
+		"name": "Gimhae International Airport",
+		"coordinates": "128.93800354, 35.1795005798"
+	},
+	{
+		"iata_code": "ICN",
+		"cityIdentifier": "seoul",
+		"elevation": 23,
+		"name": "Incheon International Airport",
+		"coordinates": "126.45099639892578, 37.46910095214844"
+	},
+	{
+		"iata_code": "GMP",
+		"cityIdentifier": "seoul",
+		"elevation": 59,
+		"name": "Gimpo International Airport",
+		"coordinates": "126.791, 37.5583"
+	},
+	{
+		"iata_code": "CJJ",
+		"cityIdentifier": "seoul",
+		"elevation": 191,
+		"name": "Cheongju International Airport/Cheongju Air Base (K-59/G-513)",
+		"coordinates": "127.498741, 36.717008"
+	},
+	{
+		"iata_code": "CRK",
+		"cityIdentifier": "manila",
+		"elevation": 484,
+		"name": "Diosdado Macapagal International Airport",
+		"coordinates": "120.559998, 15.186"
+	},
+	{
+		"iata_code": "MNL",
+		"cityIdentifier": "manila",
+		"elevation": 75,
+		"name": "Ninoy Aquino International Airport",
+		"coordinates": "121.019997, 14.5086"
+	},
+	{
+		"iata_code": "DVO",
+		"cityIdentifier": "manila",
+		"elevation": 96,
+		"name": "Francisco Bangoy International Airport",
+		"coordinates": "125.64600372314453, 7.1255202293396"
+	},
+	{
+		"iata_code": "CEB",
+		"cityIdentifier": "manila",
+		"elevation": 31,
+		"name": "Mactan Cebu International Airport",
+		"coordinates": "123.97899627686, 10.307499885559"
+	},
+	{
+		"iata_code": "EZE",
+		"cityIdentifier": "buenos aires",
+		"elevation": 67,
+		"name": "Ministro Pistarini International Airport",
+		"coordinates": "-58.5358, -34.8222"
+	},
+	{
+		"iata_code": "BEL",
+		"cityIdentifier": "belem",
+		"elevation": 54,
+		"name": "Val de Cans International Airport",
+		"coordinates": "-48.4762992859, -1.3792500495900002"
+	},
+	{
+		"iata_code": "BSB",
+		"cityIdentifier": "brasilia",
+		"elevation": 3497,
+		"name": "Presidente Juscelino Kubitschek International Airport",
+		"coordinates": "-47.920834, -15.869167"
+	},
+	{
+		"iata_code": "MAO",
+		"cityIdentifier": "brasilia",
+		"elevation": 264,
+		"name": "Eduardo Gomes International Airport",
+		"coordinates": "-60.049702, -3.03861"
+	},
+	{
+		"iata_code": "FLN",
+		"cityIdentifier": "brasilia",
+		"elevation": 16,
+		"name": "Hercà­lio Luz International Airport",
+		"coordinates": "-48.5525016784668, -27.670278549194336"
+	},
+	{
+		"iata_code": "GIG",
+		"cityIdentifier": "rio de janeiro",
+		"elevation": 28,
+		"name": "RIOgaleão - Tom Jobim International Airport",
+		"coordinates": "-43.2505569458, -22.8099994659"
+	},
+	{
+		"iata_code": "GRU",
+		"cityIdentifier": "sao paulo",
+		"elevation": 2459,
+		"name": "Guarulhos - Governador André Franco Montoro International Airport",
+		"coordinates": "-46.47305679321289, -23.435556411743164"
+	},
+	{
+		"iata_code": "NAT",
+		"cityIdentifier": "fortaleza",
+		"elevation": 272,
+		"name": "Governador Aluà­zio Alves International Airport",
+		"coordinates": "-35.376111, -5.768056"
+	},
+	{
+		"iata_code": "CGH",
+		"cityIdentifier": "sao paulo",
+		"elevation": 2631,
+		"name": "Congonhas Airport",
+		"coordinates": "-46.65638732910156, -23.626110076904297"
+	},
+	{
+		"iata_code": "SSA",
+		"cityIdentifier": "salvador",
+		"elevation": 64,
+		"name": "Deputado Luiz Eduardo Magalhà£es International Airport",
+		"coordinates": "-38.3224983215, -12.9086112976"
+	},
+	{
+		"iata_code": "SCL",
+		"cityIdentifier": "santiago",
+		"elevation": 1555,
+		"name": "Comodoro Arturo Merino Benà­tez International Airport",
+		"coordinates": "-70.78579711914062, -33.393001556396484"
+	},
+	{
+		"iata_code": "LTX",
+		"cityIdentifier": "quito",
+		"elevation": 9205,
+		"name": "Cotopaxi International Airport",
+		"coordinates": "-78.615799, -0.906833"
+	},
+	{
+		"iata_code": "UIO",
+		"cityIdentifier": "quito",
+		"elevation": 7841,
+		"name": "Mariscal Sucre International Airport",
+		"coordinates": "-78.3575, -0.129166666667"
+	},
+	{
+		"iata_code": "BOG",
+		"cityIdentifier": "bogota",
+		"elevation": 8361,
+		"name": "El Dorado International Airport",
+		"coordinates": "-74.1469, 4.70159"
+	},
+	{
+		"iata_code": "VVI",
+		"cityIdentifier": "la paz",
+		"elevation": 1224,
+		"name": "Viru Viru International Airport",
+		"coordinates": "-63.135399, -17.6448"
+	},
+	{
+		"iata_code": "LIM",
+		"cityIdentifier": "lima",
+		"elevation": 113,
+		"name": "Jorge Chávez International Airport",
+		"coordinates": "-77.114305, -12.0219"
+	},
+	{
+		"iata_code": "CUZ",
+		"cityIdentifier": "lima",
+		"elevation": 10860,
+		"name": "Alejandro Velasco Astete International Airport",
+		"coordinates": "-71.9387969971, -13.535699844400002"
+	},
+	{
+		"iata_code": "MVD",
+		"cityIdentifier": "montevideo",
+		"elevation": 105,
+		"name": "Carrasco International /General C L Berisso Airport",
+		"coordinates": "-56.0308, -34.838402"
+	},
+	{
+		"iata_code": "CCS",
+		"cityIdentifier": "caracas",
+		"elevation": 234,
+		"name": "Simón Bolà­var International Airport",
+		"coordinates": "-66.991222, 10.601194"
+	},
+	{
+		"iata_code": "SJU",
+		"cityIdentifier": "san juan",
+		"elevation": 9,
+		"name": "Luis Munoz Marin International Airport",
+		"coordinates": "-66.0018005371, 18.4393997192"
+	},
+	{
+		"iata_code": "ALA",
+		"cityIdentifier": "almaty",
+		"elevation": 2234,
+		"name": "Almaty Airport",
+		"coordinates": "77.04049682617188, 43.35210037231445"
+	},
+	{
+		"iata_code": "TSE",
+		"cityIdentifier": "astana",
+		"elevation": 1165,
+		"name": "Astana International Airport",
+		"coordinates": "71.46690368652344, 51.02220153808594"
+	},
+	{
+		"iata_code": "FRU",
+		"cityIdentifier": "bishkek",
+		"elevation": 2058,
+		"name": "Manas International Airport",
+		"coordinates": "74.4776000977, 43.0612983704"
+	},
+	{
+		"iata_code": "GYD",
+		"cityIdentifier": "baku",
+		"elevation": 10,
+		"name": "Heydar Aliyev International Airport",
+		"coordinates": "50.04669952392578, 40.467498779296875"
+	},
+	{
+		"iata_code": "EVN",
+		"cityIdentifier": "yerevan",
+		"elevation": 2838,
+		"name": "Zvartnots International Airport",
+		"coordinates": "44.3959007263, 40.1473007202"
+	},
+	{
+		"iata_code": "TBS",
+		"cityIdentifier": "tbilisi",
+		"elevation": 1624,
+		"name": "Tbilisi International Airport",
+		"coordinates": "44.95470047, 41.6692008972"
+	},
+	{
+		"iata_code": "KBP",
+		"cityIdentifier": "kyiv",
+		"elevation": 427,
+		"name": "Boryspil International Airport",
+		"coordinates": "30.894699096679688, 50.345001220703125"
+	},
+	{
+		"iata_code": "SIP",
+		"cityIdentifier": "simferopol",
+		"elevation": 639,
+		"name": "Simferopol International Airport",
+		"coordinates": "33.975101, 45.0522"
+	},
+	{
+		"iata_code": "HRK",
+		"cityIdentifier": "kharkiv",
+		"elevation": 508,
+		"name": "Kharkiv International Airport",
+		"coordinates": "36.290000915527344, 49.924800872802734"
+	},
+	{
+		"iata_code": "ODS",
+		"cityIdentifier": "odessa",
+		"elevation": 172,
+		"name": "Odessa International Airport",
+		"coordinates": "30.67650032043457, 46.42679977416992"
+	},
+	{
+		"iata_code": "LED",
+		"cityIdentifier": "saint petersburg",
+		"elevation": 78,
+		"name": "Pulkovo Airport",
+		"coordinates": "30.262500762939453, 59.80030059814453"
+	},
+	{
+		"iata_code": "MSQ",
+		"cityIdentifier": "minsk",
+		"elevation": 670,
+		"name": "Minsk National Airport",
+		"coordinates": "28.030700683594, 53.882499694824"
+	},
+	{
+		"iata_code": "KJA",
+		"cityIdentifier": "krasnoyarsk",
+		"elevation": 942,
+		"name": "Yemelyanovo Airport",
+		"coordinates": "92.493301, 56.172901"
+	},
+	{
+		"iata_code": "OVB",
+		"cityIdentifier": "novosibirsk",
+		"elevation": 365,
+		"name": "Tolmachevo Airport",
+		"coordinates": "82.650703430176, 55.012599945068"
+	},
+	{
+		"iata_code": "ROV",
+		"cityIdentifier": "rostov-na-donu",
+		"elevation": 213,
+		"name": "Platov International Airport",
+		"coordinates": "39.924722, 47.493888"
+	},
+	{
+		"iata_code": "AER",
+		"cityIdentifier": "sochi",
+		"elevation": 89,
+		"name": "Sochi International Airport",
+		"coordinates": "39.9566, 43.449902"
+	},
+	{
+		"iata_code": "SVX",
+		"cityIdentifier": "yekaterinburg",
+		"elevation": 764,
+		"name": "Koltsovo Airport",
+		"coordinates": "60.802700042725, 56.743099212646"
+	},
+	{
+		"iata_code": "ASB",
+		"cityIdentifier": "ashgabat",
+		"elevation": 692,
+		"name": "Ashgabat International Airport",
+		"coordinates": "58.361, 37.986801"
+	},
+	{
+		"iata_code": "TAS",
+		"cityIdentifier": "tashkent",
+		"elevation": 1417,
+		"name": "Tashkent International Airport",
+		"coordinates": "69.2811965942, 41.257900238"
+	},
+	{
+		"iata_code": "ZIA",
+		"cityIdentifier": "moscow",
+		"elevation": 377,
+		"name": "Zhukovsky International Airport",
+		"coordinates": "38.150002, 55.553299"
+	},
+	{
+		"iata_code": "DME",
+		"cityIdentifier": "moscow",
+		"elevation": 588,
+		"name": "Domodedovo International Airport",
+		"coordinates": "37.90629959106445, 55.40879821777344"
+	},
+	{
+		"iata_code": "SVO",
+		"cityIdentifier": "moscow",
+		"elevation": 622,
+		"name": "Sheremetyevo International Airport",
+		"coordinates": "37.4146, 55.972599"
+	},
+	{
+		"iata_code": "VKO",
+		"cityIdentifier": "moscow",
+		"elevation": 685,
+		"name": "Vnukovo International Airport",
+		"coordinates": "37.2615013123, 55.5914993286"
+	},
+	{
+		"iata_code": "KZN",
+		"cityIdentifier": "kazan",
+		"elevation": 411,
+		"name": "Kazan International Airport",
+		"coordinates": "49.278701782227, 55.606201171875"
+	},
+    {
+        "iata_code": "GOJ",
+        "cityIdentifier": "nizhniy novgorod",
+        "elevation": 78,
+        "name": "Strigino International Airport",
+        "coordinates": "56.230098724365, 43.784000396729"
+    },
+	{
+		"iata_code": "UFA",
+		"cityIdentifier": "ufa",
+		"elevation": 449,
+		"name": "Ufa International Airport",
+		"coordinates": "55.874401092529, 54.557498931885"
+	},
+	{
+		"iata_code": "CMB",
+		"cityIdentifier": "colombo",
+		"elevation": 30,
+		"name": "Bandaranaike International Colombo Airport",
+		"coordinates": "79.88410186767578, 7.180759906768799"
+	},
+	{
+		"iata_code": "HRI",
+		"cityIdentifier": "colombo",
+		"elevation": 157,
+		"name": "Mattala Rajapaksa International Airport",
+		"coordinates": "81.124128, 6.284467"
+	},
+	{
+		"iata_code": "PNH",
+		"cityIdentifier": "phnom penh",
+		"elevation": 40,
+		"name": "Phnom Penh International Airport",
+		"coordinates": "104.84400177001953, 11.546600341796875"
+	},
+	{
+		"iata_code": "REP",
+		"cityIdentifier": "phnom penh",
+		"elevation": 60,
+		"name": "Siem Reap International Airport",
+		"coordinates": "103.81300354, 13.410699844400002"
+	},
+	{
+		"iata_code": "DAC",
+		"cityIdentifier": "dhaka",
+		"elevation": 30,
+		"name": "Hazrat Shahjalal International Airport",
+		"coordinates": "90.397783, 23.843347"
+	},
+	{
+		"iata_code": "HKG",
+		"cityIdentifier": "hong kong",
+		"elevation": 28,
+		"name": "Hong Kong International Airport",
+		"coordinates": "113.915001, 22.308901"
+	},
+	{
+		"iata_code": "ATQ",
+		"cityIdentifier": "chennai",
+		"elevation": 756,
+		"name": "Sri Guru Ram Dass Jee International Airport",
+		"coordinates": "74.7973022461, 31.7096004486"
+	},
+	{
+		"iata_code": "DEL",
+		"cityIdentifier": "chennai",
+		"elevation": 777,
+		"name": "Indira Gandhi International Airport",
+		"coordinates": "77.103104, 28.5665"
+	},
+	{
+		"iata_code": "MFM",
+		"cityIdentifier": "macau",
+		"elevation": 20,
+		"name": "Macau International Airport",
+		"coordinates": "113.592003, 22.149599"
+	},
+	{
+		"iata_code": "KTM",
+		"cityIdentifier": "chennai",
+		"elevation": 4390,
+		"name": "Tribhuvan International Airport",
+		"coordinates": "85.3591, 27.6966"
+	},
+	{
+		"iata_code": "BLR",
+		"cityIdentifier": "chennai",
+		"elevation": 3000,
+		"name": "Kempegowda International Airport",
+		"coordinates": "77.706299, 13.1979"
+	},
+	{
+		"iata_code": "COK",
+		"cityIdentifier": "chennai",
+		"elevation": 30,
+		"name": "Cochin International Airport",
+		"coordinates": "76.401901, 10.152"
+	},
+	{
+		"iata_code": "CCJ",
+		"cityIdentifier": "chennai",
+		"elevation": 342,
+		"name": "Calicut International Airport",
+		"coordinates": "75.95529937740001, 11.1367998123"
+	},
+	{
+		"iata_code": "HYD",
+		"cityIdentifier": "chennai",
+		"elevation": 2024,
+		"name": "Rajiv Gandhi International Airport",
+		"coordinates": "78.429855, 17.231318"
+	},
+	{
+		"iata_code": "MAA",
+		"cityIdentifier": "chennai",
+		"elevation": 52,
+		"name": "Chennai International Airport",
+		"coordinates": "80.16929626464844, 12.990005493164062"
+	},
+	{
+		"iata_code": "TRV",
+		"cityIdentifier": "chennai",
+		"elevation": 15,
+		"name": "Trivandrum International Airport",
+		"coordinates": "76.9200973511, 8.48211956024"
+	},
+	{
+		"iata_code": "MLE",
+		"cityIdentifier": "male",
+		"elevation": 6,
+		"name": "Malé International Airport",
+		"coordinates": "73.52909851074219, 4.191830158233643"
+	},
+	{
+		"iata_code": "DMK",
+		"cityIdentifier": "bangkok",
+		"elevation": 9,
+		"name": "Don Mueang International Airport",
+		"coordinates": "100.607002258, 13.9125995636"
+	},
+	{
+		"iata_code": "BKK",
+		"cityIdentifier": "bangkok",
+		"elevation": 5,
+		"name": "Suvarnabhumi Airport",
+		"coordinates": "100.74700164794922, 13.681099891662598"
+	},
+	{
+		"iata_code": "CNX",
+		"cityIdentifier": "chiang mai",
+		"elevation": 1036,
+		"name": "Chiang Mai International Airport",
+		"coordinates": "98.962600708, 18.766799926799997"
+	},
+	{
+		"iata_code": "HKT",
+		"cityIdentifier": "bangkok",
+		"elevation": 82,
+		"name": "Phuket International Airport",
+		"coordinates": "98.316902, 8.1132"
+	},
+	{
+		"iata_code": "DAD",
+		"cityIdentifier": "da nang",
+		"elevation": 33,
+		"name": "Da Nang International Airport",
+		"coordinates": "108.1989974975586, 16.043899536132812"
+	},
+	{
+		"iata_code": "HAN",
+		"cityIdentifier": "ho chi minh city",
+		"elevation": 39,
+		"name": "Noi Bai International Airport",
+		"coordinates": "105.80699920654297, 21.221200942993164"
+	},
+	{
+		"iata_code": "SGN",
+		"cityIdentifier": "ho chi minh city",
+		"elevation": 33,
+		"name": "Tan Son Nhat International Airport",
+		"coordinates": "106.652000427, 10.8187999725"
+	},
+	{
+		"iata_code": "MDL",
+		"cityIdentifier": "yangon",
+		"elevation": 300,
+		"name": "Mandalay International Airport",
+		"coordinates": "95.97789764404297, 21.702199935913086"
+	},
+	{
+		"iata_code": "RGN",
+		"cityIdentifier": "yangon",
+		"elevation": 109,
+		"name": "Yangon International Airport",
+		"coordinates": "96.1332015991, 16.907300949099998"
+	},
+	{
+		"iata_code": "DPS",
+		"cityIdentifier": "denpasar",
+		"elevation": 14,
+		"name": "Ngurah Rai (Bali) International Airport",
+		"coordinates": "115.16699981689, -8.7481698989868"
+	},
+	{
+		"iata_code": "BWN",
+		"cityIdentifier": "bandar seri begawan",
+		"elevation": 73,
+		"name": "Brunei International Airport",
+		"coordinates": "114.9280014038086, 4.944200038909912"
+	},
+	{
+		"iata_code": "CGK",
+		"cityIdentifier": "jakarta",
+		"elevation": 34,
+		"name": "Soekarno-Hatta International Airport",
+		"coordinates": "106.65599823, -6.1255698204"
+	},
+	{
+		"iata_code": "KUL",
+		"cityIdentifier": "kuala lumpur",
+		"elevation": 69,
+		"name": "Kuala Lumpur International Airport",
+		"coordinates": "101.70999908447, 2.745579957962"
+	},
+	{
+		"iata_code": "SIN",
+		"cityIdentifier": "singapore",
+		"elevation": 22,
+		"name": "Singapore Changi Airport",
+		"coordinates": "103.994003, 1.35019"
+	},
+	{
+		"iata_code": "BNE",
+		"cityIdentifier": "brisbane",
+		"elevation": 13,
+		"name": "Brisbane International Airport",
+		"coordinates": "153.11700439453125, -27.384199142456055"
+	},
+	{
+		"iata_code": "MEL",
+		"cityIdentifier": "melbourne",
+		"elevation": 434,
+		"name": "Melbourne International Airport",
+		"coordinates": "144.843002, -37.673302"
+	},
+	{
+		"iata_code": "ADL",
+		"cityIdentifier": "adelaide",
+		"elevation": 20,
+		"name": "Adelaide International Airport",
+		"coordinates": "138.531006, -34.945"
+	},
+	{
+		"iata_code": "PER",
+		"cityIdentifier": "perth",
+		"elevation": 67,
+		"name": "Perth International Airport",
+		"coordinates": "115.96700286865234, -31.94029998779297"
+	},
+	{
+		"iata_code": "CBR",
+		"cityIdentifier": "canberra",
+		"elevation": 1886,
+		"name": "Canberra International Airport",
+		"coordinates": "149.19500732421875, -35.30690002441406"
+	},
+	{
+		"iata_code": "SYD",
+		"cityIdentifier": "sydney",
+		"elevation": 21,
+		"name": "Sydney Kingsford Smith International Airport",
+		"coordinates": "151.177001953125, -33.94609832763672"
+	},
+	{
+		"iata_code": "PEK",
+		"cityIdentifier": "beijing",
+		"elevation": 116,
+		"name": "Beijing Capital International Airport",
+		"coordinates": "116.58499908447266, 40.080101013183594"
+	},
+	{
+		"iata_code": "PKX",
+		"cityIdentifier": "beijing",
+		"elevation": 98,
+		"name": "Beijing Daxing International Airport",
+		"coordinates": "116.41092, 39.509945"
+	},
+	{
+		"iata_code": "TSN",
+		"cityIdentifier": "tianjin",
+		"elevation": 10,
+		"name": "Tianjin Binhai International Airport",
+		"coordinates": "117.346000671, 39.124401092499994"
+	},
+	{
+		"iata_code": "CAN",
+		"cityIdentifier": "guangzhou",
+		"elevation": 50,
+		"name": "Guangzhou Baiyun International Airport",
+		"coordinates": "113.29900360107422, 23.39240074157715"
+	},
+	{
+		"iata_code": "SZX",
+		"cityIdentifier": "shenzhen",
+		"elevation": 13,
+		"name": "Shenzhen Bao'an International Airport",
+		"coordinates": "113.81099700927734, 22.639299392700195"
+	},
+	{
+		"iata_code": "WUH",
+		"cityIdentifier": "wuhan",
+		"elevation": 113,
+		"name": "Wuhan Tianhe International Airport",
+		"coordinates": "114.208, 30.7838"
+	},
+	{
+		"iata_code": "UBN",
+		"cityIdentifier": "ulan bator",
+		"elevation": 4482,
+		"name": "Ulaanbaatar International Airport",
+		"coordinates": "106.819833, 47.646916"
+	},
+	{
+		"iata_code": "NKG",
+		"cityIdentifier": "nanjing",
+		"elevation": 49,
+		"name": "Nanjing Lukou Airport",
+		"coordinates": "118.86199951171875, 31.742000579833984"
+	},
+	{
+		"iata_code": "PVG",
+		"cityIdentifier": "shanghai",
+		"elevation": 13,
+		"name": "Shanghai Pudong International Airport",
+		"coordinates": "121.80500030517578, 31.143400192260742"
+	},
+	{
+		"iata_code": "SHA",
+		"cityIdentifier": "shanghai",
+		"elevation": 10,
+		"name": "Shanghai Hongqiao International Airport",
+		"coordinates": "121.33599853515625, 31.197900772094727"
+	},
+	{
+		"iata_code": "CKG",
+		"cityIdentifier": "chongqing",
+		"elevation": 1365,
+		"name": "Chongqing Jiangbei International Airport",
+		"coordinates": "106.64199829101562, 29.719200134277344"
+	},
+	{
+		"iata_code": "CTU",
+		"cityIdentifier": "chengdu",
+		"elevation": 1625,
+		"name": "Chengdu Shuangliu International Airport",
+		"coordinates": "103.9469985961914, 30.578500747680664"
+	}
+]

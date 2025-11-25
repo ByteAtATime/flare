@@ -1,0 +1,103 @@
+{
+  "fixtures": {
+    "nextDateQualifiers": [
+      "след",
+      "следующий",
+      "следующая",
+      "следующем",
+      "следующего"
+    ],
+    "converterSymbols": [
+      "в",
+      "как"
+    ],
+    "upToWords": [
+       "до"
+    ],
+    "percentWords": [
+      "процент"
+    ],
+    "hereAliases": [
+      "здесь"
+    ],
+    "nowDateAliases": [
+      "сейчас"
+    ],
+    "piAliases": [
+      "π",
+      "пи"
+    ],
+    "divisionOperators": [
+      "÷",
+      "за"
+    ],
+    "previousDateQualifiers": [
+      "прош",
+      "прошлый",
+      "прошлая",
+      "прошлого",
+      "прошлом",
+      "прошлой"
+    ],
+    "timespanWords": [
+      "временной промежуток"
+    ],
+    "pmAliases": [
+      "вечера",
+      "вечером"
+    ],
+    "lessThanOrEqualToOperators": [
+      "<=",
+      "=<"
+    ],
+    "subtractionOperators": [
+      "−",
+      "–"
+    ],
+    "conjunctionWordsOr": [
+      "или"
+    ],
+    "todayDateAliases": [
+      "сегодня"
+    ],
+    "amAliases": [
+      "утра",
+      "утром"
+    ],
+    "additionOperators": [
+      "плюс"
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "totalAliases": [
+      "сумма"
+    ],
+    "medianAliases": [
+      "медиана"
+    ],
+    "multiplicationOperators": [
+      "×"
+    ],
+    "greaterThanOrEqualToOperators": [
+      ">=",
+      "=>"
+    ],
+    "averageAliases": [
+      "среднее"
+    ],
+    "countAliases": [
+      "подсчёт"
+    ],
+    "yesterdayDateAliases": [
+      "вчера"
+    ],
+    "conjunctionWordsAnd": [
+      "и"
+    ],
+    "tomorrowDateAliases": [
+      "завтра"
+    ]
+  }
+}

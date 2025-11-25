@@ -1,0 +1,174 @@
+{
+  "rounding": [
+    {
+      "prototypeExpressions": [
+        "округленное",
+        "округлено",
+        "округлить"
+      ],
+      "identifier": "rounded"
+    },
+    {
+      "prototypeExpressions": [
+        "округленное вверх",
+        "округлено вверх",
+        "округлить вверх"
+      ],
+      "identifier": "roundedUp"
+    },
+    {
+      "prototypeExpressions": [
+        "округленное вниз",
+        "округлено вниз",
+        "округлить вниз"
+      ],
+      "identifier": "roundedDown"
+    },
+    {
+      "prototypeExpressions": [
+        "округлено до 3 знаков после запятой",
+        "округлено до 3 знаков",
+        "__converter_symbol 3 цифры",
+        "до 3 знака",
+        "до 3 знаков после запятой",
+        "до 3 знаков",
+        "до 3 цифра",
+        "до 3 цифров",
+        "до 3 цифры",
+        "до 3 цифр",
+        "до 1 десятичного знака",
+        "до 1 десятичного места",
+        "до 3 десятичных знаков"
+      ],
+      "identifier": "roundedToDp"
+    },
+    {
+      "prototypeExpressions": [
+        "округлить вверх до ближайших 10",
+        "округлено вверх до ближайших 10",
+        "округлено вверх до ближайших 10",
+        "вверх до ближайших 10"
+      ],
+      "identifier": "roundedUpToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+      "округлить вниз до ближайших 10",
+      "округлено вниз до ближайших 10",
+      "вниз до ближайших 10"
+      ],
+      "identifier": "roundedDownToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "округлить до ближайших 10",
+        "округлено до ближайших 10",
+        "до ближайших 10"
+      ],
+      "identifier": "roundedToNearestX"
+    }
+  ],
+  "compoundUnits": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol годы и месяцы"
+      ],
+      "identifier": "yearsAndMonths"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol месяцы и недели"
+      ],
+      "identifier": "monthsAndWeeks"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol месяцы и дни"
+      ],
+      "identifier": "monthsAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol недели и дни"
+      ],
+      "identifier": "weeksAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol дни и часы"
+      ],
+      "identifier": "daysAndHours"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol часы и минуты"
+      ],
+      "identifier": "hoursAndMinutes"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol минуты и секунды"
+      ],
+      "identifier": "minutesAndSeconds"
+    }
+  ],
+  "dateTime": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol дату",
+        "__converter_symbol дата"
+      ],
+      "identifier": "toDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol метку времени",
+        "__converter_symbol метка времени",
+        "__converter_symbol временной промежуток"
+      ],
+      "identifier": "toTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol временной промежуток"
+      ],
+      "identifier": "toTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol время круга"
+      ],
+      "identifier": "toLaptime"
+    }
+  ],
+  "numberForms": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol число"
+      ],
+      "identifier": "toDecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol дробь"
+      ],
+      "identifier": "toFraction"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol кратность"
+      ],
+      "identifier": "toMultiplier"
+    }
+  ],
+  "music": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol ноту",
+        "__converter_symbol нота"
+      ],
+      "identifier": "toPitch"
+    }
+  ]
+}
+

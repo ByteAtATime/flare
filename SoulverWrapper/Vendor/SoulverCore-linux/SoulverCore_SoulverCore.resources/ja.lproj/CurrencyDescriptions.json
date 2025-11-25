@@ -1,0 +1,1291 @@
+{
+  "HRK": {
+    "aliases": [
+      "クロアチア・クーナ",
+      "クロアチア・クーナス"
+    ],
+    "symbol": "HRK"
+  },
+  "HUF": {
+    "aliases": [
+      "ハンガリー・フォリント",
+      "ハンガリー・フォリントス"
+    ],
+    "symbol": "HUF"
+  },
+  "CDF": {
+    "aliases": [
+      "コンゴ・フラン",
+      "コンゴ・フランス"
+    ],
+    "symbol": "CDF"
+  },
+  "XMR": {
+    "aliases": [
+      "モネロ"
+    ],
+    "symbol": "XMR"
+  },
+  "ILS": {
+    "aliases": [
+      "新イスラエル・シェケル",
+      "新イスラエル・シェケルス",
+      "nis",
+      "NIS"
+    ],
+    "symbol": "ILS"
+  },
+  "NGN": {
+    "aliases": [
+      "ナイジェリア・ナイラ",
+      "ナイジェリア・ナイラ"
+    ],
+    "symbol": "NGN"
+  },
+  "GYD": {
+    "aliases": [
+      "ガイアナ・ドル",
+      "ガイアナ・ドルス"
+    ],
+    "symbol": "GYD"
+  },
+  "BHD": {
+    "aliases": [
+      "バーレーン・ディナール",
+      "バーレーン・ディナールス"
+    ],
+    "symbol": "BHD"
+  },
+  "SZL": {
+    "aliases": [
+      "スワジ・リランゲニ",
+      "スワジ・エマランゲニ"
+    ],
+    "symbol": "SZL"
+  },
+  "INR": {
+    "aliases": [
+      "インド・ルピー",
+      "インド・ルピーズ"
+    ],
+    "symbol": "INR"
+  },
+  "SDG": {
+    "aliases": [
+      "スーダン・ポンド",
+      "スーダン・ポンズ"
+    ],
+    "symbol": "SDG"
+  },
+  "PEN": {
+    "aliases": [
+      "ペルー・ソル",
+      "ペルー・ソレス"
+    ],
+    "symbol": "PEN"
+  },
+  "EUR": {
+    "aliases": [
+      "ユーロ",
+      "ユーロズ"
+    ],
+    "symbol": "EUR"
+  },
+  "TRX": {
+    "aliases": [
+      "トロン"
+    ],
+    "symbol": "TRX"
+  },
+  "PGK": {
+    "aliases": [
+      "パプアニューギニア・キナ"
+    ],
+    "symbol": "PGK"
+  },
+  "QAR": {
+    "aliases": [
+      "カタール・リヤル",
+      "カタール・リヤルス"
+    ],
+    "symbol": "QAR"
+  },
+  "LRD": {
+    "aliases": [
+      "リベリア・ドル",
+      "リベリア・ドルス"
+    ],
+    "symbol": "LRD"
+  },
+  "millisatoshi": {
+    "aliases": [
+      "ミリサトシズ"
+    ],
+    "symbol": "millisatoshi"
+  },
+  "ISK": {
+    "aliases": [
+      "アイスランド・クローナ",
+      "アイスランド・クローナス"
+    ],
+    "symbol": "ISK"
+  },
+  "SYP": {
+    "aliases": [
+      "シリア・ポンド",
+      "シリア・ポンズ"
+    ],
+    "symbol": "SYP"
+  },
+  "TRY": {
+    "aliases": [
+      "トルコ・リラ"
+    ],
+    "symbol": "TRY"
+  },
+  "Satoshi": {
+    "aliases": [
+      "サツ",
+      "サトシズ"
+    ],
+    "symbol": "Satoshi"
+  },
+  "UAH": {
+    "aliases": [
+      "ウクライナ・フリヴニャ",
+      "ウクライナ・フリヴニャズ"
+    ],
+    "symbol": "UAH"
+  },
+  "SGD": {
+    "aliases": [
+      "S$",
+      "シンガポール・ドル",
+      "シンガポール・ドルズ"
+    ],
+    "symbol": "SGD"
+  },
+  "MMK": {
+    "aliases": [
+      "ミャンマー・チャット",
+      "ミャンマー・チャッツ"
+    ],
+    "symbol": "MMK"
+  },
+  "NIO": {
+    "aliases": [
+      "ニカラグア・コルドバ",
+      "ニカラグア・コルドバズ"
+    ],
+    "symbol": "NIO"
+  },
+  "BIF": {
+    "aliases": [
+      "ブルンジ・フラン",
+      "ブルンジ・フランス"
+    ],
+    "symbol": "BIF"
+  },
+  "AFN": {
+    "aliases": [
+      "アフガン・アフガニ",
+      "アフガン・アフガニ"
+    ],
+    "symbol": "AFN"
+  },
+  "LKR": {
+    "aliases": [
+      "スリランカ・ルピー",
+      "スリランカ・ルピーズ"
+    ],
+    "symbol": "LKR"
+  },
+  "LTC": {
+    "aliases": [
+      "ライトコインズ",
+      "ライトコイン"
+    ],
+    "symbol": "LTC"
+  },
+  "GTQ": {
+    "aliases": [
+      "グアテマラ・ケツァル",
+      "グアテマラ・ケツァレス"
+    ],
+    "symbol": "GTQ"
+  },
+  "XRP": {
+    "aliases": [
+      "リップル"
+    ],
+    "symbol": "XRP"
+  },
+  "CHF": {
+    "aliases": [
+      "スイス・フラン",
+      "スイス・フランス"
+    ],
+    "symbol": "CHF"
+  },
+  "LUNA": {
+    "aliases": [
+      "テラ"
+    ],
+    "symbol": "LUNA"
+  },
+  "THB": {
+    "aliases": [
+      "タイ・バーツ"
+    ],
+    "symbol": "THB"
+  },
+  "AMD": {
+    "aliases": [
+      "アルメニア・ドラム",
+      "アルメニア・ドラムス"
+    ],
+    "symbol": "AMD"
+  },
+  "AOA": {
+    "aliases": [
+      "アンゴラ・クワンザ",
+      "アンゴラ・クワンザス"
+    ],
+    "symbol": "AOA"
+  },
+  "SEK": {
+    "aliases": [
+      "スウェーデン・クローナ",
+      "スウェーデン・クローナス"
+    ],
+    "symbol": "SEK"
+  },
+  "DASH": {
+    "aliases": [
+      "ダッシュ"
+    ],
+    "symbol": "DASH"
+  },
+  "SAR": {
+    "aliases": [
+      "サウジ・リヤル",
+      "サウジ・リヤルス"
+    ],
+    "symbol": "SAR"
+  },
+  "KWD": {
+    "aliases": [
+      "クウェート・ディナール",
+      "クウェート・ディナールス"
+    ],
+    "symbol": "KWD"
+  },
+  "IRR": {
+    "aliases": [
+      "イラン・リヤル",
+      "イラン・リヤルス"
+    ],
+    "symbol": "IRR"
+  },
+  "WST": {
+    "aliases": [
+      "サモア・タラ"
+    ],
+    "symbol": "WST"
+  },
+  "BNB": {
+    "aliases": [
+      "バイナンス・コイン"
+    ],
+    "symbol": "BNB"
+  },
+  "BMD": {
+    "aliases": [
+      "バミューダ・ドル",
+      "バミューダ・ドルズ"
+    ],
+    "symbol": "BMD"
+  },
+  "BGN": {
+    "aliases": [
+      "ブルガリア・レフ",
+      "ブルガリア・レフス"
+    ],
+    "symbol": "BGN"
+  },
+  "PHP": {
+    "aliases": [
+      "フィリピン・ペソ",
+      "フィリピン・ペソズ"
+    ],
+    "symbol": "PHP"
+  },
+  "ZMW": {
+    "aliases": [
+      "ザンビア・クワチャ",
+      "ザンビア・クワチャス"
+    ],
+    "symbol": "ZMW"
+  },
+  "XAF": {
+    "aliases": [
+      "CFAフラン",
+      "CFAフランス"
+    ],
+    "symbol": "XAF"
+  },
+  "BDT": {
+    "aliases": [
+      "バングラデシュ・タカ",
+      "バングラデシュ・タカス"
+    ],
+    "symbol": "BDT"
+  },
+  "NOK": {
+    "aliases": [
+      "ノルウェー・クローネ",
+      "ノルウェー・クローネス"
+    ],
+    "symbol": "NOK"
+  },
+  "BOB": {
+    "aliases": [
+      "ボリビア・ボリビアーノ",
+      "ボリビア・ボリビアーノズ"
+    ],
+    "symbol": "BOB"
+  },
+  "TZS": {
+    "aliases": [
+      "タンザニア・シリング",
+      "タンザニア・シリングス"
+    ],
+    "symbol": "TZS"
+  },
+  "XAG": {
+    "aliases": [
+      "シルバー価格"
+    ],
+    "symbol": "XAG"
+  },
+  "VES": {
+    "aliases": [
+      "ベネズエラ・ボリバル",
+      "ベネズエラ・ボリバルス"
+    ],
+    "symbol": "VES"
+  },
+  "ANG": {
+    "aliases": [
+      "オランダ領アンティル・ギルダー",
+      "オランダ領アンティル・ギルダーズ"
+    ],
+    "symbol": "ANG"
+  },
+  "VUV": {
+    "aliases": [
+      "バヌアツ・バツ",
+      "バヌアツ・バツ"
+    ],
+    "symbol": "VUV"
+  },
+  "BND": {
+    "aliases": [
+      "ブルネイ・ドル",
+      "ブルネイ・ドルズ"
+    ],
+    "symbol": "BND"
+  },
+  "XCD": {
+    "aliases": [
+      "東カリブ・ドル",
+      "東カリブ・ドルズ"
+    ],
+    "symbol": "XCD"
+  },
+  "SCR": {
+    "aliases": [
+      "セーシェル・ルピー",
+      "セーシェル・ルピーズ"
+    ],
+    "symbol": "SCR"
+  },
+  "KYD": {
+    "aliases": [
+      "ケイマン諸島・ドル",
+      "ケイマン諸島・ドルズ"
+    ],
+    "symbol": "KYD"
+  },
+  "DJF": {
+    "aliases": [
+      "ジブチ・フラン",
+      "ジブチ・フランス"
+    ],
+    "symbol": "DJF"
+  },
+  "LSL": {
+    "aliases": [
+      "レソト・ロティ",
+      "レソト・マロティ"
+    ],
+    "symbol": "LSL"
+  },
+  "MOP": {
+    "aliases": [
+      "マカオ・パタカ",
+      "マカオ・パタカス"
+    ],
+    "symbol": "MOP"
+  },
+  "ALL": {
+    "aliases": [
+      "アルバニア・レク",
+      "アルバニア・レクス"
+    ],
+    "symbol": "ALL"
+  },
+  "UZS": {
+    "aliases": [
+      "ウズベキスタン・スム",
+      "ウズベキスタン・スムズ"
+    ],
+    "symbol": "UZS"
+  },
+  "UYU": {
+    "aliases": [
+      "ウルグアイ・ペソ",
+      "ウルグアイ・ペソズ"
+    ],
+    "symbol": "UYU"
+  },
+  "PLN": {
+    "aliases": [
+      "ポーランド・ズウォティ",
+      "ポーランド・ズウォティズ"
+    ],
+    "symbol": "PLN"
+  },
+  "LTL": {
+    "aliases": [
+      "リトアニア・リタ",
+      "リトアニア・リタス"
+    ],
+    "symbol": "LTL"
+  },
+  "LYD": {
+    "aliases": [
+      "リビア・ディナール",
+      "リビア・ディナールス"
+    ],
+    "symbol": "LYD"
+  },
+  "JPY": {
+    "aliases": [
+      "円",
+      "日本円"
+    ],
+    "symbol": "JPY"
+  },
+  "MNT": {
+    "aliases": [
+      "モンゴル・トグログ",
+      "モンゴル・テグレグ"
+    ],
+    "symbol": "MNT"
+  },
+  "FJD": {
+    "aliases": [
+      "フィジー・ドル",
+      "フィジー・ドルズ"
+    ],
+    "symbol": "FJD"
+  },
+  "ZWL": {
+    "aliases": [
+      "ジンバブエ・ドル",
+      "ジンバブエ・ドルズ"
+    ],
+    "symbol": "ZWL"
+  },
+  "pence": {
+    "aliases": [
+      "ペニー",
+      "ペニーズ",
+      "英国ペンス",
+      "GBX"
+    ],
+    "symbol": "pence"
+  },
+  "PKR": {
+    "aliases": [
+      "パキスタン・ルピー",
+      "パキスタン・ルピーズ"
+    ],
+    "symbol": "PKR"
+  },
+  "MRU": {
+    "aliases": [
+      "モーリタニア・ウギア"
+    ],
+    "symbol": "MRU"
+  },
+  "OMR": {
+    "aliases": [
+      "オマーン・リヤル",
+      "オマーン・リヤルス"
+    ],
+    "symbol": "OMR"
+  },
+  "GBP": {
+    "aliases": [
+      "英国ポンド",
+      "英国ポンズ",
+      "ポンド・スターリング"
+    ],
+    "symbol": "GBP"
+  },
+  "POL": {
+    "aliases": [
+      "ポリゴン",
+      "MATIC"
+    ],
+    "symbol": "POL"
+  },
+  "cents": {
+    "aliases": [
+      "セント"
+    ],
+    "symbol": "cents"
+  },
+  "LVL": {
+    "aliases": [
+      "ラトビア・ラット",
+      "ラトビア・ラッツ"
+    ],
+    "symbol": "LVL"
+  },
+  "SHP": {
+    "aliases": [
+      "セントヘレナ・ポンド",
+      "セントヘレナ・ポンズ"
+    ],
+    "symbol": "SHP"
+  },
+  "GEL": {
+    "aliases": [
+      "ジョージア・ラリ",
+      "ジョージア・ラリズ"
+    ],
+    "symbol": "GEL"
+  },
+  "AVAX": {
+    "aliases": [
+      "アバランチ"
+    ],
+    "symbol": "AVAX"
+  },
+  "TND": {
+    "aliases": [
+      "チュニジア・ディナール",
+      "チュニジア・ディナールス"
+    ],
+    "symbol": "TND"
+  },
+  "DKK": {
+    "aliases": [
+      "デンマーク・クローネ",
+      "デンマーク・クローネス"
+    ],
+    "symbol": "DKK"
+  },
+  "NPR": {
+    "aliases": [
+      "ネパール・ルピー",
+      "ネパール・ルピーズ"
+    ],
+    "symbol": "NPR"
+  },
+  "KRW": {
+    "aliases": [
+      "韓国ウォン",
+      "韓国ウォンズ"
+    ],
+    "symbol": "KRW"
+  },
+  "BSD": {
+    "aliases": [
+      "バハマ・ドル",
+      "バハマ・ドルズ"
+    ],
+    "symbol": "BSD"
+  },
+  "CRC": {
+    "aliases": [
+      "コスタリカ・コロン",
+      "コスタリカ・コロンズ"
+    ],
+    "symbol": "CRC"
+  },
+  "EGP": {
+    "aliases": [
+      "エジプト・ポンド",
+      "エジプト・ポンズ"
+    ],
+    "symbol": "EGP"
+  },
+  "MAD": {
+    "aliases": [
+      "モロッコ・ディルハム",
+      "モロッコ・ディルハムズ"
+    ],
+    "symbol": "MAD"
+  },
+  "AUD": {
+    "aliases": [
+      "A$",
+      "AU$",
+      "オージー・ドルズ",
+      "オージー・ドル",
+      "オーストラリア・ドルズ",
+      "オーストラリア・ドル"
+    ],
+    "symbol": "AUD"
+  },
+  "BTC": {
+    "aliases": [
+      "ビットコインズ",
+      "ビットコイン"
+    ],
+    "symbol": "BTC"
+  },
+  "SLL": {
+    "aliases": [
+      "シエラレオネ・レオン",
+      "シエラレオネ・レオンズ"
+    ],
+    "symbol": "SLL"
+  },
+  "MWK": {
+    "aliases": [
+      "マラウイ・クワチャ",
+      "マラウイ・クワチャス"
+    ],
+    "symbol": "MWK"
+  },
+  "RSD": {
+    "aliases": [
+      "セルビア・ディナール",
+      "セルビア・ディナールス"
+    ],
+    "symbol": "RSD"
+  },
+  "NZD": {
+    "aliases": [
+      "NZ$",
+      "ニュージーランド・ドルズ",
+      "ニュージーランド・ドル",
+      "キウィ・ドルズ",
+      "キウィ・ドル"
+    ],
+    "symbol": "NZD"
+  },
+  "SRD": {
+    "aliases": [
+      "スリナム・ドル",
+      "スリナム・ドルズ"
+    ],
+    "symbol": "SRD"
+  },
+  "CLP": {
+    "aliases": [
+      "チリ・ペソ",
+      "チリ・ペソズ"
+    ],
+    "symbol": "CLP"
+  },
+  "RUB": {
+    "aliases": [
+      "ロシア・ルーブルズ",
+      "ロシア・ルーブル",
+      "ルーブルズ",
+      "ルーブル",
+      "руб"
+    ],
+    "symbol": "RUB"
+  },
+  "NAD": {
+    "aliases": [
+      "ナミビア・ドル",
+      "ナミビア・ドルズ"
+    ],
+    "symbol": "NAD"
+  },
+  "HKD": {
+    "aliases": [
+      "香港ドル",
+      "香港ドルズ"
+    ],
+    "symbol": "HKD"
+  },
+  "GMD": {
+    "aliases": [
+      "ガンビア・ダラシズ",
+      "ガンビア・ダラシ"
+    ],
+    "symbol": "GMD"
+  },
+  "VND": {
+    "aliases": [
+      "ベトナム・ドン"
+    ],
+    "symbol": "VND"
+  },
+  "LAK": {
+    "aliases": [
+      "ラオ・キップ",
+      "ラオ・キップス"
+    ],
+    "symbol": "LAK"
+  },
+  "SHIB": {
+    "aliases": [
+      "柴犬"
+    ],
+    "symbol": "SHIB"
+  },
+  "RON": {
+    "aliases": [
+      "ルーマニア・レウ",
+      "ルーマニア・レイ"
+    ],
+    "symbol": "RON"
+  },
+  "MUR": {
+    "aliases": [
+      "モーリシャス・ルピー",
+      "モーリシャス・ルピーズ"
+    ],
+    "symbol": "MUR"
+  },
+  "XAU": {
+    "aliases": [
+      "ゴールド価格"
+    ],
+    "symbol": "XAU"
+  },
+  "SOL": {
+    "aliases": [
+      "ソラナ"
+    ],
+    "symbol": "SOL"
+  },
+  "MXN": {
+    "aliases": [
+      "メキシコ・ペソ",
+      "メキシコ・ペソズ"
+    ],
+    "symbol": "MXN"
+  },
+  "BRL": {
+    "aliases": [
+      "ブラジル・レアル",
+      "ブラジル・レアルズ",
+      "R$"
+    ],
+    "symbol": "BRL"
+  },
+  "STD": {
+    "aliases": [
+      "サントメ・プリンシペ・ドブラ",
+      "サントメ・プリンシペ・ドブラス"
+    ],
+    "symbol": "STD"
+  },
+  "AWG": {
+    "aliases": [
+      "アルバ・ギルダー",
+      "アルバ・ギルダーズ"
+    ],
+    "symbol": "AWG"
+  },
+  "MVR": {
+    "aliases": [
+      "モルディブ・ルフィヤ"
+    ],
+    "symbol": "MVR"
+  },
+  "PAB": {
+    "aliases": [
+      "パナマ・バルボア",
+      "パナマ・バルボアズ"
+    ],
+    "symbol": "PAB"
+  },
+  "TJS": {
+    "aliases": [
+      "タジキスタン・ソモニ",
+      "タジキスタン・ソモニズ"
+    ],
+    "symbol": "TJS"
+  },
+  "GNF": {
+    "aliases": [
+      "ギニア・フラン",
+      "ギニア・フランス"
+    ],
+    "symbol": "GNF"
+  },
+  "ETB": {
+    "aliases": [
+      "エチオピア・ビル",
+      "エチオピア・ビルズ"
+    ],
+    "symbol": "ETB"
+  },
+  "ZAR": {
+    "aliases": [
+      "南アフリカ・ランド"
+    ],
+    "symbol": "ZAR"
+  },
+  "COP": {
+    "aliases": [
+      "コロンビア・ペソ",
+      "コロンビア・ペソズ"
+    ],
+    "symbol": "COP"
+  },
+  "IDR": {
+    "aliases": [
+      "インドネシア・ルピア"
+    ],
+    "symbol": "IDR"
+  },
+  "SVC": {
+    "aliases": [
+      "エルサルバドル・コロン",
+      "エルサルバドル・コロンズ"
+    ],
+    "symbol": "SVC"
+  },
+  "CVE": {
+    "aliases": [
+      "カーボベルデ・エスクード",
+      "カーボベルデ・エスクードス"
+    ],
+    "symbol": "CVE"
+  },
+  "ETC": {
+    "aliases": [
+      "イーサリアム・クラシック"
+    ],
+    "symbol": "ETC"
+  },
+  "TTD": {
+    "aliases": [
+      "トリニダード・トバゴ・ドル",
+      "トリニダード・トバゴ・ドルズ"
+    ],
+    "symbol": "TTD"
+  },
+  "GIP": {
+    "aliases": [
+      "ジブラルタル・ポンド",
+      "ジブラルタル・ポンズ"
+    ],
+    "symbol": "GIP"
+  },
+  "PYG": {
+    "aliases": [
+      "パラグアイ・グアラニー",
+      "パラグアイ・グアラニーズ"
+    ],
+    "symbol": "PYG"
+  },
+  "DOGE": {
+    "aliases": [
+      "ドージコインズ",
+      "ドージコイン"
+    ],
+    "symbol": "DOGE"
+  },
+  "MZN": {
+    "aliases": [
+      "モザンビーク・メティカル",
+      "モザンビーク・メティカルズ"
+    ],
+    "symbol": "MZN"
+  },
+  "FKP": {
+    "aliases": [
+      "フォークランド諸島・ポンド",
+      "フォークランド諸島・ポンズ"
+    ],
+    "symbol": "FKP"
+  },
+  "KZT": {
+    "aliases": [
+      "カザフスタン・テンゲ",
+      "カザフスタン・テンゲズ",
+      "テンゲ",
+      "テンゲズ"
+    ],
+    "symbol": "KZT"
+  },
+  "USD": {
+    "aliases": [
+      "米ドル",
+      "米ドルズ",
+      "アメリカン・ドルズ",
+      "アメリカン・ドル",
+      "usd",
+      "US$"
+    ],
+    "symbol": "USD"
+  },
+  "UGX": {
+    "aliases": [
+      "ウガンダ・シリング",
+      "ウガンダ・シリングス"
+    ],
+    "symbol": "UGX"
+  },
+  "RWF": {
+    "aliases": [
+      "ルワンダ・フラン",
+      "ルワンダ・フランス"
+    ],
+    "symbol": "RWF"
+  },
+  "GHS": {
+    "aliases": [
+      "ガーナ・セディ",
+      "ガーナ・セディズ"
+    ],
+    "symbol": "GHS"
+  },
+  "ARS": {
+    "aliases": [
+      "アルゼンチン・ペソ",
+      "アルゼンチン・ペソズ"
+    ],
+    "symbol": "ARS"
+  },
+  "DOP": {
+    "aliases": [
+      "ドミニカ・ペソ",
+      "ドミニカ・ペソズ"
+    ],
+    "symbol": "DOP"
+  },
+  "LBP": {
+    "aliases": [
+      "レバノン・ポンド",
+      "レバノン・ポンズ"
+    ],
+    "symbol": "LBP"
+  },
+  "BZD": {
+    "aliases": [
+      "ベリーズ・ドル",
+      "ベリーズ・ドルズ"
+    ],
+    "symbol": "BZD"
+  },
+  "ADA": {
+    "aliases": [
+      "カルダノ"
+    ],
+    "symbol": "ADA"
+  },
+  "BTN": {
+    "aliases": [
+      "ブータン・ニュルタム"
+    ],
+    "symbol": "BTN"
+  },
+  "MYR": {
+    "aliases": [
+      "マレーシア・リンギット",
+      "マレーシア・リンギットズ"
+    ],
+    "symbol": "MYR"
+  },
+  "YER": {
+    "aliases": [
+      "イエメン・リヤル",
+      "イエメン・リヤルス"
+    ],
+    "symbol": "YER"
+  },
+  "JMD": {
+    "aliases": [
+      "ジャマイカ・ドル",
+      "ジャマイカ・ドルズ"
+    ],
+    "symbol": "JMD"
+  },
+  "USDT": {
+    "aliases": [
+      "テザー",
+      "USD₮"
+    ],
+    "symbol": "USDT"
+  },
+  "TOP": {
+    "aliases": [
+      "トンガ・パアンガ"
+    ],
+    "symbol": "TOP"
+  },
+  "SOS": {
+    "aliases": [
+      "ソマリア・シリング",
+      "ソマリア・シリングス"
+    ],
+    "symbol": "SOS"
+  },
+  "TMT": {
+    "aliases": [
+      "トルクメニスタン・マナト",
+      "トルクメニスタン・マナトズ"
+    ],
+    "symbol": "TMT"
+  },
+  "MDL": {
+    "aliases": [
+      "モルドバ・レウ",
+      "モルドバ・レイ"
+    ],
+    "symbol": "MDL"
+  },
+  "XOF": {
+    "aliases": [
+      "中央アフリカCFAフラン",
+      "中央アフリカCFAフランス"
+    ],
+    "symbol": "XOF"
+  },
+  "ETH": {
+    "aliases": [
+      "イーサリアム"
+    ],
+    "symbol": "ETH"
+  },
+  "TWD": {
+    "aliases": [
+      "NT$",
+      "NTD",
+      "ntd",
+      "新台湾ドル",
+      "新台湾ドルズ"
+    ],
+    "symbol": "TWD"
+  },
+  "BBD": {
+    "aliases": [
+      "バルバドス・ドル",
+      "バルバドス・ドルズ"
+    ],
+    "symbol": "BBD"
+  },
+  "DOT": {
+    "aliases": [
+      "ポルカドット"
+    ],
+    "symbol": "DOT"
+  },
+  "CAD": {
+    "aliases": [
+      "C$",
+      "CA$",
+      "カナダ・ドル",
+      "カナダ・ドルズ"
+    ],
+    "symbol": "CAD"
+  },
+  "CNY": {
+    "aliases": [
+      "RMB",
+      "rmb",
+      "元",
+      "中国元",
+      "中国元ズ"
+    ],
+    "symbol": "CNY"
+  },
+  "JOD": {
+    "aliases": [
+      "ヨルダン・ディナール",
+      "ヨルダン・ディナールス"
+    ],
+    "symbol": "JOD"
+  },
+  "XPF": {
+    "aliases": [
+      "CFPフラン",
+      "CFPフランス"
+    ],
+    "symbol": "XPF"
+  },
+  "euro cents": {
+    "aliases": [
+      "ユーロ・セント"
+    ],
+    "symbol": "euro cents"
+  },
+  "XLM": {
+    "aliases": [
+      "ステラル"
+    ],
+    "symbol": "XLM"
+  },
+  "IQD": {
+    "aliases": [
+      "イラク・ディナール",
+      "イラク・ディナールス"
+    ],
+    "symbol": "IQD"
+  },
+  "HNL": {
+    "aliases": [
+      "ホンジュラス・レンピラ",
+      "ホンジュラス・レンピラス"
+    ],
+    "symbol": "HNL"
+  },
+  "AED": {
+    "aliases": [
+      "UAEディルハム",
+      "UAEディルハムズ"
+    ],
+    "symbol": "AED"
+  },
+  "EOS": {
+    "aliases": [
+      "EOS.IO"
+    ],
+    "symbol": "EOS"
+  },
+  "KES": {
+    "aliases": [
+      "ケニア・シリング",
+      "ケニア・シリングス"
+    ],
+    "symbol": "KES"
+  },
+  "KMF": {
+    "aliases": [
+      "コモロ・フラン",
+      "コモロ・フランス"
+    ],
+    "symbol": "KMF"
+  },
+  "MKD": {
+    "aliases": [
+      "マケドニア・デナル",
+      "マケドニア・デナリ"
+    ],
+    "symbol": "MKD"
+  },
+  "DZD": {
+    "aliases": [
+      "アルジェリア・ディナール",
+      "アルジェリア・ディナールス"
+    ],
+    "symbol": "DZD"
+  },
+  "BSV": {
+    "aliases": [
+      "ビットコインSV"
+    ],
+    "symbol": "BSV"
+  },
+  "CUP": {
+    "aliases": [
+      "キューバ・ペソ",
+      "キューバ・ペソズ"
+    ],
+    "symbol": "CUP"
+  },
+  "BWP": {
+    "aliases": [
+      "ボツワナ・プラ"
+    ],
+    "symbol": "BWP"
+  },
+  "SBD": {
+    "aliases": [
+      "ソロモン諸島・ドル",
+      "ソロモン諸島・ドルズ"
+    ],
+    "symbol": "SBD"
+  },
+  "AZN": {
+    "aliases": [
+      "アゼルバイジャン・マナト",
+      "アゼルバイジャン・マナトズ"
+    ],
+    "symbol": "AZN"
+  },
+  "BCH": {
+    "aliases": [
+      "ビットコインキャッシュ"
+    ],
+    "symbol": "BCH"
+  },
+  "KGS": {
+    "aliases": [
+      "キルギス・ソム",
+      "キルギス・ソムズ"
+    ],
+    "symbol": "KGS"
+  },
+  "BYN": {
+    "aliases": [
+      "ベラルーシ・ルーブル",
+      "ベラルーシ・ルーブルズ"
+    ],
+    "symbol": "BYN"
+  },
+  "KHR": {
+    "aliases": [
+      "カンボジア・リエル"
+    ],
+    "symbol": "KHR"
+  },
+  "NEO": {
+    "aliases": [
+      "ネオ"
+    ],
+    "symbol": "NEO"
+  },
+  "ZMK": {
+    "aliases": [
+      "ザンビア・クワチャ"
+    ],
+    "symbol": "ZMK"
+  },
+  "HTG": {
+    "aliases": [
+      "ハイチ・グールド",
+      "ハイチ・グールドズ"
+    ],
+    "symbol": "HTG"
+  },
+  "CZK": {
+    "aliases": [
+      "チェコ・コルナ",
+      "チェコ・コルナズ"
+    ],
+    "symbol": "CZK"
+  },
+  "BAM": {
+    "aliases": [
+      "ボスニア・ヘルツェゴビナ・コンバーチブル・マルク",
+      "ボスニア・ヘルツェゴビナ・コンバーチブル・マルクズ"
+    ],
+    "symbol": "BAM"
+  }
+}

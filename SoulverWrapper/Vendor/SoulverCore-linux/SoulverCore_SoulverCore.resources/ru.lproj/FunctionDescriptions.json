@@ -1,0 +1,432 @@
+{
+  "weatherRelated": [
+    {
+      "prototypeExpressions": [
+        "минимальная температура в __timezone",
+        "минимум в __timezone",
+        "низкая в __timezone",
+        "__timezone минимум"
+      ],
+      "identifier": "lowTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "максимальная температура в __timezone",
+        "максимум в __timezone",
+        "высокая в __timezone",
+        "температура выше нормы в __timezone",
+        "__timezone максимум"
+      ],
+      "identifier": "highTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "вероятность осадков в __timezone",
+        "вероятность дождя в __timezone",
+        "__timezone вероятность дождя"
+      ],
+      "identifier": "precipitationChance"
+    },
+    {
+      "prototypeExpressions": [
+        "количество осадков в __timezone",
+        "дождь в __timezone",
+        "осадки в __timezone",
+        "__timezone осадки"
+      ],
+      "identifier": "rainfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "количество снега в __timezone",
+        "снег в __timezone",
+        "__timezone снег"
+      ],
+      "identifier": "snowfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "ощущаемая температура в __timezone",
+        "ощущается как в __timezone",
+        "__timezone ощущается"
+      ],
+      "identifier": "apparentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "текущая температура в __timezone",
+        "температура в __timezone"
+      ],
+      "identifier": "currentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "погода в __timezone",
+        "__timezone погода",
+        "погодные условия в __timezone",
+        "условия погоды в __timezone"
+      ],
+      "identifier": "weatherConditions"
+    },
+    {
+      "prototypeExpressions": [
+        "влажность в __timezone",
+        "__timezone влажность"
+      ],
+      "identifier": "humidity"
+    },
+    {
+      "prototypeExpressions": [
+        "облачность в __timezone",
+        "__timezone облачность"
+      ],
+      "identifier": "cloudCover"
+    },
+    {
+      "prototypeExpressions": [
+        "видимость в __timezone",
+        "__timezone видимость"
+      ],
+      "identifier": "visibility"
+    },
+    {
+      "prototypeExpressions": [
+        "скорость ветра в __timezone",
+        "ветер в __timezone",
+        "__timezone ветер"
+      ],
+      "identifier": "windSpeed"
+    },
+    {
+      "prototypeExpressions": [
+        "направление ветра в __timezone",
+        "__timezone направление ветра"
+      ],
+      "identifier": "windDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "точка росы в __timezone",
+        "__timezone точка росы"
+      ],
+      "identifier": "dewPoint"
+    },
+    {
+      "prototypeExpressions": [
+        "индекс уф в __timezone",
+        "__timezone индекс уф"
+      ],
+      "identifier": "uvIndex"
+    },
+    {
+      "prototypeExpressions": [
+        "давление в __timezone",
+        "__timezone давление"
+      ],
+      "identifier": "pressure"
+    },
+    {
+      "prototypeExpressions": [
+        "направление давления в __timezone",
+        "__timezone направление давления"
+      ],
+      "identifier": "pressureDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "восход солнца в __timezone",
+        "__timezone восход солнца"
+      ],
+      "identifier": "sunrise"
+    },
+    {
+      "prototypeExpressions": [
+        "закат в __timezone",
+        "заход солнца в __timezone",
+        "__timezone заход солнца",
+        "__timezone закат"
+      ],
+      "identifier": "sunset"
+    },
+    {
+      "prototypeExpressions": [
+        "восход луны в __timezone",
+        "луна в __timezone",
+        "__timezone восход луны"
+      ],
+      "identifier": "moonrise"
+    },
+    {
+      "prototypeExpressions": [
+        "заход луны в __timezone",
+        "__timezone заход луны"
+      ],
+      "identifier": "moonset"
+    },
+    {
+      "prototypeExpressions": [
+        "фаза луны в __timezone",
+        "луна в __timezone",
+        "__timezone фаза луны"
+      ],
+      "identifier": "moonPhase"
+    }
+  ],
+  "percentage": [
+    {
+      "prototypeExpressions": [
+        "__percentage от 100",
+        "__percentage из 100"
+      ],
+      "identifier": "percentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage к 100"
+      ],
+      "identifier": "percentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "30 это __percentage от чего",
+        "30 это __percentage от"
+      ],
+      "identifier": "isPercentOfWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage от чего равно 30"
+      ],
+      "identifier": "isPercentOfWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 это __percentage отняли от чего",
+        "30 это __percentage отняли от"
+      ],
+      "identifier": "isPercentOffWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage из чего равно 30"
+      ],
+      "identifier": "isPercentOffWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 это __percentage к чему",
+        "30 это __percentage к"
+      ],
+      "identifier": "isPercentOnWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage к чему равно 30"
+      ],
+      "identifier": "isPercentOnWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "10 как % от 20",
+        "10 сколько % от 20",
+        "10 сколько процентов от 20"
+      ],
+      "identifier": "isWhatPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "10 сколько % отняли от 20",
+        "10 сколько процентов отняли от 20"
+      ],
+      "identifier": "isWhatPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "20 сколько % сверх 10",
+        "20 сколько процентов сверх 10"
+      ],
+      "identifier": "isWhatPercentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "50 до 70 как %"
+      ],
+      "identifier": "xToYIsWhatPercentage"
+    }
+  ],
+  "general": [
+    {
+      "prototypeExpressions": [
+        "остаток от 20 разделенного на 3"
+      ],
+      "identifier": "remainder"
+    },
+      {
+        "prototypeExpressions": [
+          "56 до ближайших 10",
+          "16 округлить до ближайших 10",
+          "16 округлено до ближайших 10"
+        ],
+        "identifier": "upToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 вниз до ближайших 10",
+          "16 округлить вниз до ближайших 10",
+          "16 округлено вниз до ближайших 10"
+        ],
+        "identifier": "downToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 до ближайших 10",
+          "16 округлить до ближайших 10",
+          "16 округлено до ближайших 10"
+        ],
+        "identifier": "toNearestX"
+      },
+    
+    {
+      "prototypeExpressions": [
+        "половина 20"
+      ],
+      "identifier": "halfOf"
+    },
+    {
+      "prototypeExpressions": [
+        "меньшее из 2 и 30"
+      ],
+      "identifier": "lesserOf"
+    },
+    {
+      "prototypeExpressions": [
+        "большее из 2 и 30"
+      ],
+      "identifier": "greaterOf"
+    },
+    {
+      "prototypeExpressions": [
+        "середина между 2 и 32"
+      ],
+      "identifier": "midpoint"
+    },
+    {
+      "prototypeExpressions": [
+        "6 к 600 как что к 8",
+        "6 к 600 это как что к 8"
+      ],
+      "identifier": "proportionsFindNumerator"
+    },
+    {
+      "prototypeExpressions": [
+        "6 к 600 как 8 к чему",
+        "6 к 600 это как 8 к чему"
+      ],
+      "identifier": "proportionsFindDenominator"
+    },
+    {
+      "prototypeExpressions": [
+        "случайное число между 1 и 5",
+        "рандомное число между 1 и 5",
+        "число между 1 и 5"
+      ],
+      "identifier": "makeRandomNumber"
+    }
+  ],
+  "datetime": [
+    {
+      "prototypeExpressions": [
+        "__duration в __datespan"
+      ],
+      "identifier": "calendarUnitInDatespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration от __datestamp до __datestamp",
+        "__duration между __datestamp и __datestamp",
+        "__duration с __datestamp по __datestamp"
+      ],
+      "identifier": "calendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration до __datestamp"
+      ],
+      "identifier": "calendarUnitToDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp до __datestamp",
+        "__datestamp по __datestamp"
+      ],
+      "identifier": "intervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__timestamp до __timestamp",
+        "__timestamp по __timestamp"
+      ],
+      "identifier": "intervalBetweenTimestamps"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan назад",
+        "__timespan тому назад"
+      ],
+      "identifier": "calendarUnitExpressionAgo"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration с __datestamp"
+      ],
+      "identifier": "calendarUnitSinceDate"
+    },
+    {
+      "prototypeExpressions": [
+        "новая метка времени"
+      ],
+      "identifier": "generateTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan после __datestamp"
+      ],
+      "identifier": "calendarUnitExpressionAfterDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan до __datestamp"
+      ],
+      "identifier": "calendarUnitExpressionBeforeDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone время",
+        "время __timezone",
+        "время в __timezone"
+      ],
+      "identifier": "timeInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "разница во времени между __timezone и __timezone",
+        "разница __timezone и __timezone"
+      ],
+      "identifier": "differenceBetweenTimezones"
+    }
+  ],
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__unit в __unit_expression"
+      ],
+      "identifier": "unitInUnitExpression"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit в __timespan"
+      ],
+      "identifier": "calendarUnitInTimespan"
+    }
+  ]
+}

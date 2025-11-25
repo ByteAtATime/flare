@@ -1,0 +1,65 @@
+{
+  "fixtures": {
+    "commas": [
+      "，",
+      ","
+    ],
+    "divisionOperators": [
+      "除以",
+      "每"
+    ],
+    "reverseDivisionOperators": [
+      "除"
+    ],
+    "ordinalSuffixes": [
+      "日"
+    ],
+    "multiplicationOperators": [
+      "乘",
+      "乘以"
+    ],
+    "tomorrowDateAliases": [
+      "明天",
+      "明日"
+    ],
+    "subtractionOperators": [
+      "减",
+      "减去"
+    ],
+    "todayDateAliases": [
+      "今天",
+      "今日"
+    ],
+    "yesterdayDateAliases": [
+      "昨天",
+      "昨日"
+    ],
+    "additionOperators": [
+      "加",
+      "加上"
+    ],
+    "piAliases": [
+      "π"
+    ],
+    "nowDateAliases": [
+      "现在"
+    ],
+    "converterSymbols": [
+      "到",
+      "为",
+      "作为"
+    ],
+    "timespanWords": [
+      "周期"
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "percentWords": [
+      "百分之",
+      "百分比",
+      "占比"
+    ]
+  }
+}

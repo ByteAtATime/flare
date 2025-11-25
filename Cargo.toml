@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-default = []
+default = ["soulver"]
 debug = ["iced/debug"]
+soulver = []
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }

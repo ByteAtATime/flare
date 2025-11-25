@@ -1,0 +1,1334 @@
+{
+  "energy" : [
+    {
+      "symbol" : "焦耳",
+      "aliases" : [
+        "焦"
+      ],
+      "identifier" : "joules"
+    },
+    {
+      "symbol" : "千焦耳",
+      "aliases" : [
+        "千焦"
+      ],
+      "identifier" : "kilojoules"
+    },
+    {
+      "symbol" : "兆焦耳",
+      "aliases" : [
+        "兆焦"
+      ],
+      "identifier" : "megajoules"
+    },
+    {
+      "symbol" : "吉焦耳",
+      "aliases" : [
+        "吉焦"
+      ],
+      "identifier" : "gigajoules"
+    },
+    {
+      "symbol" : "卡路里",
+      "aliases" : [
+        "卡"
+      ],
+      "identifier" : "calories"
+    },
+    {
+      "symbol" : "千卡路里",
+      "aliases" : [
+        "千卡"
+      ],
+      "identifier" : "kilocalories"
+    },
+    {
+      "symbol" : "瓦特小时",
+      "aliases" : [
+        "瓦小时"
+      ],
+      "identifier" : "wattHours"
+    },
+    {
+      "symbol" : "瓦特分",
+      "aliases" : [
+        "瓦特分钟"
+      ],
+      "identifier" : "wattMinutes"
+    },
+    {
+      "symbol" : "瓦特秒",
+      "aliases" : [],
+      "identifier" : "wattSeconds"
+    },
+    {
+      "symbol" : "千瓦小时",
+      "aliases" : [
+        "千瓦时"
+      ],
+      "identifier" : "kilowattHours"
+    },
+    {
+      "symbol" : "兆瓦时",
+      "aliases" : [
+        "千度"
+      ],
+      "identifier" : "megawattHours"
+    },
+    {
+      "symbol" : "亿瓦时",
+      "aliases" : [
+        "吉瓦时",
+        "千兆瓦时",
+        "兆瓦时",
+        "百万千瓦小时",
+        "百万度"
+      ],
+      "identifier" : "gigawattHours"
+    },
+    {
+      "symbol" : "万亿瓦[特]时",
+      "aliases" : [
+        "太瓦时"
+      ],
+      "identifier" : "terawattHours"
+    }
+  ],
+  "volume" : [
+    {
+      "symbol" : "兆升",
+      "aliases" : [],
+      "identifier" : "megaliters"
+    },
+    {
+      "symbol" : "千升",
+      "aliases" : [],
+      "identifier" : "kiloliters"
+    },
+    {
+      "symbol" : "升",
+      "aliases" : [],
+      "identifier" : "liters"
+    },
+    {
+      "symbol" : "毫升",
+      "aliases" : [],
+      "identifier" : "milliliters"
+    },
+    {
+      "symbol" : "立方千米",
+      "aliases" : [],
+      "identifier" : "cubicKilometers"
+    },
+    {
+      "symbol" : "立方米",
+      "aliases" : [],
+      "identifier" : "cubicMeters"
+    },
+    {
+      "symbol" : "立方厘米",
+      "aliases" : [],
+      "identifier" : "cubicCentimeters"
+    },
+    {
+      "symbol" : "立方毫米",
+      "aliases" : [],
+      "identifier" : "cubicMillimeters"
+    },
+    {
+      "symbol" : "立方英寸",
+      "aliases" : [],
+      "identifier" : "cubicInches"
+    },
+    {
+      "symbol" : "立方英尺",
+      "aliases" : [],
+      "identifier" : "cubicFeet"
+    },
+    {
+      "symbol" : "立方码",
+      "aliases" : [],
+      "identifier" : "cubicYards"
+    },
+    {
+      "symbol" : "立方英里",
+      "aliases" : [],
+      "identifier" : "cubicMiles"
+    },
+    {
+      "symbol" : "蒲式耳",
+      "aliases" : [],
+      "identifier" : "bushels"
+    },
+    {
+      "symbol" : "英亩尺",
+      "aliases" : [
+        "英亩英尺"
+      ],
+      "identifier" : "acreFeet"
+    },
+    {
+      "symbol" : "品脱",
+      "aliases" : [],
+      "identifier" : "pints"
+    },
+    {
+      "symbol" : "夸脱",
+      "aliases" : [],
+      "identifier" : "quarts"
+    },
+    {
+      "symbol" : "加仑",
+      "aliases" : [],
+      "identifier" : "gallons"
+    },
+    {
+      "symbol" : "汤匙",
+      "aliases" : [],
+      "identifier" : "tablespoons"
+    },
+    {
+      "symbol" : "茶匙",
+      "aliases" : [],
+      "identifier" : "teaspoons"
+    },
+    {
+      "symbol" : "液盎司",
+      "aliases" : [
+        "液盎司"
+      ],
+      "identifier" : "fluidOunces"
+    }
+  ],
+  "dataStorage" : [
+    {
+      "symbol" : "字节",
+      "aliases" : [],
+      "identifier" : "bytes"
+    },
+    {
+      "symbol" : "比特",
+      "aliases" : [],
+      "identifier" : "bits"
+    },
+    {
+      "symbol" : "尧",
+      "aliases" : [
+        "尧它",
+        "尧字节"
+      ],
+      "identifier" : "yottabytes"
+    },
+    {
+      "symbol" : "泽",
+      "aliases" : [
+        "泽字节",
+        "泽它字节"
+      ],
+      "identifier" : "zettabytes"
+    },
+    {
+      "symbol" : "艾",
+      "aliases" : [
+        "EB",
+        "艾字节",
+        "艾可萨字节"
+      ],
+      "identifier" : "exabytes"
+    },
+    {
+      "symbol" : "PB",
+      "aliases" : [
+        "P",
+        "拍",
+        "拍字节",
+        "拍它字节",
+        "千兆兆",
+        "千兆兆字节",
+        "千万亿字节"
+      ],
+      "identifier" : "petabytes"
+    },
+    {
+      "symbol" : "TB",
+      "aliases" : [
+        "T",
+        "太",
+        "太字节",
+        "万亿字节"
+      ],
+      "identifier" : "terabytes"
+    },
+    {
+      "symbol" : "GB",
+      "aliases" : [
+        "G",
+        "吉",
+        "吉字节",
+        "十亿字节",
+        "千兆字节"
+      ],
+      "identifier" : "gigabytes"
+    },
+    {
+      "symbol" : "MB",
+      "aliases" : [
+        "M",
+        "兆",
+        "兆字节",
+        "百万字节"
+      ],
+      "identifier" : "megabytes"
+    },
+    {
+      "symbol" : "kB",
+      "aliases" : [
+        "千字节"
+      ],
+      "identifier" : "kilobytes"
+    },
+    {
+      "symbol" : "Yb",
+      "aliases" : [
+        "尧比特"
+      ],
+      "identifier" : "yottabits"
+    },
+    {
+      "symbol" : "Zb",
+      "aliases" : [
+        "泽比特"
+      ],
+      "identifier" : "zettabits"
+    },
+    {
+      "symbol" : "Eb",
+      "aliases" : [
+        "艾比特"
+      ],
+      "identifier" : "exabits"
+    },
+    {
+      "symbol" : "Pb",
+      "aliases" : [
+        "拍比特"
+      ],
+      "identifier" : "petabits"
+    },
+    {
+      "symbol" : "Tb",
+      "aliases" : [
+        "太比特"
+      ],
+      "identifier" : "terabits"
+    },
+    {
+      "symbol" : "Gb",
+      "aliases" : [
+        "吉比特",
+        "千兆比特"
+      ],
+      "identifier" : "gigabits"
+    },
+    {
+      "symbol" : "Mb",
+      "aliases" : [
+        "兆比特"
+      ],
+      "identifier" : "megabits"
+    },
+    {
+      "symbol" : "kb",
+      "aliases" : [
+        "千比特"
+      ],
+      "identifier" : "kilobits"
+    },
+    {
+      "symbol" : "YiB",
+      "aliases" : [],
+      "identifier" : "yobibytes"
+    },
+    {
+      "symbol" : "ZiB",
+      "aliases" : [],
+      "identifier" : "zebibytes"
+    },
+    {
+      "symbol" : "EiB",
+      "aliases" : [],
+      "identifier" : "exbibytes"
+    },
+    {
+      "symbol" : "PiB",
+      "aliases" : [],
+      "identifier" : "pebibytes"
+    },
+    {
+      "symbol" : "TiB",
+      "aliases" : [],
+      "identifier" : "tebibytes"
+    },
+    {
+      "symbol" : "GiB",
+      "aliases" : [],
+      "identifier" : "gibibytes"
+    },
+    {
+      "symbol" : "MiB",
+      "aliases" : [],
+      "identifier" : "mebibytes"
+    },
+    {
+      "symbol" : "KiB",
+      "aliases" : [],
+      "identifier" : "kibibytes"
+    },
+    {
+      "symbol" : "Yib",
+      "aliases" : [],
+      "identifier" : "yobibits"
+    },
+    {
+      "symbol" : "Zib",
+      "aliases" : [],
+      "identifier" : "zebibits"
+    },
+    {
+      "symbol" : "Eib",
+      "aliases" : [
+        "艾比特"
+      ],
+      "identifier" : "exbibits"
+    },
+    {
+      "symbol" : "Pib",
+      "aliases" : [],
+      "identifier" : "pebibits"
+    },
+    {
+      "symbol" : "Tib",
+      "aliases" : [],
+      "identifier" : "tebibits"
+    },
+    {
+      "symbol" : "Gib",
+      "aliases" : [],
+      "identifier" : "gibibits"
+    },
+    {
+      "symbol" : "Mib",
+      "aliases" : [],
+      "identifier" : "mebibits"
+    },
+    {
+      "symbol" : "Kib",
+      "aliases" : [],
+      "identifier" : "kibibits"
+    }
+  ],
+  "temperature" : [
+    {
+      "symbol" : "K",
+      "aliases" : [
+        "开",
+        "开尔文"
+      ],
+      "identifier" : "kelvin"
+    },
+    {
+      "symbol" : "°C",
+      "aliases" : [
+        "摄氏度"
+      ],
+      "identifier" : "celsius"
+    },
+    {
+      "symbol" : "°F",
+      "aliases" : [
+        "华氏度"
+      ],
+      "identifier" : "fahrenheit"
+    }
+  ],
+  "dataTransfer" : [
+    {
+      "symbol" : "Bps",
+      "aliases" : [
+        "字节每秒",
+        "字节/秒"
+      ],
+      "identifier" : "bytesPerSecond"
+    },
+    {
+      "symbol" : "bps",
+      "aliases" : [
+        "比特率",
+        "比特每秒",
+        "比特/秒"
+      ],
+      "identifier" : "bitsPerSecond"
+    },
+    {
+      "symbol" : "YBps",
+      "aliases" : [
+        "YB每秒",
+        "YB/秒",
+        "尧每秒",
+        "尧/秒",
+        "尧它每秒",
+        "尧它/秒",
+        "尧字节每秒",
+        "尧字节/秒"
+      ],
+      "identifier" : "yottabytesPerSecond"
+    },
+    {
+      "symbol" : "ZBps",
+      "aliases" : [
+        "ZB/秒",
+        "ZB每秒",
+        "泽/秒",
+        "泽每秒",
+        "泽字节/秒",
+        "泽字节每秒",
+        "泽它字节/秒",
+        "泽它字节每秒"
+      ],
+      "identifier" : "zettabytesPerSecond"
+    },
+    {
+      "symbol" : "EBps",
+      "aliases" : [
+        "EB/秒",
+        "EB每秒",
+        "艾/秒",
+        "艾每秒",
+        "艾字节/秒",
+        "艾字节每秒",
+        "艾可萨/秒",
+        "艾可萨每秒"
+      ],
+      "identifier" : "exabytesPerSecond"
+    },
+    {
+      "symbol" : "PBps",
+      "aliases" : [
+        "PB/秒",
+        "PB每秒",
+        "拍/秒",
+        "拍每秒",
+        "拍字节/秒",
+        "拍字节每秒",
+        "拍它字节/秒",
+        "拍它字节每秒",
+        "千兆兆/秒",
+        "千兆兆每秒",
+        "千兆兆字节/秒",
+        "千兆兆字节每秒",
+        "千万亿字节/秒",
+        "千万亿字节每秒"
+      ],
+      "identifier" : "petabytesPerSecond"
+    },
+    {
+      "symbol" : "TBps",
+      "aliases" : [
+        "TB/秒",
+        "TB每秒",
+        "太/秒",
+        "太每秒",
+        "太字节/秒",
+        "太字节每秒",
+        "万亿字节/秒",
+        "万亿字节每秒"
+      ],
+      "identifier" : "terabytesPerSecond"
+    },
+    {
+      "symbol" : "GBps",
+      "aliases" : [
+        "GB/秒",
+        "GB每秒",
+        "吉/秒",
+        "吉每秒",
+        "吉字节/秒",
+        "吉字节每秒",
+        "十亿字节/秒",
+        "十亿字节每秒",
+        "千兆字节/秒",
+        "千兆字节每秒"
+      ],
+      "identifier" : "gigabytesPerSecond"
+    },
+    {
+      "symbol" : "MBps",
+      "aliases" : [
+        "M/秒",
+        "M每秒",
+        "MB/秒",
+        "MB每秒",
+        "兆/秒",
+        "兆每秒",
+        "兆字节/秒",
+        "兆字节每秒",
+        "百万字节/秒",
+        "百万字节每秒"
+      ],
+      "identifier" : "megabytesPerSecond"
+    },
+    {
+      "symbol" : "KBps",
+      "aliases" : [
+        "KB/秒",
+        "KB每秒",
+        "千字节/秒",
+        "千字节每秒"
+      ],
+      "identifier" : "kilobytesPerSecond"
+    },
+    {
+      "symbol" : "Ybps",
+      "aliases" : [
+        "YB/秒",
+        "YB每秒"
+      ],
+      "identifier" : "yottabitsPerSecond"
+    },
+    {
+      "symbol" : "Zbps",
+      "aliases" : [
+        "ZB/秒",
+        "ZB每秒"
+      ],
+      "identifier" : "zettabitsPerSecond"
+    },
+    {
+      "symbol" : "Ebps",
+      "aliases" : [
+        "EB/秒",
+        "EB每秒",
+        "艾比特/秒",
+        "艾比特每秒"
+      ],
+      "identifier" : "exabitsPerSecond"
+    },
+    {
+      "symbol" : "Pbps",
+      "aliases" : [
+        "拍比特/秒",
+        "拍比特每秒"
+      ],
+      "identifier" : "petabitsPerSecond"
+    },
+    {
+      "symbol" : "Tbps",
+      "aliases" : [
+        "太比特/秒",
+        "太比特每秒"
+      ],
+      "identifier" : "terabitsPerSecond"
+    },
+    {
+      "symbol" : "Gbps",
+      "aliases" : [
+        "吉比特/秒",
+        "吉比特每秒",
+        "千兆比特/秒",
+        "千兆比特每秒",
+        "千兆位/秒",
+        "千兆位每秒"
+      ],
+      "identifier" : "gigabitsPerSecond"
+    },
+    {
+      "symbol" : "Mbps",
+      "aliases" : [
+        "兆比特/秒",
+        "兆比特每秒"
+      ],
+      "identifier" : "megabitsPerSecond"
+    },
+    {
+      "symbol" : "Kbps",
+      "aliases" : [
+        "千比特/秒",
+        "千比特每秒"
+      ],
+      "identifier" : "kilobitsPerSecond"
+    },
+    {
+      "symbol" : "YiBps",
+      "aliases" : [
+        "YiB/秒",
+        "YiB每秒"
+      ],
+      "identifier" : "yobibytesPerSecond"
+    },
+    {
+      "symbol" : "ZiBps",
+      "aliases" : [
+        "ZiB/秒",
+        "ZiB每秒"
+      ],
+      "identifier" : "zebibytesPerSecond"
+    },
+    {
+      "symbol" : "EiBps",
+      "aliases" : [
+        "EiB/秒",
+        "EiB每秒"
+      ],
+      "identifier" : "exbibytesPerSecond"
+    },
+    {
+      "symbol" : "PiBps",
+      "aliases" : [
+        "PiB/秒",
+        "PiB每秒"
+      ],
+      "identifier" : "pebibytesPerSecond"
+    },
+    {
+      "symbol" : "TiBps",
+      "aliases" : [
+        "TiB/秒",
+        "TiB每秒"
+      ],
+      "identifier" : "tebibytesPerSecond"
+    },
+    {
+      "symbol" : "GiBps",
+      "aliases" : [
+        "GiB/秒",
+        "GiB每秒"
+      ],
+      "identifier" : "gibibytesPerSecond"
+    },
+    {
+      "symbol" : "MiBps",
+      "aliases" : [
+        "MiB/秒",
+        "MiB每秒"
+      ],
+      "identifier" : "mebibytesPerSecond"
+    },
+    {
+      "symbol" : "KiBps",
+      "aliases" : [
+        "KiB/秒",
+        "KiB每秒"
+      ],
+      "identifier" : "kibibytesPerSecond"
+    },
+    {
+      "symbol" : "Yibps",
+      "aliases" : [
+        "Yib/秒",
+        "Yib每秒"
+      ],
+      "identifier" : "yobibitsPerSecond"
+    },
+    {
+      "symbol" : "Zibps",
+      "aliases" : [
+        "Zib/秒",
+        "Zib每秒"
+      ],
+      "identifier" : "zebibitsPerSecond"
+    },
+    {
+      "symbol" : "Eibps",
+      "aliases" : [
+        "Eib/秒",
+        "Eib每秒"
+      ],
+      "identifier" : "exbibitsPerSecond"
+    },
+    {
+      "symbol" : "Pibps",
+      "aliases" : [
+        "Pib/秒",
+        "Pib每秒"
+      ],
+      "identifier" : "pebibitsPerSecond"
+    },
+    {
+      "symbol" : "Tibps",
+      "aliases" : [
+        "Tib/秒",
+        "Tib每秒"
+      ],
+      "identifier" : "tebibitsPerSecond"
+    },
+    {
+      "symbol" : "Gibps",
+      "aliases" : [
+        "Gib/秒",
+        "Gib每秒"
+      ],
+      "identifier" : "gibibitsPerSecond"
+    },
+    {
+      "symbol" : "Mibps",
+      "aliases" : [
+        "Mib/秒",
+        "Mib每秒"
+      ],
+      "identifier" : "mebibitsPerSecond"
+    },
+    {
+      "symbol" : "Kibps",
+      "aliases" : [
+        "Kib/秒",
+        "Kib每秒"
+      ],
+      "identifier" : "kibibitsPerSecond"
+    }
+  ],
+  "speed" : [
+    {
+      "symbol" : "米/秒",
+      "aliases" : [
+        "米每秒"
+      ],
+      "identifier" : "metersPerSecond"
+    },
+    {
+      "symbol" : "千米/时",
+      "aliases" : [
+        "千米每小时",
+        "千米/小时"
+      ],
+      "identifier" : "kilometersPerHour"
+    },
+    {
+      "symbol" : "英里/时",
+      "aliases" : [
+        "英里每小时",
+        "英里/小时"
+      ],
+      "identifier" : "milesPerHour"
+    },
+    {
+      "symbol" : "节",
+      "aliases" : [],
+      "identifier" : "knots"
+    }
+  ],
+  "angle" : [
+    {
+      "symbol" : "°",
+      "aliases" : [
+        "度"
+      ],
+      "identifier" : "degrees"
+    },
+    {
+      "symbol" : "rad",
+      "aliases" : [
+        "度"
+      ],
+      "identifier" : "radians"
+    }
+  ],
+  "length" : [
+    {
+      "symbol" : "m",
+      "aliases" : [
+        "米"
+      ],
+      "identifier" : "meters"
+    },
+    {
+      "symbol" : "km",
+      "aliases" : [
+        "千米",
+        "公里"
+      ],
+      "identifier" : "kilometers"
+    },
+    {
+      "symbol" : "cm",
+      "aliases" : [
+        "厘米"
+      ],
+      "identifier" : "centimeters"
+    },
+    {
+      "symbol" : "mm",
+      "aliases" : [
+        "毫米"
+      ],
+      "identifier" : "millimeters"
+    },
+    {
+      "symbol" : "µm",
+      "aliases" : [
+        "微米"
+      ],
+      "identifier" : "micrometers"
+    },
+    {
+      "symbol" : "nm",
+      "aliases" : [
+        "纳米"
+      ],
+      "identifier" : "nanometers"
+    },
+    {
+      "symbol" : "in",
+      "aliases" : [
+        "英寸"
+      ],
+      "identifier" : "inches"
+    },
+    {
+      "symbol" : "ft",
+      "aliases" : [
+        "英尺"
+      ],
+      "identifier" : "feet"
+    },
+    {
+      "symbol" : "yd",
+      "aliases" : [
+        "码"
+      ],
+      "identifier" : "yards"
+    },
+    {
+      "symbol" : "mi",
+      "aliases" : [
+        "英里"
+      ],
+      "identifier" : "miles"
+    },
+    {
+      "symbol" : "ly",
+      "aliases" : [
+        "光年"
+      ],
+      "identifier" : "lightyears"
+    },
+    {
+      "symbol" : "pc",
+      "aliases" : [
+        "秒差距"
+      ],
+      "identifier" : "parsecs"
+    },
+    {
+      "symbol" : "NM",
+      "aliases" : [
+        "海里"
+      ],
+      "identifier" : "nauticalMiles"
+    },
+    {
+      "symbol" : "ftm",
+      "aliases" : [
+        "英寻"
+      ],
+      "identifier" : "fathoms"
+    },
+    {
+      "symbol" : "fur",
+      "aliases" : [
+        "浪"
+      ],
+      "identifier" : "furlongs"
+    },
+    {
+      "symbol" : "px",
+      "aliases" : [
+        "像素"
+      ],
+      "identifier" : "pixel"
+    },
+    {
+      "symbol" : "em",
+      "aliases" : [],
+      "identifier" : "em"
+    },
+    {
+      "symbol" : "pt",
+      "aliases" : [
+        "点"
+      ],
+      "identifier" : "point"
+    }
+  ],
+  "area" : [
+    {
+      "symbol" : "km²",
+      "aliases" : [
+        "平方公里",
+        "平方千米"
+      ],
+      "identifier" : "squareKilometers"
+    },
+    {
+      "symbol" : "m²",
+      "aliases" : [
+        "平方米"
+      ],
+      "identifier" : "squareMeters"
+    },
+    {
+      "symbol" : "cm²",
+      "aliases" : [
+        "平方厘米"
+      ],
+      "identifier" : "squareCentimeters"
+    },
+    {
+      "symbol" : "mm²",
+      "aliases" : [
+        "平方毫米"
+      ],
+      "identifier" : "squareMillimeters"
+    },
+    {
+      "symbol" : "µm²",
+      "aliases" : [
+        "平方微米"
+      ],
+      "identifier" : "squareMicrometers"
+    },
+    {
+      "symbol" : "in²",
+      "aliases" : [
+        "平方英寸"
+      ],
+      "identifier" : "squareInches"
+    },
+    {
+      "symbol" : "ft²",
+      "aliases" : [
+        "平方码"
+      ],
+      "identifier" : "squareFeet"
+    },
+    {
+      "symbol" : "yd²",
+      "aliases" : [
+        "平方码"
+      ],
+      "identifier" : "squareYards"
+    },
+    {
+      "symbol" : "mi²",
+      "aliases" : [
+        "平方英里"
+      ],
+      "identifier" : "squareMiles"
+    },
+    {
+      "symbol" : "ac",
+      "aliases" : [
+        "英亩"
+      ],
+      "identifier" : "acres"
+    },
+    {
+      "symbol" : "ha",
+      "aliases" : [
+        "公顷"
+      ],
+      "identifier" : "hectares"
+    },
+    {
+      "symbol" : "ares",
+      "aliases" : [
+        "公亩"
+      ],
+      "identifier" : "ares"
+    }
+  ],
+  "power" : [
+    {
+      "symbol" : "W",
+      "aliases" : [
+        "瓦特",
+        "瓦"
+      ],
+      "identifier" : "watts"
+    },
+    {
+      "symbol" : "mW",
+      "aliases" : [
+        "毫瓦特",
+        "毫瓦"
+      ],
+      "identifier" : "milliwatts"
+    },
+    {
+      "symbol" : "kW",
+      "aliases" : [
+        "千瓦特",
+        "千瓦"
+      ],
+      "identifier" : "kilowatts"
+    },
+    {
+      "symbol" : "MW",
+      "aliases" : [
+        "兆瓦",
+        "兆瓦特"
+      ],
+      "identifier" : "megawatts"
+    },
+    {
+      "symbol" : "GW",
+      "aliases" : [
+        "千兆瓦特",
+        "千兆瓦"
+      ],
+      "identifier" : "gigawatts"
+    },
+    {
+      "symbol" : "TW",
+      "aliases" : [
+        "太瓦特",
+        "太瓦"
+      ],
+      "identifier" : "terawatts"
+    },
+    {
+      "symbol" : "hp",
+      "aliases" : [
+        "马力",
+        "匹"
+      ],
+      "identifier" : "horsepower"
+    }
+  ],
+  "mass" : [
+    {
+      "symbol" : "kg",
+      "aliases" : [
+        "千克"
+      ],
+      "identifier" : "kilograms"
+    },
+    {
+      "symbol" : "g",
+      "aliases" : [
+        "克"
+      ],
+      "identifier" : "grams"
+    },
+    {
+      "symbol" : "mg",
+      "aliases" : [
+        "毫克"
+      ],
+      "identifier" : "milligrams"
+    },
+    {
+      "symbol" : "ng",
+      "aliases" : [
+        "毫微克"
+      ],
+      "identifier" : "nanograms"
+    },
+    {
+      "symbol" : "oz",
+      "aliases" : [
+        "盎司"
+      ],
+      "identifier" : "ounces"
+    },
+    {
+      "symbol" : "lb",
+      "aliases" : [
+        "磅"
+      ],
+      "identifier" : "pounds"
+    },
+    {
+      "symbol" : "st",
+      "aliases" : [
+        "英石"
+      ],
+      "identifier" : "stones"
+    },
+    {
+      "symbol" : "t",
+      "aliases" : [
+        "公吨"
+      ],
+      "identifier" : "metricTons"
+    },
+    {
+      "symbol" : "ton",
+      "aliases" : [
+        "吨"
+      ],
+      "identifier" : "shortTons"
+    },
+    {
+      "symbol" : "ct",
+      "aliases" : [
+        "克拉",
+        "开"
+      ],
+      "identifier" : "carats"
+    },
+    {
+      "symbol" : "oz t",
+      "aliases" : [
+        "金衡盎司"
+      ],
+      "identifier" : "ouncesTroy"
+    }
+  ],
+  "duration" : [
+    {
+      "symbol" : "hr",
+      "aliases" : [
+        "小时"
+      ],
+      "identifier" : "hours"
+    },
+    {
+      "symbol" : "s",
+      "aliases" : [
+        "秒"
+      ],
+      "identifier" : "seconds"
+    },
+    {
+      "symbol" : "min",
+      "aliases" : [
+        "分",
+        "分钟"
+      ],
+      "identifier" : "minutes"
+    },
+    {
+      "symbol" : "day",
+      "aliases" : [
+        "天",
+        "日"
+      ],
+      "identifier" : "days"
+    },
+    {
+      "symbol" : "workday",
+      "aliases" : [
+        "工作日"
+      ],
+      "identifier" : "weekdays"
+    },
+    {
+      "symbol" : "week",
+      "aliases" : [
+          "周",
+          "星期"
+      ],
+      "identifier" : "weeks"
+    },
+    {
+      "symbol" : "month",
+      "aliases" : [
+        "月",
+        "个月"
+      ],
+      "identifier" : "months"
+    },
+    {
+      "symbol" : "year",
+      "aliases" : [
+        "年"
+      ],
+      "identifier" : "years"
+    },
+    {
+      "symbol" : "ms",
+      "aliases" : [
+        "毫秒"
+      ],
+      "identifier" : "milliseconds"
+    },
+    {
+      "symbol" : "µs",
+      "aliases" : [
+        "微秒"
+      ],
+      "identifier" : "microseconds"
+    },
+    {
+      "symbol" : "ns",
+      "aliases" : [
+        "毫微秒"
+      ],
+      "identifier" : "nanoseconds"
+    }
+  ],
+  "frequency" : [
+    {
+      "symbol" : "Hz",
+      "aliases" : [
+        "赫兹"
+      ],
+      "identifier" : "hertz"
+    },
+    {
+      "symbol" : "kHz",
+      "aliases" : [
+        "千赫兹",
+        "千赫"
+      ],
+      "identifier" : "kilohertz"
+    },
+    {
+      "symbol" : "MHz",
+      "aliases" : [
+        "兆赫兹",
+        "百万赫兹"
+      ],
+      "identifier" : "megahertz"
+    },
+    {
+      "symbol" : "GHz",
+      "aliases" : [
+        "十亿赫",
+        "吉赫",
+        "千兆赫"
+      ],
+      "identifier" : "gigahertz"
+    },
+    {
+      "symbol" : "THz",
+      "aliases" : [
+        "兆赫",
+        "兆赫兹"
+      ],
+      "identifier" : "terahertz"
+    },
+    {
+      "symbol" : "mHz",
+      "aliases" : [
+        "毫赫兹",
+        "毫赫"
+      ],
+      "identifier" : "millihertz"
+    },
+    {
+      "symbol" : "µHz",
+      "aliases" : [
+        "微赫兹"
+      ],
+      "identifier" : "microhertz"
+    },
+    {
+      "symbol" : "nHz",
+      "aliases" : [
+        "纳米赫兹"
+      ],
+      "identifier" : "nanohertz"
+    }
+  ]
+}

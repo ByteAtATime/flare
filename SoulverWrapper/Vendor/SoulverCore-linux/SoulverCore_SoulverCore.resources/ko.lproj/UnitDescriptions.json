@@ -1,0 +1,2186 @@
+{
+  "screenDensity": [
+    {
+      "aliases": [
+        "인치당 픽셀",
+        "ppi"
+      ],
+      "identifier": "ppi",
+      "symbol": "PPI"
+    }
+  ],
+  "dataStorage": [
+    {
+      "aliases": [
+        "바이트"
+      ],
+      "identifier": "bytes",
+      "symbol": "바이트"
+    },
+    {
+      "aliases": [
+        "비트"
+      ],
+      "identifier": "bits",
+      "symbol": "비트"
+    },
+    {
+      "aliases": [
+        "요타바이트"
+      ],
+      "identifier": "yottabytes",
+      "symbol": "YB"
+    },
+    {
+      "aliases": [
+        "제타바이트"
+      ],
+      "identifier": "zettabytes",
+      "symbol": "ZB"
+    },
+    {
+      "aliases": [
+        "엑사바이트"
+      ],
+      "identifier": "exabytes",
+      "symbol": "EB"
+    },
+    {
+      "aliases": [
+        "페타바이트"
+      ],
+      "identifier": "petabytes",
+      "symbol": "PB"
+    },
+    {
+      "aliases": [
+        "테라바이트",
+        "TB"
+      ],
+      "identifier": "terabytes",
+      "symbol": "TB"
+    },
+    {
+      "aliases": [
+        "기가바이트",
+        "GB"
+      ],
+      "identifier": "gigabytes",
+      "symbol": "GB"
+    },
+    {
+      "aliases": [
+        "메가바이트",
+        "MB"
+      ],
+      "identifier": "megabytes",
+      "symbol": "MB"
+    },
+    {
+      "aliases": [
+        "킬로바이트",
+        "KB"
+      ],
+      "identifier": "kilobytes",
+      "symbol": "kB"
+    },
+    {
+      "aliases": [
+        "요타비트"
+      ],
+      "identifier": "yottabits",
+      "symbol": "Ybit"
+    },
+    {
+      "aliases": [
+        "제타비트"
+      ],
+      "identifier": "zettabits",
+      "symbol": "Zbit"
+    },
+    {
+      "aliases": [
+        "엑사비트"
+      ],
+      "identifier": "exabits",
+      "symbol": "Ebit"
+    },
+    {
+      "aliases": [
+        "페타비트"
+      ],
+      "identifier": "petabits",
+      "symbol": "Pbit"
+    },
+    {
+      "aliases": [
+        "테라비트"
+      ],
+      "identifier": "terabits",
+      "symbol": "Tbit"
+    },
+    {
+      "aliases": [
+        "기가비트"
+      ],
+      "identifier": "gigabits",
+      "symbol": "Gbit"
+    },
+    {
+      "aliases": [
+        "메가비트"
+      ],
+      "identifier": "megabits",
+      "symbol": "Mbit"
+    },
+    {
+      "aliases": [
+        "킬로비트"
+      ],
+      "identifier": "kilobits",
+      "symbol": "kbit"
+    },
+    {
+      "aliases": [
+        "요비바이트",
+        "YiB"
+      ],
+      "identifier": "yobibytes",
+      "symbol": "YiB"
+    },
+    {
+      "aliases": [
+        "제비바이트",
+        "ZiB"
+      ],
+      "identifier": "zebibytes",
+      "symbol": "ZiB"
+    },
+    {
+      "aliases": [
+        "엑스비바이트",
+        "EiB"
+      ],
+      "identifier": "exbibytes",
+      "symbol": "EiB"
+    },
+    {
+      "aliases": [
+        "페비바이트",
+        "PiB"
+      ],
+      "identifier": "pebibytes",
+      "symbol": "PiB"
+    },
+    {
+      "aliases": [
+        "테비바이트",
+        "TiB"
+      ],
+      "identifier": "tebibytes",
+      "symbol": "TiB"
+    },
+    {
+      "aliases": [
+        "기비바이트",
+        "GiB"
+      ],
+      "identifier": "gibibytes",
+      "symbol": "GiB"
+    },
+    {
+      "aliases": [
+        "메비바이트",
+        "MiB"
+      ],
+      "identifier": "mebibytes",
+      "symbol": "MiB"
+    },
+    {
+      "aliases": [
+        "키비바이트",
+        "KiB"
+      ],
+      "identifier": "kibibytes",
+      "symbol": "KiB"
+    },
+    {
+      "aliases": [
+        "요비비트"
+      ],
+      "identifier": "yobibits",
+      "symbol": "Yib"
+    },
+    {
+      "aliases": [
+        "제비비트"
+      ],
+      "identifier": "zebibits",
+      "symbol": "Zib"
+    },
+    {
+      "aliases": [
+        "엑스비비트"
+      ],
+      "identifier": "exbibits",
+      "symbol": "Eib"
+    },
+    {
+      "aliases": [
+        "페비비트"
+      ],
+      "identifier": "pebibits",
+      "symbol": "Pib"
+    },
+    {
+      "aliases": [
+        "테비비트"
+      ],
+      "identifier": "tebibits",
+      "symbol": "Tib"
+    },
+    {
+      "aliases": [
+        "기비비트"
+      ],
+      "identifier": "gibibits",
+      "symbol": "Gib"
+    },
+    {
+      "aliases": [
+        "메비비트"
+      ],
+      "identifier": "mebibits",
+      "symbol": "Mib"
+    },
+    {
+      "aliases": [
+        "키비비트"
+      ],
+      "identifier": "kibibits",
+      "symbol": "Kib"
+    }
+  ],
+  "magneticFluxDensity": [
+    {
+      "aliases": [
+        "테슬라"
+      ],
+      "identifier": "teslas",
+      "symbol": "테슬라"
+    },
+    {
+      "aliases": [
+        "메가테슬라"
+      ],
+      "identifier": "megateslas",
+      "symbol": "메가테슬라"
+    },
+    {
+      "aliases": [
+        "킬로테슬라"
+      ],
+      "identifier": "kiloteslas",
+      "symbol": "킬로테슬라"
+    },
+    {
+      "aliases": [
+        "밀리테슬라"
+      ],
+      "identifier": "milliteslas",
+      "symbol": "밀리테슬라"
+    },
+    {
+      "aliases": [
+        "마이크로테슬라"
+      ],
+      "identifier": "microteslas",
+      "symbol": "마이크로테슬라"
+    }
+  ],
+  "energy": [
+    {
+      "aliases": [
+        "줄"
+      ],
+      "identifier": "joules",
+      "symbol": "줄"
+    },
+    {
+      "aliases": [
+        "킬로줄",
+        "kj"
+      ],
+      "identifier": "kilojoules",
+      "symbol": "킬로줄"
+    },
+    {
+      "aliases": [
+        "메가줄",
+        "mj"
+      ],
+      "identifier": "megajoules",
+      "symbol": "메가줄"
+    },
+    {
+      "aliases": [
+        "기가줄",
+        "gj"
+      ],
+      "identifier": "gigajoules",
+      "symbol": "기가줄"
+    },
+    {
+      "aliases": [
+        "칼로리"
+      ],
+      "identifier": "calories",
+      "symbol": "칼로리"
+    },
+    {
+      "aliases": [
+        "킬로칼로리",
+        "kcal"
+      ],
+      "identifier": "kilocalories",
+      "symbol": "킬로칼로리"
+    },
+    {
+      "aliases": [
+        "와트시"
+      ],
+      "identifier": "wattHours",
+      "symbol": "와트시"
+    },
+    {
+      "aliases": [
+        "와트분"
+      ],
+      "identifier": "wattMinutes",
+      "symbol": "와트분"
+    },
+    {
+      "aliases": [
+        "와트초"
+      ],
+      "identifier": "wattSeconds",
+      "symbol": "와트초"
+    },
+    {
+      "aliases": [
+        "킬로와트시",
+        "kwh"
+      ],
+      "identifier": "kilowattHours",
+      "symbol": "킬로와트시"
+    },
+    {
+      "aliases": [
+        "메가와트시",
+        "mwh"
+      ],
+      "identifier": "megawattHours",
+      "symbol": "메가와트시"
+    },
+    {
+      "aliases": [
+        "기가와트시",
+        "gwh"
+      ],
+      "identifier": "gigawattHours",
+      "symbol": "기가와트시"
+    },
+    {
+      "aliases": [
+        "테라와트시",
+        "twh"
+      ],
+      "identifier": "terawattHours",
+      "symbol": "테라와트시"
+    }
+  ],
+  "fuelEconomy": [
+    {
+      "aliases": [],
+      "identifier": "kilometersPerLiter",
+      "symbol": "km/L"
+    },
+    {
+      "aliases": [
+        "갤런당 마일"
+      ],
+      "identifier": "milesPerGallon",
+      "symbol": "MPG"
+    }
+  ],
+  "electricalInductance": [
+    {
+      "aliases": [
+        "헨리"
+      ],
+      "identifier": "henrys",
+      "symbol": "헨리"
+    },
+    {
+      "aliases": [
+        "메가헨리"
+      ],
+      "identifier": "megahenrys",
+      "symbol": "메가헨리"
+    },
+    {
+      "aliases": [
+        "킬로헨리"
+      ],
+      "identifier": "kilohenrys",
+      "symbol": "킬로헨리"
+    },
+    {
+      "aliases": [
+        "밀리헨리"
+      ],
+      "identifier": "millihenrys",
+      "symbol": "밀리헨리"
+    },
+    {
+      "aliases": [
+        "마이크로헨리"
+      ],
+      "identifier": "microhenrys",
+      "symbol": "마이크로헨리"
+    }
+  ],
+  "electricPotential": [
+    {
+      "aliases": [
+        "볼트"
+      ],
+      "identifier": "volts",
+      "symbol": "V"
+    },
+    {
+      "aliases": [
+        "메가볼트"
+      ],
+      "identifier": "megavolts",
+      "symbol": "MV"
+    },
+    {
+      "aliases": [
+        "킬로볼트"
+      ],
+      "identifier": "kilovolts",
+      "symbol": "KV"
+    },
+    {
+      "aliases": [
+        "밀리볼트"
+      ],
+      "identifier": "millivolts",
+      "symbol": "mV"
+    },
+    {
+      "aliases": [
+        "마이크로볼트",
+        "uV"
+      ],
+      "identifier": "microvolts",
+      "symbol": "µV"
+    }
+  ],
+  "duration": [
+    {
+      "aliases": [
+        "시간",
+        "hrs",
+        "h"
+      ],
+      "identifier": "hours",
+      "symbol": "시간"
+    },
+    {
+      "aliases": [
+        "초",
+        "sec"
+      ],
+      "identifier": "seconds",
+      "symbol": "초"
+    },
+    {
+      "aliases": [
+        "분",
+        "mins"
+      ],
+      "identifier": "minutes",
+      "symbol": "분"
+    },
+    {
+      "aliases": [
+        "일"
+      ],
+      "identifier": "days",
+      "symbol": "일"
+    },
+    {
+      "aliases": [
+        "평일",
+        "영업일"
+      ],
+      "identifier": "weekdays",
+      "symbol": "영업일"
+    },
+    {
+      "aliases": [
+        "밤"
+      ],
+      "identifier": "nights",
+      "symbol": "밤"
+    },
+    {
+      "aliases": [
+        "주",
+        "wk"
+      ],
+      "identifier": "weeks",
+      "symbol": "주"
+    },
+    {
+      "aliases": [
+        "월"
+      ],
+      "identifier": "months",
+      "symbol": "월"
+    },
+    {
+      "aliases": [
+        "년"
+      ],
+      "identifier": "years",
+      "symbol": "년"
+    },
+    {
+      "aliases": [
+        "밀리초"
+      ],
+      "identifier": "milliseconds",
+      "symbol": "밀리초"
+    },
+    {
+      "aliases": [
+        "마이크로초"
+      ],
+      "identifier": "microseconds",
+      "symbol": "마이크로초"
+    },
+    {
+      "aliases": [
+        "나노초"
+      ],
+      "identifier": "nanoseconds",
+      "symbol": "나노초"
+    },
+    {
+      "aliases": [
+        "피코초"
+      ],
+      "identifier": "picoseconds",
+      "symbol": "피코초"
+    }
+  ],
+  "temperature": [
+    {
+      "aliases": [
+        "켈빈"
+      ],
+      "identifier": "kelvin",
+      "symbol": "K"
+    },
+    {
+      "aliases": [
+        "섭씨",
+        "C"
+      ],
+      "identifier": "celsius",
+      "symbol": "℃"
+    },
+    {
+      "aliases": [
+        "화씨",
+        "F"
+      ],
+      "identifier": "fahrenheit",
+      "symbol": "℉"
+    }
+  ],
+  "dataTransfer": [
+    {
+      "aliases": [
+        "초당 바이트"
+      ],
+      "identifier": "bytesPerSecond",
+      "symbol": "Bps"
+    },
+    {
+      "aliases": [
+        "초당 비트"
+      ],
+      "identifier": "bitsPerSecond",
+      "symbol": "bps"
+    },
+    {
+      "aliases": [
+        "초당 요타바이트"
+      ],
+      "identifier": "yottabytesPerSecond",
+      "symbol": "YBps"
+    },
+    {
+      "aliases": [
+        "초당 제타바이트"
+      ],
+      "identifier": "zettabytesPerSecond",
+      "symbol": "ZBps"
+    },
+    {
+      "aliases": [
+        "초당 엑사바이트"
+      ],
+      "identifier": "exabytesPerSecond",
+      "symbol": "EBps"
+    },
+    {
+      "aliases": [
+        "초당 페타바이트"
+      ],
+      "identifier": "petabytesPerSecond",
+      "symbol": "PBps"
+    },
+    {
+      "aliases": [
+        "초당 테라바이트"
+      ],
+      "identifier": "terabytesPerSecond",
+      "symbol": "TBps"
+    },
+    {
+      "aliases": [
+        "초당 기가바이트",
+        "gBps"
+      ],
+      "identifier": "gigabytesPerSecond",
+      "symbol": "GBps"
+    },
+    {
+      "aliases": [
+        "초당 메가바이트",
+        "mBps"
+      ],
+      "identifier": "megabytesPerSecond",
+      "symbol": "MBps"
+    },
+    {
+      "aliases": [
+        "초당 킬로바이트",
+        "kBps"
+      ],
+      "identifier": "kilobytesPerSecond",
+      "symbol": "KBps"
+    },
+    {
+      "aliases": [
+        "초당 요타비트"
+      ],
+      "identifier": "yottabitsPerSecond",
+      "symbol": "Ybps"
+    },
+    {
+      "aliases": [
+        "초당 제타비트"
+      ],
+      "identifier": "zettabitsPerSecond",
+      "symbol": "Zbps"
+    },
+    {
+      "aliases": [
+        "초당 엑사비트"
+      ],
+      "identifier": "exabitsPerSecond",
+      "symbol": "Ebps"
+    },
+    {
+      "aliases": [
+        "초당 페타비트",
+        "Pbps"
+      ],
+      "identifier": "petabitsPerSecond",
+      "symbol": "Pbps"
+    },
+    {
+      "aliases": [
+        "초당 테라비트",
+        "tbps"
+      ],
+      "identifier": "terabitsPerSecond",
+      "symbol": "Tbps"
+    },
+    {
+      "aliases": [
+        "초당 기가비트",
+        "gbps"
+      ],
+      "identifier": "gigabitsPerSecond",
+      "symbol": "Gbps"
+    },
+    {
+      "aliases": [
+        "초당 메가비트",
+        "mbps"
+      ],
+      "identifier": "megabitsPerSecond",
+      "symbol": "Mbps"
+    },
+    {
+      "aliases": [
+        "초당 킬로비트",
+        "kbps"
+      ],
+      "identifier": "kilobitsPerSecond",
+      "symbol": "Kbps"
+    },
+    {
+      "aliases": [
+        "초당 요비바이트"
+      ],
+      "identifier": "yobibytesPerSecond",
+      "symbol": "YiBps"
+    },
+    {
+      "aliases": [
+        "초당 제비바이트"
+      ],
+      "identifier": "zebibytesPerSecond",
+      "symbol": "ZiBps"
+    },
+    {
+      "aliases": [
+        "초당 엑스비바이트"
+      ],
+      "identifier": "exbibytesPerSecond",
+      "symbol": "EiBps"
+    },
+    {
+      "aliases": [
+        "초당 페비바이트"
+      ],
+      "identifier": "pebibytesPerSecond",
+      "symbol": "PiBps"
+    },
+    {
+      "aliases": [
+        "초당 테비바이트"
+      ],
+      "identifier": "tebibytesPerSecond",
+      "symbol": "TiBps"
+    },
+    {
+      "aliases": [
+        "초당 기비바이트"
+      ],
+      "identifier": "gibibytesPerSecond",
+      "symbol": "GiBps"
+    },
+    {
+      "aliases": [
+        "초당 메비바이트"
+      ],
+      "identifier": "mebibytesPerSecond",
+      "symbol": "MiBps"
+    },
+    {
+      "aliases": [
+        "초당 키비바이트"
+      ],
+      "identifier": "kibibytesPerSecond",
+      "symbol": "KiBps"
+    },
+    {
+      "aliases": [
+        "초당 요비비트"
+      ],
+      "identifier": "yobibitsPerSecond",
+      "symbol": "Yibps"
+    },
+    {
+      "aliases": [
+        "초당 제비비트"
+      ],
+      "identifier": "zebibitsPerSecond",
+      "symbol": "Zibps"
+    },
+    {
+      "aliases": [
+        "초당 엑스비비트"
+      ],
+      "identifier": "exbibitsPerSecond",
+      "symbol": "Eibps"
+    },
+    {
+      "aliases": [
+        "초당 페비비트"
+      ],
+      "identifier": "pebibitsPerSecond",
+      "symbol": "Pibps"
+    },
+    {
+      "aliases": [
+        "초당 테비비트"
+      ],
+      "identifier": "tebibitsPerSecond",
+      "symbol": "Tibps"
+    },
+    {
+      "aliases": [
+        "초당 기비비트"
+      ],
+      "identifier": "gibibitsPerSecond",
+      "symbol": "Gibps"
+    },
+    {
+      "aliases": [
+        "초당 메비비트"
+      ],
+      "identifier": "mebibitsPerSecond",
+      "symbol": "Mibps"
+    },
+    {
+      "aliases": [
+        "초당 키비비트"
+      ],
+      "identifier": "kibibitsPerSecond",
+      "symbol": "Kibps"
+    }
+  ],
+  "frequency": [
+    {
+      "aliases": [
+        "헤르츠",
+        "hz"
+      ],
+      "identifier": "hertz",
+      "symbol": "Hz"
+    },
+    {
+      "aliases": [
+        "킬로헤르츠"
+      ],
+      "identifier": "kilohertz",
+      "symbol": "kHz"
+    },
+    {
+      "aliases": [
+        "메가헤르츠"
+      ],
+      "identifier": "megahertz",
+      "symbol": "MHz"
+    },
+    {
+      "aliases": [
+        "기가헤르츠"
+      ],
+      "identifier": "gigahertz",
+      "symbol": "GHz"
+    },
+    {
+      "aliases": [
+        "테라헤르츠"
+      ],
+      "identifier": "terahertz",
+      "symbol": "THz"
+    },
+    {
+      "aliases": [
+        "밀리헤르츠"
+      ],
+      "identifier": "millihertz",
+      "symbol": "mHz"
+    },
+    {
+      "aliases": [
+        "마이크로헤르츠"
+      ],
+      "identifier": "microhertz",
+      "symbol": "µHz"
+    },
+    {
+      "aliases": [
+        "나노헤르츠"
+      ],
+      "identifier": "nanohertz",
+      "symbol": "nHz"
+    }
+  ],
+  "substanceConcentration": [
+    {
+      "aliases": [
+        "몰",
+        "몰 농도"
+      ],
+      "identifier": "molar",
+      "symbol": "ᴍ"
+    }
+  ],
+  "frames": [
+    {
+      "aliases": [
+        "프레임"
+      ],
+      "identifier": "frames",
+      "symbol": "프레임"
+    }
+  ],
+  "volume": [
+    {
+      "aliases": [
+        "메가리터",
+        "ML"
+      ],
+      "identifier": "megaliters",
+      "symbol": "ML"
+    },
+    {
+      "aliases": [
+        "킬로리터",
+        "kL"
+      ],
+      "identifier": "kiloliters",
+      "symbol": "kL"
+    },
+    {
+      "aliases": [
+        "리터",
+        "l"
+      ],
+      "identifier": "liters",
+      "symbol": "L"
+    },
+    {
+      "aliases": [
+        "데시리터",
+        "dl"
+      ],
+      "identifier": "deciliters",
+      "symbol": "dL"
+    },
+    {
+      "aliases": [
+        "센티리터",
+        "cl"
+      ],
+      "identifier": "centiliters",
+      "symbol": "cL"
+    },
+    {
+      "aliases": [
+        "밀리리터",
+        "ml"
+      ],
+      "identifier": "milliliters",
+      "symbol": "mL"
+    },
+    {
+      "aliases": [
+        "마이크로리터",
+        "μl"
+      ],
+      "identifier": "microliters",
+      "symbol": "µL"
+    },
+    {
+      "aliases": [
+        "나노리터",
+        "nL"
+      ],
+      "identifier": "nanoliters",
+      "symbol": "nL"
+    },
+    {
+      "aliases": [
+        "세제곱킬로미터",
+        "km^3"
+      ],
+      "symbol": "km³",
+      "identifier": "cubicKilometers"
+    },
+    {
+      "aliases": [
+        "세제곱미터",
+        "m^3"
+      ],
+      "identifier": "cubicMeters",
+      "symbol": "m³"
+    },
+    {
+      "aliases": [
+        "세제곱센티미터",
+        "cm^3"
+      ],
+      "identifier": "cubicCentimeters",
+      "symbol": "cm³"
+    },
+    {
+      "aliases": [
+        "세제곱데시미터",
+        "dm^3"
+      ],
+      "identifier": "cubicDecimeters",
+      "symbol": "dm³"
+    },
+    {
+      "aliases": [
+        "세제곱밀리미터",
+        "mm^3"
+      ],
+      "identifier": "cubicMillimeters",
+      "symbol": "mm³"
+    },
+    {
+      "aliases": [
+        "세제곱마이크로미터",
+        "µm^3"
+      ],
+      "identifier": "cubicMicrometers",
+      "symbol": "µm³"
+    },
+    {
+      "aliases": [
+        "세제곱나노미터",
+        "nm^3"
+      ],
+      "identifier": "cubicNanometers",
+      "symbol": "nm³"
+    },
+    {
+      "aliases": [
+        "세제곱인치",
+        "in^3"
+      ],
+      "identifier": "cubicInches",
+      "symbol": "in³"
+    },
+    {
+      "aliases": [
+        "세제곱피트",
+        "ft^3"
+      ],
+      "identifier": "cubicFeet",
+      "symbol": "ft³"
+    },
+    {
+      "aliases": [
+        "세제곱야드",
+        "yd^3"
+      ],
+      "identifier": "cubicYards",
+      "symbol": "yd³"
+    },
+    {
+      "aliases": [
+        "세제곱마일",
+        "mi^3"
+      ],
+      "identifier": "cubicMiles",
+      "symbol": "mi³"
+    },
+    {
+      "aliases": [
+        "부셸"
+      ],
+      "identifier": "bushels",
+      "symbol": "부셸"
+    },
+    {
+      "aliases": [
+        "미터법 컵"
+      ],
+      "identifier": "metricCups",
+      "symbol": "미터법 컵"
+    },
+    {
+      "aliases": [
+        "컵"
+      ],
+      "identifier": "cups",
+      "symbol": "컵"
+    },
+    {
+      "aliases": [
+        "에이커 피트"
+      ],
+      "identifier": "acreFeet",
+      "symbol": "에이커 피트"
+    },
+    {
+      "aliases": [
+        "파인트"
+      ],
+      "identifier": "pints",
+      "symbol": "파인트"
+    },
+    {
+      "aliases": [
+        "쿼트"
+      ],
+      "identifier": "quarts",
+      "symbol": "쿼트"
+    },
+    {
+      "aliases": [
+        "갤런",
+        "gal"
+      ],
+      "identifier": "gallons",
+      "symbol": "갤런"
+    },
+    {
+      "aliases": [
+        "테이블스푼",
+        "tbsp"
+      ],
+      "identifier": "tablespoons",
+      "symbol": "테이블스푼"
+    },
+    {
+      "aliases": [
+        "티스푼",
+        "tsp"
+      ],
+      "identifier": "teaspoons",
+      "symbol": "티스푼"
+    },
+    {
+      "aliases": [
+        "액량 온스",
+        "floz"
+      ],
+      "identifier": "fluidOunces",
+      "symbol": "액량 온스"
+    },
+    {
+      "aliases": [
+        "임페리얼 파인트"
+      ],
+      "identifier": "imperialPints",
+      "symbol": "임페리얼 파인트"
+    },
+    {
+      "aliases": [
+        "임페리얼 쿼트"
+      ],
+      "identifier": "imperialQuarts",
+      "symbol": "임페리얼 쿼트"
+    },
+    {
+      "aliases": [
+        "임페리얼 갤런",
+        "임페리얼 gal"
+      ],
+      "identifier": "imperialGallons",
+      "symbol": "임페리얼 갤런"
+    },
+    {
+      "aliases": [
+        "임페리얼 테이블스푼",
+        "임페리얼 tbsp"
+      ],
+      "identifier": "imperialTablespoons",
+      "symbol": "임페리얼 테이블스푼"
+    },
+    {
+      "aliases": [
+        "임페리얼 티스푼",
+        "임페리얼 tsp"
+      ],
+      "identifier": "imperialTeaspoons",
+      "symbol": "임페리얼 티스푼"
+    },
+    {
+      "aliases": [
+        "임페리얼 액량 온스",
+        "임페리얼 floz"
+      ],
+      "identifier": "imperialFluidOunces",
+      "symbol": "임페리얼 액량 온스"
+    }
+  ],
+  "area": [
+    {
+      "aliases": [
+        "제곱킬로미터",
+        "km^2"
+      ],
+      "identifier": "squareKilometers",
+      "symbol": "km²"
+    },
+    {
+      "aliases": [
+        "제곱미터",
+        "m^2"
+      ],
+      "identifier": "squareMeters",
+      "symbol": "m²"
+    },
+    {
+      "aliases": [
+        "제곱센티미터",
+        "cm^2"
+      ],
+      "identifier": "squareCentimeters",
+      "symbol": "cm²"
+    },
+    {
+      "aliases": [
+        "제곱데시미터",
+        "dm^2"
+      ],
+      "identifier": "squareDecimeters",
+      "symbol": "dm²"
+    },
+    {
+      "aliases": [
+        "제곱밀리미터",
+        "mm^2"
+      ],
+      "identifier": "squareMillimeters",
+      "symbol": "mm²"
+    },
+    {
+      "aliases": [
+        "제곱마이크로미터",
+        "µm^2"
+      ],
+      "identifier": "squareMicrometers",
+      "symbol": "µm²"
+    },
+    {
+      "aliases": [
+        "제곱나노미터",
+        "nm^2"
+      ],
+      "identifier": "squareNanometers",
+      "symbol": "nm²"
+    },
+    {
+      "aliases": [
+        "제곱인치",
+        "in^2"
+      ],
+      "identifier": "squareInches",
+      "symbol": "in²"
+    },
+    {
+      "aliases": [
+        "제곱피트",
+        "ft^2"
+      ],
+      "identifier": "squareFeet",
+      "symbol": "ft²"
+    },
+    {
+      "aliases": [
+        "제곱야드",
+        "yd^2"
+      ],
+      "identifier": "squareYards",
+      "symbol": "yd²"
+    },
+    {
+      "aliases": [
+        "제곱마일",
+        "mi^2"
+      ],
+      "identifier": "squareMiles",
+      "symbol": "mi²"
+    },
+    {
+      "aliases": [
+        "에이커"
+      ],
+      "identifier": "acres",
+      "symbol": "에이커"
+    },
+    {
+      "aliases": [
+        "헥타르"
+      ],
+      "identifier": "hectares",
+      "symbol": "헥타르"
+    },
+    {
+      "aliases": [],
+      "identifier": "ares",
+      "symbol": "아르"
+    }
+  ],
+  "length": [
+    {
+      "aliases": [
+        "미터"
+      ],
+      "identifier": "meters",
+      "symbol": "m"
+    },
+    {
+      "aliases": [
+        "킬로미터"
+      ],
+      "identifier": "kilometers",
+      "symbol": "킬로미터"
+    },
+    {
+      "aliases": [
+        "센티미터"
+      ],
+      "identifier": "centimeters",
+      "symbol": "센티미터"
+    },
+    {
+      "aliases": [
+        "데시미터"
+      ],
+      "identifier": "decimeters",
+      "symbol": "데시미터"
+    },
+    {
+      "aliases": [
+        "밀리미터"
+      ],
+      "identifier": "millimeters",
+      "symbol": "밀리미터"
+    },
+    {
+      "aliases": [
+        "마이크로미터"
+      ],
+      "identifier": "micrometers",
+      "symbol": "마이크로미터"
+    },
+    {
+      "aliases": [
+        "나노미터"
+      ],
+      "identifier": "nanometers",
+      "symbol": "나노미터"
+    },
+    {
+      "aliases": [
+        "인치"
+      ],
+      "identifier": "inches",
+      "symbol": "인치"
+    },
+    {
+      "aliases": [
+        "피트",
+        "'"
+      ],
+      "identifier": "feet",
+      "symbol": "피트"
+    },
+    {
+      "aliases": [
+        "야드"
+      ],
+      "identifier": "yards",
+      "symbol": "야드"
+    },
+    {
+      "aliases": [
+        "마일"
+      ],
+      "identifier": "miles",
+      "symbol": "마일"
+    },
+    {
+      "aliases": [
+        "광년"
+      ],
+      "identifier": "lightyears",
+      "symbol": "광년"
+    },
+    {
+      "aliases": [
+        "파섹"
+      ],
+      "identifier": "parsecs",
+      "symbol": "파섹"
+    },
+    {
+      "aliases": [
+        "해리"
+      ],
+      "identifier": "nauticalMiles",
+      "symbol": "해리"
+    },
+    {
+      "aliases": [
+        "패덤"
+      ],
+      "identifier": "fathoms",
+      "symbol": "패덤"
+    },
+    {
+      "aliases": [
+        "펄롱"
+      ],
+      "identifier": "furlongs",
+      "symbol": "펄롱"
+    },
+    {
+      "aliases": [
+        "픽셀"
+      ],
+      "identifier": "pixel",
+      "symbol": "픽셀"
+    },
+    {
+      "aliases": [],
+      "identifier": "em",
+      "symbol": "em"
+    },
+    {
+      "aliases": [],
+      "identifier": "rem",
+      "symbol": "rem"
+    },
+    {
+      "aliases": [
+        "포인트",
+        "pts"
+      ],
+      "identifier": "point",
+      "symbol": "포인트"
+    }
+  ],
+  "power": [
+    {
+      "aliases": [
+        "와트"
+      ],
+      "identifier": "watts",
+      "symbol": "와트"
+    },
+    {
+      "aliases": [
+        "밀리와트"
+      ],
+      "identifier": "milliwatts",
+      "symbol": "밀리와트"
+    },
+    {
+      "aliases": [
+        "킬로와트"
+      ],
+      "identifier": "kilowatts",
+      "symbol": "킬로와트"
+    },
+    {
+      "aliases": [
+        "메가와트"
+      ],
+      "identifier": "megawatts",
+      "symbol": "메가와트"
+    },
+    {
+      "aliases": [
+        "기가와트"
+      ],
+      "identifier": "gigawatts",
+      "symbol": "기가와트"
+    },
+    {
+      "aliases": [
+        "테라와트"
+      ],
+      "identifier": "terawatts",
+      "symbol": "테라와트"
+    },
+    {
+      "aliases": [
+        "마력"
+      ],
+      "identifier": "horsepower",
+      "symbol": "마력"
+    }
+  ],
+  "force": [
+    {
+      "aliases": [
+        "뉴턴"
+      ],
+      "identifier": "newtons",
+      "symbol": "뉴턴"
+    },
+    {
+      "aliases": [
+        "킬로뉴턴"
+      ],
+      "identifier": "kilonewtons",
+      "symbol": "킬로뉴턴"
+    },
+    {
+      "aliases": [
+        "메가뉴턴"
+      ],
+      "symbol": "메가뉴턴",
+      "identifier": "meganewtons"
+    },
+    {
+      "aliases": [
+        "기가뉴턴"
+      ],
+      "symbol": "기가뉴턴",
+      "identifier": "giganewtons"
+    },
+    {
+      "aliases": [
+        "마이크로뉴턴",
+        "μN"
+      ],
+      "symbol": "마이크로뉴턴",
+      "identifier": "micronewtons"
+    },
+    {
+      "aliases": [
+        "밀리뉴턴"
+      ],
+      "symbol": "밀리뉴턴",
+      "identifier": "millinewtons"
+    },
+    {
+      "aliases": [
+        "나노뉴턴"
+      ],
+      "symbol": "나노뉴턴",
+      "identifier": "nanonewtons"
+    },
+    {
+      "aliases": [
+        "파운달"
+      ],
+      "identifier": "poundals",
+      "symbol": "파운달"
+    },
+    {
+      "aliases": [
+        "중력 파운드"
+      ],
+      "identifier": "poundsOfForce",
+      "symbol": "중력 파운드"
+    }
+  ],
+  "pressure": [
+    {
+      "aliases": [
+        "파스칼"
+      ],
+      "identifier": "pascals",
+      "symbol": "Pa"
+    },
+    {
+      "aliases": [
+        "헥토파스칼"
+      ],
+      "identifier": "hectopascals",
+      "symbol": "hPa"
+    },
+    {
+      "aliases": [
+        "킬로파스칼"
+      ],
+      "identifier": "kilopascals",
+      "symbol": "kPa"
+    },
+    {
+      "aliases": [
+        "메가파스칼"
+      ],
+      "identifier": "megapascals",
+      "symbol": "MPa"
+    },
+    {
+      "aliases": [
+        "기가파스칼"
+      ],
+      "identifier": "gigapascals",
+      "symbol": "GPa"
+    },
+    {
+      "aliases": [
+        "기압"
+      ],
+      "identifier": "atmospheres",
+      "symbol": "atm"
+    },
+    {
+      "aliases": [
+        "psi"
+      ],
+      "identifier": "poundsForcePerSquareInch",
+      "symbol": "psi"
+    },
+    {
+      "aliases": [
+        "ksi"
+      ],
+      "identifier": "kilopoundsForcePerSquareInch",
+      "symbol": "ksi"
+    },
+    {
+      "aliases": [
+        "Mpsi"
+      ],
+      "identifier": "megapoundsForcePerSquareInch",
+      "symbol": "Mpsi"
+    },
+    {
+      "aliases": [
+        "바"
+      ],
+      "identifier": "bars",
+      "symbol": "바"
+    },
+    {
+      "aliases": [
+        "밀리바"
+      ],
+      "identifier": "millibars",
+      "symbol": "밀리바"
+    }
+  ],
+  "magneticFlux": [
+    {
+      "aliases": [
+        "웨버"
+      ],
+      "identifier": "webers",
+      "symbol": "Wb"
+    },
+    {
+      "aliases": [
+        "메가웨버"
+      ],
+      "identifier": "megawebers",
+      "symbol": "MWb"
+    },
+    {
+      "aliases": [
+        "킬로웨버"
+      ],
+      "identifier": "kilowebers",
+      "symbol": "kWb"
+    },
+    {
+      "aliases": [
+        "밀리웨버"
+      ],
+      "identifier": "milliwebers",
+      "symbol": "mWb"
+    },
+    {
+      "aliases": [
+        "마이크로웨버",
+        "uWB"
+      ],
+      "identifier": "microwebers",
+      "symbol": "µWb"
+    }
+  ],
+  "electricalConductance": [
+    {
+      "aliases": [
+        "지멘스",
+        "℧"
+      ],
+      "identifier": "siemens",
+      "symbol": "지멘스"
+    },
+    {
+      "aliases": [
+        "메가지멘스"
+      ],
+      "identifier": "megasiemens",
+      "symbol": "메가지멘스"
+    },
+    {
+      "aliases": [
+        "킬로지멘스"
+      ],
+      "identifier": "kilosiemens",
+      "symbol": "킬로지멘스"
+    },
+    {
+      "aliases": [
+        "밀리지멘스"
+      ],
+      "identifier": "millisiemens",
+      "symbol": "밀리지멘스"
+    },
+    {
+      "aliases": [
+        "마이크로지멘스"
+      ],
+      "identifier": "microsiemens",
+      "symbol": "마이크로지멘스"
+    }
+  ],
+  "electricCurrent": [
+    {
+      "aliases": [
+        "암페어"
+      ],
+      "identifier": "amperes",
+      "symbol": "암페어"
+    },
+    {
+      "aliases": [
+        "킬로암페어"
+      ],
+      "identifier": "kiloamperes",
+      "symbol": "킬로암페어"
+    },
+    {
+      "aliases": [
+        "메가암페어"
+      ],
+      "identifier": "megaamperes",
+      "symbol": "메가암페어"
+    },
+    {
+      "aliases": [
+        "밀리암페어"
+      ],
+      "identifier": "milliamperes",
+      "symbol": "밀리암페어"
+    },
+    {
+      "aliases": [
+        "마이크로암페어"
+      ],
+      "identifier": "microamperes",
+      "symbol": "마이크로암페어"
+    }
+  ],
+  "electricCapacitance": [
+    {
+      "aliases": [
+        "패럿"
+      ],
+      "identifier": "farads",
+      "symbol": "패럿"
+    },
+    {
+      "aliases": [
+        "메가패럿"
+      ],
+      "identifier": "megafarads",
+      "symbol": "메가패럿"
+    },
+    {
+      "aliases": [
+        "킬로패럿"
+      ],
+      "identifier": "kilofarads",
+      "symbol": "킬로패럿"
+    },
+    {
+      "aliases": [
+        "밀리패럿"
+      ],
+      "identifier": "millifarads",
+      "symbol": "밀리패럿"
+    },
+    {
+      "aliases": [
+        "마이크로패럿"
+      ],
+      "identifier": "microfarads",
+      "symbol": "마이크로패럿"
+    }
+  ],
+  "fuelConsumption": [
+    {
+      "aliases": [
+        "L/100 km",
+        "리터당 100킬로미터"
+      ],
+      "identifier": "litersPer100Kilometers",
+      "symbol": "L/100km"
+    }
+  ],
+  "angularVelocity": [
+    {
+      "aliases": [
+        "라디안 매 초"
+      ],
+      "identifier": "radiansPerSecond",
+      "symbol": "rad/s"
+    },
+    {
+      "aliases": [
+        "분당 회전수",
+        "rpm"
+      ],
+      "identifier": "revolutionsPerMinute",
+      "symbol": "rpm"
+    },
+    {
+      "aliases": [
+        "초당 회전수",
+        "rps"
+      ],
+      "identifier": "revolutionsPerSecond",
+      "symbol": "rps"
+    }
+  ],
+  "torque": [
+    {
+      "aliases": [
+        "뉴턴 미터",
+        "Nm"
+      ],
+      "identifier": "newtonMeters",
+      "symbol": "뉴턴 미터"
+    },
+    {
+      "aliases": [
+        "파운드 피트",
+        "ft-lb"
+      ],
+      "identifier": "poundFeet",
+      "symbol": "파운드 피트"
+    },
+    {
+      "aliases": [
+        "파운드 인치",
+        "lbf-in"
+      ],
+      "identifier": "poundInches",
+      "symbol": "파운드 인치"
+    },
+    {
+      "aliases": [
+        "온스 인치",
+        "ozf-in"
+      ],
+      "identifier": "ounceInches",
+      "symbol": "온스 인치"
+    }
+  ],
+  "acceleration": [
+    {
+      "aliases": [
+        "미터 매 초 제곱",
+        "m/s^2"
+      ],
+      "identifier": "metersPerSecondSquared",
+      "symbol": "m/s²"
+    },
+    {
+      "aliases": [
+        "피트 매 초 제곱",
+        "ft/s^2"
+      ],
+      "identifier": "feetPerSecondSquared",
+      "symbol": "ft/s²"
+    }
+  ],
+  "electricCharge": [
+    {
+      "aliases": [
+        "쿨롱"
+      ],
+      "identifier": "coulombs",
+      "symbol": "쿨롱"
+    },
+    {
+      "aliases": [
+        "암페어시"
+      ],
+      "identifier": "ampereHours",
+      "symbol": "Ah"
+    },
+    {
+      "aliases": [
+        "킬로암페어시"
+      ],
+      "identifier": "kiloampereHours",
+      "symbol": "kAh"
+    },
+    {
+      "aliases": [
+        "메가암페어시"
+      ],
+      "identifier": "megaampereHours",
+      "symbol": "MAh"
+    },
+    {
+      "aliases": [
+        "밀리암페어시"
+      ],
+      "identifier": "milliampereHours",
+      "symbol": "mAh"
+    },
+    {
+      "aliases": [
+        "마이크로암페어시"
+      ],
+      "identifier": "microampereHours",
+      "symbol": "µAh"
+    }
+  ],
+  "mass": [
+    {
+      "aliases": [
+        "킬로그램"
+      ],
+      "identifier": "kilograms",
+      "symbol": "kg"
+    },
+    {
+      "aliases": [
+        "그램"
+      ],
+      "identifier": "grams",
+      "symbol": "g"
+    },
+    {
+      "aliases": [
+        "밀리그램"
+      ],
+      "identifier": "milligrams",
+      "symbol": "mg"
+    },
+    {
+      "aliases": [
+        "마이크로그램",
+        "μg"
+      ],
+      "identifier": "micrograms",
+      "symbol": "μg"
+    },
+    {
+      "aliases": [
+        "나노그램"
+      ],
+      "identifier": "nanograms",
+      "symbol": "ng"
+    },
+    {
+      "aliases": [
+        "온스"
+      ],
+      "identifier": "ounces",
+      "symbol": "온스"
+    },
+    {
+      "aliases": [
+        "파운드"
+      ],
+      "identifier": "pounds",
+      "symbol": "파운드"
+    },
+    {
+      "aliases": [
+        "스톤"
+      ],
+      "identifier": "stones",
+      "symbol": "스톤"
+    },
+    {
+      "aliases": [
+        "미터톤",
+        "톤"
+      ],
+      "identifier": "metricTons",
+      "symbol": "톤"
+    },
+    {
+      "aliases": [
+        "숏톤"
+      ],
+      "identifier": "shortTons",
+      "symbol": "숏톤"
+    },
+    {
+      "aliases": [
+        "캐럿"
+      ],
+      "identifier": "carats",
+      "symbol": "캐럿"
+    },
+    {
+      "aliases": [
+        "트로이 온스"
+      ],
+      "identifier": "ouncesTroy",
+      "symbol": "트로이 온스"
+    }
+  ],
+  "angle": [
+    {
+      "aliases": [
+        "도",
+        "º"
+      ],
+      "identifier": "degrees",
+      "symbol": "°"
+    },
+    {
+      "aliases": [
+        "분",
+        "arcmin"
+      ],
+      "identifier": "arcMinutes",
+      "symbol": "′"
+    },
+    {
+      "aliases": [
+        "초",
+        "arcsec"
+      ],
+      "identifier": "arcSeconds",
+      "symbol": "″"
+    },
+    {
+      "aliases": [
+        "라디안"
+      ],
+      "identifier": "radians",
+      "symbol": "rad"
+    },
+    {
+      "aliases": [
+        "회전"
+      ],
+      "identifier": "revolutions",
+      "symbol": "회전"
+    }
+  ],
+  "frameRate": [
+    {
+      "aliases": [],
+      "identifier": "framesPerSecond",
+      "symbol": "fps"
+    }
+  ],
+  "amountOfSubstance": [
+    {
+      "aliases": [
+        "몰"
+      ],
+      "identifier": "moles",
+      "symbol": "mol"
+    },
+    {
+      "aliases": [
+        "밀리몰"
+      ],
+      "identifier": "millimoles",
+      "symbol": "mmol"
+    },
+    {
+      "aliases": [
+        "마이크로몰"
+      ],
+      "identifier": "micromoles",
+      "symbol": "µmol"
+    },
+    {
+      "aliases": [
+        "나노몰"
+      ],
+      "identifier": "nanomoles",
+      "symbol": "nmol"
+    }
+  ],
+  "speed": [
+    {
+      "aliases": [
+        "미터 매 초"
+      ],
+      "identifier": "metersPerSecond",
+      "symbol": "m/s"
+    },
+    {
+      "aliases": [
+        "피트 매 초"
+      ],
+      "identifier": "feetPerSecond",
+      "symbol": "ft/s"
+    },
+    {
+      "aliases": [
+        "킬로미터 매 시",
+        "kph"
+      ],
+      "identifier": "kilometersPerHour",
+      "symbol": "km/h"
+    },
+    {
+      "aliases": [
+        "마일 매 시"
+      ],
+      "identifier": "milesPerHour",
+      "symbol": "mph"
+    },
+    {
+      "aliases": [
+        "노트"
+      ],
+      "identifier": "knots",
+      "symbol": "노트"
+    }
+  ],
+  "electricResistance": [
+    {
+      "aliases": [
+        "옴",
+        "Ω"
+      ],
+      "identifier": "ohms",
+      "symbol": "옴"
+    },
+    {
+      "aliases": [
+        "킬로옴",
+        "kΩ"
+      ],
+      "identifier": "kiloohms",
+      "symbol": "킬로옴"
+    },
+    {
+      "aliases": [
+        "메가옴",
+        "MΩ"
+      ],
+      "identifier": "megaohms",
+      "symbol": "메가옴"
+    },
+    {
+      "aliases": [
+        "밀리옴",
+        "mΩ"
+      ],
+      "identifier": "milliohms",
+      "symbol": "밀리옴"
+    },
+    {
+      "aliases": [
+        "마이크로옴",
+        "μΩ"
+      ],
+      "identifier": "microohms",
+      "symbol": "마이크로옴"
+    }
+  ]
+}

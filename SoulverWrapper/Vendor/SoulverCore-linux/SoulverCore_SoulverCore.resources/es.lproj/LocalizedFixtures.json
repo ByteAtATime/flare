@@ -1,0 +1,127 @@
+{
+  "fixtures": {
+    "colons": [
+      ":",
+      "："
+    ],
+    "converterSymbolsTo": [
+      "a"
+    ],
+    "converterSymbolsIn": [
+      "en"
+    ],
+    "converterSymbolsAs": [
+      "como"
+    ],
+    "nextDateQualifiers": [
+      "siguiente"
+    ],
+    "powerOperators": [
+      "^",
+      "**"
+    ],
+    "percentWords": [
+      "porcentaje",
+      "por ciento"
+    ],
+    "hereAliases": [
+      "aquí"
+    ],
+    "nowDateAliases": [
+      "ahora"
+    ],
+    "ordinalSuffixes": [
+      "º",
+      "º",
+      "º",
+      "º"
+    ],
+    "piAliases": [
+      "π"
+    ],
+    "thisDateQualifiers": [
+      "este"
+    ],
+    "divisionOperators": [
+      "÷",
+      "por"
+    ],
+    "midnightAliases": [
+      "medianoche"
+    ],
+    "previousDateQualifiers": [
+      "anterior",
+      "pasado"
+    ],
+    "pmAliases": [
+      "pm",
+      "p.m.",
+      "P.M."
+    ],
+    "conjunctionWordsOr": [
+      "o"
+    ],
+    "middayAliases": [
+      "mediodía"
+    ],
+    "subtractionOperators": [
+      "−",
+      "–",
+      "menos"
+    ],
+    "additionOperators": [
+      "más"
+    ],
+    "amAliases": [
+      "am",
+      "a.m.",
+      "A.M."
+    ],
+    "todayDateAliases": [
+      "hoy"
+    ],
+    "grammerWordsOf": [
+      "de"
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "medianAliases": [
+      "mediana"
+    ],
+    "greaterThanOrEqualToOperators": [
+      ">=",
+      "=>"
+    ],
+    "multiplicationOperators": [
+      "×",
+      "x",
+      "⋅",
+      "·"
+    ],
+    "averageAliases": [
+      "promedio",
+      "media"
+    ],
+    "prepositionWordsUntil": [
+      "hasta"
+    ],
+    "totalAliases": [
+      "total",
+      "suma"
+    ],
+    "countAliases": [
+      "conteo"
+    ],
+    "yesterdayDateAliases": [
+      "ayer"
+    ],
+    "conjunctionWordsAnd": [
+      "y"
+    ],
+    "tomorrowDateAliases": [
+      "mañana"
+    ]
+  }
+}

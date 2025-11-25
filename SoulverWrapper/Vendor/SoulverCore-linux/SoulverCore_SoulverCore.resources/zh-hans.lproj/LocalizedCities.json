@@ -1,0 +1,2039 @@
+[
+  {
+    "name" : "上海",
+    "identifier" : "shanghai"
+  },
+  {
+    "name" : "伊斯坦堡",
+    "identifier" : "istanbul"
+  },
+  {
+    "name" : "布宜诺斯艾利斯",
+    "identifier" : "buenos aires"
+  },
+  {
+    "name" : "孟买",
+    "identifier" : "mumbai"
+  },
+  {
+    "name" : "墨西哥城",
+    "identifier" : "mexico city"
+  },
+  {
+    "name" : "北京",
+    "identifier" : "beijing"
+  },
+  {
+    "name" : "卡拉奇",
+    "identifier" : "karachi"
+  },
+  {
+    "name" : "天津",
+    "identifier" : "tianjin"
+  },
+  {
+    "name" : "广州",
+    "identifier" : "guangzhou"
+  },
+  {
+    "name" : "新德里",
+    "identifier" : "delhi"
+  },
+  {
+    "name" : "莫斯科",
+    "identifier" : "moscow"
+  },
+  {
+    "name" : "深圳",
+    "identifier" : "shenzhen"
+  },
+  {
+    "name" : "达卡",
+    "identifier" : "dhaka"
+  },
+  {
+    "name" : "汉城",
+    "identifier" : "seoul"
+  },
+  {
+    "name" : "圣保罗",
+    "identifier" : "sao paulo"
+  },
+  {
+    "name" : "武汉市",
+    "identifier" : "wuhan"
+  },
+  {
+    "name" : "拉各斯",
+    "identifier" : "lagos"
+  },
+  {
+    "name" : "雅加达",
+    "identifier" : "jakarta"
+  },
+  {
+    "name" : "东京",
+    "identifier" : "tokyo"
+  },
+  {
+    "name" : "纽约",
+    "identifier" : "new york"
+  },
+  {
+    "name" : "东莞市",
+    "identifier" : "dongguan"
+  },
+  {
+    "name" : "台北",
+    "identifier" : "taipei"
+  },
+  {
+    "name" : "金夏沙",
+    "identifier" : "kinshasa"
+  },
+  {
+    "name" : "开罗",
+    "identifier" : "cairo"
+  },
+  {
+    "name" : "波哥大",
+    "identifier" : "bogota"
+  },
+  {
+    "name" : "伦敦",
+    "identifier" : "london"
+  },
+  {
+    "name" : "重庆市",
+    "identifier" : "chongqing"
+  },
+  {
+    "name" : "成都市",
+    "identifier" : "chengdu"
+  },
+  {
+    "name" : "巴格达",
+    "identifier" : "baghdad"
+  },
+  {
+    "name" : "南京",
+    "identifier" : "nanjing"
+  },
+  {
+    "name" : "德黑兰",
+    "identifier" : "tehran"
+  },
+  {
+    "name" : "南充",
+    "identifier" : "nanchong"
+  },
+  {
+    "name" : "香港",
+    "identifier" : "hong kong"
+  },
+  {
+    "name" : "西安",
+    "identifier" : "xi'an"
+  },
+  {
+    "name" : "里约热内卢",
+    "identifier" : "rio de janeiro"
+  },
+  {
+    "name" : "曼谷",
+    "identifier" : "bangkok"
+  },
+  {
+    "name" : "班加罗尔",
+    "identifier" : "bengaluru"
+  },
+  {
+    "name" : "圣彼得堡",
+    "identifier" : "saint petersburg"
+  },
+  {
+    "name" : "圣地亚哥",
+    "identifier" : "santiago"
+  },
+  {
+    "name" : "加尔各答",
+    "identifier" : "kolkata"
+  },
+  {
+    "name" : "悉尼",
+    "identifier" : "sydney"
+  },
+  {
+    "name" : "仰光",
+    "identifier" : "yangon"
+  },
+  {
+    "name" : "钦奈",
+    "identifier" : "chennai"
+  },
+  {
+    "name" : "墨尔本",
+    "identifier" : "melbourne"
+  },
+  {
+    "name" : "利雅得",
+    "identifier" : "riyadh"
+  },
+  {
+    "name" : "洛杉矶",
+    "identifier" : "los angeles"
+  },
+  {
+    "name" : "吉大港市",
+    "identifier" : "chittagong"
+  },
+  {
+    "name" : "亚历山德里亚",
+    "identifier" : "alexandria"
+  },
+  {
+    "name" : "艾哈迈达巴德",
+    "identifier" : "ahmedabad"
+  },
+  {
+    "name" : "釜山",
+    "identifier" : "busan"
+  },
+  {
+    "name" : "阿比让",
+    "identifier" : "abidjan"
+  },
+  {
+    "name" : "鹿野",
+    "identifier" : "kano"
+  },
+  {
+    "name" : "海得拉巴",
+    "identifier" : "hyderabad"
+  },
+  {
+    "name" : "横滨",
+    "identifier" : "yokohama"
+  },
+  {
+    "name" : "伊巴丹岛",
+    "identifier" : "ibadan"
+  },
+  {
+    "name" : "新加坡",
+    "identifier" : "singapore"
+  },
+  {
+    "name" : "安卡拉",
+    "identifier" : "ankara"
+  },
+  {
+    "name" : "胡志明市",
+    "identifier" : "ho chi minh city"
+  },
+  {
+    "name" : "开普敦",
+    "identifier" : "cape town"
+  },
+  {
+    "name" : "柏林",
+    "identifier" : "berlin"
+  },
+  {
+    "name" : "马德里",
+    "identifier" : "madrid"
+  },
+  {
+    "name" : "平壤",
+    "identifier" : "pyongyang"
+  },
+  {
+    "name" : "卡萨布兰卡",
+    "identifier" : "casablanca"
+  },
+  {
+    "name" : "中山",
+    "identifier" : "zhongshan"
+  },
+  {
+    "name" : "德班",
+    "identifier" : "durban"
+  },
+  {
+    "name" : "喀布尔",
+    "identifier" : "kabul"
+  },
+  {
+    "name" : "乌鲁木齐",
+    "identifier" : "urumqi"
+  },
+  {
+    "name" : "加拉加斯",
+    "identifier" : "caracas"
+  },
+  {
+    "name" : "迪拜",
+    "identifier" : "dubai"
+  },
+  {
+    "name" : "吉达",
+    "identifier" : "jeddah"
+  },
+  {
+    "name" : "基辅",
+    "identifier" : "kyiv"
+  },
+  {
+    "name" : "罗安达",
+    "identifier" : "luanda"
+  },
+  {
+    "name" : "奎松市",
+    "identifier" : "quezon city"
+  },
+  {
+    "name" : "亚的斯亚贝巴（埃塞俄比亚首都",
+    "identifier" : "addis ababa"
+  },
+  {
+    "name" : "内罗毕",
+    "identifier" : "nairobi"
+  },
+  {
+    "name" : "芝加哥",
+    "identifier" : "chicago"
+  },
+  {
+    "name" : "萨尔瓦多",
+    "identifier" : "salvador"
+  },
+  {
+    "name" : "达累斯萨拉姆",
+    "identifier" : "dar es salaam"
+  },
+  {
+    "name" : "多伦多",
+    "identifier" : "toronto"
+  },
+  {
+    "name" : "大阪",
+    "identifier" : "osaka"
+  },
+  {
+    "name" : "摩加迪沙",
+    "identifier" : "mogadishu"
+  },
+  {
+    "name" : "伊兹密尔",
+    "identifier" : "izmir"
+  },
+  {
+    "name" : "达喀尔",
+    "identifier" : "dakar"
+  },
+  {
+    "name" : "吉萨",
+    "identifier" : "giza"
+  },
+  {
+    "name" : "福塔雷萨",
+    "identifier" : "fortaleza"
+  },
+  {
+    "name" : "泗水",
+    "identifier" : "surabaya"
+  },
+  {
+    "name" : "贝洛奥里藏特",
+    "identifier" : "belo horizonte"
+  },
+  {
+    "name" : "罗马",
+    "identifier" : "rome"
+  },
+  {
+    "name" : "马什哈德",
+    "identifier" : "mashhad"
+  },
+  {
+    "name" : "布鲁克林区",
+    "identifier" : "brooklyn"
+  },
+  {
+    "name" : "休斯顿",
+    "identifier" : "houston"
+  },
+  {
+    "name" : "皇后区",
+    "identifier" : "queens"
+  },
+  {
+    "name" : "巴西利亚",
+    "identifier" : "brasilia"
+  },
+  {
+    "name" : "圣多明哥",
+    "identifier" : "santo domingo"
+  },
+  {
+    "name" : "名古屋",
+    "identifier" : "nagoya"
+  },
+  {
+    "name" : "布里斯班",
+    "identifier" : "brisbane"
+  },
+  {
+    "name" : "哈瓦那",
+    "identifier" : "havana"
+  },
+  {
+    "name" : "巴黎",
+    "identifier" : "paris"
+  },
+  {
+    "name" : "约翰内斯堡",
+    "identifier" : "johannesburg"
+  },
+  {
+    "name" : "阿拉木图",
+    "identifier" : "almaty"
+  },
+  {
+    "name" : "塔什干",
+    "identifier" : "tashkent"
+  },
+  {
+    "name" : "阿尔及尔",
+    "identifier" : "algiers"
+  },
+  {
+    "name" : "喀土穆",
+    "identifier" : "khartoum"
+  },
+  {
+    "name" : "阿克拉",
+    "identifier" : "accra"
+  },
+  {
+    "name" : "瓜亚基尔",
+    "identifier" : "guayaquil"
+  },
+  {
+    "name" : "萨那",
+    "identifier" : "sanaa"
+  },
+  {
+    "name" : "贝鲁特",
+    "identifier" : "beirut"
+  },
+  {
+    "name" : "珀斯",
+    "identifier" : "perth"
+  },
+  {
+    "name" : "札幌",
+    "identifier" : "sapporo"
+  },
+  {
+    "name" : "布加勒斯特",
+    "identifier" : "bucharest"
+  },
+  {
+    "name" : "卡马耶纳",
+    "identifier" : "camayenne"
+  },
+  {
+    "name" : "科纳克里",
+    "identifier" : "conakry"
+  },
+  {
+    "name" : "明斯克",
+    "identifier" : "minsk"
+  },
+  {
+    "name" : "布达佩斯",
+    "identifier" : "budapest"
+  },
+  {
+    "name" : "汉堡",
+    "identifier" : "hamburg"
+  },
+  {
+    "name" : "华沙",
+    "identifier" : "warsaw"
+  },
+  {
+    "name" : "索韦托",
+    "identifier" : "soweto"
+  },
+  {
+    "name" : "维也纳",
+    "identifier" : "vienna"
+  },
+  {
+    "name" : "拉巴特",
+    "identifier" : "rabat"
+  },
+  {
+    "name" : "巴塞罗纳",
+    "identifier" : "barcelona"
+  },
+  {
+    "name" : "比勒陀利亚",
+    "identifier" : "pretoria"
+  },
+  {
+    "name" : "阿勒颇",
+    "identifier" : "aleppo"
+  },
+  {
+    "name" : "马尼拉",
+    "identifier" : "manila"
+  },
+  {
+    "name" : "蒙特利尔",
+    "identifier" : "montreal"
+  },
+  {
+    "name" : "卡杜纳",
+    "identifier" : "kaduna"
+  },
+  {
+    "name" : "金边",
+    "identifier" : "phnom penh"
+  },
+  {
+    "name" : "大马士革",
+    "identifier" : "damascus"
+  },
+  {
+    "name" : "费城",
+    "identifier" : "philadelphia"
+  },
+  {
+    "name" : "凤凰",
+    "identifier" : "phoenix"
+  },
+  {
+    "name" : "伊斯法罕",
+    "identifier" : "isfahan"
+  },
+  {
+    "name" : "哈拉雷",
+    "identifier" : "harare"
+  },
+  {
+    "name" : "科比",
+    "identifier" : "kobe"
+  },
+  {
+    "name" : "斯德哥尔摩",
+    "identifier" : "stockholm"
+  },
+  {
+    "name" : "曼哈顿",
+    "identifier" : "manhattan"
+  },
+  {
+    "name" : "亚松森",
+    "identifier" : "asuncion"
+  },
+  {
+    "name" : "累西腓",
+    "identifier" : "recife"
+  },
+  {
+    "name" : "圣安东尼奥",
+    "identifier" : "san antonio"
+  },
+  {
+    "name" : "库马西",
+    "identifier" : "kumasi"
+  },
+  {
+    "name" : "哥打巴鲁",
+    "identifier" : "kota bharu"
+  },
+  {
+    "name" : "京都",
+    "identifier" : "kyoto"
+  },
+  {
+    "name" : "吉隆坡",
+    "identifier" : "kuala lumpur"
+  },
+  {
+    "name" : "卡拉伊",
+    "identifier" : "karaj"
+  },
+  {
+    "name" : "加德满都",
+    "identifier" : "kathmandu"
+  },
+  {
+    "name" : "河内",
+    "identifier" : "hanoi"
+  },
+  {
+    "name" : "哈尔科夫",
+    "identifier" : "kharkiv"
+  },
+  {
+    "name" : "科尔多瓦",
+    "identifier" : "cordoba"
+  },
+  {
+    "name" : "大不里士",
+    "identifier" : "tabriz"
+  },
+  {
+    "name" : "新西伯利亚",
+    "identifier" : "novosibirsk"
+  },
+  {
+    "name" : "贝伦",
+    "identifier" : "belem"
+  },
+  {
+    "name" : "基多",
+    "identifier" : "quito"
+  },
+  {
+    "name" : "圣地亚哥",
+    "identifier" : "san diego"
+  },
+  {
+    "name" : "福冈",
+    "identifier" : "fukuoka"
+  },
+  {
+    "name" : "塔那那利佛",
+    "identifier" : "antananarivo"
+  },
+  {
+    "name" : "布朗克斯",
+    "identifier" : "the bronx"
+  },
+  {
+    "name" : "卢本巴希",
+    "identifier" : "lubumbashi"
+  },
+  {
+    "name" : "圣克鲁斯－德拉塞拉",
+    "identifier" : "santa cruz de la sierra"
+  },
+  {
+    "name" : "坎帕拉",
+    "identifier" : "kampala"
+  },
+  {
+    "name" : "叶卡捷琳堡",
+    "identifier" : "yekaterinburg"
+  },
+  {
+    "name" : "杜阿拉",
+    "identifier" : "douala"
+  },
+  {
+    "name" : "沙迦",
+    "identifier" : "sharjah"
+  },
+  {
+    "name" : "麦加",
+    "identifier" : "mecca"
+  },
+  {
+    "name" : "望加锡",
+    "identifier" : "makassar"
+  },
+  {
+    "name" : "华雷斯",
+    "identifier" : "juarez"
+  },
+  {
+    "name" : "川崎",
+    "identifier" : "kawasaki"
+  },
+  {
+    "name" : "蒂华纳",
+    "identifier" : "tijuana"
+  },
+  {
+    "name" : "达拉斯",
+    "identifier" : "dallas"
+  },
+  {
+    "name" : "麦地那",
+    "identifier" : "medina"
+  },
+  {
+    "name" : "雅温得",
+    "identifier" : "yaounde"
+  },
+  {
+    "name" : "巴马科",
+    "identifier" : "bamako"
+  },
+  {
+    "name" : "布拉柴维尔",
+    "identifier" : "brazzaville"
+  },
+  {
+    "name" : "下诺夫哥罗德",
+    "identifier" : "nizhniy novgorod"
+  },
+  {
+    "name" : "安曼",
+    "identifier" : "amman"
+  },
+  {
+    "name" : "贝尔格莱德",
+    "identifier" : "belgrade"
+  },
+  {
+    "name" : "蒙得维的亚",
+    "identifier" : "montevideo"
+  },
+  {
+    "name" : "卢萨卡",
+    "identifier" : "lusaka"
+  },
+  {
+    "name" : "慕尼黑",
+    "identifier" : "munich"
+  },
+  {
+    "name" : "设拉子",
+    "identifier" : "shiraz"
+  },
+  {
+    "name" : "米兰",
+    "identifier" : "milan"
+  },
+  {
+    "name" : "太子港",
+    "identifier" : "port-au-prince"
+  },
+  {
+    "name" : "阿德莱德",
+    "identifier" : "adelaide"
+  },
+  {
+    "name" : "恩杜曼",
+    "identifier" : "omdurman"
+  },
+  {
+    "name" : "ita玉",
+    "identifier" : "saitama"
+  },
+  {
+    "name" : "马普托",
+    "identifier" : "maputo"
+  },
+  {
+    "name" : "布拉格",
+    "identifier" : "prague"
+  },
+  {
+    "name" : "哥本哈根",
+    "identifier" : "copenhagen"
+  },
+  {
+    "name" : "苏菲亚",
+    "identifier" : "sofia"
+  },
+  {
+    "name" : "的黎波里",
+    "identifier" : "tripoli"
+  },
+  {
+    "name" : "哈科特港",
+    "identifier" : "port harcourt"
+  },
+  {
+    "name" : "广岛",
+    "identifier" : "hiroshima"
+  },
+  {
+    "name" : "蒙特雷",
+    "identifier" : "monterrey"
+  },
+  {
+    "name" : "萨马拉",
+    "identifier" : "samara"
+  },
+  {
+    "name" : "鄂木斯克",
+    "identifier" : "omsk"
+  },
+  {
+    "name" : "贝宁市",
+    "identifier" : "benin city"
+  },
+  {
+    "name" : "巴库",
+    "identifier" : "baku"
+  },
+  {
+    "name" : "迈杜古里",
+    "identifier" : "maiduguri"
+  },
+  {
+    "name" : "喀山",
+    "identifier" : "kazan"
+  },
+  {
+    "name" : "叶里温",
+    "identifier" : "yerevan"
+  },
+  {
+    "name" : "瓦加杜古",
+    "identifier" : "ouagadougou"
+  },
+  {
+    "name" : "罗斯托夫纳多努",
+    "identifier" : "rostov-na-donu"
+  },
+  {
+    "name" : "车里雅宾斯克",
+    "identifier" : "chelyabinsk"
+  },
+  {
+    "name" : "第比利斯",
+    "identifier" : "tbilisi"
+  },
+  {
+    "name" : "乌法",
+    "identifier" : "ufa"
+  },
+  {
+    "name" : "圣荷西",
+    "identifier" : "san jose"
+  },
+  {
+    "name" : "都柏林",
+    "identifier" : "dublin"
+  },
+  {
+    "name" : "卡尔加里",
+    "identifier" : "calgary"
+  },
+  {
+    "name" : "布鲁塞尔",
+    "identifier" : "brussels"
+  },
+  {
+    "name" : "伏尔加格勒",
+    "identifier" : "volgograd"
+  },
+  {
+    "name" : "敖德萨",
+    "identifier" : "odessa"
+  },
+  {
+    "name" : "危地马拉城",
+    "identifier" : "guatemala city"
+  },
+  {
+    "name" : "伯明翰",
+    "identifier" : "birmingham"
+  },
+  {
+    "name" : "烫发",
+    "identifier" : "perm"
+  },
+  {
+    "name" : "扎里亚",
+    "identifier" : "zaria"
+  },
+  {
+    "name" : "伊丽莎白港",
+    "identifier" : "port elizabeth"
+  },
+  {
+    "name" : "非斯",
+    "identifier" : "fes"
+  },
+  {
+    "name" : "科隆",
+    "identifier" : "cologne"
+  },
+  {
+    "name" : "那不勒斯",
+    "identifier" : "naples"
+  },
+  {
+    "name" : "马塞约",
+    "identifier" : "maceio"
+  },
+  {
+    "name" : "蒙罗维亚",
+    "identifier" : "monrovia"
+  },
+  {
+    "name" : "金斯顿",
+    "identifier" : "kingston"
+  },
+  {
+    "name" : "奥斯丁",
+    "identifier" : "austin"
+  },
+  {
+    "name" : "克拉斯诺亚尔斯克",
+    "identifier" : "krasnoyarsk"
+  },
+  {
+    "name" : "特卖",
+    "identifier" : "sale"
+  },
+  {
+    "name" : "库姆",
+    "identifier" : "qom"
+  },
+  {
+    "name" : "比什凯克",
+    "identifier" : "bishkek"
+  },
+  {
+    "name" : "阿波波",
+    "identifier" : "abobo"
+  },
+  {
+    "name" : "阿坝",
+    "identifier" : "aba"
+  },
+  {
+    "name" : "门多萨",
+    "identifier" : "mendoza"
+  },
+  {
+    "name" : "姆布吉马耶",
+    "identifier" : "mbuji-mayi"
+  },
+  {
+    "name" : "皮金",
+    "identifier" : "pikine"
+  },
+  {
+    "name" : "都灵",
+    "identifier" : "turin"
+  },
+  {
+    "name" : "旧金山",
+    "aliases": ["三番"],
+    "identifier" : "san francisco"
+  },
+  {
+    "name" : "利物浦",
+    "identifier" : "liverpool"
+  },
+  {
+    "name" : "萨拉托夫",
+    "identifier" : "saratov"
+  },
+  {
+    "name" : "德古西加巴",
+    "identifier" : "tegucigalpa"
+  },
+  {
+    "name" : "沃罗涅日",
+    "identifier" : "voronezh"
+  },
+  {
+    "name" : "乌兰巴托",
+    "identifier" : "ulan bator"
+  },
+  {
+    "name" : "阿瓦士",
+    "identifier" : "ahvaz"
+  },
+  {
+    "name" : "马拉喀什",
+    "identifier" : "marrakesh"
+  },
+  {
+    "name" : "登巴萨",
+    "identifier" : "denpasar"
+  },
+  {
+    "name" : "沃思堡",
+    "identifier" : "fort worth"
+  },
+  {
+    "name" : "印第安纳波利斯",
+    "identifier" : "indianapolis"
+  },
+  {
+    "name" : "乔斯",
+    "identifier" : "jos"
+  },
+  {
+    "name" : "巴伦西亚",
+    "identifier" : "valencia"
+  },
+  {
+    "name" : "伊洛林",
+    "identifier" : "ilorin"
+  },
+  {
+    "name" : "拉巴斯",
+    "identifier" : "la paz"
+  },
+  {
+    "name" : "渥太华",
+    "identifier" : "ottawa"
+  },
+  {
+    "name" : "弗里敦",
+    "identifier" : "freetown"
+  },
+  {
+    "name" : "耶路撒冷",
+    "identifier" : "jerusalem"
+  },
+  {
+    "name" : "马斯喀特",
+    "identifier" : "muscat"
+  },
+  {
+    "name" : "马赛",
+    "identifier" : "marseille"
+  },
+  {
+    "name" : "帕斯拉格德分行",
+    "identifier" : "pasragad branch"
+  },
+  {
+    "name" : "布默达斯",
+    "identifier" : "boumerdas"
+  },
+  {
+    "name" : "San Miguel de Tucuman",
+    "identifier" : "san miguel de tucuman"
+  },
+  {
+    "name" : "梅里达",
+    "identifier" : "merida"
+  },
+  {
+    "name" : "尼亚美",
+    "identifier" : "niamey"
+  },
+  {
+    "name" : "卡里兹",
+    "identifier" : "kahriz"
+  },
+  {
+    "name" : "克拉科夫",
+    "identifier" : "krakow"
+  },
+  {
+    "name" : "岘港市",
+    "identifier" : "da nang"
+  },
+  {
+    "name" : "彼得马里茨堡",
+    "identifier" : "pietermaritzburg"
+  },
+  {
+    "name" : "洛美",
+    "identifier" : "lome"
+  },
+  {
+    "name" : "基加利",
+    "identifier" : "kigali"
+  },
+  {
+    "name" : "里加",
+    "identifier" : "riga"
+  },
+  {
+    "name" : "阿姆斯特丹",
+    "identifier" : "amsterdam"
+  },
+  {
+    "name" : "大洋",
+    "identifier" : "oyo"
+  },
+  {
+    "name" : "诺丁汉",
+    "identifier" : "nottingham"
+  },
+  {
+    "name" : "大坎普市",
+    "identifier" : "campo grande"
+  },
+  {
+    "name" : "阿什哈巴德",
+    "identifier" : "ashgabat"
+  },
+  {
+    "name" : "恩贾梅纳",
+    "identifier" : "n'djamena"
+  },
+  {
+    "name" : "利沃夫",
+    "identifier" : "lviv"
+  },
+  {
+    "name" : "埃莫西约",
+    "identifier" : "hermosillo"
+  },
+  {
+    "name" : "埃德蒙顿",
+    "identifier" : "edmonton"
+  },
+  {
+    "name" : "布拉瓦约",
+    "identifier" : "bulawayo"
+  },
+  {
+    "name" : "萨格勒布",
+    "identifier" : "zagreb"
+  },
+  {
+    "name" : "阿加迪尔",
+    "identifier" : "agadir"
+  },
+  {
+    "name" : "萨拉热窝",
+    "identifier" : "sarajevo"
+  },
+  {
+    "name" : "埃努古",
+    "identifier" : "enugu"
+  },
+  {
+    "name" : "丹吉尔",
+    "identifier" : "tangier"
+  },
+  {
+    "name" : "谢菲尔德",
+    "identifier" : "sheffield"
+  },
+  {
+    "name" : "西雅图",
+    "identifier" : "seattle"
+  },
+  {
+    "name" : "丹佛",
+    "identifier" : "denver"
+  },
+  {
+    "name" : "埃尔帕索",
+    "identifier" : "el paso"
+  },
+  {
+    "name" : "杜尚别",
+    "identifier" : "dushanbe"
+  },
+  {
+    "name" : "底特律",
+    "identifier" : "detroit"
+  },
+  {
+    "name" : "库里亚坎人",
+    "identifier" : "culiacan"
+  },
+  {
+    "name" : "马托拉",
+    "identifier" : "matola"
+  },
+  {
+    "name" : "波斯顿",
+    "identifier" : "boston"
+  },
+  {
+    "name" : "雅典",
+    "identifier" : "athens"
+  },
+  {
+    "name" : "努瓦克肖特",
+    "identifier" : "nouakchott"
+  },
+  {
+    "name" : "黑角",
+    "identifier" : "pointe-noire"
+  },
+  {
+    "name" : "孟菲斯",
+    "identifier" : "memphis"
+  },
+  {
+    "name" : "法兰克福",
+    "identifier" : "frankfurt am main"
+  },
+  {
+    "name" : "克拉斯诺达尔",
+    "identifier" : "krasnodar"
+  },
+  {
+    "name" : "巴勒莫",
+    "identifier" : "palermo"
+  },
+  {
+    "name" : "科伦坡",
+    "identifier" : "colombo"
+  },
+  {
+    "name" : "利隆圭",
+    "identifier" : "lilongwe"
+  },
+  {
+    "name" : "奥兰",
+    "identifier" : "oran"
+  },
+  {
+    "name" : "基希讷乌",
+    "identifier" : "chisinau"
+  },
+  {
+    "name" : "特比萨",
+    "identifier" : "tebessa"
+  },
+  {
+    "name" : "波特兰",
+    "identifier" : "portland"
+  },
+  {
+    "name" : "温尼伯",
+    "identifier" : "winnipeg"
+  },
+  {
+    "name" : "俄克拉荷马城",
+    "identifier" : "oklahoma city"
+  },
+  {
+    "name" : "坎昆",
+    "identifier" : "cancun"
+  },
+  {
+    "name" : "吉布地",
+    "identifier" : "djibouti"
+  },
+  {
+    "name" : "巴尔的摩",
+    "identifier" : "baltimore"
+  },
+  {
+    "name" : "克尔曼沙",
+    "identifier" : "kermanshah"
+  },
+  {
+    "name" : "布里斯托尔",
+    "identifier" : "bristol"
+  },
+  {
+    "name" : "贝诺尼",
+    "identifier" : "benoni"
+  },
+  {
+    "name" : "阿布扎比",
+    "identifier" : "abu dhabi"
+  },
+  {
+    "name" : "华盛顿州",
+    "identifier" : "washington"
+  },
+  {
+    "name" : "密尔沃基",
+    "identifier" : "milwaukee"
+  },
+  {
+    "name" : "温哥华",
+    "identifier" : "vancouver"
+  },
+  {
+    "name" : "巴瑙尔",
+    "identifier" : "barnaul"
+  },
+  {
+    "name" : "鹿特丹",
+    "identifier" : "rotterdam"
+  },
+  {
+    "name" : "拉什特",
+    "identifier" : "rasht"
+  },
+  {
+    "name" : "阿倍库塔",
+    "identifier" : "abeokuta"
+  },
+  {
+    "name" : "埃森",
+    "identifier" : "essen"
+  },
+  {
+    "name" : "格拉斯哥",
+    "identifier" : "glasgow"
+  },
+  {
+    "name" : "黄金海岸",
+    "identifier" : "gold coast"
+  },
+  {
+    "name" : "阿布贾",
+    "identifier" : "abuja"
+  },
+  {
+    "name" : "斯图加特",
+    "identifier" : "stuttgart"
+  },
+  {
+    "name" : "多特蒙德",
+    "identifier" : "dortmund"
+  },
+  {
+    "name" : "海参div",
+    "identifier" : "vladivostok"
+  },
+  {
+    "name" : "伊尔库茨克",
+    "identifier" : "irkutsk"
+  },
+  {
+    "name" : "布兰太尔",
+    "identifier" : "blantyre"
+  },
+  {
+    "name" : "热那亚",
+    "identifier" : "genoa"
+  },
+  {
+    "name" : "奥斯陆",
+    "identifier" : "oslo"
+  },
+  {
+    "name" : "利伯维尔",
+    "identifier" : "libreville"
+  },
+  {
+    "name" : "克尔曼",
+    "identifier" : "kerman"
+  },
+  {
+    "name" : "杜塞尔多夫",
+    "identifier" : "dusseldorf"
+  },
+  {
+    "name" : "古晋",
+    "identifier" : "kuching"
+  },
+  {
+    "name" : "阿尔伯克基",
+    "identifier" : "albuquerque"
+  },
+  {
+    "name" : "赫尔辛基",
+    "identifier" : "helsinki"
+  },
+  {
+    "name" : "亚丁",
+    "identifier" : "aden"
+  },
+  {
+    "name" : "奥伦堡",
+    "identifier" : "orenburg"
+  },
+  {
+    "name" : "普里什蒂纳",
+    "identifier" : "pristina"
+  },
+  {
+    "name" : "不来梅",
+    "identifier" : "bremen"
+  },
+  {
+    "name" : "维尔纽斯",
+    "identifier" : "vilnius"
+  },
+  {
+    "name" : "纳什维尔",
+    "identifier" : "nashville"
+  },
+  {
+    "name" : "魁北克",
+    "identifier" : "quebec"
+  },
+  {
+    "name" : "圣萨尔瓦多",
+    "identifier" : "san salvador"
+  },
+  {
+    "name" : "澳门",
+    "identifier" : "macau"
+  },
+  {
+    "name" : "秋明州",
+    "identifier" : "tyumen"
+  },
+  {
+    "name" : "里斯本",
+    "identifier" : "lisbon"
+  },
+  {
+    "name" : "汉诺威",
+    "identifier" : "hannover"
+  },
+  {
+    "name" : "萨尔塔",
+    "identifier" : "salta"
+  },
+  {
+    "name" : "莱斯特",
+    "identifier" : "leicester"
+  },
+  {
+    "name" : "莱比锡",
+    "identifier" : "leipzig"
+  },
+  {
+    "name" : "杜伊斯堡",
+    "identifier" : "duisburg"
+  },
+  {
+    "name" : "阿斯特拉罕",
+    "identifier" : "astrakhan"
+  },
+  {
+    "name" : "纽伦堡",
+    "identifier" : "nuremberg"
+  },
+  {
+    "name" : "德累斯顿",
+    "identifier" : "dresden"
+  },
+  {
+    "name" : "托木斯克",
+    "identifier" : "tomsk"
+  },
+  {
+    "name" : "亚兹德",
+    "identifier" : "yazd"
+  },
+  {
+    "name" : "堪萨斯城",
+    "identifier" : "kansas city"
+  },
+  {
+    "name" : "斯科普里",
+    "identifier" : "skopje"
+  },
+  {
+    "name" : "海牙",
+    "identifier" : "the hague"
+  },
+  {
+    "name" : "里昂",
+    "identifier" : "lyon"
+  },
+  {
+    "name" : "爱丁堡",
+    "identifier" : "edinburgh"
+  },
+  {
+    "name" : "安特卫普",
+    "identifier" : "antwerpen"
+  },
+  {
+    "name" : "坤甸",
+    "identifier" : "pontianak"
+  },
+  {
+    "name" : "利兹",
+    "identifier" : "leeds"
+  },
+  {
+    "name" : "加的夫",
+    "identifier" : "cardiff"
+  },
+  {
+    "name" : "圣胡安",
+    "identifier" : "san juan"
+  },
+  {
+    "name" : "奥马哈",
+    "identifier" : "omaha"
+  },
+  {
+    "name" : "家乐福",
+    "identifier" : "carrefour"
+  },
+  {
+    "name" : "迈阿密",
+    "identifier" : "miami"
+  },
+  {
+    "name" : "加里宁格勒",
+    "identifier" : "kaliningrad"
+  },
+  {
+    "name" : "图卢兹",
+    "identifier" : "toulouse"
+  },
+  {
+    "name" : "特拉维夫",
+    "identifier" : "tel aviv"
+  },
+  {
+    "name" : "东耶路撒冷",
+    "identifier" : "east jerusalem"
+  },
+  {
+    "name" : "布拉迪斯拉发",
+    "identifier" : "bratislava"
+  },
+  {
+    "name" : "奥克兰市",
+    "identifier" : "auckland"
+  },
+  {
+    "name" : "塞瓦斯托波尔",
+    "identifier" : "sevastopol"
+  },
+  {
+    "name" : "明尼阿波利斯",
+    "identifier" : "minneapolis"
+  },
+  {
+    "name" : "加沙",
+    "identifier" : "gaza"
+  },
+  {
+    "name" : "库尔斯克",
+    "identifier" : "kursk"
+  },
+  {
+    "name" : "巴拿马",
+    "identifier" : "panama"
+  },
+  {
+    "name" : "塔尔萨",
+    "identifier" : "tulsa"
+  },
+  {
+    "name" : "特维尔",
+    "identifier" : "tver"
+  },
+  {
+    "name" : "曼彻斯特",
+    "identifier" : "manchester"
+  },
+  {
+    "name" : "塔林",
+    "identifier" : "tallinn"
+  },
+  {
+    "name" : "坎大哈",
+    "identifier" : "kandahar"
+  },
+  {
+    "name" : "威奇托",
+    "identifier" : "wichita"
+  },
+  {
+    "name" : "新奥尔良",
+    "identifier" : "new orleans"
+  },
+  {
+    "name" : "惠灵顿",
+    "identifier" : "wellington"
+  },
+  {
+    "name" : "大加那利岛拉斯帕尔马斯",
+    "identifier" : "las palmas de gran canaria"
+  },
+  {
+    "name" : "马萨特兰",
+    "identifier" : "mazatlan"
+  },
+  {
+    "name" : "地拉那",
+    "identifier" : "tirana"
+  },
+  {
+    "name" : "考纳斯",
+    "identifier" : "kaunas"
+  },
+  {
+    "name" : "火奴鲁鲁",
+    "identifier" : "honolulu"
+  },
+  {
+    "name" : "堪培拉",
+    "identifier" : "canberra"
+  },
+  {
+    "name" : "博洛尼亚",
+    "identifier" : "bologna"
+  },
+  {
+    "name" : "基督城",
+    "identifier" : "christchurch"
+  },
+  {
+    "name" : "哈利法克斯",
+    "identifier" : "halifax"
+  },
+  {
+    "name" : "安汶",
+    "identifier" : "ambon"
+  },
+  {
+    "name" : "佛罗伦斯",
+    "identifier" : "florence"
+  },
+  {
+    "name" : "多哈",
+    "identifier" : "doha"
+  },
+  {
+    "name" : "苏黎世",
+    "identifier" : "zurich"
+  },
+  {
+    "name" : "好啊",
+    "identifier" : "nice"
+  },
+  {
+    "name" : "辛菲罗波尔",
+    "identifier" : "simferopol"
+  },
+  {
+    "name" : "特皮克",
+    "identifier" : "tepic"
+  },
+  {
+    "name" : "索契",
+    "identifier" : "sochi"
+  },
+  {
+    "name" : "斯摩棱斯克",
+    "identifier" : "smolensk"
+  },
+  {
+    "name" : "撒马尔罕",
+    "identifier" : "samarkand"
+  },
+  {
+    "name" : "摩尔曼斯克",
+    "identifier" : "murmansk"
+  },
+  {
+    "name" : "弗拉季卡夫卡兹",
+    "identifier" : "vladikavkaz"
+  },
+  {
+    "name" : "赤太",
+    "identifier" : "chita"
+  },
+  {
+    "name" : "新城堡",
+    "identifier" : "newcastle"
+  },
+  {
+    "name" : "韦略港",
+    "identifier" : "porto velho"
+  },
+  {
+    "name" : "圣萨尔瓦多·德胡胡伊",
+    "identifier" : "san salvador de jujuy"
+  },
+  {
+    "name" : "匹兹堡",
+    "identifier" : "pittsburgh"
+  },
+  {
+    "name" : "布雷斯特",
+    "identifier" : "brest"
+  },
+  {
+    "name" : "锚地",
+    "identifier" : "anchorage"
+  },
+  {
+    "name" : "辛辛那提",
+    "identifier" : "cincinnati"
+  },
+  {
+    "name" : "卧龙岗市",
+    "identifier" : "wollongong"
+  },
+  {
+    "name" : "卡塔尼亚",
+    "identifier" : "catania"
+  },
+  {
+    "name" : "乌特勒支",
+    "identifier" : "utrecht"
+  },
+  {
+    "name" : "维多利亚州",
+    "identifier" : "victoria"
+  },
+  {
+    "name" : "莫尔兹比港",
+    "identifier" : "port moresby"
+  },
+  {
+    "name" : "洛根市",
+    "identifier" : "logan city"
+  },
+  {
+    "name" : "巴里",
+    "identifier" : "bari"
+  },
+  {
+    "name" : "南特",
+    "identifier" : "nantes"
+  },
+  {
+    "name" : "史特拉斯堡",
+    "identifier" : "strasbourg"
+  },
+  {
+    "name" : "贝尔法斯特",
+    "identifier" : "belfast"
+  },
+  {
+    "name" : "卢布尔雅那",
+    "identifier" : "ljubljana"
+  },
+  {
+    "name" : "奥兰多",
+    "identifier" : "orlando"
+  },
+  {
+    "name" : "彼得罗扎沃茨克",
+    "identifier" : "petrozavodsk"
+  },
+  {
+    "name" : "普利茅斯",
+    "identifier" : "plymouth"
+  },
+  {
+    "name" : "里约布兰科",
+    "identifier" : "rio branco"
+  },
+  {
+    "name" : "洛斯·莫奇斯",
+    "identifier" : "los mochis"
+  },
+  {
+    "name" : "波尔图",
+    "identifier" : "porto"
+  },
+  {
+    "name" : "麦迪逊",
+    "identifier" : "madison"
+  },
+  {
+    "name" : "蒙彼利埃",
+    "identifier" : "montpellier"
+  },
+  {
+    "name" : "奥胡斯",
+    "identifier" : "arhus"
+  },
+  {
+    "name" : "雅库茨克",
+    "identifier" : "yakutsk"
+  },
+  {
+    "name" : "乔治敦",
+    "identifier" : "georgetown"
+  },
+  {
+    "name" : "波尔多",
+    "identifier" : "bordeaux"
+  },
+  {
+    "name" : "根特",
+    "identifier" : "gent"
+  },
+  {
+    "name" : "巴吞鲁日",
+    "identifier" : "baton rouge"
+  },
+  {
+    "name" : "里尔",
+    "identifier" : "lille"
+  },
+  {
+    "name" : "拿骚",
+    "identifier" : "nassau"
+  },
+  {
+    "name" : "吉朗",
+    "identifier" : "geelong"
+  },
+  {
+    "name" : "帕拉马里博",
+    "identifier" : "paramaribo"
+  },
+  {
+    "name" : "圣克鲁斯-德特内里费",
+    "identifier" : "santa cruz de tenerife"
+  },
+  {
+    "name" : "格拉茨",
+    "identifier" : "graz"
+  },
+  {
+    "name" : "墨西拿",
+    "identifier" : "messina"
+  },
+  {
+    "name" : "维罗纳",
+    "identifier" : "verona"
+  },
+  {
+    "name" : "霍巴特",
+    "identifier" : "hobart"
+  },
+  {
+    "name" : "诺维萨德",
+    "identifier" : "novi sad"
+  },
+  {
+    "name" : "卑尔根",
+    "identifier" : "bergen"
+  },
+  {
+    "name" : "得梅因",
+    "identifier" : "des moines"
+  },
+  {
+    "name" : "科斯塔奈",
+    "identifier" : "kostanay"
+  },
+  {
+    "name" : "林兹",
+    "identifier" : "linz"
+  },
+  {
+    "name" : "帕多瓦",
+    "identifier" : "padova"
+  },
+  {
+    "name" : "普斯科夫",
+    "identifier" : "pskov"
+  },
+  {
+    "name" : "清迈",
+    "identifier" : "chiang mai"
+  },
+  {
+    "name" : "尼科西亚",
+    "identifier" : "nicosia"
+  },
+  {
+    "name" : "口服",
+    "identifier" : "oral"
+  },
+  {
+    "name" : "奥什",
+    "identifier" : "osh"
+  },
+  {
+    "name" : "萨斯卡通",
+    "identifier" : "saskatoon"
+  },
+  {
+    "name" : "小石头",
+    "identifier" : "little rock"
+  },
+  {
+    "name" : "万象",
+    "identifier" : "vientiane"
+  },
+  {
+    "name" : "香港仔",
+    "identifier" : "aberdeen"
+  },
+  {
+    "name" : "帕尔马斯",
+    "identifier" : "palmas"
+  },
+  {
+    "name" : "汤斯维尔",
+    "identifier" : "townsville"
+  },
+  {
+    "name" : "盐湖城",
+    "identifier" : "salt lake city"
+  },
+  {
+    "name" : "软木",
+    "identifier" : "cork"
+  },
+  {
+    "name" : "塔拉哈西",
+    "identifier" : "tallahassee"
+  },
+  {
+    "name" : "圣塔伦",
+    "identifier" : "santarem"
+  },
+  {
+    "name" : "卡塔马卡圣费尔南多·德尔瓦莱",
+    "identifier" : "san fernando del valle de catamarca"
+  },
+  {
+    "name" : "的里雅斯特",
+    "identifier" : "trieste"
+  },
+  {
+    "name" : "圣路易斯",
+    "identifier" : "san luis"
+  },
+  {
+    "name" : "日内瓦",
+    "identifier" : "geneva"
+  },
+  {
+    "name" : "阿特劳",
+    "identifier" : "atyrau"
+  },
+  {
+    "name" : "库塔伊西",
+    "identifier" : "kutaisi"
+  },
+  {
+    "name" : "南萨哈林斯克",
+    "identifier" : "yuzhno-sakhalinsk"
+  },
+  {
+    "name" : "分裂",
+    "identifier" : "split"
+  },
+  {
+    "name" : "里贾纳",
+    "identifier" : "regina"
+  },
+  {
+    "name" : "图尔库",
+    "identifier" : "turku"
+  },
+  {
+    "name" : "牛津",
+    "identifier" : "oxford"
+  },
+  {
+    "name" : "杰克逊",
+    "identifier" : "jackson"
+  },
+  {
+    "name" : "斯普林菲尔德",
+    "identifier" : "springfield"
+  },
+  {
+    "name" : "巴塞尔",
+    "identifier" : "basel"
+  },
+  {
+    "name" : "拉里奥哈",
+    "identifier" : "la rioja"
+  },
+  {
+    "name" : "希伯伦",
+    "identifier" : "hebron"
+  },
+  {
+    "name" : "摩德纳",
+    "identifier" : "modena"
+  },
+  {
+    "name" : "剑桥",
+    "identifier" : "cambridge"
+  },
+  {
+    "name" : "弗里斯科",
+    "identifier" : "frisco"
+  },
+  {
+    "name" : "帕萨迪纳",
+    "identifier" : "pasadena"
+  },
+  {
+    "name" : "约克",
+    "identifier" : "york"
+  },
+  {
+    "name" : "萨尔茨堡",
+    "identifier" : "salzburg"
+  },
+  {
+    "name" : "凯恩斯",
+    "identifier" : "cairns"
+  },
+  {
+    "name" : "汉密尔顿",
+    "identifier" : "hamilton"
+  },
+  {
+    "name" : "拉古纳",
+    "identifier" : "la laguna"
+  },
+  {
+    "name" : "帝力",
+    "identifier" : "dili"
+  },
+  {
+    "name" : "第戎",
+    "identifier" : "dijon"
+  },
+  {
+    "name" : "乌普萨拉",
+    "identifier" : "uppsala"
+  },
+  {
+    "name" : "特隆赫姆",
+    "identifier" : "trondheim"
+  },
+  {
+    "name" : "麦纳麦",
+    "identifier" : "manama"
+  },
+  {
+    "name" : "帕尔马",
+    "identifier" : "parma"
+  },
+  {
+    "name" : "博伊西",
+    "identifier" : "boise"
+  },
+  {
+    "name" : "欧登塞",
+    "identifier" : "odense"
+  },
+  {
+    "name" : "亚眠",
+    "identifier" : "amiens"
+  },
+  {
+    "name" : "旅游团",
+    "identifier" : "tours"
+  },
+  {
+    "name" : "波德戈里察",
+    "identifier" : "podgorica"
+  },
+  {
+    "name" : "因斯布鲁克",
+    "identifier" : "innsbruck"
+  },
+  {
+    "name" : "图文巴",
+    "identifier" : "toowoomba"
+  },
+  {
+    "name" : "达尔文",
+    "identifier" : "darwin"
+  },
+  {
+    "name" : "伯尔尼",
+    "identifier" : "bern"
+  }
+]

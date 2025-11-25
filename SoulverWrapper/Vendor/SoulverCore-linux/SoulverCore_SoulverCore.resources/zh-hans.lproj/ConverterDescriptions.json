@@ -1,0 +1,181 @@
+{
+  "rounding": [
+    {
+      "prototypeExpressions": [
+        "四舍五入"
+      ],
+      "identifier": "rounded"
+    },
+    {
+      "prototypeExpressions": [
+        "向上取整"
+      ],
+      "identifier": "roundedUp"
+    },
+    {
+      "prototypeExpressions": [
+        "向下取整"
+      ],
+      "identifier": "roundedDown"
+    },
+    {
+      "prototypeExpressions": [
+          "保留 3位小数",
+          "保留 3位",
+          "保留 1位小数",
+          "保留 1位",
+          "保留 3位小数点",
+          "四舍五入到 3位小数",
+          "四舍五入 3位小数",
+          "为 3小数"
+      ],
+      "identifier": "roundedToDp"
+    },
+    {
+      "prototypeExpressions": [
+          "16 向上四舍五入到最近的 10",
+          "16 向上取整到最近的 10",
+          "56 向上到最近的 10"
+      ],
+      "identifier": "roundedUpToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+          "向下四舍五入到最近的 10",
+          "向下取整到最近的 10",
+          "向下到最近的 10"
+          
+      ],
+      "identifier": "roundedDownToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "四舍五入到最近的 10",
+        "四舍五入到最近的 10",
+        "到最近的 10"
+      ],
+      "identifier": "roundedToNearestX"
+    }
+  ],
+  "compoundUnits": [
+    {
+      "prototypeExpressions": [
+        "到年和月",
+        "作为年和月"
+      ],
+      "identifier": "yearsAndMonths"
+    },
+    {
+      "prototypeExpressions": [
+        "到月和周",
+        "作为月和周"
+      ],
+      "identifier": "monthsAndWeeks"
+    },
+    {
+      "prototypeExpressions": [
+        "到月和日",
+        "作为月和日"
+      ],
+      "identifier": "monthsAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "到周和日",
+        "作为周和日"
+      ],
+      "identifier": "weeksAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "到日和小时",
+        "作为日和小时"
+      ],
+      "identifier": "daysAndHours"
+    },
+    {
+      "prototypeExpressions": [
+        "到小时和分钟",
+        "作为小时和分钟"
+      ],
+      "identifier": "hoursAndMinutes"
+    },
+    {
+      "prototypeExpressions": [
+        "到分钟和秒",
+        "作为分钟和秒"
+      ],
+      "identifier": "minutesAndSeconds"
+    }
+  ],
+  "dateTime": [
+    {
+      "prototypeExpressions": [
+        "作为日期",
+        "到日期"
+      ],
+      "identifier": "toDate"
+    },
+    {
+      "prototypeExpressions": [
+        "作为时间戳",
+        "时间戳",
+        "__converter_symbol 日期"
+      ],
+      "identifier": "toTimestamp"
+    }
+  ],
+  "numberForms": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 数字",
+        "作为数字",
+        "到数字"
+      ],
+      "identifier": "toDecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 乘数"
+      ],
+      "identifier": "toMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 时间戳"
+      ],
+      "identifier": "toTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 周期"
+      ],
+      "identifier": "toTimespan"
+    },
+    {
+      "prototypeExpressions": [
+          "__converter_symbol 圈速",
+          "__converter_symbol 每圈耗时"
+      ],
+      "identifier": "toLaptime"
+    },
+    {
+      "prototypeExpressions": [
+          "__converter_symbol 分之",
+          "__converter_symbol 分数",
+          "作为分数",
+        "到分数"
+      ],
+      "identifier": "toFraction"
+    }
+  ],
+  "music": [
+    {
+      "prototypeExpressions": [
+        "作为音调",
+        "到音调"
+      ],
+      "identifier": "toPitch"
+    }
+  ]
+}

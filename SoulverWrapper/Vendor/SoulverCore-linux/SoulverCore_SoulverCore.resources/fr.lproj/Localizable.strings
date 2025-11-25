@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+//i.e line1 will be a reference to line 1
+"plain text line reference" = "ligne";
+
+/* Catégories d'unités */
+"Time" = "Temps";
+"Acceleration" = "Accélération";
+"Length" = "Longueur";
+"Mass" = "Masse";
+"Volume" = "Volume";
+"Frequency" = "Fréquence";
+"Angle" = "Angle";
+"Temperature" = "Température";
+"Energy" = "Énergie";
+"Power" = "Puissance";
+"Pressure" = "Pression";
+"Currency" = "Devise";
+"Area" = "Surface";
+"Speed" = "Vitesse";
+"Data Transfer" = "Transfert de données";
+"Data Storage" = "Stockage de données";
+"Other Unit Kind" = "Autre type d'unité";
+
+/* Erreurs */
+"Error: ∞" = "Erreur : ∞";
+"Error: incompatible units" = "Erreur : unités incompatibles";
+"Error: divide by zero" = "Erreur : division par zéro";
+"Error: imaginary number" = "Erreur : nombre imaginaire";
+"Error: unsupported multiplicative unit" = "Erreur : unité d'exposant non prise en charge";
+"Error: unsupported unit in rate" = "Erreur : unité non prise en charge dans le taux";
+"Error: division without divisor" = "Erreur : division sans diviseur";
+
+/* Positions d'un symbole de devise personnalisé */
+"Before" = "Avant";
+"Before (with space)" = "Avant (avec espace)";
+"After" = "Après";
+"After (with space)" = "Après (avec espace)";
+
+/* Answer Contextual Metadata */
+/* Used in the contextual menu for an answer */
+
+/* For instance, km, a unit of distance */
+"%@, a unit of %@" = "%@, une unité de %@";
+
+/* a rate, like km per day */
+"%@ per %@" = "%@ par %@";
+"amount per %@" = "montant par %@";
+
+/* days of the week, like February 12 was a Saturday, March 8 will be a Tuesday */
+"%@ was a %@" = "%@ était un %@.";
+"%@ will be a %@" = "%@ sera un%@.";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";

@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Referencias de línea */
+// es decir, line1 será una referencia a la línea 1
+"plain text line reference" = "línea";
+"line above" = "línea arriba";
+
+/* Categorías de unidades */
+"Time" = "Tiempo";
+"Acceleration" = "Aceleración";
+"Length" = "Longitud";
+"Mass" = "Masa";
+"Volume" = "Volumen";
+"Frequency" = "Frecuencia";
+"Angle" = "Ángulo";
+"Temperature" = "Temperatura";
+"Energy" = "Energía";
+"Power" = "Potencia";
+"Pressure" = "Presión";
+"Currency" = "Moneda";
+"Area" = "Área";
+"Speed" = "Velocidad";
+"Data Transfer" = "Transferencia de datos";
+"Data Storage" = "Almacenamiento de datos";
+"Other Unit Kind" = "Otro tipo de unidad";
+
+/* Errores */
+"Error: ∞" = "Error: ∞";
+"Error: incompatible units" = "Error: unidades incompatibles";
+"Error: divide by zero" = "Error: división por cero";
+"Error: imaginary number" = "Error: número imaginario";
+"Error: unsupported multiplicative unit" = "Error: unidad de exponente no soportada";
+"Error: unsupported unit in rate" = "Error: unidad no soportada en tasa";
+"Error: division without divisor" = "Error: división sin divisor";
+
+/* Posiciones de un símbolo de moneda personalizado */
+"Before" = "Antes";
+"Before (with space)" = "Antes (con espacio)";
+"After" = "Después";
+"After (with space)" = "Después (con espacio)";
+
+/* Metadatos contextuales de respuesta */
+/* Utilizado en el menú contextual para una respuesta */
+
+/* Por ejemplo, km, una unidad de distancia */
+"%@, a unit of %@" = "%@, una unidad de %@";
+
+/* una tasa, como km por día */
+"%@ per %@" = "%@ por %@";
+"amount per %@" = "cantidad por %@";
+
+/* días de la semana, como el 12 de febrero fue un sábado, el 8 de marzo será un martes */
+"%@ was a %@" = "%@ fue un(a) %@.";
+"%@ will be a %@" = "%@ será un(a) %@.";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";

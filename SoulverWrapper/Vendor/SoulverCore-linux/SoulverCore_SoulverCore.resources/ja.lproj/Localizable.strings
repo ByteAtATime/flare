@@ -1,0 +1,68 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+"plain text line reference" = "行";
+
+"line above" = "上の行";
+"previous line" = "前の行";
+"prev" = "前";
+
+/* Unit Categories */
+"Time" = "時間";
+"Acceleration" = "加速度";
+"Length" = "長さ";
+"Mass" = "質量";
+"Volume" = "体積";
+"Frequency" = "周波数";
+"Angle" = "角度";
+"Temperature" = "温度";
+"Energy" = "エネルギー";
+"Power" = "電力";
+"Pressure" = "圧力";
+"Currency" = "通貨";
+"Area" = "面積";
+"Speed" = "速度";
+"Data Transfer" = "データ転送";
+"Data Storage" = "データストレージ";
+"Other Unit Kind" = "その他の単位";
+
+/* Errors */
+"Error: ∞" = "エラー: ∞";
+"Error: incompatible units" = "エラー: 互換性のない単位";
+"Error: divide by zero" = "エラー: ゼロによる除算";
+"Error: imaginary number" = "エラー: 虚数";
+"Error: unsupported multiplicative unit" = "エラー: サポートされていない乗数単位";
+"Error: unsupported unit in rate" = "エラー: レートでサポートされていない単位";
+"Error: division without divisor" = "エラー: 除数がありません";
+"Error: try a smaller number" = "エラー: より小さい数を試してください";
+"Error: unsupported exponent operation" = "エラー: サポートされていない指数演算";
+
+/* Positions of a custom currency symbol */
+"Before" = "前";
+"Before (with space)" = "前（スペース付き）";
+"After" = "後";
+"After (with space)" = "後（スペース付き）";
+
+/* Answer Contextual Metadata */
+"%@, a unit of %@" = "%@、%@の単位";
+"%@ per %@" = "%@毎%@";
+"amount per %@" = "%@あたりの量";
+"%@ was a %@" = "%@は%@でした。";
+"%@ will be a %@" = "%@は%@になります。";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";
+
+/* Weather Functions */
+"on __datestamp" = "__datestampの";
+"in __datestamp" = "__datestampの";

@@ -1,0 +1,58 @@
+[
+  {
+    "type": "christmasEve",
+    "aliases": ["Christmas Eve"]
+  },
+  {
+    "type": "christmasDay",
+    "aliases": ["Christmas Day", "Xmas", "Christmas"]
+  },
+  {
+    "type": "goodFriday",
+    "aliases": ["Good Friday", "Holy Friday", "Easter Friday"]
+  },
+  {
+    "type": "easterSunday",
+    "aliases": ["Easter Sunday", "Easter"]
+  },
+  {
+    "type": "boxingDay",
+    "aliases": ["Boxing Day"]
+  },
+  {
+    "type": "newYearsDay",
+    "aliases": ["New Year's Day", "New Years", "New Years Day"]
+  },
+  {
+    "type": "newYearsEve",
+    "aliases": ["NYE", "New Years Eve", "New Year's Eve"]
+  },
+  {
+    "type": "blackFriday",
+    "aliases": ["Black Friday"]
+  },
+  {
+    "type": "thanksgiving",
+    "aliases": ["Thanksgiving"]
+  },
+  {
+    "type": "valentinesDay",
+    "aliases": ["Valentine's Day", "Saint Valentine's Day", "Valentines Day"]
+  },
+  {
+    "type": "halloween",
+    "aliases": ["Halloween"]
+  },
+  {
+    "type": "chineseNewYear",
+    "aliases": ["Chinese New Year", "Spring Festival", "Lunar New Year"]
+  },
+  {
+    "type": "ramadanStart",
+    "aliases": ["Ramadan", "Ramadan start", "Start of Ramadan"]
+  },
+  {
+    "type": "ramadanEnd",
+    "aliases": ["End of Ramadan", "Ramadan end"]
+  }
+]

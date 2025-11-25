@@ -1,0 +1,400 @@
+{
+    "weatherRelated": [
+      {
+        "identifier": "lowTemperature",
+        "prototypeExpressions": [
+          "__timezone 最低温度",
+          "__timezone 低温",
+          "__timezone 最低温",
+          "__timezone 低"
+        ]
+      },
+      {
+        "identifier": "highTemperature",
+        "prototypeExpressions": [
+          "__timezone 最高温度",
+          "__timezone 高温",
+          "__timezone 最高温",
+          "__timezone 高"
+        ]
+      },
+      {
+        "identifier": "precipitationChance",
+        "prototypeExpressions": [
+          "__timezone 降雨概率",
+          "__timezone 降水概率"
+        ]
+      },
+      {
+        "identifier": "rainfallAmount",
+        "prototypeExpressions": [
+          "__timezone 降雨量",
+          "__timezone 雨量",
+          "__timezone 降水量",
+          "__timezone 雨"
+        ]
+      },
+      {
+        "identifier": "snowfallAmount",
+        "prototypeExpressions": [
+          "__timezone 降雪量",
+          "__timezone 雪量",
+          "__timezone 降雪",
+          "__timezone 雪"
+        ]
+      },
+      {
+        "identifier": "apparentTemperature",
+        "prototypeExpressions": [
+          "__timezone 体感温度",
+          "__timezone 明显温度",
+          "__timezone 体感温"
+        ]
+      },
+      {
+        "identifier": "currentTemperature",
+        "prototypeExpressions": [
+          "__timezone 温度",
+          "__timezone 当前温度"
+        ]
+      },
+      {
+        "identifier": "weatherConditions",
+        "prototypeExpressions": [
+          "__timezone 天气",
+          "__timezone 天气情况",
+          "__timezone 天气状况"
+        ]
+      },
+      {
+        "identifier": "humidity",
+        "prototypeExpressions": [
+          "__timezone 湿度",
+          "__timezone 空气湿度"
+        ]
+      },
+      {
+        "identifier": "cloudCover",
+        "prototypeExpressions": [
+          "__timezone 云量",
+          "__timezone 云覆盖"
+        ]
+      },
+      {
+        "identifier": "visibility",
+        "prototypeExpressions": [
+          "__timezone 能见度",
+          "__timezone 可见度"
+        ]
+      },
+      {
+        "identifier": "windSpeed",
+        "prototypeExpressions": [
+          "__timezone 风速",
+          "__timezone 风力",
+          "__timezone 风速"
+        ]
+      },
+      {
+        "identifier": "windDirection",
+        "prototypeExpressions": [
+          "__timezone 风向"
+        ]
+      },
+      {
+        "identifier": "dewPoint",
+        "prototypeExpressions": [
+          "__timezone 露点",
+          "__timezone 露点温度"
+        ]
+      },
+      {
+        "identifier": "uvIndex",
+        "prototypeExpressions": [
+          "__timezone 紫外线指数",
+          "__timezone 紫外线强度"
+        ]
+      },
+      {
+        "identifier": "pressure",
+        "prototypeExpressions": [
+          "__timezone 气压",
+          "__timezone 大气压力"
+        ]
+      },
+      {
+        "identifier": "pressureDirection",
+        "prototypeExpressions": [
+          "__timezone 气压趋势",
+          "__timezone 气压变化",
+          "__timezone 气压方向"
+        ]
+      },
+      {
+        "identifier": "sunrise",
+        "prototypeExpressions": [
+          "__timezone 日出时间",
+          "__timezone 日出",
+          "__timezone 早晨太阳升起"
+        ]
+      },
+      {
+        "identifier": "sunset",
+        "prototypeExpressions": [
+          "__timezone 日落时间",
+          "__timezone 日落",
+          "__timezone 傍晚太阳落下"
+        ]
+      },
+      {
+        "identifier": "moonrise",
+        "prototypeExpressions": [
+          "__timezone 月升时间",
+          "__timezone 月亮升起",
+          "__timezone 升起",
+          "__timezone 月升"
+        ]
+      },
+      {
+        "identifier": "moonset",
+        "prototypeExpressions": [
+          "__timezone 月落时间",
+          "__timezone 月亮落下",
+          "__timezone 落下",
+          "__timezone 月落"
+        ]
+      },
+      {
+        "identifier": "moonPhase",
+        "prototypeExpressions": [
+          "__timezone 月相",
+          "__timezone 月亮",          
+          "__timezone 月亮阶段"
+        ]
+      }
+    ],
+  "percentage": [
+    {
+      "prototypeExpressions": [
+        "100 的 __percentage",
+        "100 之 __percentage"
+      ],
+      "identifier": "reversedPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "100 减 __percentage",
+        "100 去 __percentage"
+      ],
+      "identifier": "reversedPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "100 加 __percentage",
+        "100 加上 __percentage"
+      ],
+      "identifier": "reversedPercentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "30 是多少的 __percentage",
+        "30 是什么的 __percentage"
+      ],
+      "identifier": "isPercentOfWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "多少的 __percentage 是 30",
+        "多少的 __percentage 为 30",
+        "什么的 __percentage 为 30",
+        "什么的 __percentage 是 30"
+      ],
+      "identifier": "isPercentOfWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "多少减去 __percentage 是 30",
+        "多少减 __percentage 是 30",
+        "什么减去 __percentage 是 30",
+        "什么减 __percentage 是 30"
+      ],
+      "identifier": "isPercentOffWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 是多少加 __percentage",
+        "30 是多少加上 __percentage",
+        "30 是什么加 __percentage",
+        "30 是什么加上 __percentage"
+      ],
+      "identifier": "isPercentOnWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "多少加 __percentage 是 30",
+        "多少加 __percentage 为 30",
+        "多少加上 __percentage 是 30",
+        "多少加上 __percentage 为 30",
+        "什么加 __percentage 是 30",
+        "什么加 __percentage 为 30",
+        "什么加上 __percentage 是 30",
+        "什么加上 __percentage 为 30"
+      ],
+      "identifier": "isPercentOnWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "10 是 20 里的百分比为",
+        "10 在 20 里的百分比为",
+        "10 是 20 里的占比为",
+        "10 在 20 里的占比为"
+      ],
+      "identifier": "isWhatPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "10 是 20 去掉百分之多少",
+        "10 是 20 减去百分之多少",
+        "10 是 20 减百分之多少",
+        "10 是 20 去掉百分之几",
+        "10 是 20 减去百分之几",
+        "10 是 20 减百分之几"
+      ],
+      "identifier": "isWhatPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "20 是 10 加百分之多少",
+        "20 是 10 加上百分之几"
+      ],
+      "identifier": "isWhatPercentOn"
+    }
+  ],
+  "general": [
+    {
+      "prototypeExpressions": [
+        "20 除以 3 的余数",
+        "20 除 3 之余"
+      ],
+      "identifier": "remainder"
+    },
+    {
+      "prototypeExpressions": [
+          "20 的一半是"
+      ],
+      "identifier": "halfOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2 和 30 之间小的一个数",
+        "2 和 30 之间较小的一个数",
+        "2 和 30 之间最小的一个数"
+      ],
+      "identifier": "lesserOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2 和 30 之间大的一个数",
+        "2 和 30 之间较大的一个数",
+        "2 和 30 之间最大的一个数"
+      ],
+      "identifier": "greaterOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2 与 32 的中间点",
+        "2 与 32 的中间数",
+        "2 和 32 的中间点",
+        "2 和 32 的中间数",
+        "2 和 32 的中间值",
+        "2 与 32 的中间值"
+      ],
+      "identifier": "midpoint"
+    },
+    {
+      "prototypeExpressions": [
+        "多少除以 8 相当于 6除以 600",
+        "多少除以 8 等于 6除以 600",
+        "什么除以 8 相当于 6除以 600",
+        "什么除以 8 等于 6除以 600"
+      ],
+      "identifier": "proportionsFindNumerator"
+    },
+    {
+      "prototypeExpressions": [
+        "8 除以多少相当于 6除以 600",
+        "8 除以多少等于 6除以 600",
+        "8 除以什么相当于 6除以 600",
+        "8 除以什么等于 6除以 600"
+      ],
+      "identifier": "proportionsFindDenominator"
+    },
+    {
+      "prototypeExpressions": [
+        "1 到 5 之间的任意数",
+        "1 与 5 之间的任意数",
+        "1 和 5 之间的任意数"
+      ],
+      "identifier": "makeRandomNumber"
+    },
+    
+  ],
+  "datetime": [
+    {
+      "prototypeExpressions": [
+        "在 __datestamp 和 __datestamp 之间的 __duration 数",
+        "__datestamp 和 __datestamp 之间的 __duration",
+        "从 __datestamp 到 __datestamp 之间的 __duration 数",
+        "从 __datestamp 到 __datestamp 之间的 __duration"
+      ],
+      "identifier": "calendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration 才到 __datestamp",
+        "多少 __duration 直到 __datestamp"
+      ],
+      "identifier": "calendarUnitToDate"
+    },
+    {
+      "prototypeExpressions": [
+        "从 __datestamp 到 __datestamp",
+        "从 __datestamp 至 __datestamp",
+        "__datestamp 到 __datestamp",
+        "__datestamp 至 __datestamp",
+        "__datestamp 日到 __datestamp"
+      ],
+      "identifier": "intervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "从 __timestamp 到 __timestamp",
+        "从 __timestamp 至 __timestamp",
+        "__timestamp 到 __timestamp",
+        "__timestamp 至 __timestamp"
+      ],
+      "identifier": "intervalBetweenTimestamps"
+    },
+    {
+      "prototypeExpressions": [
+        "新的时间戳"
+      ],
+      "identifier": "generateTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone 时间",
+        "__timezone 的时间"
+      ],
+      "identifier": "timeInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone 以及 __timezone 之间的时间差"
+      ],
+      "identifier": "differenceBetweenTimezones"
+    }
+  ],
+  "unitRelated": [
+  ]
+}

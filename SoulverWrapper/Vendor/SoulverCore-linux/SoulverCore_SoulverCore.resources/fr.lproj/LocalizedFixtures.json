@@ -1,0 +1,122 @@
+{
+  "fixtures": {
+    "colons": [
+      ":",
+      "："
+    ],
+    "nextDateQualifiers": [
+      "suivant",
+      "suivante"
+    ],
+    "converterSymbols": [
+      "vers"
+    ],
+    "converterSymbolsIn": [
+      "en"
+    ],
+    "converterSymbolsAs": [
+      "comme",
+    ],
+    "converterSymbolsTo": [
+      "à"
+    ],
+    "powerOperators": [
+      "^",
+      "**"
+    ],
+    "percentWords": [
+      "pourcent",
+      "pourcentage",
+      "pour cent"
+    ],
+    "hereAliases": [
+      "ici"
+    ],
+    "nowDateAliases": [
+      "maintenant"
+    ],
+    "ordinalSuffixes": [
+      "er",
+      "nd"
+    ],
+    "piAliases": [
+      "π"
+    ],
+    "divisionOperators": [
+      "÷",
+      "divisé par"
+    ],
+    "midnightAliases": [
+      "minuit"
+    ],
+    "previousDateQualifiers": [
+      "précédent",
+      "dernier"
+    ],
+    "timespanWords": [
+      "intervalle de temps",
+      "durée"
+    ],
+    "pmAliases": [
+      "pm"
+    ],
+    "lessThanOrEqualToOperators": [
+      "<=",
+      "=<"
+    ],
+    "conjunctionWordsOr": [
+      "ou"
+    ],
+    "middayAliases": [
+      "midi"
+    ],
+    "subtractionOperators": [
+      "−",
+      "–",
+      "moins"
+    ],
+    "reverseSubtractionOperators": [
+    ],
+    "additionOperators": [
+      "plus"
+    ],
+    "amAliases": [
+      "am"
+    ],
+    "todayDateAliases": [
+      "aujourd'hui"
+    ],
+    "isNotEqualToOperators": [
+      "!=",
+      "=!"
+    ],
+    "greaterThanOrEqualToOperators": [
+      ">=",
+      "=>"
+    ],
+    "totalAliases": [
+      "total",
+      "somme"
+    ],
+    "multiplicationOperators": [
+      "×",
+      "x"
+    ],
+    "averageAliases": [
+      "moyenne"
+    ],
+    "countAliases": [
+      "décompte",
+      "dénombrement"
+    ],
+    "yesterdayDateAliases": [
+      "hier"
+    ],
+    "conjunctionWordsAnd": [
+      "et"
+    ],
+    "tomorrowDateAliases": [
+      "demain"
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+//i.e line1 will be a reference to line 1
+"plain text line reference"  = "строка";
+
+/* Unit Categories */
+"Time"  = "Время";
+"Acceleration"  = "Ускорение";
+"Length"  = "Длина";
+"Mass"  = "Масса";
+"Volume"  = "Объём";
+"Frequency"  = "Частота";
+"Angle"  = "Геометрия";
+"Temperature"  = "Температура";
+"Energy"  = "Энергия";
+"Power"  = "Мощность";
+"Pressure"  = "Давление";
+"Currency"  = "Валюта";
+"Area"  = "Площадь";
+"Speed"  = "Скорость";
+"Data Transfer"  = "Скорость передачи информации";
+"Data Storage"  = "Объём информации";
+"Other Unit Kind"  = "Другие виды единиц";
+
+/* Errors */
+"Error: ∞"  = "Ошибка: ∞";
+"Error: incompatible units"  = "Ошибка: единицы из разных категорий";
+"Error: divide by zero"  = "Ошибка: деление на ноль";
+"Error: imaginary number"  = "Ошибка: комплексное число";
+"Error: unsupported multiplicative unit"  = "Ошибка: нереальная единица измерения";
+"Error: unsupported unit in rate"  = "Ошибка: нереальная единица измерения";
+
+/* Positions of a custom currency symbol */
+"Before"  = "До";
+"Before (with space)"  = "До (с пробелом)";
+"After"  = "После";
+"After (with space)"  = "После (с пробелом)";
+
+/* Answer Contextual Metadata */
+/* Used in the contextual menu for an answer */
+
+/* For instance, km, a unit of distance */
+"%@, a unit of %@"  = "%@, из группы единиц '%@'";
+
+/* a rate, like km per day */
+"%@ per %@"  = "%@ per %@";
+"amount per %@"  = "amount per %@";
+
+/* days of the week, like February 12 was a Saturday, March 8 will be a Tuesday */
+"%@ was a %@"  = "%@ был %@.";
+"%@ will be a %@"  = "%@ будет %@.";
+
+/* Quick Operators */
+"plusQuickOperator"  = "п";
+"minusQuickOperator"  = "м";
+"timesQuickOperator"  = "х";
+"divideQuickOperator"  = "р";

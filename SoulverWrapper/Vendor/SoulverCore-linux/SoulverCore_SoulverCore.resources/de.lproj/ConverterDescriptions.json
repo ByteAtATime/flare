@@ -1,0 +1,180 @@
+{
+  "rounding": [
+    {
+      "prototypeExpressions": [
+        "gerundet"
+      ],
+      "identifier": "rounded"
+    },
+    {
+      "prototypeExpressions": [
+        "aufgerundet"
+      ],
+      "identifier": "roundedUp"
+    },
+    {
+      "prototypeExpressions": [
+        "abgerundet"
+      ],
+      "identifier": "roundedDown"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 3 dezimalstellen gerundet",
+        "gerundet zu 3 dezimalstellen",
+        "gerundet auf 3 dezimalstellen",
+        "gerundet 3 dezimalstellen",
+        "3 nk-stellen",
+        "3 nk",
+        "3 dezimalstellen",
+        "3 ziffer",
+        "3 nk-stelle",
+        "3 stellen",
+        "3 nk-stellen",
+        "3 nk",
+        "3 ziffern",
+        "1 dezimalstelle",
+        "1 nachkommastelle",
+        "3 dezimalpunkte",
+        "3 nachkommastellen"
+      ],
+      "identifier": "roundedToDp"
+    },
+    {
+      "prototypeExpressions": [
+        "aufgerundet auf nächste 10",
+        "auf die nächste 10",
+        "aufrunden auf die nächste 10",
+        "aufgerundet auf die nächste 10"
+      ],
+      "identifier": "roundedUpToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "abgerundet auf nächste 10",
+        "auf die nächste 10 abrunden",
+        "abrunden auf die nächste 10",
+        "abgerundet auf die nächste 10"
+      ],
+      "identifier": "roundedDownToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "auf die nächste 10",
+        "runden auf die nächste 10",
+        "gerundet auf die nächste 10"
+      ],
+      "identifier": "roundedToNearestX"
+    }
+  ],
+  "compoundUnits": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol jahre und monate"
+      ],
+      "identifier": "yearsAndMonths"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol monate und wochen"
+      ],
+      "identifier": "monthsAndWeeks"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol monate und tage"
+      ],
+      "identifier": "monthsAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol wochen und tage",
+        "__converter_symbol tage und wochen",
+        "__converter_symbol tage & wochen"
+      ],
+      "identifier": "weeksAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol tage und stunden"
+      ],
+      "identifier": "daysAndHours"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol stunden und minuten"
+      ],
+      "identifier": "hoursAndMinutes"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol minuten und sekunden"
+      ],
+      "identifier": "minutesAndSeconds"
+    }
+  ],
+  "dateTime": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol Datum"
+      ],
+      "identifier": "toDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol zeitstempel"
+      ],
+      "identifier": "toTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol zeitdauer",
+        "__converter_symbol zeitspanne"
+      ],
+      "identifier": "toTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol rundenzeit"
+      ],
+      "identifier": "toLaptime"
+    }
+  ],
+  "numberForms": [
+      {
+        "prototypeExpressions": [
+          "__converter_symbol multiplikator"
+        ],
+        "identifier": "toMultiplier"
+      },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol zahl",
+        "__converter_symbol nummer"
+      ],
+      "identifier": "toDecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol bruch"
+      ],
+      "identifier": "toFraction"
+    }
+  ],
+  "music": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol tonhöhe"
+      ],
+      "identifier": "toPitch"
+    }
+  ],
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol dms"
+      ],
+      "identifier": "toDMS"
+    }
+  ]
+}

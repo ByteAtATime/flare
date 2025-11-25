@@ -1,0 +1,85 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+//i.e line1 will be a reference to line 1
+"plain text line reference" = "line";
+
+"line above" = "line above";
+"previous line" = "previous line";
+"prev" = "prev";
+
+///* Inline sub-totals & averages */
+//"total" = "total";
+//"sum" = "sum";
+//"average" = "average";
+
+/* Unit Categories */
+"Time" = "Time";
+"Acceleration" = "Acceleration";
+"Length" = "Length";
+"Mass" = "Mass";
+"Volume" = "Volume";
+"Frequency" = "Frequency";
+"Angle" = "Angle";
+"Temperature" = "Temperature";
+"Energy" = "Energy";
+"Power" = "Power";
+"Pressure" = "Pressure";
+"Currency" = "Currency";
+"Area" = "Area";
+"Speed" = "Speed";
+"Data Transfer" = "Data Transfer";
+"Data Storage" = "Data Storage";
+"Other Unit Kind" = "Other Unit Kind";
+
+/* Errors */
+"Error: ∞" = "Error: ∞";
+"Error: incompatible units" = "Error: incompatible units";
+"Error: divide by zero" = "Error: divide by zero";
+"Error: imaginary number" = "Error: imaginary number";
+"Error: unsupported multiplicative unit" = "Error: unsupported multiplicative unit";
+"Error: unsupported unit in rate" = "Error: unsupported unit in rate";
+"Error: division without divisor" = "Error: division without divisor";
+"Error: imprecision due to magnitude" = "Error: imprecision due to magnitude";
+"Error: unsupported exponent operation" = "Error: unsupported exponent operation";
+
+/* Positions of a custom currency symbol */
+"Before" = "Before";
+"Before (with space)" = "Before (with space)";
+"After" = "After";
+"After (with space)" = "After (with space)";
+
+/* Answer Contextual Metadata */
+/* Used in the contextual menu for an answer */
+
+/* For instance, km, a unit of distance */
+"%@, a unit of %@" = "%@, a unit of %@";
+
+/* a rate, like km per day */
+"%@ per %@" = "%@ per %@";
+"amount per %@" = "amount per %@";
+
+/* days of the week, like February 12 was a Saturday, March 8 will be a Tuesday */
+"%@ was a %@" = "%@ was a %@";
+"%@ will be a %@" = "%@ will be a %@";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";
+
+/* Weather Functions */
+
+/* For historical daily weather query: temperature in Sydney _on_ March 12, 2024 */
+"on __datestamp" = "on __datestamp";
+
+/* For historical monthly weather query: weather in Sydney _in_ March, 2024 */
+"in __datestamp" = "in __datestamp";

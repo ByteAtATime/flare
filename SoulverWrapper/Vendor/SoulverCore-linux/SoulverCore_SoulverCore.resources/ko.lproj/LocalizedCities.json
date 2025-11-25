@@ -1,0 +1,2175 @@
+[
+  {
+    "identifier": "shanghai",
+    "name": "상하이"
+  },
+  {
+    "identifier": "istanbul",
+    "name": "이스탄불"
+  },
+  {
+    "identifier": "buenos aires",
+    "name": "부에노스아이레스"
+  },
+  {
+    "identifier": "mumbai",
+    "name": "뭄바이"
+  },
+  {
+    "identifier": "mexico city",
+    "name": "멕시코시티"
+  },
+  {
+    "identifier": "beijing",
+    "name": "베이징"
+  },
+  {
+    "identifier": "karachi",
+    "name": "카라치"
+  },
+  {
+    "identifier": "tianjin",
+    "name": "톈진"
+  },
+  {
+    "identifier": "guangzhou",
+    "name": "광저우"
+  },
+  {
+    "identifier": "delhi",
+    "name": "델리"
+  },
+  {
+    "identifier": "moscow",
+    "name": "모스크바"
+  },
+  {
+    "identifier": "shenzhen",
+    "name": "선전"
+  },
+  {
+    "identifier": "dhaka",
+    "name": "다카"
+  },
+  {
+    "aliases": [
+      "Korea"
+    ],
+    "identifier": "seoul",
+    "name": "서울"
+  },
+  {
+    "identifier": "sao paulo",
+    "name": "상파울루"
+  },
+  {
+    "identifier": "wuhan",
+    "name": "우한"
+  },
+  {
+    "identifier": "lagos",
+    "name": "라고스"
+  },
+  {
+    "identifier": "jakarta",
+    "name": "자카르타"
+  },
+  {
+    "identifier": "tokyo",
+    "name": "도쿄"
+  },
+  {
+    "aliases": [
+      "NYC",
+      "eastern daylight",
+      "eastern standard",
+      "eastern zone",
+      "eastern time",
+      "eastern",
+      "et"
+    ],
+    "identifier": "new york",
+    "name": "뉴욕"
+  },
+  {
+    "identifier": "lasvegas",
+    "name": "라스베이거스"
+  },
+  {
+    "identifier": "taipei",
+    "name": "타이베이"
+  },
+  {
+    "identifier": "kinshasa",
+    "name": "킨샤사"
+  },
+  {
+    "identifier": "cairo",
+    "name": "카이로"
+  },
+  {
+    "identifier": "bogota",
+    "name": "보고타"
+  },
+  {
+    "identifier": "london",
+    "name": "런던"
+  },
+  {
+    "identifier": "chongqing",
+    "name": "충칭"
+  },
+  {
+    "identifier": "chengdu",
+    "name": "청두"
+  },
+  {
+    "identifier": "baghdad",
+    "name": "바그다드"
+  },
+  {
+    "identifier": "nanjing",
+    "name": "난징"
+  },
+  {
+    "identifier": "tehran",
+    "name": "테헤란"
+  },
+  {
+    "identifier": "nanchong",
+    "name": "난충"
+  },
+  {
+    "identifier": "hong kong",
+    "name": "홍콩"
+  },
+  {
+    "identifier": "xi'an",
+    "name": "시안"
+  },
+  {
+    "identifier": "rio de janeiro",
+    "name": "리우데자네이루"
+  },
+  {
+    "identifier": "bangkok",
+    "name": "방콕"
+  },
+  {
+    "identifier": "bengaluru",
+    "name": "벵갈루루"
+  },
+  {
+    "aliases": [
+      "St. Petersburg"
+    ],
+    "identifier": "saint petersburg",
+    "name": "상트페테르부르크"
+  },
+  {
+    "identifier": "santiago",
+    "name": "산티아고"
+  },
+  {
+    "identifier": "kolkata",
+    "name": "콜카타"
+  },
+  {
+    "identifier": "sydney",
+    "name": "시드니"
+  },
+  {
+    "identifier": "yangon",
+    "name": "양곤"
+  },
+  {
+    "identifier": "chennai",
+    "name": "첸나이"
+  },
+  {
+    "identifier": "melbourne",
+    "name": "멜버른"
+  },
+  {
+    "identifier": "riyadh",
+    "name": "리야드"
+  },
+  {
+    "identifier": "los angeles",
+    "name": "로스앤젤레스"
+  },
+  {
+    "identifier": "chittagong",
+    "name": "치타공"
+  },
+  {
+    "identifier": "alexandria",
+    "name": "알렉산드리아"
+  },
+  {
+    "identifier": "ahmedabad",
+    "name": "아메다바드"
+  },
+  {
+    "identifier": "busan",
+    "name": "부산"
+  },
+  {
+    "identifier": "abidjan",
+    "name": "아비장"
+  },
+  {
+    "identifier": "kano",
+    "name": "카노"
+  },
+  {
+    "identifier": "hyderabad",
+    "name": "하이데라바드"
+  },
+  {
+    "identifier": "yokohama",
+    "name": "요코하마"
+  },
+  {
+    "identifier": "ibadan",
+    "name": "이바단"
+  },
+  {
+    "identifier": "singapore",
+    "name": "싱가포르"
+  },
+  {
+    "identifier": "ankara",
+    "name": "앙카라"
+  },
+  {
+    "identifier": "ho chi minh city",
+    "name": "호치민시"
+  },
+  {
+    "identifier": "cape town",
+    "name": "케이프타운"
+  },
+  {
+    "identifier": "berlin",
+    "name": "베를린"
+  },
+  {
+    "identifier": "madrid",
+    "name": "마드리드"
+  },
+  {
+    "identifier": "pyongyang",
+    "name": "평양"
+  },
+  {
+    "identifier": "casablanca",
+    "name": "카사블랑카"
+  },
+  {
+    "identifier": "zhongshan",
+    "name": "중산"
+  },
+  {
+    "identifier": "durban",
+    "name": "더반"
+  },
+  {
+    "identifier": "kabul",
+    "name": "카불"
+  },
+  {
+    "identifier": "urumqi",
+    "name": "우루무치"
+  },
+  {
+    "identifier": "caracas",
+    "name": "카라카스"
+  },
+  {
+    "identifier": "dubai",
+    "name": "두바이"
+  },
+  {
+    "identifier": "jeddah",
+    "name": "제다"
+  },
+  {
+    "aliases": [
+      "Kyiv"
+    ],
+    "identifier": "kyiv",
+    "name": "키이우"
+  },
+  {
+    "identifier": "luanda",
+    "name": "루안다"
+  },
+  {
+    "identifier": "quezon city",
+    "name": "케손시티"
+  },
+  {
+    "identifier": "addis ababa",
+    "name": "아디스아바바"
+  },
+  {
+    "identifier": "nairobi",
+    "name": "나이로비"
+  },
+  {
+    "aliases": [
+      "central time",
+      "central daylight",
+      "central standard",
+      "central zone",
+      "central",
+      "ct"
+    ],
+    "identifier": "chicago",
+    "name": "시카고"
+  },
+  {
+    "identifier": "salvador",
+    "name": "살바도르"
+  },
+  {
+    "identifier": "dar es salaam",
+    "name": "다르에스살람"
+  },
+  {
+    "identifier": "toronto",
+    "name": "토론토"
+  },
+  {
+    "identifier": "osaka",
+    "name": "오사카"
+  },
+  {
+    "identifier": "mogadishu",
+    "name": "모가디슈"
+  },
+  {
+    "identifier": "izmir",
+    "name": "이즈미르"
+  },
+  {
+    "identifier": "dakar",
+    "name": "다카르"
+  },
+  {
+    "identifier": "giza",
+    "name": "기자"
+  },
+  {
+    "identifier": "fortaleza",
+    "name": "포르탈레자"
+  },
+  {
+    "identifier": "surabaya",
+    "name": "수라바야"
+  },
+  {
+    "identifier": "belo horizonte",
+    "name": "벨루오리존치"
+  },
+  {
+    "identifier": "rome",
+    "name": "로마"
+  },
+  {
+    "identifier": "mashhad",
+    "name": "마슈하드"
+  },
+  {
+    "identifier": "brooklyn",
+    "name": "브루클린"
+  },
+  {
+    "identifier": "houston",
+    "name": "휴스턴"
+  },
+  {
+    "identifier": "queens",
+    "name": "퀸스"
+  },
+  {
+    "identifier": "brasilia",
+    "name": "브라질리아"
+  },
+  {
+    "identifier": "santo domingo",
+    "name": "산토도밍고"
+  },
+  {
+    "identifier": "nagoya",
+    "name": "나고야"
+  },
+  {
+    "identifier": "brisbane",
+    "name": "브리즈번"
+  },
+  {
+    "identifier": "havana",
+    "name": "아바나"
+  },
+  {
+    "identifier": "paris",
+    "name": "파리"
+  },
+  {
+    "identifier": "johannesburg",
+    "name": "요하네스버그"
+  },
+  {
+    "identifier": "almaty",
+    "name": "알마티"
+  },
+  {
+    "identifier": "tashkent",
+    "name": "타슈켄트"
+  },
+  {
+    "identifier": "algiers",
+    "name": "알제"
+  },
+  {
+    "identifier": "khartoum",
+    "name": "하르툼"
+  },
+  {
+    "identifier": "accra",
+    "name": "아크라"
+  },
+  {
+    "identifier": "guayaquil",
+    "name": "과야킬"
+  },
+  {
+    "identifier": "sanaa",
+    "name": "사나"
+  },
+  {
+    "identifier": "beirut",
+    "name": "베이루트"
+  },
+  {
+    "identifier": "perth",
+    "name": "퍼스"
+  },
+  {
+    "identifier": "sapporo",
+    "name": "삿포로"
+  },
+  {
+    "identifier": "bucharest",
+    "name": "부쿠레슈티"
+  },
+  {
+    "identifier": "camayenne",
+    "name": "카마이엔"
+  },
+  {
+    "identifier": "conakry",
+    "name": "코나크리"
+  },
+  {
+    "identifier": "minsk",
+    "name": "민스크"
+  },
+  {
+    "identifier": "budapest",
+    "name": "부다페스트"
+  },
+  {
+    "identifier": "hamburg",
+    "name": "함부르크"
+  },
+  {
+    "identifier": "warsaw",
+    "name": "바르샤바"
+  },
+  {
+    "identifier": "soweto",
+    "name": "소웨토"
+  },
+  {
+    "identifier": "vienna",
+    "name": "비엔나"
+  },
+  {
+    "identifier": "rabat",
+    "name": "라바트"
+  },
+  {
+    "identifier": "barcelona",
+    "name": "바르셀로나"
+  },
+  {
+    "identifier": "pretoria",
+    "name": "프리토리아"
+  },
+  {
+    "identifier": "aleppo",
+    "name": "알레포"
+  },
+  {
+    "identifier": "manila",
+    "name": "마닐라"
+  },
+  {
+    "identifier": "montreal",
+    "name": "몬트리올"
+  },
+  {
+    "identifier": "kaduna",
+    "name": "카두나"
+  },
+  {
+    "identifier": "phnom penh",
+    "name": "프놈펜"
+  },
+  {
+    "identifier": "damascus",
+    "name": "다마스쿠스"
+  },
+  {
+    "identifier": "philadelphia",
+    "name": "필라델피아"
+  },
+  {
+    "identifier": "phoenix",
+    "name": "피닉스"
+  },
+  {
+    "identifier": "isfahan",
+    "name": "이스파한"
+  },
+  {
+    "identifier": "harare",
+    "name": "하라레"
+  },
+  {
+    "identifier": "kobe",
+    "name": "고베"
+  },
+  {
+    "identifier": "stockholm",
+    "name": "스톡홀름"
+  },
+  {
+    "identifier": "manhattan",
+    "name": "맨해튼"
+  },
+  {
+    "identifier": "asuncion",
+    "name": "아순시온"
+  },
+  {
+    "identifier": "recife",
+    "name": "헤시피"
+  },
+  {
+    "identifier": "san antonio",
+    "name": "샌안토니오"
+  },
+  {
+    "identifier": "kumasi",
+    "name": "쿠마시"
+  },
+  {
+    "identifier": "kota bharu",
+    "name": "코타바루"
+  },
+  {
+    "identifier": "kyoto",
+    "name": "교토"
+  },
+  {
+    "identifier": "kuala lumpur",
+    "name": "쿠알라룸푸르"
+  },
+  {
+    "identifier": "karaj",
+    "name": "카라지"
+  },
+  {
+    "identifier": "kathmandu",
+    "name": "카트만두"
+  },
+  {
+    "identifier": "hanoi",
+    "name": "하노이"
+  },
+  {
+    "identifier": "kharkiv",
+    "name": "하르키우"
+  },
+  {
+    "identifier": "cordoba",
+    "name": "코르도바"
+  },
+  {
+    "identifier": "tabriz",
+    "name": "타브리즈"
+  },
+  {
+    "identifier": "novosibirsk",
+    "name": "노보시비르스크"
+  },
+  {
+    "identifier": "belem",
+    "name": "벨렝"
+  },
+  {
+    "identifier": "quito",
+    "name": "키토"
+  },
+  {
+    "identifier": "san diego",
+    "name": "샌디에이고"
+  },
+  {
+    "identifier": "fukuoka",
+    "name": "후쿠오카"
+  },
+  {
+    "identifier": "antananarivo",
+    "name": "안타나나리보"
+  },
+  {
+    "identifier": "the bronx",
+    "name": "브롱크스"
+  },
+  {
+    "identifier": "lubumbashi",
+    "name": "루붐바시"
+  },
+  {
+    "identifier": "santa cruz de la sierra",
+    "name": "산타크루스데라시에라"
+  },
+  {
+    "identifier": "kampala",
+    "name": "캄팔라"
+  },
+  {
+    "identifier": "yekaterinburg",
+    "name": "예카테린부르크"
+  },
+  {
+    "identifier": "douala",
+    "name": "두알라"
+  },
+  {
+    "identifier": "sharjah",
+    "name": "샤르자"
+  },
+  {
+    "identifier": "mecca",
+    "name": "메카"
+  },
+  {
+    "identifier": "makassar",
+    "name": "마카사르"
+  },
+  {
+    "identifier": "juarez",
+    "name": "후아레스"
+  },
+  {
+    "identifier": "kawasaki",
+    "name": "가와사키"
+  },
+  {
+    "identifier": "tijuana",
+    "name": "티후아나"
+  },
+  {
+    "identifier": "dallas",
+    "name": "댈러스"
+  },
+  {
+    "identifier": "medina",
+    "name": "메디나"
+  },
+  {
+    "identifier": "yaounde",
+    "name": "야운데"
+  },
+  {
+    "identifier": "bamako",
+    "name": "바마코"
+  },
+  {
+    "identifier": "brazzaville",
+    "name": "브라자빌"
+  },
+  {
+    "aliases": [
+      "Nizhny Novgorod",
+      "Nizhny"
+    ],
+    "identifier": "nizhniy novgorod",
+    "name": "니즈니노브고로드"
+  },
+  {
+    "identifier": "amman",
+    "name": "암만"
+  },
+  {
+    "identifier": "belgrade",
+    "name": "베오그라드"
+  },
+  {
+    "identifier": "montevideo",
+    "name": "몬테비데오"
+  },
+  {
+    "identifier": "lusaka",
+    "name": "루사카"
+  },
+  {
+    "identifier": "munich",
+    "name": "뮌헨"
+  },
+  {
+    "identifier": "shiraz",
+    "name": "시라즈"
+  },
+  {
+    "identifier": "milan",
+    "name": "밀라노"
+  },
+  {
+    "identifier": "port-au-prince",
+    "name": "포르토프랭스"
+  },
+  {
+    "identifier": "adelaide",
+    "name": "애들레이드"
+  },
+  {
+    "identifier": "omdurman",
+    "name": "옴두르만"
+  },
+  {
+    "identifier": "saitama",
+    "name": "사이타마"
+  },
+  {
+    "identifier": "maputo",
+    "name": "마푸토"
+  },
+  {
+    "identifier": "prague",
+    "name": "프라하"
+  },
+  {
+    "identifier": "copenhagen",
+    "name": "코펜하겐"
+  },
+  {
+    "identifier": "sofia",
+    "name": "소피아"
+  },
+  {
+    "identifier": "tripoli",
+    "name": "트리폴리"
+  },
+  {
+    "identifier": "port harcourt",
+    "name": "포트하커트"
+  },
+  {
+    "identifier": "hiroshima",
+    "name": "히로시마"
+  },
+  {
+    "identifier": "monterrey",
+    "name": "몬테레이"
+  },
+  {
+    "identifier": "samara",
+    "name": "사마라"
+  },
+  {
+    "identifier": "omsk",
+    "name": "옴스크"
+  },
+  {
+    "identifier": "benin city",
+    "name": "베닌시티"
+  },
+  {
+    "identifier": "baku",
+    "name": "바쿠"
+  },
+  {
+    "identifier": "maiduguri",
+    "name": "마이두구리"
+  },
+  {
+    "identifier": "kazan",
+    "name": "카잔"
+  },
+  {
+    "identifier": "yerevan",
+    "name": "예레반"
+  },
+  {
+    "identifier": "ouagadougou",
+    "name": "와가두구"
+  },
+  {
+    "identifier": "rostov-na-donu",
+    "name": "로스토프나도누"
+  },
+  {
+    "identifier": "chelyabinsk",
+    "name": "첼랴빈스크"
+  },
+  {
+    "identifier": "Batumi",
+    "name": "바투미"
+  },
+  {
+    "identifier": "tbilisi",
+    "name": "트빌리시"
+  },
+  {
+    "identifier": "ufa",
+    "name": "우파"
+  },
+  {
+    "identifier": "san jose",
+    "name": "산호세"
+  },
+  {
+    "identifier": "dublin",
+    "name": "더블린"
+  },
+  {
+    "identifier": "calgary",
+    "name": "캘거리"
+  },
+  {
+    "aliases": [
+      "Europe"
+    ],
+    "identifier": "brussels",
+    "name": "브뤼셀"
+  },
+  {
+    "identifier": "volgograd",
+    "name": "볼고그라드"
+  },
+  {
+    "identifier": "odessa",
+    "name": "오데사"
+  },
+  {
+    "identifier": "guatemala city",
+    "name": "과테말라시티"
+  },
+  {
+    "identifier": "birmingham",
+    "name": "버밍엄"
+  },
+  {
+    "identifier": "perm",
+    "name": "페름"
+  },
+  {
+    "identifier": "zaria",
+    "name": "자리아"
+  },
+  {
+    "identifier": "port elizabeth",
+    "name": "포트엘리자베스"
+  },
+  {
+    "identifier": "fes",
+    "name": "페스"
+  },
+  {
+    "identifier": "cologne",
+    "name": "쾰른"
+  },
+  {
+    "identifier": "naples",
+    "name": "나폴리"
+  },
+  {
+    "identifier": "maceio",
+    "name": "마세이오"
+  },
+  {
+    "identifier": "monrovia",
+    "name": "몬로비아"
+  },
+  {
+    "identifier": "kingston",
+    "name": "킹스턴"
+  },
+  {
+    "identifier": "austin",
+    "name": "오스틴"
+  },
+  {
+    "identifier": "krasnoyarsk",
+    "name": "크라스노야르스크"
+  },
+  {
+    "identifier": "sale",
+    "name": "살레"
+  },
+  {
+    "identifier": "qom",
+    "name": "콤"
+  },
+  {
+    "identifier": "bishkek",
+    "name": "비슈케크"
+  },
+  {
+    "identifier": "abobo",
+    "name": "아보보"
+  },
+  {
+    "identifier": "aba",
+    "name": "아바"
+  },
+  {
+    "identifier": "mendoza",
+    "name": "멘도사"
+  },
+  {
+    "identifier": "mbuji-mayi",
+    "name": "음부지마이"
+  },
+  {
+    "identifier": "pikine",
+    "name": "피킨"
+  },
+  {
+    "identifier": "turin",
+    "name": "토리노"
+  },
+  {
+    "aliases": [
+      "San Fran",
+      "pacific daylight",
+      "pacific standard",
+      "pacific zone",
+      "pacific time",
+      "pacific",
+      "pt"
+    ],
+    "identifier": "san francisco",
+    "name": "샌프란시스코"
+  },
+  {
+    "identifier": "liverpool",
+    "name": "리버풀"
+  },
+  {
+    "identifier": "saratov",
+    "name": "사라토프"
+  },
+  {
+    "identifier": "tegucigalpa",
+    "name": "테구시갈파"
+  },
+  {
+    "identifier": "voronezh",
+    "name": "보로네시"
+  },
+  {
+    "identifier": "ulan bator",
+    "name": "울란바토르"
+  },
+  {
+    "identifier": "ahvaz",
+    "name": "아바즈"
+  },
+  {
+    "identifier": "marrakesh",
+    "name": "마라케시"
+  },
+  {
+    "aliases": [
+      "Bali"
+    ],
+    "identifier": "denpasar",
+    "name": "덴파사르"
+  },
+  {
+    "identifier": "fort worth",
+    "name": "포트워스"
+  },
+  {
+    "identifier": "indianapolis",
+    "name": "인디애나폴리스"
+  },
+  {
+    "identifier": "jos",
+    "name": "조스"
+  },
+  {
+    "identifier": "valencia",
+    "name": "발렌시아"
+  },
+  {
+    "identifier": "ilorin",
+    "name": "일로린"
+  },
+  {
+    "identifier": "la paz",
+    "name": "라파스"
+  },
+  {
+    "identifier": "ottawa",
+    "name": "오타와"
+  },
+  {
+    "identifier": "freetown",
+    "name": "프리타운"
+  },
+  {
+    "identifier": "jerusalem",
+    "name": "예루살렘"
+  },
+  {
+    "identifier": "muscat",
+    "name": "무스카트"
+  },
+  {
+    "identifier": "marseille",
+    "name": "마르세유"
+  },
+  {
+    "identifier": "pasragad branch",
+    "name": "파스라가드 지점"
+  },
+  {
+    "identifier": "boumerdas",
+    "name": "부메르데스"
+  },
+  {
+    "identifier": "san miguel de tucuman",
+    "name": "산미겔데투쿠만"
+  },
+  {
+    "identifier": "merida",
+    "name": "메리다"
+  },
+  {
+    "identifier": "niamey",
+    "name": "니아메"
+  },
+  {
+    "identifier": "kahriz",
+    "name": "카흐리즈"
+  },
+  {
+    "identifier": "krakow",
+    "name": "크라쿠프"
+  },
+  {
+    "identifier": "da nang",
+    "name": "다낭"
+  },
+  {
+    "identifier": "pietermaritzburg",
+    "name": "피터마리츠버그"
+  },
+  {
+    "identifier": "lome",
+    "name": "로메"
+  },
+  {
+    "identifier": "kigali",
+    "name": "키갈리"
+  },
+  {
+    "identifier": "riga",
+    "name": "리가"
+  },
+  {
+    "identifier": "amsterdam",
+    "name": "암스테르담"
+  },
+  {
+    "identifier": "oyo",
+    "name": "오요"
+  },
+  {
+    "identifier": "nottingham",
+    "name": "노팅엄"
+  },
+  {
+    "identifier": "campo grande",
+    "name": "캄푸그란지"
+  },
+  {
+    "identifier": "ashgabat",
+    "name": "아슈하바트"
+  },
+  {
+    "identifier": "n'djamena",
+    "name": "은자메나"
+  },
+  {
+    "identifier": "lviv",
+    "name": "리비우"
+  },
+  {
+    "identifier": "hermosillo",
+    "name": "에르모시요"
+  },
+  {
+    "identifier": "edmonton",
+    "name": "에드먼턴"
+  },
+  {
+    "identifier": "bulawayo",
+    "name": "불라와요"
+  },
+  {
+    "identifier": "zagreb",
+    "name": "자그레브"
+  },
+  {
+    "identifier": "agadir",
+    "name": "아가디르"
+  },
+  {
+    "identifier": "sarajevo",
+    "name": "사라예보"
+  },
+  {
+    "identifier": "enugu",
+    "name": "에누구"
+  },
+  {
+    "identifier": "tangier",
+    "name": "탕헤르"
+  },
+  {
+    "identifier": "sheffield",
+    "name": "셰필드"
+  },
+  {
+    "identifier": "seattle",
+    "name": "시애틀"
+  },
+  {
+    "aliases": [
+      "mountain daylight",
+      "mountain standard",
+      "mountain zone",
+      "mountain time",
+      "mountain",
+      "mt"
+    ],
+    "identifier": "denver",
+    "name": "덴버"
+  },
+  {
+    "identifier": "el paso",
+    "name": "엘패소"
+  },
+  {
+    "identifier": "dushanbe",
+    "name": "두샨베"
+  },
+  {
+    "identifier": "detroit",
+    "name": "디트로이트"
+  },
+  {
+    "identifier": "culiacan",
+    "name": "쿨리아칸"
+  },
+  {
+    "identifier": "matola",
+    "name": "마톨라"
+  },
+  {
+    "identifier": "boston",
+    "name": "보스턴"
+  },
+  {
+    "identifier": "athens",
+    "name": "아테네"
+  },
+  {
+    "identifier": "nouakchott",
+    "name": "누악쇼트"
+  },
+  {
+    "identifier": "pointe-noire",
+    "name": "푸앵트누아르"
+  },
+  {
+    "identifier": "memphis",
+    "name": "멤피스"
+  },
+  {
+    "aliases": [
+      "Frankfurt"
+    ],
+    "identifier": "frankfurt am main",
+    "name": "프랑크푸르트암마인"
+  },
+  {
+    "identifier": "krasnodar",
+    "name": "크라스노다르"
+  },
+  {
+    "identifier": "palermo",
+    "name": "팔레르모"
+  },
+  {
+    "identifier": "colombo",
+    "name": "콜롬보"
+  },
+  {
+    "identifier": "lilongwe",
+    "name": "릴롱궤"
+  },
+  {
+    "identifier": "oran",
+    "name": "오랑"
+  },
+  {
+    "identifier": "chisinau",
+    "name": "키시너우"
+  },
+  {
+    "identifier": "tebessa",
+    "name": "테베사"
+  },
+  {
+    "identifier": "portland",
+    "name": "포틀랜드"
+  },
+  {
+    "identifier": "winnipeg",
+    "name": "위니펙"
+  },
+  {
+    "identifier": "oklahoma city",
+    "name": "오클라호마시티"
+  },
+  {
+    "identifier": "cancun",
+    "name": "칸쿤"
+  },
+  {
+    "identifier": "djibouti",
+    "name": "지부티"
+  },
+  {
+    "identifier": "baltimore",
+    "name": "볼티모어"
+  },
+  {
+    "identifier": "kermanshah",
+    "name": "케르만샤"
+  },
+  {
+    "identifier": "bristol",
+    "name": "브리스틀"
+  },
+  {
+    "identifier": "benoni",
+    "name": "베노니"
+  },
+  {
+    "identifier": "abu dhabi",
+    "name": "아부다비"
+  },
+  {
+    "identifier": "washington",
+    "name": "워싱턴"
+  },
+  {
+    "identifier": "milwaukee",
+    "name": "밀워키"
+  },
+  {
+    "identifier": "vancouver",
+    "name": "밴쿠버"
+  },
+  {
+    "identifier": "barnaul",
+    "name": "바르나울"
+  },
+  {
+    "identifier": "rotterdam",
+    "name": "로테르담"
+  },
+  {
+    "identifier": "rasht",
+    "name": "라슈트"
+  },
+  {
+    "identifier": "abeokuta",
+    "name": "아베오쿠타"
+  },
+  {
+    "identifier": "essen",
+    "name": "에센"
+  },
+  {
+    "identifier": "glasgow",
+    "name": "글래스고"
+  },
+  {
+    "identifier": "gold coast",
+    "name": "골드코스트"
+  },
+  {
+    "identifier": "abuja",
+    "name": "아부자"
+  },
+  {
+    "identifier": "stuttgart",
+    "name": "슈투트가르트"
+  },
+  {
+    "identifier": "dortmund",
+    "name": "도르트문트"
+  },
+  {
+    "identifier": "vladivostok",
+    "name": "블라디보스토크"
+  },
+  {
+    "identifier": "irkutsk",
+    "name": "이르쿠츠크"
+  },
+  {
+    "identifier": "blantyre",
+    "name": "블랜타이어"
+  },
+  {
+    "identifier": "genoa",
+    "name": "제노바"
+  },
+  {
+    "identifier": "oslo",
+    "name": "오슬로"
+  },
+  {
+    "identifier": "libreville",
+    "name": "리브르빌"
+  },
+  {
+    "identifier": "kerman",
+    "name": "케르만"
+  },
+  {
+    "aliases": [
+      "düsseldorf"
+    ],
+    "identifier": "dusseldorf",
+    "name": "뒤셀도르프"
+  },
+  {
+    "identifier": "kuching",
+    "name": "쿠칭"
+  },
+  {
+    "identifier": "albuquerque",
+    "name": "앨버커키"
+  },
+  {
+    "identifier": "helsinki",
+    "name": "헬싱키"
+  },
+  {
+    "identifier": "aden",
+    "name": "아덴"
+  },
+  {
+    "identifier": "orenburg",
+    "name": "오렌부르크"
+  },
+  {
+    "identifier": "pristina",
+    "name": "프리슈티나"
+  },
+  {
+    "identifier": "bremen",
+    "name": "브레멘"
+  },
+  {
+    "identifier": "vilnius",
+    "name": "빌뉴스"
+  },
+  {
+    "identifier": "nashville",
+    "name": "내슈빌"
+  },
+  {
+    "identifier": "quebec",
+    "name": "퀘벡"
+  },
+  {
+    "identifier": "san salvador",
+    "name": "산살바도르"
+  },
+  {
+    "identifier": "macau",
+    "name": "마카오"
+  },
+  {
+    "identifier": "tyumen",
+    "name": "튜멘"
+  },
+  {
+    "identifier": "lisbon",
+    "name": "리스본"
+  },
+  {
+    "identifier": "hannover",
+    "name": "하노버"
+  },
+  {
+    "identifier": "salta",
+    "name": "살타"
+  },
+  {
+    "identifier": "leicester",
+    "name": "레스터"
+  },
+  {
+    "identifier": "leipzig",
+    "name": "라이프치히"
+  },
+  {
+    "identifier": "duisburg",
+    "name": "뒤스부르크"
+  },
+  {
+    "identifier": "astrakhan",
+    "name": "아스트라한"
+  },
+  {
+    "aliases": [
+      "nürnberg"
+    ],
+    "identifier": "nuremberg",
+    "name": "뉘른베르크"
+  },
+  {
+    "identifier": "dresden",
+    "name": "드레스덴"
+  },
+  {
+    "identifier": "tomsk",
+    "name": "톰스크"
+  },
+  {
+    "identifier": "yazd",
+    "name": "야즈드"
+  },
+  {
+    "identifier": "kansas city",
+    "name": "캔자스시티"
+  },
+  {
+    "identifier": "skopje",
+    "name": "스코페"
+  },
+  {
+    "identifier": "the hague",
+    "name": "헤이그"
+  },
+  {
+    "identifier": "lyon",
+    "name": "리옹"
+  },
+  {
+    "identifier": "edinburgh",
+    "name": "에든버러"
+  },
+  {
+    "identifier": "antwerpen",
+    "name": "앤트워프"
+  },
+  {
+    "identifier": "pontianak",
+    "name": "폰티아낙"
+  },
+  {
+    "identifier": "leeds",
+    "name": "리즈"
+  },
+  {
+    "identifier": "cardiff",
+    "name": "카디프"
+  },
+  {
+    "identifier": "san juan",
+    "name": "산후안"
+  },
+  {
+    "identifier": "omaha",
+    "name": "오마하"
+  },
+  {
+    "identifier": "carrefour",
+    "name": "카르푸르"
+  },
+  {
+    "identifier": "miami",
+    "name": "마이애미"
+  },
+  {
+    "identifier": "kaliningrad",
+    "name": "칼리닌그라드"
+  },
+  {
+    "identifier": "toulouse",
+    "name": "툴루즈"
+  },
+  {
+    "identifier": "tel aviv",
+    "name": "텔아비브"
+  },
+  {
+    "identifier": "east jerusalem",
+    "name": "동예루살렘"
+  },
+  {
+    "identifier": "bratislava",
+    "name": "브라티슬라바"
+  },
+  {
+    "identifier": "auckland",
+    "name": "오클랜드"
+  },
+  {
+    "identifier": "sevastopol",
+    "name": "세바스토폴"
+  },
+  {
+    "identifier": "minneapolis",
+    "name": "미니애폴리스"
+  },
+  {
+    "identifier": "gaza",
+    "name": "가자"
+  },
+  {
+    "identifier": "kursk",
+    "name": "쿠르스크"
+  },
+  {
+    "identifier": "panama",
+    "name": "파나마"
+  },
+  {
+    "identifier": "tulsa",
+    "name": "털사"
+  },
+  {
+    "identifier": "tver",
+    "name": "트베리"
+  },
+  {
+    "identifier": "manchester",
+    "name": "맨체스터"
+  },
+  {
+    "identifier": "tallinn",
+    "name": "탈린"
+  },
+  {
+    "identifier": "kandahar",
+    "name": "칸다하르"
+  },
+  {
+    "identifier": "wichita",
+    "name": "위치타"
+  },
+  {
+    "identifier": "new orleans",
+    "name": "뉴올리언스"
+  },
+  {
+    "identifier": "wellington",
+    "name": "웰링턴"
+  },
+  {
+    "identifier": "las palmas de gran canaria",
+    "name": "라스팔마스데그란카나리아"
+  },
+  {
+    "identifier": "mazatlan",
+    "name": "마사틀란"
+  },
+  {
+    "identifier": "tirana",
+    "name": "티라나"
+  },
+  {
+    "identifier": "kaunas",
+    "name": "카우나스"
+  },
+  {
+    "identifier": "honolulu",
+    "name": "호놀룰루"
+  },
+  {
+    "identifier": "canberra",
+    "name": "캔버라"
+  },
+  {
+    "identifier": "bologna",
+    "name": "볼로냐"
+  },
+  {
+    "identifier": "christchurch",
+    "name": "크라이스트처치"
+  },
+  {
+    "identifier": "halifax",
+    "name": "할리팩스"
+  },
+  {
+    "identifier": "ambon",
+    "name": "암본"
+  },
+  {
+    "identifier": "florence",
+    "name": "피렌체"
+  },
+  {
+    "identifier": "doha",
+    "name": "도하"
+  },
+  {
+    "identifier": "zurich",
+    "name": "취리히"
+  },
+  {
+    "identifier": "nice",
+    "name": "니스"
+  },
+  {
+    "identifier": "simferopol",
+    "name": "심페로폴"
+  },
+  {
+    "identifier": "tepic",
+    "name": "테픽"
+  },
+  {
+    "identifier": "sochi",
+    "name": "소치"
+  },
+  {
+    "identifier": "smolensk",
+    "name": "스몰렌스크"
+  },
+  {
+    "identifier": "samarkand",
+    "name": "사마르칸트"
+  },
+  {
+    "identifier": "murmansk",
+    "name": "무르만스크"
+  },
+  {
+    "identifier": "vladikavkaz",
+    "name": "블라디캅카스"
+  },
+  {
+    "identifier": "chita",
+    "name": "치타"
+  },
+  {
+    "identifier": "newcastle",
+    "name": "뉴캐슬"
+  },
+  {
+    "identifier": "porto velho",
+    "name": "포르토벨류"
+  },
+  {
+    "identifier": "san salvador de jujuy",
+    "name": "산살바도르데후후이"
+  },
+  {
+    "identifier": "pittsburgh",
+    "name": "피츠버그"
+  },
+  {
+    "identifier": "brest",
+    "name": "브레스트"
+  },
+  {
+    "identifier": "anchorage",
+    "name": "앵커리지"
+  },
+  {
+    "identifier": "cincinnati",
+    "name": "신시내티"
+  },
+  {
+    "identifier": "wollongong",
+    "name": "울런공"
+  },
+  {
+    "identifier": "catania",
+    "name": "카타니아"
+  },
+  {
+    "identifier": "utrecht",
+    "name": "위트레흐트"
+  },
+  {
+    "identifier": "victoria",
+    "name": "빅토리아"
+  },
+  {
+    "identifier": "port moresby",
+    "name": "포트모르즈비"
+  },
+  {
+    "identifier": "logan city",
+    "name": "로건시티"
+  },
+  {
+    "identifier": "bari",
+    "name": "바리"
+  },
+  {
+    "identifier": "nantes",
+    "name": "낭트"
+  },
+  {
+    "identifier": "strasbourg",
+    "name": "스트라스부르"
+  },
+  {
+    "identifier": "belfast",
+    "name": "벨파스트"
+  },
+  {
+    "identifier": "ljubljana",
+    "name": "류블랴나"
+  },
+  {
+    "identifier": "orlando",
+    "name": "올랜도"
+  },
+  {
+    "identifier": "petrozavodsk",
+    "name": "페트로자보츠크"
+  },
+  {
+    "identifier": "plymouth",
+    "name": "플리머스"
+  },
+  {
+    "identifier": "rio branco",
+    "name": "히우브랑쿠"
+  },
+  {
+    "identifier": "los mochis",
+    "name": "로스모치스"
+  },
+  {
+    "identifier": "porto",
+    "name": "포르투"
+  },
+  {
+    "identifier": "madison",
+    "name": "매디슨"
+  },
+  {
+    "identifier": "montpellier",
+    "name": "몽펠리에"
+  },
+  {
+    "identifier": "arhus",
+    "name": "오르후스"
+  },
+  {
+    "identifier": "yakutsk",
+    "name": "야쿠츠크"
+  },
+  {
+    "identifier": "georgetown",
+    "name": "조지타운"
+  },
+  {
+    "identifier": "bordeaux",
+    "name": "보르도"
+  },
+  {
+    "identifier": "gent",
+    "name": "겐트"
+  },
+  {
+    "identifier": "baton rouge",
+    "name": "배턴루지"
+  },
+  {
+    "identifier": "lille",
+    "name": "릴"
+  },
+  {
+    "identifier": "nassau",
+    "name": "나소"
+  },
+  {
+    "identifier": "geelong",
+    "name": "질롱"
+  },
+  {
+    "identifier": "paramaribo",
+    "name": "파라마리보"
+  },
+  {
+    "identifier": "santa cruz de tenerife",
+    "name": "산타크루스데테네리페"
+  },
+  {
+    "identifier": "graz",
+    "name": "그라츠"
+  },
+  {
+    "identifier": "messina",
+    "name": "메시나"
+  },
+  {
+    "identifier": "verona",
+    "name": "베로나"
+  },
+  {
+    "identifier": "hobart",
+    "name": "호바트"
+  },
+  {
+    "identifier": "novi sad",
+    "name": "노비사드"
+  },
+  {
+    "identifier": "bergen",
+    "name": "베르겐"
+  },
+  {
+    "identifier": "des moines",
+    "name": "디모인"
+  },
+  {
+    "identifier": "kostanay",
+    "name": "코스타나이"
+  },
+  {
+    "identifier": "linz",
+    "name": "린츠"
+  },
+  {
+    "identifier": "padova",
+    "name": "파도바"
+  },
+  {
+    "identifier": "pskov",
+    "name": "프스코프"
+  },
+  {
+    "identifier": "chiang mai",
+    "name": "치앙마이"
+  },
+  {
+    "identifier": "nicosia",
+    "name": "니코시아"
+  },
+  {
+    "identifier": "oral",
+    "name": "오랄"
+  },
+  {
+    "identifier": "osh",
+    "name": "오시"
+  },
+  {
+    "identifier": "saskatoon",
+    "name": "새스커툰"
+  },
+  {
+    "identifier": "little rock",
+    "name": "리틀록"
+  },
+  {
+    "identifier": "vientiane",
+    "name": "비엔티안"
+  },
+  {
+    "identifier": "aberdeen",
+    "name": "애버딘"
+  },
+  {
+    "identifier": "palmas",
+    "name": "팔마스"
+  },
+  {
+    "identifier": "townsville",
+    "name": "타운즈빌"
+  },
+  {
+    "identifier": "salt lake city",
+    "name": "솔트레이크시티"
+  },
+  {
+    "identifier": "cork",
+    "name": "코크"
+  },
+  {
+    "identifier": "tallahassee",
+    "name": "탤러해시"
+  },
+  {
+    "identifier": "santarem",
+    "name": "산타렝"
+  },
+  {
+    "identifier": "san fernando del valle de catamarca",
+    "name": "산페르난도델바예데카타마르카"
+  },
+  {
+    "identifier": "trieste",
+    "name": "트리에스테"
+  },
+  {
+    "identifier": "san luis",
+    "name": "산루이스"
+  },
+  {
+    "identifier": "geneva",
+    "name": "제네바"
+  },
+  {
+    "identifier": "atyrau",
+    "name": "아티라우"
+  },
+  {
+    "identifier": "kutaisi",
+    "name": "쿠타이시"
+  },
+  {
+    "identifier": "yuzhno-sakhalinsk",
+    "name": "유즈노사할린스크"
+  },
+  {
+    "identifier": "split",
+    "name": "스플리트"
+  },
+  {
+    "identifier": "regina",
+    "name": "리자이나"
+  },
+  {
+    "identifier": "raleigh",
+    "name": "롤리"
+  },
+  {
+    "identifier": "turku",
+    "name": "투르쿠"
+  },
+  {
+    "identifier": "oxford",
+    "name": "옥스퍼드"
+  },
+  {
+    "identifier": "jackson",
+    "name": "잭슨"
+  },
+  {
+    "identifier": "springfield",
+    "name": "스프링필드"
+  },
+  {
+    "identifier": "basel",
+    "name": "바젤"
+  },
+  {
+    "identifier": "la rioja",
+    "name": "라리오하"
+  },
+  {
+    "identifier": "hebron",
+    "name": "헤브론"
+  },
+  {
+    "identifier": "modena",
+    "name": "모데나"
+  },
+  {
+    "identifier": "cambridge",
+    "name": "케임브리지"
+  },
+  {
+    "identifier": "frisco",
+    "name": "프리스코"
+  },
+  {
+    "identifier": "pasadena",
+    "name": "패서디나"
+  },
+  {
+    "identifier": "york",
+    "name": "요크"
+  },
+  {
+    "identifier": "salzburg",
+    "name": "잘츠부르크"
+  },
+  {
+    "identifier": "cairns",
+    "name": "케언스"
+  },
+  {
+    "identifier": "hamilton",
+    "name": "해밀턴"
+  },
+  {
+    "identifier": "la laguna",
+    "name": "라라구나"
+  },
+  {
+    "identifier": "dili",
+    "name": "딜리"
+  },
+  {
+    "identifier": "dijon",
+    "name": "디종"
+  },
+  {
+    "identifier": "uppsala",
+    "name": "웁살라"
+  },
+  {
+    "identifier": "trondheim",
+    "name": "트론헤임"
+  },
+  {
+    "identifier": "manama",
+    "name": "마나마"
+  },
+  {
+    "identifier": "parma",
+    "name": "파르마"
+  },
+  {
+    "identifier": "boise",
+    "name": "보이시"
+  },
+  {
+    "identifier": "odense",
+    "name": "오덴세"
+  },
+  {
+    "identifier": "amiens",
+    "name": "아미앵"
+  },
+  {
+    "identifier": "tours",
+    "name": "투르"
+  },
+  {
+    "identifier": "podgorica",
+    "name": "포드고리차"
+  },
+  {
+    "identifier": "innsbruck",
+    "name": "인스브루크"
+  },
+  {
+    "identifier": "toowoomba",
+    "name": "투움바"
+  },
+  {
+    "identifier": "darwin",
+    "name": "다윈"
+  },
+  {
+    "identifier": "bern",
+    "name": "베른"
+  },
+  {
+    "identifier": "venice",
+    "name": "베네치아"
+  },
+  {
+    "identifier": "tunis",
+    "name": "튀니스"
+  },
+  {
+    "identifier": "islamabad",
+    "name": "이슬라마바드"
+  },
+  {
+    "identifier": "bandar seri begawan",
+    "name": "반다르스리브가완"
+  },
+  {
+    "identifier": "male",
+    "name": "말레"
+  },
+  {
+    "identifier": "astana",
+    "name": "누르술탄"
+  },
+  {
+    "identifier": "antalya",
+    "name": "안탈리아"
+  },
+  {
+    "identifier": "valletta",
+    "name": "발레타"
+  },
+  {
+    "identifier": "luxembourg city",
+    "name": "룩셈부르크시"
+  },
+  {
+    "identifier": "reykjavik",
+    "name": "레이캬비크"
+  },
+  {
+    "identifier": "sacramento",
+    "name": "새크라멘토"
+  },
+  {
+    "identifier": "medellin",
+    "name": "메데인"
+  },
+  {
+    "identifier": "kuwait city",
+    "name": "쿠웨이트시티"
+  },
+  {
+    "identifier": "lima",
+    "name": "리마"
+  },
+  {
+    "aliases": [
+      "Apple Park"
+    ],
+    "identifier": "cupertino",
+    "name": "쿠퍼티노"
+  },
+  {
+    "identifier": "brighton",
+    "name": "브라이턴"
+  }
+]

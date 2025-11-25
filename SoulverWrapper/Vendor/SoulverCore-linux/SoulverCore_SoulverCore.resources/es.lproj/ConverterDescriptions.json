@@ -1,0 +1,188 @@
+{
+  "rounding": [
+    {
+      "prototypeExpressions": [
+        "redondeado"
+      ],
+      "identifier": "rounded"
+    },
+    {
+      "prototypeExpressions": [
+        "redondeado hacia arriba"
+      ],
+      "identifier": "roundedUp"
+    },
+    {
+      "prototypeExpressions": [
+        "redondeado hacia abajo"
+      ],
+      "identifier": "roundedDown"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol 3 cifras",
+        "__converter_symbol 3 dígitos",
+        "__converter_symbol 3 dígito",
+        "__converter_symbol 1 decimal",
+        "__converter_symbol 1 cifra decimal",
+        "__converter_symbol 3 decimales",
+        "redondeado a 3 cifras",
+        "redondeado 3 cifras",
+        "redondeado a 3 decimales"
+      ],
+      "identifier": "roundedToDp"
+    },
+    {
+      "prototypeExpressions": [
+        "hasta el 10 más cercano",
+        "redondear al 10 más cercano",
+        "redondeado al 10 más cercano",
+        "redondeado hacia arriba al más cercano 10"
+      ],
+      "identifier": "roundedUpToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "al 10 más cercano",
+        "redondear hacia abajo al 10 más cercano",
+        "redondeado hacia abajo al 10 más cercano",
+        "redondeado hacia abajo al más cercano 10"
+      ],
+      "identifier": "roundedDownToNearestX"
+    },
+    {
+      "prototypeExpressions": [
+        "redondear al 10 más cercano",
+        "redondeado al 10 más cercano",
+        "al número más cercano de 10",
+        "al múltiplo de 10 más cercano",
+        "redondeado al número más cercano de 10",
+        "al más cercano 10",
+        "al 10 más cercano"
+      ],
+      "identifier": "roundedToNearestX"
+    }
+  ],
+  "compoundUnits": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol años y meses"
+      ],
+      "identifier": "yearsAndMonths"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol meses y semanas"
+      ],
+      "identifier": "monthsAndWeeks"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol meses y días"
+      ],
+      "identifier": "monthsAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol semanas y días"
+      ],
+      "identifier": "weeksAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol días y horas"
+      ],
+      "identifier": "daysAndHours"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol horas y minutos"
+      ],
+      "identifier": "hoursAndMinutes"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol minutos y segundos"
+      ],
+      "identifier": "minutesAndSeconds"
+    },
+    {
+      "prototypeExpressions": [
+          "pies y pulgadas",
+          "pie y pulgada",
+          "pulgadas y pies",
+          "pies pulgadas",
+          "pie pulgada",
+          "pies pulgada",
+          "ft pulgada"
+      ],
+      "identifier": "feetAndInches"
+    }
+  ],
+  "dateTime": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol fecha"
+      ],
+      "identifier": "toDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol marca de tiempo"
+      ],
+      "identifier": "toTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol duración",
+        "__converter_symbol intervalo de tiempo"
+      ],
+      "identifier": "toTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol tiempo de vuelta",
+        "__converter_symbol tiempo por vuelta"
+      ],
+      "identifier": "toLaptime"
+    }
+  ],
+  "numberForms": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol número",
+        "__converter_symbol número decimal"
+      ],
+      "identifier": "toDecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol binario"
+      ],
+      "identifier": "toBinary"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol fracción"
+      ],
+      "identifier": "toFraction"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol multiplicador",
+        "__converter_symbol múltiplo"
+      ],
+      "identifier": "toMultiplier"
+    }
+
+  ],
+  "music": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol tono",
+        "__converter_symbol nota musical"
+      ],
+      "identifier": "toPitch"
+    }
+  ]
+}

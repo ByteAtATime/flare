@@ -1,0 +1,1134 @@
+{
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__unit_expression を __unit に変換する",
+        "__unit を __unit に変換する"
+      ],
+      "identifier": "unitConversion"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit は __unit_expression に含まれる",
+        "__unit は __unit に含まれる"
+      ],
+      "identifier": "unitInUnitExpression"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit_expression の __substance を __unit で",
+        "__unit_expression の __substance を __unit で測定",
+        "__unit_expression の __substance を __unit に変換"
+      ],
+      "identifier": "substanceWeightToVolumeConversion"
+    },
+    {
+      "prototypeExpressions": [
+        "__substance の密度"
+      ],
+      "identifier": "densityOfSubstance"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit_rate は何/__unit ですか",
+        "__unit_rate はいくら/__unit ですか",
+        "__unit_rate を/__unit で"
+      ],
+      "identifier": "rateUnitChange"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration の __unit_rate"
+      ],
+      "identifier": "rateForADuration"
+    },
+    {
+      "prototypeExpressions": [
+        "__resolution での __length の ppi",
+        "__resolution でのデバイスの __length の ppi",
+        "__resolution でのスクリーンの __length の ppi",
+        "__resolution でのディスプレイの __length の ppi"
+      ],
+      "identifier": "screenDensity"
+    },
+    {
+      "prototypeExpressions": [
+        "__screenDensity での __length のピクセル数"
+      ],
+      "identifier": "pixelsInLengthAtPPI"
+    },
+    {
+      "prototypeExpressions": [
+        "__angularVelocity での __length タイヤの速度"
+      ],
+      "identifier": "tyreSpeed"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration_expression の __speed_expression"
+      ],
+      "identifier": "speedForTime"
+    },
+    {
+      "prototypeExpressions": [
+        "__angularVelocity_expression での __power_expression"
+      ],
+      "identifier": "powerAtRotation"
+    }
+  ],
+  "datetime": [
+    {
+      "prototypeExpressions": [
+        "__datestamp と __datestamp の間の __duration",
+        "__datestamp から __datestamp までの __duration"
+      ],
+      "identifier": "calendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp までの __duration"
+      ],
+      "identifier": "calendarUnitToDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datespan までの __duration"
+      ],
+      "identifier": "calendarUnitToDatespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の __duration"
+      ],
+      "identifier": "calendarUnitInDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan の __duration"
+      ],
+      "identifier": "calendarUnitInTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の残りの __duration"
+      ],
+      "identifier": "calendarUnitLeftInDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datespan の __duration"
+      ],
+      "identifier": "calendarUnitInDatespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp から __datestamp まで",
+        "__datestamp と __datestamp の間の差"
+      ],
+      "identifier": "intervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp から __datestamp までの __duration"
+      ],
+      "identifier": "inclusiveCalendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp から __datestamp まで"
+      ],
+      "identifier": "inclusiveIntervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__timestamp から __timestamp まで"
+      ],
+      "identifier": "intervalBetweenTimestamps"
+    },
+    {
+      "prototypeExpressions": [
+        "__laptime から __laptime まで"
+      ],
+      "identifier": "intervalBetweenLaptimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__frametime から __frametime までの __frames",
+        "__frametime と __frametime の間の __frames"
+      ],
+      "identifier": "framesBetweenFrametimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__frametime から __frametime まで"
+      ],
+      "identifier": "intervalBetweenFrametimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp 以降の __duration"
+      ],
+      "identifier": "calendarUnitSinceDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の __timespan は __datestamp から",
+        "__datestamp から __timespan"
+      ],
+      "identifier": "calendarUnitExpressionAfterDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp 以前の __timespan"
+      ],
+      "identifier": "calendarUnitExpressionBeforeDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の __timespan 前",
+        "__datestamp の __timespan 前"
+      ],
+      "identifier": "calendarUnitExpressionAgo"
+    },
+    {
+      "prototypeExpressions": [
+        "新しいタイムスタンプ",
+        "現在のタイムスタンプ"
+      ],
+      "identifier": "generateTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の現地時刻",
+        "__timezone の時刻"
+      ],
+      "identifier": "timeInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の日付"
+      ],
+      "identifier": "dateInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone と __timezone の時差"
+      ],
+      "identifier": "differenceBetweenTimezones"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan の __datestamp",
+        "__timespan 後の __datestamp"
+      ],
+      "identifier": "weekdayAfterTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の週番号",
+        "__datestamp の年の週"
+      ],
+      "identifier": "weekOfYearOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "年の週"
+      ],
+      "identifier": "weekOfYear"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の月の週"
+      ],
+      "identifier": "weekOfMonthOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "月の週"
+      ],
+      "identifier": "weekOfMonth"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の日番号",
+        "__datestamp の年の日"
+      ],
+      "identifier": "dayOfYearOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の月の日"
+      ],
+      "identifier": "dayOfMonthOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "年の日",
+        "日番号"
+      ],
+      "identifier": "dayOfYear"
+    },
+    {
+      "prototypeExpressions": [
+        "月の日"
+      ],
+      "identifier": "dayOfMonth"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp と __datestamp の間の中間点"
+      ],
+      "identifier": "halfwayBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の曜日",
+        "__duration の __datestamp"
+      ],
+      "identifier": "dayOfWeekOnDate"
+    }
+  ],
+  "general": [
+    {
+      "prototypeExpressions": [
+        "20 を 3 で割った余り"
+      ],
+      "identifier": "remainder"
+    },
+    {
+      "prototypeExpressions": [
+        "20 は素数ですか",
+        "素数 20 ですか"
+      ],
+      "identifier": "isPrime"
+    },
+    {
+      "prototypeExpressions": [
+        "20 を 5 と 25 の間にクランプする",
+        "20 を 5 から 25 の間にクランプする"
+      ],
+      "identifier": "clamp"
+    },
+    {
+      "prototypeExpressions": [
+        "21 を 7 で割る"
+      ],
+      "identifier": "dividedBy"
+    },
+    {
+      "prototypeExpressions": [
+        "21 を 7 で掛ける"
+      ],
+      "identifier": "multipliedBy"
+    },
+    {
+      "prototypeExpressions": [
+        "3 の 9 乗",
+        "3 を 9 に上げる"
+      ],
+      "identifier": "toThePowerOf"
+    },
+    {
+      "prototypeExpressions": [
+        "20 の半分"
+      ],
+      "identifier": "halfOf"
+    },
+      {
+        "prototypeExpressions": [
+          "56.5 四捨五入"
+        ],
+        "identifier": "rounded"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 切り上げ"
+        ],
+        "identifier": "roundedUp"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 切り捨て"
+        ],
+        "identifier": "roundedDown"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 小数点以下3桁",
+          "56.5 3桁に丸める",
+          "56.5 小数点以下1桁",
+          "56.5 小数点以下3桁まで",
+          "56.5 小数点以下3桁に四捨五入",
+          "56.5 四捨五入 小数点以下3桁"
+        ],
+        "identifier": "roundedToDp"
+      },
+      {
+        "prototypeExpressions": [
+          "56 最も近い10に切り上げ",
+          "16 最も近い10に丸める"
+        ],
+        "identifier": "upToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 最も近い10に切り捨て",
+          "16 最も近い10に丸める"
+        ],
+        "identifier": "downToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 を最も近い 10 に丸める"
+        ],
+        "identifier": "toNearestX"
+      },
+    
+    {
+      "prototypeExpressions": [
+        "2 と 30 のうち小さい方",
+        "__literal と __literal のうち小さい方"
+      ],
+      "identifier": "lesserOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2 と 30 のうち大きい方",
+        "__literal と __literal のうち大きい方"
+      ],
+      "identifier": "greaterOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2 と 32 の間の中間点"
+      ],
+      "identifier": "midpoint"
+    },
+    {
+      "prototypeExpressions": [
+        "5 と 8 の最小公倍数"
+      ],
+      "identifier": "lcm"
+    },
+    {
+      "prototypeExpressions": [
+        "20 と 30 の最大公約数",
+        "5 と 8 の最大公約数"
+      ],
+      "identifier": "gcd"
+    },
+    {
+      "prototypeExpressions": [
+        "6 は 600 として何に相当しますか",
+        "6 に対して 600 は何に相当しますか"
+      ],
+      "identifier": "proportionsFindNumerator"
+    },
+    {
+      "prototypeExpressions": [
+        "6 は 600 として 8 は何に相当しますか",
+        "6 に対して 600 は 8 に対して何ですか"
+      ],
+      "identifier": "proportionsFindDenominator"
+    },
+    {
+      "prototypeExpressions": [
+        "1 から 5 の間のランダムな数",
+        "1 から 5 の間のランダム"
+      ],
+      "identifier": "makeRandomNumber"
+    },
+    {
+      "prototypeExpressions": [
+        "5 は 1 の乗数として何に相当しますか",
+        "5 は 1 の乗数として何ですか"
+      ],
+      "identifier": "isWhatMultiplierOf"
+    },
+    {
+      "prototypeExpressions": [
+        "5 は 1 の乗数として何に相当しますか",
+        "5 は 1 の乗数として何ですか"
+      ],
+      "identifier": "isWhatMultiplierOff"
+    },
+    {
+      "prototypeExpressions": [
+        "5 は 1 の乗数として何に相当しますか",
+        "5 は 1 の乗数として何ですか"
+      ],
+      "identifier": "isWhatMultiplierOn"
+    },
+    {
+      "prototypeExpressions": [
+        "100 の平方根"
+      ],
+      "identifier": "squareRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "100 の立方根"
+      ],
+      "identifier": "cubedRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "100 の 5 乗根"
+      ],
+      "identifier": "nthRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "20 の 4 を底とした対数",
+        "20 の 4 を底とする対数"
+      ],
+      "identifier": "nthLog"
+    },
+    {
+      "prototypeExpressions": [
+        "4 を底とする 20 の対数"
+      ],
+      "identifier": "nthLogReversed"
+    },
+    {
+      "prototypeExpressions": [
+        "5 選ぶ 3",
+        "5 組み合わせ 3"
+      ],
+      "identifier": "combination"
+    },
+    {
+      "prototypeExpressions": [
+        "5 順列 3"
+      ],
+      "identifier": "permutation"
+    },
+    {
+      "prototypeExpressions": [
+        "3 の 5 の組み合わせ"
+      ],
+      "identifier": "reversedCombination"
+    },
+    {
+      "prototypeExpressions": [
+        "3 の 5 の順列"
+      ],
+      "identifier": "reversedPermutation"
+    },
+    {
+      "prototypeExpressions": [
+        "0 から 10 までの 10 をスクラブ",
+        "0 から 10 までの 10 のスクラバー"
+      ],
+      "identifier": "scrubNumberWithSpecifiedRange"
+    },
+    {
+      "prototypeExpressions": [
+        "新しい単位",
+        "新しい単位タイプ",
+        "一般単位",
+        "新しい一般単位",
+        "新しい一般単位タイプ"
+      ],
+      "identifier": "declareGenericUnit"
+    },
+    {
+      "prototypeExpressions": [
+        "これは SoulverCore が存在しない関数識別子を正しく処理することを保証するためにここにあります"
+      ],
+      "identifier": "nonexistingFunctionIdentifier"
+    }
+  ],
+  "financial": [
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage での 1000 の現在価値",
+        "__timespan での __percentage での 1000 の現在価値"
+      ],
+      "identifier": "presentValue"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後に 1000 を返し 500 を投資した場合の年間リターン",
+        "__timespan で 1000 を返し 500 を投資した場合の年間リターン"
+      ],
+      "identifier": "returnOnInvestmentAfter"
+    },
+    {
+      "prototypeExpressions": [
+        "500 投資して 1000 返す"
+      ],
+      "identifier": "returnOnInvestment"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage で __unit_rate の投資必要額",
+        "__percentage で __decimal_rate の投資必要額"
+      ],
+      "identifier": "investmentRequiredForReturn"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の総返済額",
+        "__timespan 後の __percentage で 10000 の総返済額"
+      ],
+      "identifier": "totalLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の年間返済額",
+        "__timespan 後の __percentage で 10000 の年間返済額"
+      ],
+      "identifier": "annualLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の月額返済額",
+        "__timespan 後の __percentage で 10000 の月額返済額"
+      ],
+      "identifier": "monthlyLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の総利息",
+        "__timespan 後の __percentage で 10000 の総利息"
+      ],
+      "identifier": "totalInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の年間利息",
+        "__timespan 後の __percentage で 10000 の年間利息"
+      ],
+      "identifier": "annualInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan での __percentage で 10000 の月額利息",
+        "__timespan 後の __percentage で 10000 の月額利息"
+      ],
+      "identifier": "monthlyInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage で毎月複利の 100",
+        "__timespan で毎月複利の __percentage の 100"
+      ],
+      "identifier": "compoundInterestCompoundingMonthly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage で四半期ごとに複利の 100",
+        "__timespan で四半期ごとに複利の __percentage の 100"
+      ],
+      "identifier": "compoundInterestCompoundingQuarterly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage の 100",
+        "__timespan で __percentage の 100"
+      ],
+      "identifier": "compoundInterest"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage の 100 の利息",
+        "__timespan で __percentage の 100 の利息"
+      ],
+      "identifier": "compoundInterestSansPrincipal"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage で毎月複利の 100 の利息",
+        "__timespan で毎月複利の __percentage の 100 の利息"
+      ],
+      "identifier": "compoundInterestSansPrincipalCompoundingMonthly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 後の __percentage で四半期ごとに複利の 100 の利息",
+        "__timespan で四半期ごとに複利の __percentage の 100 の利息"
+      ],
+      "identifier": "compoundInterestSansPrincipalCompoundingQuarterly"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp からの 500 は __datestamp でいくらに相当しますか",
+        "__datestamp からの 500 は __datestamp でいくらだったか"
+      ],
+      "identifier": "dollarWorthAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "500 は __datestamp でいくらに相当しますか",
+        "500 は __datestamp でいくらだったか"
+      ],
+      "identifier": "dollarWorthFromTodayAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp からの 500 はいくらですか"
+      ],
+      "identifier": "dollarWorthToTodayAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage のインフレで __datestamp で 500 はいくらになりますか",
+        "__percentage のインフレを考慮して __datestamp で 500 はいくらになりますか"
+      ],
+      "identifier": "predictedDollarWorthGivenInflation"
+    }
+  ],
+  "videoRelated": [
+    {
+      "prototypeExpressions": [
+        "__frametime __at __frameRate_expression",
+        "__laptime __at __frameRate_expression",
+        "__timespan __at __frameRate_expression",
+        "__frametime __at __unit_rate",
+        "__laptime __at __unit_rate"
+      ],
+      "identifier": "formFrametime"
+    },
+    {
+      "prototypeExpressions": [
+        "__frames_expression __at __frameRate_expression",
+        "__frames_expression __at __unit_rate"
+      ],
+      "identifier": "framesToFrametime"
+    }
+  ],
+  "weatherRelated": [
+    {
+      "prototypeExpressions": [
+        "__timezone の最低気温",
+        "__timezone の最低気温",
+        "__timezone の最低気温"
+      ],
+      "identifier": "lowTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の最高気温",
+        "__timezone の最高気温",
+        "__timezone の最高気温"
+      ],
+      "identifier": "highTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の降水確率",
+        "降水確率 __timezone"
+      ],
+      "identifier": "precipitationChance"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の降雨量",
+        "__timezone の降水量",
+        "降水量 __timezone"
+      ],
+      "identifier": "rainfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の降雪量",
+        "降雪量 __timezone"
+      ],
+      "identifier": "snowfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の体感温度",
+        "__timezone の体感温度",
+        "体感温度 __timezone"
+      ],
+      "identifier": "apparentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の気温",
+        "気温 __timezone"
+      ],
+      "identifier": "currentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の天気",
+        "天気 __timezone"
+      ],
+      "identifier": "weatherConditions"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の湿度",
+        "湿度 __timezone"
+      ],
+      "identifier": "humidity"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の雲量",
+        "雲量 __timezone"
+      ],
+      "identifier": "cloudCover"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の視界",
+        "視界 __timezone"
+      ],
+      "identifier": "visibility"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の風速",
+        "風速 __timezone"
+      ],
+      "identifier": "windSpeed"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の風向き",
+        "風向き __timezone"
+      ],
+      "identifier": "windDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の露点",
+        "露点 __timezone"
+      ],
+      "identifier": "dewPoint"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone のUV指数",
+        "UV指数 __timezone"
+      ],
+      "identifier": "uvIndex"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の気圧",
+        "気圧 __timezone"
+      ],
+      "identifier": "pressure"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の気圧の変化",
+        "気圧の変化 __timezone"
+      ],
+      "identifier": "pressureDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の日の出",
+        "日の出 __timezone"
+      ],
+      "identifier": "sunrise"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の日の入り",
+        "日の入り __timezone"
+      ],
+      "identifier": "sunset"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の月の出",
+        "月の出 __timezone"
+      ],
+      "identifier": "moonrise"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の月の入り",
+        "月の入り __timezone"
+      ],
+      "identifier": "moonset"
+    },
+    {
+      "prototypeExpressions": [
+        "月の位相",
+        "月相"
+      ],
+      "identifier": "moonPhase"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp の月の昼",
+        "__datestamp の月の昼",
+        "月の昼"
+      ],
+      "identifier": "lunarDay"
+    }
+  ],
+  "geographic": [
+    {
+      "prototypeExpressions": [
+        "__timezone のGPS",
+        "__timezone の座標",
+        "__timezone のGPS座標",
+        "__timezone の位置"
+      ],
+      "identifier": "gpsCoordinatesOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の経度",
+        "__gpsCoordinates の経度"
+      ],
+      "identifier": "longitudeOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone の緯度",
+        "__gpsCoordinates の緯度"
+      ],
+      "identifier": "latitudeOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone から __timezone までの距離",
+        "__timezone と __timezone の間の距離",
+        "__timezone への __timezone からの距離",
+        "__timezone から __timezone までの距離"
+      ],
+      "identifier": "distanceBetweenPlaces"
+    }
+  ],
+  "changeRelated": [
+    {
+      "prototypeExpressions": [
+        "20 から __timespan に __percentage ずつ毎 __timespan",
+        "20 から __timespan に __percentage ずつ毎 __duration",
+        "20 から __timespan に __percentage 増加毎 __timespan"
+      ],
+      "identifier": "exponentialGrowth"
+    },
+    {
+      "prototypeExpressions": [
+        "20 から __timespan に −__percentage ずつ毎 __timespan",
+        "20 から __timespan に −__percentage ずつ毎 __duration",
+        "20 から __timespan に __percentage 減少毎 __timespan"
+      ],
+      "identifier": "exponentialDecay"
+    },
+    {
+      "prototypeExpressions": [
+        "20 から 30 まで __percentage ずつ毎 __timespan",
+        "20 から 30 まで __percentage ずつ毎 __duration",
+        "20 から 30 まで −__percentage ずつ毎 __timespan"
+      ],
+      "identifier": "timeRequiredForExponentialChange"
+    },
+    {
+      "prototypeExpressions": [
+        "20 から 30 まで 20 ずつ毎 __timespan",
+        "20 から 30 まで 20 増加毎 __timespan",
+        "20 から 30 まで 20 減少毎 __timespan"
+      ],
+      "identifier": "timeRequiredForLinearChange"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan の間に 20 から 30 までの増加",
+        "__timespan の間に 20 から 30 までの減少"
+      ],
+      "identifier": "growthOverExponentialChange"
+    },
+    {
+      "prototypeExpressions": [
+        "10 から 20 は何 % ですか",
+        "10 から 20 は % ですか",
+        "10 から 20 は % として"
+      ],
+      "identifier": "xToYIsWhatPercentage"
+    },
+    {
+      "prototypeExpressions": [
+        "10 から 20 は何乗数ですか",
+        "10 から 20 は乗数ですか",
+        "10 から 20 は乗数として"
+      ],
+      "identifier": "xToYIsWhatMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "10 から 20"
+      ],
+      "identifier": "xToY"
+    },
+    {
+      "prototypeExpressions": [
+        "10 から 20"
+      ],
+      "identifier": "xOnY"
+    },
+    {
+      "prototypeExpressions": [
+        "10 から 20"
+      ],
+      "identifier": "xOffY"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan __at 1.5x",
+        "__timespan to 1.5x"
+      ],
+      "identifier": "timeAtMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "時間を節約 __timespan to 1.5x",
+        "時間を節約 __timespan __at 1.5x"
+      ],
+      "identifier": "timeSavedAtMultiplier"
+    }
+  ],
+  "percentage": [
+    {
+      "prototypeExpressions": [
+        "__percentage の 100",
+        "__percentage から 100"
+      ],
+      "identifier": "percentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage の 100"
+      ],
+      "identifier": "percentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage の 100"
+      ],
+      "identifier": "percentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "30 は何 % の何ですか"
+      ],
+      "identifier": "isPercentOfWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage の何は 30 ですか"
+      ],
+      "identifier": "isPercentOfWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 は何 % の何ですか"
+      ],
+      "identifier": "isPercentOffWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage の何は 30 ですか"
+      ],
+      "identifier": "isPercentOffWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 は何 % の何ですか"
+      ],
+      "identifier": "isPercentOnWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage の何は 30 ですか"
+      ],
+      "identifier": "isPercentOnWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "10 は何 % の 20 ですか",
+        "10 は % の 20 ですか",
+        "10 は % として 20 ですか"
+      ],
+      "identifier": "isWhatPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "10 は何 % で 20 ですか",
+        "10 は % で 20 ですか",
+        "10 は % として 20 ですか"
+      ],
+      "identifier": "isWhatPercentWith"
+    },
+    {
+      "prototypeExpressions": [
+        "10 は何 % の 20 ですか",
+        "10 は % オフ 20 ですか",
+        "10 は % として 20 ですか"
+      ],
+      "identifier": "isWhatPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "20 は何 % で 10 ですか",
+        "20 は % で 10 ですか",
+        "20 は % として 10 ですか"
+      ],
+      "identifier": "isWhatPercentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "__sales_tax の 500",
+        "__sales_tax の 500",
+        "__sales_tax の 500"
+      ],
+      "identifier": "salesTaxIn"
+    }
+  ],
+  "statistics": [
+    {
+      "prototypeExpressions": [
+        "__statistic_type の __list",
+        "__statistic_type のの __list"
+      ],
+      "identifier": "statisticOfList"
+    },
+    {
+      "prototypeExpressions": [
+        "__statistic_type の __tag",
+        "__tag の __statistic_type"
+      ],
+      "identifier": "statisticOfTag"
+    }
+  ],
+  "literalRelated": [
+    {
+      "prototypeExpressions": [
+        "__literal の数",
+        "__literal の数"
+      ],
+      "identifier": "countOfLiteral"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal の最初の 10 文字",
+        "__literal の最初の 10 文字"
+      ],
+      "identifier": "extractLiteralPrefix"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal の最後の 10 文字",
+        "__literal の最後の 10 文字"
+      ],
+      "identifier": "extractLiteralSuffix"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal を解析"
+      ],
+      "identifier": "parseLiteral"
+    }
+  ]
+}

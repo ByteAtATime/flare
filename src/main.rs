@@ -8,6 +8,8 @@ mod message;
 mod position;
 mod runtime;
 mod screens;
+#[cfg(feature = "soulver")]
+mod soulver;
 mod state;
 mod types;
 mod update;

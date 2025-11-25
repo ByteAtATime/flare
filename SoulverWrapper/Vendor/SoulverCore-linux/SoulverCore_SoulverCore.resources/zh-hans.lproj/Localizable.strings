@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+//i.e line1 will be a reference to line 1
+"plain text line reference" = "行";
+
+/* Unit Categories */
+"Time" = "时间";
+"Acceleration" = "加速度";
+"Length" = "长度";
+"Mass" = "规模";
+"Volume" = "容量";
+"Frequency" = "频率";
+"Angle" = "角度";
+"Temperature" = "温度";
+"Energy" = "能量";
+"Power" = "力度";
+"Pressure" = "压力";
+"Currency" = "货币";
+"Area" = "区域";
+"Speed" = "速度";
+"Data Transfer" = "数据传输";
+"Data Storage" = "数据存储";
+"Other Unit Kind" = "其他单位类型";
+
+/* Errors */
+"Error: ∞" = "错误：∞";
+"Error: incompatible units" = "错误：不兼容单位";
+"Error: divide by zero" = "错误：不能以0为除数（分母）";
+"Error: imaginary number" = "错误：虚数";
+"Error: unsupported multiplicative unit" = "错误：不支持的汇率单位";
+"Error: unsupported unit in rate" = "错误：不支持的汇率单位";
+"Error: division without divisor" = "错误：缺少除数（分母）";
+
+/* Positions of a custom currency symbol */
+"Before" = "放在前端";
+"Before (with space)" = "放在前端（包含括号）";
+"After" = "放在后端（包含括号）";
+"After (with space)" = "放在前端（包含括号）";
+
+/* Answer Contextual Metadata */
+/* Used in the contextual menu for an answer */
+
+/* For instance, km, a unit of distance */
+"%@, a unit of %@" = "%@，是 %@ 的单位";
+
+/* a rate, like km per day */
+"%@ per %@" = "%@ 每 %@";
+"amount per %@" = "每 %@";
+
+/* days of the week, like February 12 was a Saturday, March 8 will be a Tuesday */
+"%@ was a %@" = "%@ 为 %@。";
+"%@ will be a %@" = "%@ 将是 %@。";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";

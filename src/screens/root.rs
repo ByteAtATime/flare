@@ -15,6 +15,8 @@ pub struct RootScreen {
     selected_index: usize,
     viewport: Option<Viewport>,
     scrollable_id: widget::Id,
+    #[cfg(feature = "soulver")]
+    calculator_result: Option<String>,
 }
 
 #[derive(Clone, Debug)]
@@ -31,6 +33,8 @@ impl RootScreen {
             selected_index: 0,
             viewport: None,
             scrollable_id: widget::Id::unique(),
+            #[cfg(feature = "soulver")]
+            calculator_result: None,
         }
     }
 
@@ -63,44 +67,66 @@ impl RootScreen {
     }
 
     pub fn view(&self) -> Element<'_, RootMessage> {
-        let items: Vec<Element<'_, RootMessage>> = self
-            .filtered_commands
-            .iter()
-            .enumerate()
-            .map(|(idx, cmd)| {
-                let is_selected = idx == self.selected_index;
-                let background = if is_selected {
-                    iced::Color::from_rgb8(0x44, 0x44, 0x44)
-                } else {
-                    iced::Color::TRANSPARENT
-                };
+        let mut items: Vec<Element<'_, RootMessage>> = Vec::new();
 
-                let subtitle = cmd
-                    .command_subtitle
-                    .as_ref()
-                    .unwrap_or(&cmd.extension_title);
-
-                container(
-                    row![
-                        column![
-                            text(&cmd.command_title).size(14),
-                            text(subtitle)
-                                .size(12)
-                                .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
-                        ]
-                        .spacing(2),
+        #[cfg(feature = "soulver")]
+        if let Some(result) = &self.calculator_result {
+            let calc_item = container(
+                row![
+                    column![
+                        text(result).size(14),
+                        text("Calculator")
+                            .size(12)
+                            .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
                     ]
-                    .align_y(Alignment::Center)
-                    .padding(12),
-                )
-                .style(move |_theme| container::Style {
-                    background: Some(iced::Background::Color(background)),
-                    ..Default::default()
-                })
-                .width(Length::Fill)
-                .into()
+                    .spacing(2),
+                ]
+                .align_y(Alignment::Center)
+                .padding(12),
+            )
+            .style(move |_theme| container::Style {
+                background: Some(iced::Background::Color(iced::Color::from_rgb8(
+                    0x33, 0x33, 0x55,
+                ))),
+                ..Default::default()
             })
-            .collect();
+            .width(Length::Fill);
+            items.push(calc_item.into());
+        }
+
+        for (idx, cmd) in self.filtered_commands.iter().enumerate() {
+            let is_selected = idx == self.selected_index;
+            let background = if is_selected {
+                iced::Color::from_rgb8(0x44, 0x44, 0x44)
+            } else {
+                iced::Color::TRANSPARENT
+            };
+
+            let subtitle = cmd
+                .command_subtitle
+                .as_ref()
+                .unwrap_or(&cmd.extension_title);
+
+            let item = container(
+                row![
+                    column![
+                        text(&cmd.command_title).size(14),
+                        text(subtitle)
+                            .size(12)
+                            .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
+                    ]
+                    .spacing(2),
+                ]
+                .align_y(Alignment::Center)
+                .padding(12),
+            )
+            .style(move |_theme| container::Style {
+                background: Some(iced::Background::Color(background)),
+                ..Default::default()
+            })
+            .width(Length::Fill);
+            items.push(item.into());
+        }
 
         let content = column(items).width(Length::Fill);
 
@@ -170,6 +196,21 @@ impl Shell for RootScreen {
 
     fn on_search(&mut self, query: &str) {
         let query_lower = query.to_lowercase();
+
+        #[cfg(feature = "soulver")]
+        {
+            self.calculator_result = if query.is_empty() {
+                None
+            } else {
+                crate::soulver::calculate(query).and_then(|r| {
+                    if r.result_type == "none" || r.value.is_empty() {
+                        None
+                    } else {
+                        Some(r.value)
+                    }
+                })
+            };
+        }
 
         if query.is_empty() {
             self.filtered_commands = self.commands.clone();

@@ -1,0 +1,68 @@
+/* 
+  Localizable.strings
+  SoulverCore
+
+  Created by Zac Cohan on 29/9/19.
+  Copyright © 2019 Zac Cohan. All rights reserved.
+*/
+
+
+/* Line References */
+"plain text line reference" = "줄";
+
+"line above" = "윗줄";
+"previous line" = "이전 줄";
+"prev" = "이전";
+
+/* Unit Categories */
+"Time" = "시간";
+"Acceleration" = "가속도";
+"Length" = "길이";
+"Mass" = "질량";
+"Volume" = "부피";
+"Frequency" = "주파수";
+"Angle" = "각도";
+"Temperature" = "온도";
+"Energy" = "에너지";
+"Power" = "전력";
+"Pressure" = "압력";
+"Currency" = "통화";
+"Area" = "면적";
+"Speed" = "속도";
+"Data Transfer" = "데이터 전송";
+"Data Storage" = "데이터 저장";
+"Other Unit Kind" = "기타 단위";
+
+/* Errors */
+"Error: ∞" = "오류: ∞";
+"Error: incompatible units" = "오류: 호환되지 않는 단위";
+"Error: divide by zero" = "오류: 0으로 나누기";
+"Error: imaginary number" = "오류: 허수";
+"Error: unsupported multiplicative unit" = "오류: 지원되지 않는 승수 단위";
+"Error: unsupported unit in rate" = "오류: 비율에서 지원되지 않는 단위";
+"Error: division without divisor" = "오류: 제수가 없음";
+"Error: try a smaller number" = "오류: 더 작은 숫자를 시도하세요";
+"Error: unsupported exponent operation" = "오류: 지원되지 않는 지수 연산";
+
+/* Positions of a custom currency symbol */
+"Before" = "앞";
+"Before (with space)" = "앞 (공백 포함)";
+"After" = "뒤";
+"After (with space)" = "뒤 (공백 포함)";
+
+/* Answer Contextual Metadata */
+"%@, a unit of %@" = "%@, %@의 단위";
+"%@ per %@" = "%@ 당 %@";
+"amount per %@" = "%@ 당 양";
+"%@ was a %@" = "%@는 %@였습니다.";
+"%@ will be a %@" = "%@는 %@일 것입니다.";
+
+/* Quick Operators */
+"plusQuickOperator" = "p";
+"minusQuickOperator" = "m";
+"timesQuickOperator" = "x";
+"divideQuickOperator" = "d";
+
+/* Weather Functions */
+"on __datestamp" = "__datestamp에";
+"in __datestamp" = "__datestamp에";

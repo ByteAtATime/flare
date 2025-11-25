@@ -1,0 +1,531 @@
+{
+"weatherRelated": [
+    {
+    "identifier": "lowTemperature",
+    "prototypeExpressions": [
+        "tiefsttemperatur in __timezone",
+        "min. temp. in __timezone",
+        "min. in __timezone",
+        "niedrig in __timezone",
+        "__timezone min. temp.",
+        "__timezone min.",
+        "__timezone niedrig"
+    ]
+    },
+    {
+    "identifier": "highTemperature",
+    "prototypeExpressions": [
+        "höchsttemperatur in __timezone",
+        "max. temp. in __timezone",
+        "max. in __timezone",
+        "hoch in __timezone",
+        "__timezone max. temp.",
+        "__timezone max.",
+        "__timezone hoch"
+    ]
+    },
+    {
+    "identifier": "precipitationChance",
+    "prototypeExpressions": [
+        "regenwahrscheinlichkeit in __timezone",
+        "__timezone regenwahrscheinlichkeit"
+    ]
+    },
+    {
+    "identifier": "rainfallAmount",
+    "prototypeExpressions": [
+        "regenmenge in __timezone",
+        "regenfall in __timezone",
+        "regen in __timezone",
+        "niederschlag in __timezone",
+        "__timezone regen"
+    ]
+    },
+    {
+    "identifier": "snowfallAmount",
+    "prototypeExpressions": [
+        "schneemenge in __timezone",
+        "schneefall in __timezone",
+        "schnee in __timezone",
+        "__timezone schnee"
+    ]
+    },
+    {
+    "identifier": "apparentTemperature",
+    "prototypeExpressions": [
+        "gefühlte temperatur in __timezone",
+        "gefühlte temp. in __timezone",
+        "scheinbare temperatur in __timezone",
+        "__timezone gefühlt"
+    ]
+    },
+    {
+    "identifier": "currentTemperature",
+    "prototypeExpressions": [
+        "aktuelle temperatur in __timezone",
+        "temperatur in __timezone"
+    ]
+    },
+    {
+    "identifier": "weatherConditions",
+    "prototypeExpressions": [
+        "wetter in __timezone",
+        "wetterbedingungen in __timezone",
+        "witterungsbedingungen in __timezone"
+    ]
+    },
+    {
+    "identifier": "humidity",
+    "prototypeExpressions": [
+        "luftfeuchtigkeit in __timezone",
+        "__timezone luftfeuchtigkeit"
+    ]
+    },
+    {
+    "identifier": "cloudCover",
+    "prototypeExpressions": [
+        "bewölkung in __timezone",
+        "wolkendecke in __timezone",
+        "__timezone wolkendecke",
+        "__timezone bewölkung"
+    ]
+    },
+    {
+    "identifier": "visibility",
+    "prototypeExpressions": [
+        "sichtweite in __timezone",
+        "__timezone sichtweite"
+    ]
+    },
+    {
+    "identifier": "windSpeed",
+    "prototypeExpressions": [
+        "windstärke in __timezone",
+        "windgeschwindigkeit in __timezone",
+        "wind in __timezone",
+        "__timezone wind"
+    ]
+    },
+    {
+    "identifier": "windDirection",
+    "prototypeExpressions": [
+        "windrichtung in __timezone",
+        "__timezone windrichtung"
+    ]
+    },
+    {
+    "identifier": "dewPoint",
+    "prototypeExpressions": [
+        "taupunkt in __timezone",
+        "__timezone taupunkt"
+    ]
+    },
+    {
+    "identifier": "uvIndex",
+    "prototypeExpressions": [
+        "uv-index in __timezone",
+        "__timezone uv-index"
+    ]
+    },
+    {
+    "identifier": "pressure",
+    "prototypeExpressions": [
+        "luftdruck in __timezone",
+        "druck in __timezone",
+        "__timezone druck",
+        "__timezone luftdruck"
+    ]
+    },
+    {
+    "identifier": "pressureDirection",
+    "prototypeExpressions": [
+        "druckrichtung in __timezone",
+        "__timezone druckrichtung"
+    ]
+    },
+    {
+    "identifier": "sunrise",
+    "prototypeExpressions": [
+        "sonnenaufgang in __timezone",
+        "__timezone sonnenaufgang"
+    ]
+    },
+    {
+    "identifier": "sunset",
+    "prototypeExpressions": [
+        "sonnenuntergang in __timezone",
+        "__timezone sonnenuntergang"
+    ]
+    },
+    {
+    "identifier": "moonrise",
+    "prototypeExpressions": [
+        "mondaufgang in __timezone",
+        "mondaufgang __timezone",
+        "__timezone mondaufgang"
+    ]
+    },
+    {
+    "identifier": "moonset",
+    "prototypeExpressions": [
+        "monduntergang in __timezone",
+        "monduntergang __timezone",
+        "__timezone monduntergang"
+    ]
+    },
+    {
+    "identifier": "moonPhase",
+    "prototypeExpressions": [
+        "mondphase in __timezone",
+        "mond in __timezone",
+        "__timezone mond",
+        "__timezone mondphase"
+    ]
+    }
+],
+  "financial": [
+    {
+      "prototypeExpressions": [
+        "present value of 1000 after __timespan at __percentage",
+        "present value of 1000 over __timespan at __percentage"
+      ],
+      "identifier": "presentValue"
+    },
+    {
+      "prototypeExpressions": [
+        "annual return on 500 invested 1000 returned after __timespan",
+        "yearly return on 500 invested 1000 returned after __timespan",
+        "annual return on 500 invested 1000 returned over __timespan",
+        "yearly return on 500 invested 1000 returned over __timespan"
+      ],
+      "identifier": "returnOnInvestmentAfter"
+    },
+    {
+      "prototypeExpressions": [
+        "500 invested 1000 returned"
+      ],
+      "identifier": "returnOnInvestment"
+    },
+    {
+      "prototypeExpressions": [
+        "total repayment on 10000 for __timespan at __percentage",
+        "total repayment on 10000 after __timespan at __percentage",
+        "total repayment on 10000 over __timespan at __percentage"
+      ],
+      "identifier": "totalLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "annual repayment on 10000 for __timespan at __percentage",
+        "annual repayment on 10000 after __timespan at __percentage",
+        "annual repayment on 10000 over __timespan at __percentage",
+        "yearly repayment on 10000 over __timespan at __percentage",
+        "yearly repayment on 10000 after __timespan at __percentage",
+        "yearly repayment on 10000 for __timespan at __percentage"
+      ],
+      "identifier": "annualLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "monthly repayment on 10000 for __timespan at __percentage",
+        "monthly repayment on 10000 after __timespan at __percentage",
+        "monthly repayment on 10000 over __timespan at __percentage"
+      ],
+      "identifier": "monthlyLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "total interest on 10000 for __timespan at __percentage",
+        "total interest on 10000 after __timespan at __percentage",
+        "total interest on 10000 over __timespan at __percentage"
+      ],
+      "identifier": "totalInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "annual interest on 10000 for __timespan at __percentage",
+        "annual interest on 10000 after __timespan at __percentage",
+        "annual interest on 10000 over __timespan at __percentage",
+        "yearly interest on 10000 over __timespan at __percentage",
+        "yearly interest on 10000 after __timespan at __percentage",
+        "yearly interest on 10000 for __timespan at __percentage"
+      ],
+      "identifier": "annualInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "monthly interest on 10000 for __timespan at __percentage",
+        "monthly interest on 10000 after __timespan at __percentage",
+        "monthly interest on 10000 over __timespan at __percentage"
+      ],
+      "identifier": "monthlyInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "100 after __timespan at __percentage",
+        "100 for __timespan at __percentage",
+        "100 over __timespan at __percentage"
+      ],
+      "identifier": "compoundInterest"
+    }
+  ],
+  "percentage": [
+    {
+      "prototypeExpressions": [
+        "__percentage von 100"
+      ],
+      "identifier": "percentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage ab von 100"
+      ],
+      "identifier": "percentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage auf 100"
+      ],
+      "identifier": "percentOn"
+    },
+    {
+      "prototypeExpressions": [
+        "30 ist __percentage von was",
+        "30 ist __percentage von welcher zahl"
+      ],
+      "identifier": "isPercentOfWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage von was ist 30"
+      ],
+      "identifier": "isPercentOfWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 ist __percentage off was"
+      ],
+      "identifier": "isPercentOffWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage ab von was ist 30"
+      ],
+      "identifier": "isPercentOffWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "30 ist __percentage on was"
+      ],
+      "identifier": "isPercentOnWhat"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage auf was ist 30"
+      ],
+      "identifier": "isPercentOnWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+        "10 ist wieviel % von 20",
+        "10 als % von 20",
+        "10 in % von 30"
+      ],
+      "identifier": "isWhatPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+        "10 ist wieviel % off 20",
+        "10 als % abnahme von 20",
+        "10 in % ab von 20"
+      ],
+      "identifier": "isWhatPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+        "20 ist wieviel % on 10",
+        "20 sind welche % auf 10",
+        "20 als % auf 10",
+        "20 in % auf 10",
+        "20 als % zunahme auf 10"
+      ],
+      "identifier": "isWhatPercentOn"
+    }
+  ],
+  "datetime": [
+    {
+      "prototypeExpressions": [
+        "__duration zwischen __datestamp und __datestamp",
+        "__duration zwischen dem __datestamp und dem __datestamp",
+        "__duration von __datestamp bis __datestamp",
+        "__duration vom __datestamp bis zum __datestamp",
+        "__duration in __datestamp als __datestamp"
+      ],
+      "identifier": "calendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration bis __datestamp",
+        "__duration vor __datestamp",
+        "__duration vor dem __datestamp",
+        "__duration bis zum __datestamp"
+      ],
+      "identifier": "calendarUnitToDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp bis __datestamp",
+        "__datestamp bis zum __datestamp"
+      ],
+      "identifier": "intervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__timestamp bis __timestamp",
+        "__timestamp bis zum __timestamp"
+      ],
+      "identifier": "intervalBetweenTimestamps"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration seit __datestamp",
+        "__duration seit dem __datestamp"
+      ],
+      "identifier": "calendarUnitSinceDate"
+    },
+    {
+      "prototypeExpressions": [
+        "neuer zeitstempel"
+      ],
+      "identifier": "generateTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan von __datestamp",
+        "__timespan nach __datestamp"
+      ],
+      "identifier": "calendarUnitExpressionAfterDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone zeit",
+        "zeit in __timezone"
+      ],
+      "identifier": "timeInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "zeitdifferenz zwischen __timezone und __timezone",
+        "differenz zwischen __timezone und __timezone",
+        "zeitdifferenz zwischen __timezone & __timezone",
+        "differenz zwischen __timezone & __timezone"
+      ],
+      "identifier": "differenceBetweenTimezones"
+    }
+  ],
+  "general": [
+    {
+      "prototypeExpressions": [
+        "rest von 20 durch 3",
+        "rest von 20 geteilt durch 3"
+      ],
+      "identifier": "remainder"
+    },
+    {
+      "prototypeExpressions": [
+        "hälfte von 20"
+      ],
+      "identifier": "halfOf"
+    },
+    {
+      "prototypeExpressions": [
+        "kleinere wert von 2 und 30",
+        "kleinere zahl von 2 und 30"
+      ],
+      "identifier": "lesserOf"
+    },
+    {
+      "prototypeExpressions": [
+        "größere wert von 2 und 30",
+        "größere zahl von 2 und 30",
+        "zahl von 2 und 30 ist größer",
+        "welche der zahlen von 2 und 30 ist größer"
+      ],
+      "identifier": "greaterOf"
+    },
+    {
+      "prototypeExpressions": [
+        "mitte zwischen 2 und 32"
+      ],
+      "identifier": "midpoint"
+    },
+    {
+      "prototypeExpressions": [
+        "6 ist zu 600 wie was zu 8",
+        "6 verhält sich zu 600 wie was zu 8"
+      ],
+      "identifier": "proportionsFindNumerator"
+    },
+    {
+      "prototypeExpressions": [
+        "6 ist zu 600 wie 8 zu was",
+        "6 verhält sich zu 600 wie 8 zu was"
+      ],
+      "identifier": "proportionsFindDenominator"
+    },
+    {
+      "prototypeExpressions": [
+        "zufallszahl zwischen 1 und 5",
+        "zufällig zwischen 1 und 5"
+      ],
+      "identifier": "makeRandomNumber"
+    },
+    {
+      "prototypeExpressions": [
+        "lcm of 5 and 8",
+        "lowest common multiple of 5 and 8"
+      ],
+      "identifier": "lcm"
+    },
+    {
+      "prototypeExpressions": [
+        "gcd of 20 and 30",
+        "greatest common divisor of 5 and 8",
+        "gcf of 20 and 30",
+        "greatest common factor of 5 and 8"
+      ],
+      "identifier": "gcd"
+    }
+  ],
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__duration in __timespan"
+      ],
+      "identifier": "calendarUnitInTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit_rate is what / __unit",
+        "__unit_rate is how much / __unit",
+        "__unit_rate as / __unit",
+        "__unit_rate is what /__unit",
+        "__unit_rate is how much /__unit",
+        "__unit_rate as /__unit",
+        "__unit_rate is what per __unit",
+        "__unit_rate is how much per __unit",
+        "__unit_rate as per __unit",
+        "__unit_rate is what per__unit",
+        "__unit_rate is how much per__unit",
+        "__unit_rate as per__unit"
+      ],
+      "identifier": "rateUnitChange"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit in __unit_expression"
+      ],
+      "identifier": "unitInUnitExpression"
+    }
+  ]
+}

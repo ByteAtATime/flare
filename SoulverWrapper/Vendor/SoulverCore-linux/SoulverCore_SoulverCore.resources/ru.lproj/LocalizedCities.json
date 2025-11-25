@@ -1,0 +1,3716 @@
+[
+  {
+    "name" : "Шанхай",
+    "aliases" : [
+      "Шанхаем",
+      "Шанхае"
+    ],
+    "identifier" : "shanghai"
+  },
+  {
+    "name" : "Стамбул",
+    "aliases" : [
+      "Стамбулом",
+      "Стамбуле"
+    ],
+    "identifier" : "istanbul"
+  },
+  {
+    "name" : "Буэнос-Айрес",
+    "aliases" : [
+      "Буэнос-Айресе",
+      "Буэнос-Айресом"
+    ],
+    "identifier" : "buenos aires"
+  },
+  {
+    "name" : "Мумбаи",
+    "identifier" : "mumbai"
+  },
+  {
+    "name" : "Мехико",
+    "identifier" : "mexico city",
+  },
+  {
+    "name" : "Пекин",
+    "aliases" : [
+      "Пекине",
+      "Пекином"
+    ],
+    "identifier" : "beijing"
+  },
+  {
+    "name" : "Карачи",
+    "identifier" : "karachi",
+  },
+  {
+    "name" : "Тяньцзинь",
+    "aliases" : [
+      "Тяньцзине",
+      "Тяньцзинем"
+    ],
+    "identifier" : "tianjin"
+  },
+  {
+    "name" : "Гуанчжоу",
+    "identifier" : "guangzhou",
+  },
+  {
+    "name" : "Дели",
+    "identifier" : "delhi",
+  },
+  {
+    "name" : "Москва",
+    "aliases" : [
+      "Москву",
+      "Москвой",
+      "Москве"
+    ],
+    "identifier" : "moscow"
+  },
+  {
+    "name" : "Шэньчжэнь",
+    "aliases" : [
+      "Шэньчжэне",
+      "Шэньчжэнем"
+    ],
+    "identifier" : "shenzhen"
+  },
+  {
+    "name" : "Дакка",
+    "aliases" : [
+      "Дакку",
+      "Даккой",
+      "Дакке"
+    ],
+    "identifier" : "dhaka"
+  },
+  {
+    "name" : "Сеул",
+    "aliases" : [
+      "Сеулом",
+      "Сеуле"
+    ],
+    "identifier" : "seoul"
+  },
+  {
+    "name" : "Сан-Паулу",
+    "identifier" : "sao paulo",
+  },
+  {
+    "name" : "Ухань",
+    "aliases" : [
+      "Уханем",
+      "Ухане"
+    ],
+    "identifier" : "wuhan"
+  },
+  {
+    "name" : "Лагос",
+    "aliases" : [
+      "Лагосом",
+      "Лагосе"
+    ],
+    "identifier" : "lagos"
+  },
+  {
+    "name" : "Джакарта",
+    "aliases" : [
+      "Джакартой",
+      "Джакарту",
+      "Джакарте"
+    ],
+    "identifier" : "jakarta"
+  },
+  {
+    "name" : "Токио",
+    "identifier" : "tokyo",
+  },
+  {
+    "name" : "Нью-Йорк",
+    "aliases" : [
+      "Нью-Йорком",
+      "Нью Йорк",
+      "Нью-Йорке"
+    ],
+    "identifier" : "new york"
+  },
+  {
+    "name" : "Дунгуань",
+    "aliases" : [
+      "Дунгуане",
+      "Дунгуанем"
+    ],
+    "identifier" : "dongguan"
+  },
+  {
+    "name" : "Тайбэй",
+    "aliases" : [
+      "Тайбэем",
+      "Тайбэе"
+    ],
+    "identifier" : "taipei"
+  },
+  {
+    "name" : "Киншаса",
+    "aliases" : [
+      "Киншасе",
+      "Киншасу",
+      "Киншасой"
+    ],
+    "identifier" : "kinshasa"
+  },
+  {
+    "name" : "Каир",
+    "aliases" : [
+      "Каиром",
+      "Каире"
+    ],
+    "identifier" : "cairo"
+  },
+  {
+    "name" : "Богота",
+    "aliases" : [
+      "Боготе",
+      "Боготой",
+      "Боготу"
+    ],
+    "identifier" : "bogota"
+  },
+  {
+    "name" : "Лондон",
+    "aliases" : [
+      "Лондоне",
+      "Лондоном"
+    ],
+    "identifier" : "london"
+  },
+  {
+    "name" : "Чунцин",
+    "aliases" : [
+      "Чунцине",
+      "Чунцином"
+    ],
+    "identifier" : "chongqing"
+  },
+  {
+    "name" : "Чэнду",
+    "identifier" : "chengdu",
+  },
+  {
+    "name" : "Багдад",
+    "aliases" : [
+      "Багдадом",
+      "багдаде"
+    ],
+    "identifier" : "baghdad"
+  },
+  {
+    "name" : "Нанкин",
+    "aliases" : [
+      "Нанкином",
+      "Нанкине"
+    ],
+    "identifier" : "nanjing"
+  },
+  {
+    "name" : "Тегеран",
+    "aliases" : [
+      "Тегераном",
+      "Тегеране"
+    ],
+    "identifier" : "tehran"
+  },
+  {
+    "name" : "Наньчун",
+    "aliases" : [
+      "Наньчуном",
+      "Наньчуне"
+    ],
+    "identifier" : "nanchong"
+  },
+  {
+    "name" : "Гонконг",
+    "aliases" : [
+      "Гонконге",
+      "Гонконгом"
+    ],
+    "identifier" : "hong kong"
+  },
+  {
+    "name" : "Сиань",
+    "aliases" : [
+      "Сиане"
+    ],
+    "identifier" : "xi'an"
+  },
+  {
+    "name" : "Рио де Жанейро",
+    "aliases" : [
+      "Рио-де-Жанейро"
+    ],
+    "identifier" : "rio de janeiro"
+  },
+  {
+    "name" : "Бангкок",
+    "aliases" : [
+      "Бангкоке",
+      "Бангкоком"
+    ],
+    "identifier" : "bangkok"
+  },
+  {
+    "name" : "Бенгалор",
+    "aliases" : [
+      "Бангалор",
+      "Бангалоре",
+      "Бенгалором"
+    ],
+    "identifier" : "bengaluru"
+  },
+  {
+    "name" : "Санкт-Петербург",
+    "aliases" : [
+      "Санкт-Петербургом",
+      "Санкт-Петербурге"
+    ],
+    "identifier" : "saint petersburg"
+  },
+  {
+    "name" : "Сантьяго",
+    "identifier" : "santiago",
+  },
+  {
+    "name" : "Колькутта",
+    "aliases" : [
+      "Калькутту",
+      "Калькуттой",
+      "Калькутте"
+    ],
+    "identifier" : "kolkata"
+  },
+  {
+    "name" : "Сидней",
+    "aliases" : [
+      "Сиднеем",
+      "Сиднее"
+    ],
+    "identifier" : "sydney"
+  },
+  {
+    "name" : "Янгон",
+    "aliases" : [
+      "Янгоне",
+      "Янгоном"
+    ],
+    "identifier" : "yangon"
+  },
+  {
+    "name" : "Ченнаи",
+    "identifier" : "chennai",
+  },
+  {
+    "name" : "Мельбурн",
+    "aliases" : [
+      "Мельбурном",
+      "Мельбурне"
+    ],
+    "identifier" : "melbourne"
+  },
+  {
+    "name" : "Эр - Рияд",
+    "aliases" : [
+      "Эр-Рияде",
+      "Эр-Рияд",
+      "Эр-Риядом"
+    ],
+    "identifier" : "riyadh"
+  },
+  {
+    "name" : "Лос-Анджелес",
+    "aliases" : [
+      "Лос-Анджелесом",
+      "Лос-Анжелесе"
+    ],
+    "identifier" : "los angeles"
+  },
+  {
+    "name" : "Читтагонг",
+    "aliases" : [
+      "Читтагонге",
+      "Читтагонгом"
+    ],
+    "identifier" : "chittagong"
+  },
+  {
+    "name" : "Александрия",
+    "aliases" : [
+      "Александрией",
+      "Александрии",
+      "Александрию"
+    ],
+    "identifier" : "alexandria"
+  },
+  {
+    "name" : "Ахмедабад",
+    "aliases" : [
+      "Ахмедабаде",
+      "Ахмедабадом"
+    ],
+    "identifier" : "ahmedabad"
+  },
+  {
+    "name" : "Пусан",
+    "aliases" : [
+      "Пусаном",
+      "Пусане"
+    ],
+    "identifier" : "busan"
+  },
+  {
+    "name" : "Абиджан",
+    "aliases" : [
+      "Абиджаном",
+      "Абиджане"
+    ],
+    "identifier" : "abidjan"
+  },
+  {
+    "name" : "Кано",
+    "identifier" : "kano",
+  },
+  {
+    "name" : "Хайдарабад",
+    "aliases" : [
+      "Хайдарабаде",
+      "Хайдарабадом"
+    ],
+    "identifier" : "hyderabad"
+  },
+  {
+    "name" : "Йокогама",
+    "aliases" : [
+      "Йокогаму",
+      "Йокогамой",
+      "Йокогаме"
+    ],
+    "identifier" : "yokohama"
+  },
+  {
+    "name" : "Ибадан",
+    "aliases" : [
+      "Ибадане",
+      "Ибаданом"
+    ],
+    "identifier" : "ibadan"
+  },
+  {
+    "name" : "Сингапур",
+    "aliases" : [
+      "Сингапуре",
+      "Сингапуром"
+    ],
+    "identifier" : "singapore"
+  },
+  {
+    "name" : "Анкара",
+    "aliases" : [
+      "Анкарой",
+      "Анкаре",
+      "Анкару"
+    ],
+    "identifier" : "ankara"
+  },
+  {
+    "name" : "Хошимин",
+    "aliases" : [
+      "Хошимине",
+      "Хошимином"
+    ],
+    "identifier" : "ho chi minh city"
+  },
+  {
+    "name" : "Кейптаун",
+    "aliases" : [
+      "Кейптауне",
+      "Кейптауном"
+    ],
+    "identifier" : "cape town"
+  },
+  {
+    "name" : "Берлин",
+    "aliases" : [
+      "Берлином",
+      "Берлине"
+    ],
+    "identifier" : "berlin"
+  },
+  {
+    "name" : "Мадрид",
+    "aliases" : [
+      "Мадриде",
+      "Мадридом"
+    ],
+    "identifier" : "madrid"
+  },
+  {
+    "name" : "Пхеньян",
+    "aliases" : [
+      "Пхеньяне",
+      "Пхеньяном"
+    ],
+    "identifier" : "pyongyang"
+  },
+  {
+    "name" : "Касабланка",
+    "aliases" : [
+      "Касабланкой",
+      "Касабланке",
+      "Касабланку"
+    ],
+    "identifier" : "casablanca"
+  },
+  {
+    "name" : "Чжуншань",
+    "aliases" : [
+      "Чжуншане",
+      "Чжуншанем"
+    ],
+    "identifier" : "zhongshan"
+  },
+  {
+    "name" : "Дурбан",
+    "aliases" : [
+      "Дурбаном",
+      "Дурбане"
+    ],
+    "identifier" : "durban"
+  },
+  {
+    "name" : "Кабул",
+    "aliases" : [
+      "Кабулом",
+      "Кабуле"
+    ],
+    "identifier" : "kabul"
+  },
+  {
+    "name" : "Урумчи",
+    "identifier" : "urumqi",
+  },
+  {
+    "name" : "Каракас",
+    "aliases" : [
+      "Каракасом",
+      "Каракасе"
+    ],
+    "identifier" : "caracas"
+  },
+  {
+    "name" : "Дубай",
+    "aliases" : [
+      "Дубае",
+      "Дубаем"
+    ],
+    "identifier" : "dubai"
+  },
+  {
+    "name" : "Джидда",
+    "aliases" : [
+      "Джиддой",
+      "Джидде",
+      "Джидду"
+    ],
+    "identifier" : "jeddah"
+  },
+  {
+    "name" : "Киев",
+    "aliases" : [
+      "Киевом",
+      "Киеве"
+    ],
+    "identifier" : "kyiv"
+  },
+  {
+    "name" : "Луанда",
+    "aliases" : [
+      "Луанде",
+      "Луандой",
+      "Луанду"
+    ],
+    "identifier" : "luanda"
+  },
+  {
+    "name" : "Кесон-Сити",
+    "identifier" : "quezon city",
+  },
+  {
+    "name" : "Аддис-Абеба",
+    "aliases" : [
+      "Аддис-Абебой",
+      "Аддис-Абебе",
+      "Аддис-Абебу"
+    ],
+    "identifier" : "addis ababa"
+  },
+  {
+    "name" : "Найроби",
+    "identifier" : "nairobi",
+  },
+  {
+    "name" : "Чикаго",
+    "identifier" : "chicago",
+  },
+  {
+    "name" : "Сальвадор",
+    "aliases" : [
+      "Сальвадором",
+      "Сальвадоре"
+    ],
+    "identifier" : "salvador"
+  },
+  {
+    "name" : "Дар-эс-Салам",
+    "aliases" : [
+      "Дар-эс-Саламе",
+      "Дар-эс-Саламом"
+    ],
+    "identifier" : "dar es salaam"
+  },
+  {
+    "name" : "Торонто",
+    "identifier" : "toronto",
+  },
+  {
+    "name" : "Осака",
+    "aliases" : [
+      "Осаку",
+      "Осакой",
+      "Осаке"
+    ],
+    "identifier" : "osaka"
+  },
+  {
+    "name" : "Могадишо",
+    "identifier" : "mogadishu",
+  },
+  {
+    "name" : "Измир",
+    "aliases" : [
+      "Измиром",
+      "Измире"
+    ],
+    "identifier" : "izmir"
+  },
+  {
+    "name" : "Дакар",
+    "aliases" : [
+      "Дакаре",
+      "Дакаром"
+    ],
+    "identifier" : "dakar"
+  },
+  {
+    "name" : "Гиза",
+    "aliases" : [
+      "Гизе",
+      "Гизу",
+      "Гизой"
+    ],
+    "identifier" : "giza"
+  },
+  {
+    "name" : "Форталеза",
+    "aliases" : [
+      "Форталезе",
+      "Форталезу",
+      "Форталезой"
+    ],
+    "identifier" : "fortaleza"
+  },
+  {
+    "name" : "Сурабая",
+    "aliases" : [
+      "Сурабаей",
+      "Сурабае",
+      "Сурабаю"
+    ],
+    "identifier" : "surabaya"
+  },
+  {
+    "name" : "Белу-Оризонти",
+    "identifier" : "belo horizonte",
+  },
+  {
+    "name" : "Рим",
+    "aliases" : [
+      "Риме",
+      "Римом"
+    ],
+    "identifier" : "rome"
+  },
+  {
+    "name" : "Мешхед",
+    "aliases" : [
+      "Мешхеде",
+      "Мешхедом"
+    ],
+    "identifier" : "mashhad"
+  },
+  {
+    "name" : "Бруклин",
+    "aliases" : [
+      "Бруклином",
+      "Бруклине"
+    ],
+    "identifier" : "brooklyn"
+  },
+  {
+    "name" : "Хьюстон",
+    "aliases" : [
+      "Хьюстоном",
+      "Хьюстоне"
+    ],
+    "identifier" : "houston"
+  },
+  {
+    "name" : "Квинс",
+    "aliases" : [
+      "Квинс»",
+      "Квинсе",
+      "Квинсом"
+    ],
+    "identifier" : "queens"
+  },
+  {
+    "name" : "Бразилиа",
+    "identifier" : "brasilia",
+  },
+  {
+    "name" : "Санто-Доминго",
+    "aliases" : [
+      "Санто-Доминго "
+    ],
+    "identifier" : "santo domingo"
+  },
+  {
+    "name" : "Нагоя",
+    "aliases" : [
+      "Нагоей",
+      "Нагое"
+    ],
+    "identifier" : "nagoya"
+  },
+  {
+    "name" : "Брисбен",
+    "aliases" : [
+      "Брисбне",
+      "Брисбном"
+    ],
+    "identifier" : "brisbane"
+  },
+  {
+    "name" : "Гавана",
+    "aliases" : [
+      "Гаваной",
+      "Гавану",
+      "Гаване"
+    ],
+    "identifier" : "havana"
+  },
+  {
+    "name" : "Париж",
+    "aliases" : [
+      "Париже",
+      "Парижем"
+    ],
+    "identifier" : "paris"
+  },
+  {
+    "name" : "Йоханнесбург",
+    "aliases" : [
+      "Йоханнесбурге",
+      "Йоханнесбургом"
+    ],
+    "identifier" : "johannesburg"
+  },
+  {
+    "name" : "Алматы",
+    "identifier" : "almaty",
+  },
+  {
+    "name" : "Ташкент",
+    "aliases" : [
+      "Ташкенте",
+      "Ташкентом"
+    ],
+    "identifier" : "tashkent"
+  },
+  {
+    "name" : "Алжир",
+    "aliases" : [
+      "Алжире",
+      "Алжиром"
+    ],
+    "identifier" : "algiers"
+  },
+  {
+    "name" : "Хартум",
+    "aliases" : [
+      "Хартуме",
+      "Хартумом"
+    ],
+    "identifier" : "khartoum"
+  },
+  {
+    "name" : "Аккра",
+    "aliases" : [
+      "Аккре",
+      "Аккру",
+      "Аккрой"
+    ],
+    "identifier" : "accra"
+  },
+  {
+    "name" : "Гуякиль",
+    "aliases" : [
+      "Гуякилем",
+      "Гуякиле"
+    ],
+    "identifier" : "guayaquil"
+  },
+  {
+    "name" : "Сана",
+    "aliases" : [
+      "Сане",
+      "Саной"
+    ],
+    "identifier" : "sanaa"
+  },
+  {
+    "name" : "Бейрут",
+    "aliases" : [
+      "Бейрутом",
+      "Бейруте"
+    ],
+    "identifier" : "beirut"
+  },
+  {
+    "name" : "Перт",
+    "aliases" : [
+      "Пертом",
+      "Перте"
+    ],
+    "identifier" : "perth"
+  },
+  {
+    "name" : "Саппоро",
+    "identifier" : "sapporo",
+  },
+  {
+    "name" : "Бухарест",
+    "aliases" : [
+      "Бухарестом",
+      "Бухаресте"
+    ],
+    "identifier" : "bucharest"
+  },
+  {
+    "name" : "Камайен",
+    "aliases" : [
+      "Камайеном",
+      "Камайен",
+      "Камайенне"
+    ],
+    "identifier" : "camayenne"
+  },
+  {
+    "name" : "Конакри",
+    "identifier" : "conakry",
+  },
+  {
+    "name" : "Минск",
+    "aliases" : [
+      "Минске",
+      "Минском"
+    ],
+    "identifier" : "minsk"
+  },
+  {
+    "name" : "Будапешт",
+    "aliases" : [
+      "Будапештом",
+      "Будапеште"
+    ],
+    "identifier" : "budapest"
+  },
+  {
+    "name" : "Гамбург",
+    "aliases" : [
+      "Гамбургом",
+      "Гамбурге"
+    ],
+    "identifier" : "hamburg"
+  },
+  {
+    "name" : "Варшава",
+    "aliases" : [
+      "Варшавой",
+      "Варшаву",
+      "Варшаве"
+    ],
+    "identifier" : "warsaw"
+  },
+  {
+    "name" : "Соуэто",
+    "identifier" : "soweto",
+  },
+  {
+    "name" : "Вена",
+    "aliases" : [
+      "Вену",
+      "Веной",
+      "Вене"
+    ],
+    "identifier" : "vienna"
+  },
+  {
+    "name" : "Рабат",
+    "aliases" : [
+      "Рабатом",
+      "Рабате"
+    ],
+    "identifier" : "rabat"
+  },
+  {
+    "name" : "Барселона",
+    "aliases" : [
+      "Барселоне",
+      "Барселоной",
+      "Барселону"
+    ],
+    "identifier" : "barcelona"
+  },
+  {
+    "name" : "Претория",
+    "aliases" : [
+      "Преторией",
+      "Преторию",
+      "Претории"
+    ],
+    "identifier" : "pretoria"
+  },
+  {
+    "name" : "Алеппо",
+    "identifier" : "aleppo",
+  },
+  {
+    "name" : "Манила",
+    "aliases" : [
+      "Маниле",
+      "Манилой",
+      "Манилу"
+    ],
+    "identifier" : "manila"
+  },
+  {
+    "name" : "Монреаль",
+    "aliases" : [
+      "Монреалем",
+      "Монреале"
+    ],
+    "identifier" : "montreal"
+  },
+  {
+    "name" : "Кадуна",
+    "aliases" : [
+      "Кадуне",
+      "Кадуной",
+      "Кадуну"
+    ],
+    "identifier" : "kaduna"
+  },
+  {
+    "name" : "Пномпень",
+    "aliases" : [
+      "Пномпенем",
+      "Пномпене"
+    ],
+    "identifier" : "phnom penh"
+  },
+  {
+    "name" : "Дамаск",
+    "aliases" : [
+      "Дамаске",
+      "Дамаском"
+    ],
+    "identifier" : "damascus"
+  },
+  {
+    "name" : "Филадельфия",
+    "aliases" : [
+      "Филадельфию",
+      "Филадельфией",
+      "Филадельфии"
+    ],
+    "identifier" : "philadelphia"
+  },
+  {
+    "name" : "Феникс",
+    "aliases" : [
+      "Фениксом",
+      "Фениксе"
+    ],
+    "identifier" : "phoenix"
+  },
+  {
+    "name" : "Исфахан",
+    "aliases" : [
+      "Исфаханом",
+      "Исфахане"
+    ],
+    "identifier" : "isfahan"
+  },
+  {
+    "name" : "Хараре",
+    "identifier" : "harare",
+  },
+  {
+    "name" : "Кобе",
+    "identifier" : "kobe",
+  },
+  {
+    "name" : "Стокгольм",
+    "aliases" : [
+      "Стокгольмом",
+      "Стокгольме"
+    ],
+    "identifier" : "stockholm"
+  },
+  {
+    "name" : "Манхэттен",
+    "aliases" : [
+      "Манхэттеном",
+      "Манхэттене"
+    ],
+    "identifier" : "manhattan"
+  },
+  {
+    "name" : "Асунсьон",
+    "aliases" : [
+      "Асунсьоном",
+      "Асунсьоне"
+    ],
+    "identifier" : "asuncion"
+  },
+  {
+    "name" : "Ресифе",
+    "aliases" : [
+      "Ресифи"
+    ],
+    "identifier" : "recife"
+  },
+  {
+    "name" : "Сан-Антонио",
+    "identifier" : "san antonio",
+  },
+  {
+    "name" : "Кумаси",
+    "identifier" : "kumasi",
+  },
+  {
+    "name" : "Кота-Бару",
+    "identifier" : "kota bharu",
+  },
+  {
+    "name" : "Киото",
+    "identifier" : "kyoto",
+  },
+  {
+    "name" : "Куала-Лумпур",
+    "aliases" : [
+      "Куала-Лумпуром",
+      "Куала-Лумпуре"
+    ],
+    "identifier" : "kuala lumpur"
+  },
+  {
+    "name" : "Карадж",
+    "aliases" : [
+      "Кередж",
+      "Кереджем",
+      "Кередже"
+    ],
+    "identifier" : "karaj"
+  },
+  {
+    "name" : "Катманду",
+    "identifier" : "kathmandu",
+  },
+  {
+    "name" : "Ханой",
+    "aliases" : [
+      "Ханое",
+      "Ханоем"
+    ],
+    "identifier" : "hanoi"
+  },
+  {
+    "name" : "Харьков",
+    "aliases" : [
+      "Харьковом",
+      "Харькове"
+    ],
+    "identifier" : "kharkiv"
+  },
+  {
+    "name" : "Кордова",
+    "aliases" : [
+      "Кордове",
+      "Кордовой",
+      "Кордову"
+    ],
+    "identifier" : "cordoba"
+  },
+  {
+    "name" : "Тебриз",
+    "aliases" : [
+      "Тебризом",
+      "Тебризе"
+    ],
+    "identifier" : "tabriz"
+  },
+  {
+    "name" : "Новосибирск",
+    "aliases" : [
+      "новосибирске",
+      "Новосибирском"
+    ],
+    "identifier" : "novosibirsk"
+  },
+  {
+    "name" : "Белен",
+    "aliases" : [
+      "Беленом",
+      "Белене"
+    ],
+    "identifier" : "belem"
+  },
+  {
+    "name" : "Кито",
+    "identifier" : "quito",
+  },
+  {
+    "name" : "Сан-Диего",
+    "identifier" : "san diego",
+  },
+  {
+    "name" : "Фукуока",
+    "aliases" : [
+      "Фукуокой",
+      "Фукуоке",
+      "Фукуоку"
+    ],
+    "identifier" : "fukuoka"
+  },
+  {
+    "name" : "Антананариву",
+    "identifier" : "antananarivo",
+  },
+  {
+    "name" : "Бронкс",
+    "aliases" : [
+      "Бронксе",
+      "Бронксом"
+    ],
+    "identifier" : "the bronx"
+  },
+  {
+    "name" : "Лубумбаши",
+    "identifier" : "lubumbashi",
+  },
+  {
+    "name" : "Санта-Крус-де-ла-Сьерра",
+    "identifier" : "santa cruz de la sierra",
+  },
+  {
+    "name" : "Кампала",
+    "aliases" : [
+      "Кампале",
+      "Кампалой",
+      "Кампалу"
+    ],
+    "identifier" : "kampala"
+  },
+  {
+    "name" : "Екатеринбург",
+    "aliases" : [
+      "Екатеринбургом",
+      "Екатеринбурге"
+    ],
+    "identifier" : "yekaterinburg"
+  },
+  {
+    "name" : "Дуала",
+    "aliases" : [
+      "Дуалой",
+      "Дуале",
+      "Дуалу"
+    ],
+    "identifier" : "douala"
+  },
+  {
+    "name" : "Sharjah",
+    "aliases" : [
+      "Шарджу",
+      "Шардже",
+      "Шарджей"
+    ],
+    "identifier" : "sharjah"
+  },
+  {
+    "name" : "Мекка",
+    "aliases" : [
+      "Мекку",
+      "Меккой",
+      "Мекке"
+    ],
+    "identifier" : "mecca"
+  },
+  {
+    "name" : "Макассар",
+    "aliases" : [
+      "Макассаром",
+      "Макассаре"
+    ],
+    "identifier" : "makassar"
+  },
+  {
+    "name" : "Хуарес",
+    "aliases" : [
+      "Хуаресом",
+      "Хуаресе"
+    ],
+    "identifier" : "juarez"
+  },
+  {
+    "name" : "Кавасаки",
+    "identifier" : "kawasaki",
+  },
+  {
+    "name" : "Тихуана",
+    "aliases" : [
+      "Тихуаной",
+      "Тихуане",
+      "Тихуану"
+    ],
+    "identifier" : "tijuana"
+  },
+  {
+    "name" : "Даллас",
+    "aliases" : [
+      "Далласе",
+      "Далласом"
+    ],
+    "identifier" : "dallas"
+  },
+  {
+    "name" : "Медина",
+    "aliases" : [
+      "Медину",
+      "Мединой",
+      "Медине"
+    ],
+    "identifier" : "medina"
+  },
+  {
+    "name" : "Яунде",
+    "identifier" : "yaounde",
+  },
+  {
+    "name" : "Бамако",
+    "identifier" : "bamako",
+  },
+  {
+    "name" : "Браззавиль",
+    "aliases" : [
+      "Браззавилем",
+      "Браззавиле"
+    ],
+    "identifier" : "brazzaville"
+  },
+  {
+    "name" : "Нижний Новгород",
+    "aliases" : [
+      "Нижним Новгородом",
+      "Нижнем Новгороде"
+    ],
+    "identifier" : "nizhniy novgorod"
+  },
+  {
+    "name" : "Амман",
+    "aliases" : [
+      "Аммане",
+      "Амманом"
+    ],
+    "identifier" : "amman"
+  },
+  {
+    "name" : "Белград",
+    "aliases" : [
+      "Белграде",
+      "Белградом"
+    ],
+    "identifier" : "belgrade"
+  },
+  {
+    "name" : "Монтевидео",
+    "identifier" : "montevideo",
+  },
+  {
+    "name" : "Лусака",
+    "aliases" : [
+      "Лусакой",
+      "Лусаке",
+      "Лусаку"
+    ],
+    "identifier" : "lusaka"
+  },
+  {
+    "name" : "Мюнхен",
+    "aliases" : [
+      "Мюнхене",
+      "Мюнхеном"
+    ],
+    "identifier" : "munich"
+  },
+  {
+    "name" : "Шираз",
+    "aliases" : [
+      "Ширазе",
+      "Ширазом"
+    ],
+    "identifier" : "shiraz"
+  },
+  {
+    "name" : "Милан",
+    "aliases" : [
+      "Миланом",
+      "Милане"
+    ],
+    "identifier" : "milan"
+  },
+  {
+    "name" : "Порт-о-Пренс",
+    "identifier" : "port-au-prince",
+  },
+  {
+    "name" : "Аделаида",
+    "aliases" : [
+      "Аделаидой",
+      "Аделаиду",
+      "Аделаиде"
+    ],
+    "identifier" : "adelaide"
+  },
+  {
+    "name" : "Омдурман",
+    "aliases" : [
+      "Омдурмане",
+      "Омдурманом"
+    ],
+    "identifier" : "omdurman"
+  },
+  {
+    "name" : "Сайтама",
+    "aliases" : [
+      "Сайтаму",
+      "Сайтамой",
+      "Сайтаме"
+    ],
+    "identifier" : "saitama"
+  },
+  {
+    "name" : "Мапуту",
+    "identifier" : "maputo",
+  },
+  {
+    "name" : "Прага",
+    "aliases" : [
+      "Праге",
+      "Прагой",
+      "Прагу"
+    ],
+    "identifier" : "prague"
+  },
+  {
+    "name" : "Копенгаген",
+    "aliases" : [
+      "копенгагене",
+      "Копенгагеном"
+    ],
+    "identifier" : "copenhagen"
+  },
+  {
+    "name" : "София",
+    "aliases" : [
+      "Софией",
+      "Софию",
+      "Софии"
+    ],
+    "identifier" : "sofia"
+  },
+  {
+    "name" : "Триполи",
+    "identifier" : "tripoli",
+  },
+  {
+    "name" : "Порт-Харкорт",
+    "identifier" : "port harcourt",
+  },
+  {
+    "name" : "Хиросима",
+    "aliases" : [
+      "Хиросиму",
+      "Хиросимой",
+      "Хиросиме"
+    ],
+    "identifier" : "hiroshima"
+  },
+  {
+    "name" : "Монтеррей",
+    "aliases" : [
+      "Монтеррее",
+      "Монтерреем"
+    ],
+    "identifier" : "monterrey"
+  },
+  {
+    "name" : "Самара",
+    "aliases" : [
+      "Самару",
+      "Самарой",
+      "Самаре"
+    ],
+    "identifier" : "samara"
+  },
+  {
+    "name" : "Омск",
+    "aliases" : [
+      "Омском",
+      "Омске"
+    ],
+    "identifier" : "omsk"
+  },
+  {
+    "name" : "Бенин-Сити",
+    "identifier" : "benin city",
+  },
+  {
+    "name" : "Баку",
+    "identifier" : "baku",
+  },
+  {
+    "name" : "Майдугури",
+    "identifier" : "maiduguri",
+  },
+  {
+    "name" : "Казань",
+    "aliases" : [
+      "Казани",
+      "Казанью"
+    ],
+    "identifier" : "kazan"
+  },
+  {
+    "name" : "Ереван",
+    "aliases" : [
+      "Ереване",
+      "Ереваном"
+    ],
+    "identifier" : "yerevan"
+  },
+  {
+    "name" : "Уагадугу",
+    "identifier" : "ouagadougou",
+  },
+  {
+    "name" : "Ростов-на-Дону",
+    "aliases" : [
+      "Ростовом-на-Дону",
+      "Ростове-на-Дону"
+    ],
+    "identifier" : "rostov-na-donu"
+  },
+  {
+    "name" : "Челябинск",
+    "aliases" : [
+      "челябинском",
+      "челябинске"
+    ],
+    "identifier" : "chelyabinsk"
+  },
+  {
+    "name" : "Тбилиси",
+    "identifier" : "tbilisi",
+  },
+  {
+    "name" : "Уфа",
+    "aliases" : [
+      "Уфой",
+      "Уфу",
+      "Уфе"
+    ],
+    "identifier" : "ufa"
+  },
+  {
+    "name" : "Сан-Хосе",
+    "identifier" : "san jose",
+  },
+  {
+    "name" : "Дублин",
+    "aliases" : [
+      "Дублином",
+      "Дублине"
+    ],
+    "identifier" : "dublin"
+  },
+  {
+    "name" : "Калгари",
+    "identifier" : "calgary",
+  },
+  {
+    "name" : "Брюссель",
+    "aliases" : [
+      "Брюсселем",
+      "Брюсселе"
+    ],
+    "identifier" : "brussels"
+  },
+  {
+    "name" : "Волгоград",
+    "aliases" : [
+      "Волгоградом",
+      "Волгограде"
+    ],
+    "identifier" : "volgograd"
+  },
+  {
+    "name" : "Одесса",
+    "aliases" : [
+      "Одессой",
+      "Одессу",
+      "Одессе"
+    ],
+    "identifier" : "odessa"
+  },
+  {
+    "name" : "Гватемала",
+    "aliases" : [
+      "Гватемалой",
+      "Гватемале",
+      "Гватемалу"
+    ],
+    "identifier" : "guatemala city"
+  },
+  {
+    "name" : "Бирмингем",
+    "aliases" : [
+      "бирмингеме",
+      "Бирмингемом"
+    ],
+    "identifier" : "birmingham"
+  },
+  {
+    "name" : "Пермь",
+    "aliases" : [
+      "Перми",
+      "Пермью"
+    ],
+    "identifier" : "perm"
+  },
+  {
+    "name" : "Зариа",
+    "identifier" : "zaria",
+  },
+  {
+    "name" : "Порт-Элизабет",
+    "identifier" : "port elizabeth",
+  },
+  {
+    "name" : "Фес",
+    "aliases" : [
+      "Фесе",
+      "Фесу",
+      "Фесом"
+    ],
+    "identifier" : "fes"
+  },
+  {
+    "name" : "Кёльн",
+    "aliases" : [
+      "Кёльне",
+      "Кёльном"
+    ],
+    "identifier" : "cologne"
+  },
+  {
+    "name" : "Неаполь",
+    "aliases" : [
+      "Неаполем",
+      "Неаполе"
+    ],
+    "identifier" : "naples"
+  },
+  {
+    "name" : "Масейо",
+    "identifier" : "maceio",
+  },
+  {
+    "name" : "Монровия",
+    "aliases" : [
+      "Монровии",
+      "Монровию",
+      "Монровией"
+    ],
+    "identifier" : "monrovia"
+  },
+  {
+    "name" : "Кингстон",
+    "aliases" : [
+      "Кингстоне",
+      "Кингстоном"
+    ],
+    "identifier" : "kingston"
+  },
+  {
+    "name" : "Остин",
+    "aliases" : [
+      "Остине",
+      "Остином"
+    ],
+    "identifier" : "austin"
+  },
+  {
+    "name" : "Красноярск",
+    "aliases" : [
+      "красноярском",
+      "красноярске"
+    ],
+    "identifier" : "krasnoyarsk"
+  },
+  {
+    "name" : "Сале",
+    "identifier" : "sale",
+  },
+  {
+    "name" : "Кум",
+    "aliases" : [
+      "Кумом",
+      "Куме"
+    ],
+    "identifier" : "qom"
+  },
+  {
+    "name" : "Бишкек",
+    "aliases" : [
+      "Бишкеке",
+      "Бишкеком"
+    ],
+    "identifier" : "bishkek"
+  },
+  {
+    "name" : "Абобо",
+    "identifier" : "abobo",
+  },
+  {
+    "name" : "Аба",
+    "aliases" : [
+      "Абе",
+      "Абу",
+      "Абой"
+    ],
+    "identifier" : "aba"
+  },
+  {
+    "name" : "Мендоса",
+    "aliases" : [
+      "Мендосой",
+      "Мендосу",
+      "Мендосе"
+    ],
+    "identifier" : "mendoza"
+  },
+  {
+    "name" : "Мбужи-Майи",
+    "aliases" : [
+      "Мбуджи-Майи"
+    ],
+    "identifier" : "mbuji-mayi"
+  },
+  {
+    "name" : "Пикин",
+    "aliases" : [
+      "Пикине",
+      "Пикином"
+    ],
+    "identifier" : "pikine"
+  },
+  {
+    "name" : "Турин",
+    "aliases" : [
+      "Турином",
+      "Турине"
+    ],
+    "identifier" : "turin"
+  },
+  {
+    "name" : "Сан-Франциско",
+    "identifier" : "san francisco",
+  },
+  {
+    "name" : "Ливерпуль",
+    "aliases" : [
+      "Ливерпуле",
+      "Ливерпулем"
+    ],
+    "identifier" : "liverpool"
+  },
+  {
+    "name" : "Саратов",
+    "aliases" : [
+      "Саратове",
+      "Саратовом"
+    ],
+    "identifier" : "saratov"
+  },
+  {
+    "name" : "Тегусигальпа",
+    "aliases" : [
+      "Тегусигальпе",
+      "Тегусигальпой",
+      "Тегусигальпу"
+    ],
+    "identifier" : "tegucigalpa"
+  },
+  {
+    "name" : "Воронеж",
+    "aliases" : [
+      "Воронеже",
+      "Воронежем"
+    ],
+    "identifier" : "voronezh"
+  },
+  {
+    "name" : "Улан-Батор",
+    "aliases" : [
+      "Улан-Баторе",
+      "Улан-Батором"
+    ],
+    "identifier" : "ulan bator"
+  },
+  {
+    "name" : "Ахваз",
+    "aliases" : [
+      "Ахвазом",
+      "Ахвазе"
+    ],
+    "identifier" : "ahvaz"
+  },
+  {
+    "name" : "Марракеш",
+    "aliases" : [
+      "Марракеше",
+      "Марракешем"
+    ],
+    "identifier" : "marrakesh"
+  },
+  {
+    "name" : "Денпасар",
+    "aliases" : [
+      "Денпасаре",
+      "Денпасаром"
+    ],
+    "identifier" : "denpasar"
+  },
+  {
+    "name" : "Форт-Уэрт",
+    "aliases" : [
+      "Форт-Уэртом",
+      "Форт-Уэрте"
+    ],
+    "identifier" : "fort worth"
+  },
+  {
+    "name" : "Индианаполис",
+    "aliases" : [
+      "Индианаполисе",
+      "Индианаполисом"
+    ],
+    "identifier" : "indianapolis"
+  },
+  {
+    "name" : "Джос",
+    "aliases" : [
+      "Джосом",
+      "Джосе"
+    ],
+    "identifier" : "jos"
+  },
+  {
+    "name" : "Валенсия",
+    "aliases" : [
+      "Валенсию",
+      "Валенсией",
+      "Валенсии"
+    ],
+    "identifier" : "valencia"
+  },
+  {
+    "name" : "Илорин",
+    "aliases" : [
+      "Илорином",
+      "Илорине"
+    ],
+    "identifier" : "ilorin"
+  },
+  {
+    "name" : "Ла-Пас",
+    "aliases" : [
+      "Ла-Пасе",
+      "Ла-Пасом"
+    ],
+    "identifier" : "la paz"
+  },
+  {
+    "name" : "Оттава",
+    "aliases" : [
+      "Оттаву",
+      "Оттаве",
+      "Оттавой"
+    ],
+    "identifier" : "ottawa"
+  },
+  {
+    "name" : "Фритаун",
+    "aliases" : [
+      "Фритауном",
+      "Фритауне"
+    ],
+    "identifier" : "freetown"
+  },
+  {
+    "name" : "Иерусалим",
+    "aliases" : [
+      "Иерусалиме",
+      "Иерусалимом"
+    ],
+    "identifier" : "jerusalem"
+  },
+  {
+    "name" : "Маскат",
+    "aliases" : [
+      "Маскате",
+      "Маскатом"
+    ],
+    "identifier" : "muscat"
+  },
+  {
+    "name" : "Марсель",
+    "aliases" : [
+      "Марселем",
+      "Марселе"
+    ],
+    "identifier" : "marseille"
+  },
+  {
+    "name" : "Пасрагад",
+    "aliases" : [
+      "Пасрагадом",
+      "Пасрагаде"
+    ],
+    "identifier" : "pasragad branch"
+  },
+  {
+    "name" : "Бумердес",
+    "aliases" : [
+      "Бумердесом",
+      "Бумердасе"
+    ],
+    "identifier" : "boumerdas"
+  },
+  {
+    "name" : "Сан-Мигель-де-Тукуман",
+    "identifier" : "san miguel de tucuman",
+  },
+  {
+    "name" : "Мерида",
+    "aliases" : [
+      "Мериду",
+      "Меридой",
+      "Мериде"
+    ],
+    "identifier" : "merida"
+  },
+  {
+    "name" : "Ниамей",
+    "aliases" : [
+      "Ниамее",
+      "Ниамеем"
+    ],
+    "identifier" : "niamey"
+  },
+  {
+    "name" : "Кахриз",
+    "aliases" : [
+      "Каризе",
+      "Каризом"
+    ],
+    "identifier" : "kahriz"
+  },
+  {
+    "name" : "Краков",
+    "aliases" : [
+      "Кракове",
+      "Краковом"
+    ],
+    "identifier" : "krakow"
+  },
+  {
+    "name" : "Дананг",
+    "aliases" : [
+      "Дананге",
+      "Данангом"
+    ],
+    "identifier" : "da nang"
+  },
+  {
+    "name" : "Питермарицбург",
+    "aliases" : [
+      "Питермарицбургом",
+      "Питермарицбурге"
+    ],
+    "identifier" : "pietermaritzburg"
+  },
+  {
+    "name" : "Ломе",
+    "identifier" : "lome",
+  },
+  {
+    "name" : "Кигали",
+    "identifier" : "kigali",
+  },
+  {
+    "name" : "Рига",
+    "aliases" : [
+      "Риге",
+      "Ригу",
+      "Ригой"
+    ],
+    "identifier" : "riga"
+  },
+  {
+    "name" : "Амстердам",
+    "aliases" : [
+      "Амстердамом",
+      "Амстердаме"
+    ],
+    "identifier" : "amsterdam"
+  },
+  {
+    "name" : "Ойо",
+    "identifier" : "oyo",
+  },
+  {
+    "name" : "Ноттингем",
+    "aliases" : [
+      "Ноттингемом",
+      "Ноттингеме"
+    ],
+    "identifier" : "nottingham"
+  },
+  {
+    "name" : "Кампу-Гранди",
+    "identifier" : "campo grande",
+  },
+  {
+    "name" : "Ашхабад",
+    "aliases" : [
+      "Ашхабаде",
+      "Ашхабадом"
+    ],
+    "identifier" : "ashgabat"
+  },
+  {
+    "name" : "Нджамена",
+    "aliases" : [
+      "Нджамену",
+      "Нджаменой",
+      "Нджамене"
+    ],
+    "identifier" : "n'djamena"
+  },
+  {
+    "name" : "Львов",
+    "aliases" : [
+      "Львовом",
+      "Львове"
+    ],
+    "identifier" : "lviv"
+  },
+  {
+    "name" : "Эрмосильо",
+    "identifier" : "hermosillo",
+  },
+  {
+    "name" : "Эдмонтон",
+    "aliases" : [
+      "Эдмонтоном",
+      "Эдмонтоне"
+    ],
+    "identifier" : "edmonton"
+  },
+  {
+    "name" : "Булавайо",
+    "identifier" : "bulawayo",
+  },
+  {
+    "name" : "Загреб",
+    "aliases" : [
+      "Загребе",
+      "Загребом"
+    ],
+    "identifier" : "zagreb"
+  },
+  {
+    "name" : "Агадир",
+    "aliases" : [
+      "Агадире",
+      "Агадиром"
+    ],
+    "identifier" : "agadir"
+  },
+  {
+    "name" : "Сараево",
+    "identifier" : "sarajevo",
+  },
+  {
+    "name" : "Энугу",
+    "identifier" : "enugu",
+  },
+  {
+    "name" : "Танжер",
+    "aliases" : [
+      "Танжере",
+      "Танжером"
+    ],
+    "identifier" : "tangier"
+  },
+  {
+    "name" : "Шеффилж",
+    "aliases" : [
+      "Шеффилде",
+      "Шеффилд",
+      "Шеффилдом"
+    ],
+    "identifier" : "sheffield"
+  },
+  {
+    "name" : "Сиэтл",
+    "aliases" : [
+      "Cиэтле",
+      "Сиэтлом"
+    ],
+    "identifier" : "seattle"
+  },
+  {
+    "name" : "Денвер",
+    "aliases" : [
+      "Денвере",
+      "Денвером"
+    ],
+    "identifier" : "denver"
+  },
+  {
+    "name" : "Эль-Пасо",
+    "identifier" : "el paso",
+  },
+  {
+    "name" : "Душанбе",
+    "identifier" : "dushanbe",
+  },
+  {
+    "name" : "Детройт",
+    "aliases" : [
+      "Детройтом",
+      "Детройте"
+    ],
+    "identifier" : "detroit"
+  },
+  {
+    "name" : "Кульякан",
+    "aliases" : [
+      "Кульакане",
+      "Кулиакан",
+      "Кульяканом"
+    ],
+    "identifier" : "culiacan"
+  },
+  {
+    "name" : "Матола",
+    "aliases" : [
+      "Матолу",
+      "Матоле",
+      "Матолой"
+    ],
+    "identifier" : "matola"
+  },
+  {
+    "name" : "Бостон",
+    "aliases" : [
+      "Бостоне",
+      "Бостоном"
+    ],
+    "identifier" : "boston"
+  },
+  {
+    "name" : "Афины",
+    "aliases" : [
+      "Афинах",
+      "Афинами"
+    ],
+    "identifier" : "athens"
+  },
+  {
+    "name" : "Нуакшот",
+    "aliases" : [
+      "Нуакшоте",
+      "Нуакшотом"
+    ],
+    "identifier" : "nouakchott"
+  },
+  {
+    "name" : "Пуэнт-Нуар",
+    "identifier" : "pointe-noire",
+  },
+  {
+    "name" : "Мемфис",
+    "aliases" : [
+      "Мемфисом",
+      "Мемфисе"
+    ],
+    "identifier" : "memphis"
+  },
+  {
+    "name" : "Франкфурт-на-Майне",
+    "aliases" : [
+      "Франкфуртом-на-Майне",
+      "Франкфурте-на-Майне"
+    ],
+    "identifier" : "frankfurt am main"
+  },
+  {
+    "name" : "Краснодар",
+    "aliases" : [
+      "Краснодаре",
+      "Краснодаром"
+    ],
+    "identifier" : "krasnodar"
+  },
+  {
+    "name" : "Палермо",
+    "identifier" : "palermo",
+  },
+  {
+    "name" : "Коломбо",
+    "identifier" : "colombo",
+  },
+  {
+    "name" : "Лилонгве",
+    "identifier" : "lilongwe",
+  },
+  {
+    "name" : "Оран",
+    "aliases" : [
+      "Ораном",
+      "Оране"
+    ],
+    "identifier" : "oran"
+  },
+  {
+    "name" : "Кишинев",
+    "aliases" : [
+      "Кишиневе",
+      "Кишиневом"
+    ],
+    "identifier" : "chisinau"
+  },
+  {
+    "name" : "Тебесса",
+    "aliases" : [
+      "Тебессой",
+      "Тебессу",
+      "Тебессе"
+    ],
+    "identifier" : "tebessa"
+  },
+  {
+    "name" : "Портленд",
+    "aliases" : [
+      "Портлендом",
+      "Портленде"
+    ],
+    "identifier" : "portland"
+  },
+  {
+    "name" : "Виннипег",
+    "aliases" : [
+      "Виннипегом",
+      "Виннипеге"
+    ],
+    "identifier" : "winnipeg"
+  },
+  {
+    "name" : "Оклахома",
+    "aliases" : [
+      "Оклахому",
+      "Оклахоме",
+      "Оклахомой"
+    ],
+    "identifier" : "oklahoma city"
+  },
+  {
+    "name" : "Канкун",
+    "aliases" : [
+      "Канкуном",
+      "Канкуне"
+    ],
+    "identifier" : "cancun"
+  },
+  {
+    "name" : "Джибути",
+    "identifier" : "djibouti",
+  },
+  {
+    "name" : "Балтимор",
+    "aliases" : [
+      "Балтимором",
+      "Балтиморе"
+    ],
+    "identifier" : "baltimore"
+  },
+  {
+    "name" : "Керманшах",
+    "aliases" : [
+      "Керманшахом",
+      "Керманшахе"
+    ],
+    "identifier" : "kermanshah"
+  },
+  {
+    "name" : "Бристоль",
+    "aliases" : [
+      "Бристоле",
+      "Бристолем"
+    ],
+    "identifier" : "bristol"
+  },
+  {
+    "name" : "Бенони",
+    "identifier" : "benoni",
+  },
+  {
+    "name" : "Абу-Даби",
+    "identifier" : "abu dhabi",
+  },
+  {
+    "name" : "Вашингтон",
+    "aliases" : [
+      "Вашингтоном",
+      "Вашингтоне"
+    ],
+    "identifier" : "washington"
+  },
+  {
+    "name" : "Милуоки",
+    "identifier" : "milwaukee",
+  },
+  {
+    "name" : "Ванкувер",
+    "aliases" : [
+      "Ванкувером",
+      "Ванкувере"
+    ],
+    "identifier" : "vancouver"
+  },
+  {
+    "name" : "Барнаул",
+    "aliases" : [
+      "Барнаулом",
+      "Барнауле"
+    ],
+    "identifier" : "barnaul"
+  },
+  {
+    "name" : "Роттердам",
+    "aliases" : [
+      "Роттердамом",
+      "Роттердаме"
+    ],
+    "identifier" : "rotterdam"
+  },
+  {
+    "name" : "Решт",
+    "aliases" : [
+      "Реште"
+    ],
+    "identifier" : "rasht"
+  },
+  {
+    "name" : "Абеокута",
+    "aliases" : [
+      "Абеокуту",
+      "Абеокуте",
+      "Абеокутой"
+    ],
+    "identifier" : "abeokuta"
+  },
+  {
+    "name" : "Эссен",
+    "aliases" : [
+      "Эссене",
+      "Эссеном"
+    ],
+    "identifier" : "essen"
+  },
+  {
+    "name" : "Глазго",
+    "identifier" : "glasgow",
+  },
+  {
+    "name" : "Голд-Кост",
+    "identifier" : "gold coast",
+  },
+  {
+    "name" : "Абуджа",
+    "aliases" : [
+      "Абуджей",
+      "Абудже",
+      "Абуджу"
+    ],
+    "identifier" : "abuja"
+  },
+  {
+    "name" : "Штутгарт",
+    "aliases" : [
+      "Штутгартом",
+      "Штутгарте"
+    ],
+    "identifier" : "stuttgart"
+  },
+  {
+    "name" : "Дортмунд",
+    "aliases" : [
+      "Дортмунде",
+      "Дортмундом"
+    ],
+    "identifier" : "dortmund"
+  },
+  {
+    "name" : "Владивосток",
+    "aliases" : [
+      "Владивостоке",
+      "Владивостоком"
+    ],
+    "identifier" : "vladivostok"
+  },
+  {
+    "name" : "Иркутск",
+    "aliases" : [
+      "Иркутске",
+      "Иркутском"
+    ],
+    "identifier" : "irkutsk"
+  },
+  {
+    "name" : "Блантайр",
+    "aliases" : [
+      "Блантайре",
+      "Блантайром"
+    ],
+    "identifier" : "blantyre"
+  },
+  {
+    "name" : "Генуя",
+    "aliases" : [
+      "Генуей",
+      "Генуе",
+      "Геную"
+    ],
+    "identifier" : "genoa"
+  },
+  {
+    "name" : "Осло",
+    "identifier" : "oslo",
+  },
+  {
+    "name" : "Либревиль",
+    "aliases" : [
+      "Либревилем",
+      "Либревиле"
+    ],
+    "identifier" : "libreville"
+  },
+  {
+    "name" : "Керман",
+    "aliases" : [
+      "Керманом",
+      "Кермане"
+    ],
+    "identifier" : "kerman"
+  },
+  {
+    "name" : "Дюссельдорф",
+    "aliases" : [
+      "Дюссельдорфом",
+      "Дюссельдорфе"
+    ],
+    "identifier" : "dusseldorf"
+  },
+  {
+    "name" : "Кучинг",
+    "aliases" : [
+      "Кучинге",
+      "Кучингом"
+    ],
+    "identifier" : "kuching"
+  },
+  {
+    "name" : "Альбукерке",
+    "identifier" : "albuquerque",
+  },
+  {
+    "name" : "Хельсинки",
+    "identifier" : "helsinki",
+  },
+  {
+    "name" : "Аден",
+    "aliases" : [
+      "Адене",
+      "Аденом"
+    ],
+    "identifier" : "aden"
+  },
+  {
+    "name" : "Оренбург",
+    "aliases" : [
+      "Оренбургом",
+      "Оренбурге"
+    ],
+    "identifier" : "orenburg"
+  },
+  {
+    "name" : "Приштина",
+    "aliases" : [
+      "Приштину",
+      "Приштиной",
+      "Приштине"
+    ],
+    "identifier" : "pristina"
+  },
+  {
+    "name" : "Бремен",
+    "aliases" : [
+      "Бременом",
+      "Бремене"
+    ],
+    "identifier" : "bremen"
+  },
+  {
+    "name" : "Вильнюс",
+    "aliases" : [
+      "Вильнюсе",
+      "Вильнюсом"
+    ],
+    "identifier" : "vilnius"
+  },
+  {
+    "name" : "Нэшвилл",
+    "aliases" : [
+      "Нэшвиллом",
+      "Нэшвилле"
+    ],
+    "identifier" : "nashville"
+  },
+  {
+    "name" : "Квебек",
+    "aliases" : [
+      "Квебеком",
+      "Квебеке"
+    ],
+    "identifier" : "quebec"
+  },
+  {
+    "name" : "Сан-Сальвадор",
+    "aliases" : [
+      "Сан-Сальвадоре",
+      "Сан-Сальвадором"
+    ],
+    "identifier" : "san salvador"
+  },
+  {
+    "name" : "Макао",
+    "identifier" : "macau",
+  },
+  {
+    "name" : "Тюмень",
+    "aliases" : [
+      "Тюменью",
+      "Тюмени"
+    ],
+    "identifier" : "tyumen"
+  },
+  {
+    "name" : "Лиссабон",
+    "aliases" : [
+      "Лиссабоне",
+      "Лиссабоном"
+    ],
+    "identifier" : "lisbon"
+  },
+  {
+    "name" : "Ганновер",
+    "aliases" : [
+      "Ганновере",
+      "Ганновером"
+    ],
+    "identifier" : "hannover"
+  },
+  {
+    "name" : "Сальта",
+    "aliases" : [
+      "Сальту",
+      "Сальтой",
+      "Сальте"
+    ],
+    "identifier" : "salta"
+  },
+  {
+    "name" : "Лестер",
+    "aliases" : [
+      "Лестере",
+      "Лестером"
+    ],
+    "identifier" : "leicester"
+  },
+  {
+    "name" : "Лейпциг",
+    "aliases" : [
+      "Лейпцигом",
+      "Лейпциге"
+    ],
+    "identifier" : "leipzig"
+  },
+  {
+    "name" : "Дуйсбург",
+    "aliases" : [
+      "Дуйсбургом",
+      "Дуйсбурге"
+    ],
+    "identifier" : "duisburg"
+  },
+  {
+    "name" : "Астрахань",
+    "aliases" : [
+      "Астраханью",
+      "Астрахани"
+    ],
+    "identifier" : "astrakhan"
+  },
+  {
+    "name" : "Нюрнберг",
+    "aliases" : [
+      "Нюрнберге",
+      "Нюрнбергом"
+    ],
+    "identifier" : "nuremberg"
+  },
+  {
+    "name" : "Дрезден",
+    "aliases" : [
+      "Дрездене",
+      "Дрезденом"
+    ],
+    "identifier" : "dresden"
+  },
+  {
+    "name" : "Томск",
+    "aliases" : [
+      "Томске",
+      "Томском"
+    ],
+    "identifier" : "tomsk"
+  },
+  {
+    "name" : "Йезд",
+    "aliases" : [
+      "Йезде",
+      "Йездом"
+    ],
+    "identifier" : "yazd"
+  },
+  {
+    "name" : "Канзас-Сити",
+    "identifier" : "kansas city",
+  },
+  {
+    "name" : "Скопье",
+    "aliases" : [
+      "Скопье"
+    ],
+    "identifier" : "skopje"
+  },
+  {
+    "name" : "Гаага",
+    "aliases" : [
+      "Гаагой",
+      "Гааге",
+      "Гаагу"
+    ],
+    "identifier" : "the hague"
+  },
+  {
+    "name" : "Лион",
+    "aliases" : [
+      "Лионом",
+      "Лионе"
+    ],
+    "identifier" : "lyon"
+  },
+  {
+    "name" : "Эдинбург",
+    "aliases" : [
+      "Эдинбургом",
+      "Эдинбурге"
+    ],
+    "identifier" : "edinburgh"
+  },
+  {
+    "name" : "Антверпен",
+    "aliases" : [
+      "Антверпене",
+      "Антверпеном"
+    ],
+    "identifier" : "antwerpen"
+  },
+  {
+    "name" : "Понтианак",
+    "aliases" : [
+      "Понтианаком",
+      "Понтианаке"
+    ],
+    "identifier" : "pontianak"
+  },
+  {
+    "name" : "Лидс",
+    "aliases" : [
+      "Лидсом",
+      "Лидсе"
+    ],
+    "identifier" : "leeds"
+  },
+  {
+    "name" : "Кардифф",
+    "aliases" : [
+      "Кардиффе",
+      "Кардиффом"
+    ],
+    "identifier" : "cardiff"
+  },
+  {
+    "name" : "Сан-Хуан",
+    "aliases" : [
+      "Сан-Хуане",
+      "Сан-Хуаном"
+    ],
+    "identifier" : "san juan"
+  },
+  {
+    "name" : "Омаха",
+    "aliases" : [
+      "Омаху",
+      "Омахе",
+      "Омахой"
+    ],
+    "identifier" : "omaha"
+  },
+  {
+    "name" : "Карфур",
+    "aliases" : [
+      "Карфуром",
+      "Карфуре"
+    ],
+    "identifier" : "carrefour"
+  },
+  {
+    "name" : "Майами",
+    "identifier" : "miami",
+  },
+  {
+    "name" : "Калининград",
+    "aliases" : [
+      "Калининградом",
+      "Калининграде"
+    ],
+    "identifier" : "kaliningrad"
+  },
+  {
+    "name" : "Тулуза",
+    "aliases" : [
+      "Тулузой",
+      "Тулузу",
+      "Тулузе"
+    ],
+    "identifier" : "toulouse"
+  },
+  {
+    "name" : "Тель-Авив",
+    "aliases" : [
+      "Тель-Авивом",
+      "Тель-Авиве"
+    ],
+    "identifier" : "tel aviv"
+  },
+  {
+    "name" : "Восточный Иерусалим",
+    "aliases" : [
+      "Восточном Иерусалиме",
+      "Восточным Иерусалимом"
+    ],
+    "identifier" : "east jerusalem"
+  },
+  {
+    "name" : "Братислава",
+    "aliases" : [
+      "Братиславе",
+      "Братиславу",
+      "Братиславой"
+    ],
+    "identifier" : "bratislava"
+  },
+  {
+    "name" : "Окленд",
+    "aliases" : [
+      "Окленде",
+      "Оклендом"
+    ],
+    "identifier" : "auckland"
+  },
+  {
+    "name" : "Севастополь",
+    "aliases" : [
+      "Севастополе",
+      "Севастополем"
+    ],
+    "identifier" : "sevastopol"
+  },
+  {
+    "name" : "Миннеаполис",
+    "aliases" : [
+      "Миннеаполисе",
+      "Миннеаполисом"
+    ],
+    "identifier" : "minneapolis"
+  },
+  {
+    "name" : "Газа",
+    "aliases" : [
+      "Газе",
+      "Газой",
+      "Газу"
+    ],
+    "identifier" : "gaza"
+  },
+  {
+    "name" : "Курск",
+    "aliases" : [
+      "Курске",
+      "Курском"
+    ],
+    "identifier" : "kursk"
+  },
+  {
+    "name" : "Панама",
+    "aliases" : [
+      "Панаму",
+      "Панамой",
+      "Панаме"
+    ],
+    "identifier" : "panama"
+  },
+  {
+    "name" : "Талса",
+    "aliases" : [
+      "Талсой",
+      "Талсу",
+      "Талсе"
+    ],
+    "identifier" : "tulsa"
+  },
+  {
+    "name" : "Тверь",
+    "aliases" : [
+      "Твери",
+      "Тверью"
+    ],
+    "identifier" : "tver"
+  },
+  {
+    "name" : "Манчестер",
+    "aliases" : [
+      "Манчестере",
+      "Манчестером"
+    ],
+    "identifier" : "manchester"
+  },
+  {
+    "name" : "Таллин",
+    "aliases" : [
+      "Таллинном",
+      "Таллине"
+    ],
+    "identifier" : "tallinn"
+  },
+  {
+    "name" : "Кандагар",
+    "aliases" : [
+      "Кандагаром",
+      "Кандагаре"
+    ],
+    "identifier" : "kandahar"
+  },
+  {
+    "name" : "Уичито",
+    "identifier" : "wichita",
+  },
+  {
+    "name" : "Новый Орлеан",
+    "aliases" : [
+      "Новым Орлеаном",
+      "Новом Орлеане"
+    ],
+    "identifier" : "new orleans"
+  },
+  {
+    "name" : "Веллингтон",
+    "aliases" : [
+      "Веллингтоне",
+      "Веллингтоном"
+    ],
+    "identifier" : "wellington"
+  },
+  {
+    "name" : "Лас-Пальмас-де-Гран-Канария",
+    "identifier" : "las palmas de gran canaria",
+  },
+  {
+    "name" : "Масатлан",
+    "aliases" : [
+      "Масатлане",
+      "Мазатлан",
+      "Масатланом"
+    ],
+    "identifier" : "mazatlan"
+  },
+  {
+    "name" : "Тирана",
+    "aliases" : [
+      "Тирану",
+      "Тиране",
+      "Тираной"
+    ],
+    "identifier" : "tirana"
+  },
+  {
+    "name" : "Каунас",
+    "aliases" : [
+      "Каунасе",
+      "Каунасом"
+    ],
+    "identifier" : "kaunas"
+  },
+  {
+    "name" : "Гонолулу",
+    "identifier" : "honolulu",
+  },
+  {
+    "name" : "Канберра",
+    "aliases" : [
+      "Канберру",
+      "Канберре",
+      "Канберрой"
+    ],
+    "identifier" : "canberra"
+  },
+  {
+    "name" : "Болонья",
+    "aliases" : [
+      "Болонью",
+      "Болоньей",
+      "Болонье"
+    ],
+    "identifier" : "bologna"
+  },
+  {
+    "name" : "Крайстчерч",
+    "aliases" : [
+      "Крайстчерче",
+      "Крайстчерчем"
+    ],
+    "identifier" : "christchurch"
+  },
+  {
+    "name" : "Галифакс",
+    "aliases" : [
+      "Галифаксом",
+      "Галифаксе"
+    ],
+    "identifier" : "halifax"
+  },
+  {
+    "name" : "Амбон",
+    "aliases" : [
+      "Амбоном",
+      "Амбоне"
+    ],
+    "identifier" : "ambon"
+  },
+  {
+    "name" : "Флоренция",
+    "aliases" : [
+      "Флоренции",
+      "Флоренцию",
+      "Флоренцией"
+    ],
+    "identifier" : "florence"
+  },
+  {
+    "name" : "Доха",
+    "aliases" : [
+      "Дохой",
+      "Дохе",
+      "Доху"
+    ],
+    "identifier" : "doha"
+  },
+  {
+    "name" : "Цюрих",
+    "aliases" : [
+      "Цюрихом",
+      "Цюрихе"
+    ],
+    "identifier" : "zurich"
+  },
+  {
+    "name" : "Ницца",
+    "aliases" : [
+      "Ниццу",
+      "Ницце",
+      "Ниццей"
+    ],
+    "identifier" : "nice"
+  },
+  {
+    "name" : "Симферополь",
+    "aliases" : [
+      "Симферополе",
+      "Симферополем"
+    ],
+    "identifier" : "simferopol"
+  },
+  {
+    "name" : "Тепик",
+    "aliases" : [
+      "Тепиком",
+      "Тепике"
+    ],
+    "identifier" : "tepic"
+  },
+  {
+    "name" : "Сочи",
+    "identifier" : "sochi",
+  },
+  {
+    "name" : "Смоленск",
+    "aliases" : [
+      "Смоленске",
+      "Смоленском"
+    ],
+    "identifier" : "smolensk"
+  },
+  {
+    "name" : "Самарканд",
+    "aliases" : [
+      "Самарканде",
+      "Самаркандом"
+    ],
+    "identifier" : "samarkand"
+  },
+  {
+    "name" : "Мурманск",
+    "aliases" : [
+      "Мурманском",
+      "Мурманске"
+    ],
+    "identifier" : "murmansk"
+  },
+  {
+    "name" : "Владикавказ",
+    "aliases" : [
+      "Владикавказом",
+      "Владикавказе"
+    ],
+    "identifier" : "vladikavkaz"
+  },
+  {
+    "name" : "Чита",
+    "aliases" : [
+      "Читой",
+      "Читу",
+      "Чите"
+    ],
+    "identifier" : "chita"
+  },
+  {
+    "name" : "Ньюкасл",
+    "aliases" : [
+      "Ньюкаслом",
+      "Ньюкасле"
+    ],
+    "identifier" : "newcastle"
+  },
+  {
+    "name" : "Порто-Велью",
+    "identifier" : "porto velho",
+  },
+  {
+    "name" : "Сан-Сальвадор-де-Жужуй",
+    "identifier" : "san salvador de jujuy",
+  },
+  {
+    "name" : "Питтсбург",
+    "aliases" : [
+      "Питтсбурге",
+      "Питтсбургом"
+    ],
+    "identifier" : "pittsburgh"
+  },
+  {
+    "name" : "Брест",
+    "aliases" : [
+      "Брестом",
+      "Бресте"
+    ],
+    "identifier" : "brest"
+  },
+  {
+    "name" : "Анкоридж",
+    "aliases" : [
+      "Анкориджем",
+      "Анкоридже"
+    ],
+    "identifier" : "anchorage"
+  },
+  {
+    "name" : "Цинциннати",
+    "identifier" : "cincinnati",
+  },
+  {
+    "name" : "Вуллонгонг",
+    "aliases" : [
+      "Вуллонгонгом",
+      "Вуллонгонге"
+    ],
+    "identifier" : "wollongong"
+  },
+  {
+    "name" : "Катания",
+    "aliases" : [
+      "Катании",
+      "Катанию",
+      "Катанией"
+    ],
+    "identifier" : "catania"
+  },
+  {
+    "name" : "Утрехт",
+    "aliases" : [
+      "Утрехте",
+      "Утрехтом"
+    ],
+    "identifier" : "utrecht"
+  },
+  {
+    "name" : "Виктория",
+    "aliases" : [
+      "Виктории",
+      "Викторию",
+      "Викторией"
+    ],
+    "identifier" : "victoria"
+  },
+  {
+    "name" : "Порт-Морсби",
+    "identifier" : "port moresby",
+  },
+  {
+    "name" : "Логан-Сити",
+    "identifier" : "logan city",
+  },
+  {
+    "name" : "Бари",
+    "identifier" : "bari",
+  },
+  {
+    "name" : "Нант",
+    "identifier" : "nantes",
+  },
+  {
+    "name" : "Страсбург",
+    "aliases" : [
+      "Страсбурге",
+      "Страсбургом"
+    ],
+    "identifier" : "strasbourg"
+  },
+  {
+    "name" : "Белфаст",
+    "aliases" : [
+      "Белфасте",
+      "Белфастом"
+    ],
+    "identifier" : "belfast"
+  },
+  {
+    "name" : "Любляна",
+    "aliases" : [
+      "Любляне",
+      "Любляну",
+      "Любляной"
+    ],
+    "identifier" : "ljubljana"
+  },
+  {
+    "name" : "Орландо",
+    "identifier" : "orlando",
+  },
+  {
+    "name" : "Петрозаводск",
+    "aliases" : [
+      "Петрозаводске",
+      "Петрозаводском"
+    ],
+    "identifier" : "petrozavodsk"
+  },
+  {
+    "name" : "Плимут",
+    "aliases" : [
+      "Плимуте",
+      "Плимутом"
+    ],
+    "identifier" : "plymouth"
+  },
+  {
+    "name" : "Риу-Бранку",
+    "identifier" : "rio branco",
+  },
+  {
+    "name" : "Лос-Мочис",
+    "identifier" : "los mochis",
+  },
+  {
+    "name" : "Порту",
+    "identifier" : "porto",
+  },
+  {
+    "name" : "Мэдисон",
+    "aliases" : [
+      "Мэдисоне",
+      "Мэдисоном"
+    ],
+    "identifier" : "madison"
+  },
+  {
+    "name" : "Монпелье",
+    "identifier" : "montpellier",
+  },
+  {
+    "name" : "Орхус",
+    "aliases" : [
+      "Орхусом",
+      "Орхусе"
+    ],
+    "identifier" : "arhus"
+  },
+  {
+    "name" : "Якутск",
+    "aliases" : [
+      "Якутске",
+      "Якутском"
+    ],
+    "identifier" : "yakutsk"
+  },
+  {
+    "name" : "Джорджтаун",
+    "aliases" : [
+      "Джорджтауном",
+      "Джорджтауне"
+    ],
+    "identifier" : "georgetown"
+  },
+  {
+    "name" : "Бордо",
+    "identifier" : "bordeaux",
+  },
+  {
+    "name" : "Гент",
+    "aliases" : [
+      "Генте",
+      "Гентом"
+    ],
+    "identifier" : "gent"
+  },
+  {
+    "name" : "Батон-Руж",
+    "identifier" : "baton rouge",
+  },
+  {
+    "name" : "Лилль",
+    "aliases" : [
+      "Лиллем",
+      "Лилле"
+    ],
+    "identifier" : "lille"
+  },
+  {
+    "name" : "Нассау",
+    "identifier" : "nassau",
+  },
+  {
+    "name" : "Джилонг",
+    "aliases" : [
+      "Джилонгом",
+      "Джилонге"
+    ],
+    "identifier" : "geelong"
+  },
+  {
+    "name" : "Парамарибо",
+    "identifier" : "paramaribo",
+  },
+  {
+    "name" : "Санта-Крус-де-Тенерифе",
+    "identifier" : "santa cruz de tenerife",
+  },
+  {
+    "name" : "Грац",
+    "aliases" : [
+      "Граце",
+      "Грацем"
+    ],
+    "identifier" : "graz"
+  },
+  {
+    "name" : "Мессина",
+    "aliases" : [
+      "Мессиной",
+      "Мессину",
+      "Мессине"
+    ],
+    "identifier" : "messina"
+  },
+  {
+    "name" : "Верона",
+    "aliases" : [
+      "Верону",
+      "Вероне",
+      "Вероной"
+    ],
+    "identifier" : "verona"
+  },
+  {
+    "name" : "Хобарт",
+    "aliases" : [
+      "Хобартом",
+      "Хобарте"
+    ],
+    "identifier" : "hobart"
+  },
+  {
+    "name" : "Нови-Сад",
+    "aliases" : [
+      "Нови-Садом",
+      "Нови-Саде"
+    ],
+    "identifier" : "novi sad"
+  },
+  {
+    "name" : "Берген",
+    "aliases" : [
+      "Бергене",
+      "Бергеном"
+    ],
+    "identifier" : "bergen"
+  },
+  {
+    "name" : "Де-Мойн",
+    "aliases" : [
+      "Де-Мойне",
+      "Де-Мойном"
+    ],
+    "identifier" : "des moines"
+  },
+  {
+    "name" : "Костанай",
+    "aliases" : [
+      "Костанае",
+      "Костанаем"
+    ],
+    "identifier" : "kostanay"
+  },
+  {
+    "name" : "Линц",
+    "aliases" : [
+      "Линцем",
+      "Линце"
+    ],
+    "identifier" : "linz"
+  },
+  {
+    "name" : "Падуя",
+    "aliases" : [
+      "Падуе",
+      "Падую"
+    ],
+    "identifier" : "padova"
+  },
+  {
+    "name" : "Псков",
+    "aliases" : [
+      "Псковом",
+      "Пскове"
+    ],
+    "identifier" : "pskov"
+  },
+  {
+    "name" : "Чианмай",
+    "aliases" : [
+      "Чиангмаем",
+      "Чиангмае",
+      "Чиангмай"
+    ],
+    "identifier" : "chiang mai"
+  },
+  {
+    "name" : "Никосия",
+    "aliases" : [
+      "Никосии",
+      "Никосией",
+      "Никосию"
+    ],
+    "identifier" : "nicosia"
+  },
+  {
+    "name" : "Улальск",
+    "aliases" : [
+      "Уральск",
+      "Уральском",
+      "Уральске"
+    ],
+    "identifier" : "oral"
+  },
+  {
+    "name" : "Ош",
+    "aliases" : [
+      "Ошем",
+      "Оше"
+    ],
+    "identifier" : "osh"
+  },
+  {
+    "name" : "Саскатун",
+    "aliases" : [
+      "Саскатуном",
+      "Саскатуне"
+    ],
+    "identifier" : "saskatoon"
+  },
+  {
+    "name" : "Литл-Рок",
+    "aliases" : [
+      "Литл-Роком",
+      "Литл-Роке"
+    ],
+    "identifier" : "little rock"
+  },
+  {
+    "name" : "Вьентьян",
+    "aliases" : [
+      "Вьентьяном",
+      "Вьентьяне"
+    ],
+    "identifier" : "vientiane"
+  },
+  {
+    "name" : "Абердин",
+    "aliases" : [
+      "Абердине",
+      "Абердином"
+    ],
+    "identifier" : "aberdeen"
+  },
+  {
+    "name" : "Пальмас",
+    "aliases" : [
+      "Пальмасом",
+      "Пальмасе"
+    ],
+    "identifier" : "palmas"
+  },
+  {
+    "name" : "Таунсвилл",
+    "aliases" : [
+      "Таунсвиллом",
+      "Таунсвилле"
+    ],
+    "identifier" : "townsville"
+  },
+  {
+    "name" : "Солт-Лейк-Сити",
+    "identifier" : "salt lake city",
+  },
+  {
+    "name" : "Корк",
+    "aliases" : [
+      "Корке",
+      "Корком"
+    ],
+    "identifier" : "cork"
+  },
+  {
+    "name" : "Таллахасси",
+    "identifier" : "tallahassee",
+  },
+  {
+    "name" : "Сантарен",
+    "aliases" : [
+      "Сантареном",
+      "Сантарене"
+    ],
+    "identifier" : "santarem"
+  },
+  {
+    "name" : "Сан-Фернандо-дель-Валье-де-Катамарка",
+    "identifier" : "san fernando del valle de catamarca",
+  },
+  {
+    "name" : "Триест",
+    "aliases" : [
+      "Триестом",
+      "Триесте"
+    ],
+    "identifier" : "trieste"
+  },
+  {
+    "name" : "Сан-Луис",
+    "aliases" : [
+      "Сан-Луисом",
+      "Сан-Луисе"
+    ],
+    "identifier" : "san luis"
+  },
+  {
+    "name" : "Женева",
+    "aliases" : [
+      "Женевой",
+      "Женеве",
+      "Женеву"
+    ],
+    "identifier" : "geneva"
+  },
+  {
+    "name" : "Атырау",
+    "identifier" : "atyrau",
+  },
+  {
+    "name" : "Кутаиси",
+    "identifier" : "kutaisi",
+  },
+  {
+    "name" : "Южно-Сахалинск",
+    "aliases" : [
+      "Южно-Сахалинске",
+      "Южно-Сахалинском"
+    ],
+    "identifier" : "yuzhno-sakhalinsk"
+  },
+  {
+    "name" : "Сплит",
+    "aliases" : [
+      "Сплитом",
+      "Сплите"
+    ],
+    "identifier" : "split"
+  },
+  {
+    "name" : "Реджайна",
+    "aliases" : [
+      "Реджайне",
+      "Реджайной",
+      "Реджайну"
+    ],
+    "identifier" : "regina"
+  },
+  {
+    "name" : "Турку",
+    "identifier" : "turku",
+  },
+  {
+    "name" : "Оксфорд",
+    "aliases" : [
+      "Оксфорде",
+      "Оксфордом"
+    ],
+    "identifier" : "oxford"
+  },
+  {
+    "name" : "Джексон",
+    "aliases" : [
+      "Джексоне",
+      "Джексоном"
+    ],
+    "identifier" : "jackson"
+  },
+  {
+    "name" : "Спрингфилд",
+    "aliases" : [
+      "Спрингфилде",
+      "Спрингфилдом"
+    ],
+    "identifier" : "springfield"
+  },
+  {
+    "name" : "Базель",
+    "aliases" : [
+      "Базеле",
+      "Базелем"
+    ],
+    "identifier" : "basel"
+  },
+  {
+    "name" : "Риоха",
+    "aliases" : [
+      "Риохе",
+      "Риоху",
+      "Риохой"
+    ],
+    "identifier" : "la rioja"
+  },
+  {
+    "name" : "Хеврон",
+    "aliases" : [
+      "Хевроном",
+      "Хевроне"
+    ],
+    "identifier" : "hebron"
+  },
+  {
+    "name" : "Модена",
+    "aliases" : [
+      "Модене",
+      "Модену",
+      "Моденой"
+    ],
+    "identifier" : "modena"
+  },
+  {
+    "name" : "Кембридж",
+    "aliases" : [
+      "Кембриджем",
+      "Кембридже"
+    ],
+    "identifier" : "cambridge"
+  },
+  {
+    "name" : "Сан-Франциско",
+    "aliases" : [
+      "Фриско"
+    ],
+    "identifier" : "frisco"
+  },
+  {
+    "name" : "Пасадена",
+    "aliases" : [
+      "Пасадене",
+      "Пасаденой",
+      "Пасадену"
+    ],
+    "identifier" : "pasadena"
+  },
+  {
+    "name" : "Йорк",
+    "aliases" : [
+      "Йорком",
+      "Йорке"
+    ],
+    "identifier" : "york"
+  },
+  {
+    "name" : "Зальцбург",
+    "aliases" : [
+      "Зальцбурге",
+      "Зальцбургом"
+    ],
+    "identifier" : "salzburg"
+  },
+  {
+    "name" : "Кернс",
+    "aliases" : [
+      "Кернсом",
+      "Кэрнс",
+      "Кернсе"
+    ],
+    "identifier" : "cairns"
+  },
+  {
+    "name" : "Гамильтон",
+    "aliases" : [
+      "Гамильтоном",
+      "Гамильтоне"
+    ],
+    "identifier" : "hamilton"
+  },
+  {
+    "name" : "Ла-Лагуна",
+    "aliases" : [
+      "Ла-Лагуной",
+      "Ла-Лагуне",
+      "Ла-Лагуну"
+    ],
+    "identifier" : "la laguna"
+  },
+  {
+    "name" : "Дили",
+    "identifier" : "dili",
+  },
+  {
+    "name" : "Дижон",
+    "aliases" : [
+      "Дижоне",
+      "Дижоном"
+    ],
+    "identifier" : "dijon"
+  },
+  {
+    "name" : "Упсала",
+    "aliases" : [
+      "Упсале",
+      "Упсалу",
+      "Упсалой"
+    ],
+    "identifier" : "uppsala"
+  },
+  {
+    "name" : "Трондхейм",
+    "aliases" : [
+      "Тронхейм",
+      "Тронхеймом",
+      "Тронхейме"
+    ],
+    "identifier" : "trondheim"
+  },
+  {
+    "name" : "Манама",
+    "aliases" : [
+      "Манаме",
+      "Манаму",
+      "Манамой"
+    ],
+    "identifier" : "manama"
+  },
+  {
+    "name" : "Парма",
+    "aliases" : [
+      "Пармой",
+      "Парме",
+      "Парму"
+    ],
+    "identifier" : "parma"
+  },
+  {
+    "name" : "Бойсе",
+    "identifier" : "boise",
+  },
+  {
+    "name" : "Оденсе",
+    "identifier" : "odense",
+  },
+  {
+    "name" : "Амьен",
+    "aliases" : [
+      "Амьеном",
+      "Амьене"
+    ],
+    "identifier" : "amiens"
+  },
+  {
+    "name" : "Тур",
+    "aliases" : [
+      "Туром",
+      "Туре"
+    ],
+    "identifier" : "tours"
+  },
+  {
+    "name" : "Подгорица",
+    "aliases" : [
+      "Подгорице",
+      "Подгорицу",
+      "Подгорицей"
+    ],
+    "identifier" : "podgorica"
+  },
+  {
+    "name" : "Инсбрук",
+    "aliases" : [
+      "Инсбруке",
+      "Инсбруком"
+    ],
+    "identifier" : "innsbruck"
+  },
+  {
+    "name" : "Тувумба",
+    "aliases" : [
+      "Тувумбе",
+      "Тувумбу",
+      "Тувумбой"
+    ],
+    "identifier" : "toowoomba"
+  },
+  {
+    "name" : "Дарвин",
+    "aliases" : [
+      "Дарвине",
+      "Дарвином"
+    ],
+    "identifier" : "darwin"
+  },
+  {
+    "name" : "Берн",
+    "aliases" : [
+      "Берне",
+      "Берном"
+    ],
+    "identifier" : "bern"
+  }
+]

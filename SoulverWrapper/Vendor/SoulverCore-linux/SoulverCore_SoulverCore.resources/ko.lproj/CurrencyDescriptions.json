@@ -1,0 +1,1292 @@
+{
+  "HRK": {
+    "aliases": [
+      "크로아티아 쿠나",
+      "크로아티아 쿠나들"
+    ],
+    "symbol": "HRK"
+  },
+  "HUF": {
+    "aliases": [
+      "헝가리 포린트",
+      "헝가리 포린트들"
+    ],
+    "symbol": "HUF"
+  },
+  "CDF": {
+    "aliases": [
+      "콩고 프랑",
+      "콩고 프랑들"
+    ],
+    "symbol": "CDF"
+  },
+  "XMR": {
+    "aliases": [
+      "모네로"
+    ],
+    "symbol": "XMR"
+  },
+  "ILS": {
+    "aliases": [
+      "신 이스라엘 셰켈",
+      "신 이스라엘 셰켈들",
+      "NIS",
+      "NIS"
+    ],
+    "symbol": "ILS"
+  },
+  "NGN": {
+    "aliases": [
+      "나이지리아 나이라",
+      "나이지리아 나이라"
+    ],
+    "symbol": "NGN"
+  },
+  "GYD": {
+    "aliases": [
+      "가이아나 달러",
+      "가이아나 달러들"
+    ],
+    "symbol": "GYD"
+  },
+  "BHD": {
+    "aliases": [
+      "바레인 디나르",
+      "바레인 디나르들"
+    ],
+    "symbol": "BHD"
+  },
+  "SZL": {
+    "aliases": [
+      "스와질란드 릴랑게니",
+      "스와질란드 에말란게니"
+    ],
+    "symbol": "SZL"
+  },
+  "INR": {
+    "aliases": [
+      "인도 루피",
+      "인도 루피들"
+    ],
+    "symbol": "INR"
+  },
+  "SDG": {
+    "aliases": [
+      "수단 파운드",
+      "수단 파운드들"
+    ],
+    "symbol": "SDG"
+  },
+  "PEN": {
+    "aliases": [
+      "페루 솔",
+      "페루 솔들"
+    ],
+    "symbol": "PEN"
+  },
+  "EUR": {
+    "aliases": [
+      "유로",
+      "유로들"
+    ],
+    "symbol": "EUR"
+  },
+  "TRX": {
+    "aliases": [
+      "트론"
+    ],
+    "symbol": "TRX"
+  },
+  "PGK": {
+    "aliases": [
+      "파푸아뉴기니 키나"
+    ],
+    "symbol": "PGK"
+  },
+  "QAR": {
+    "aliases": [
+      "카타르 리얄",
+      "카타르 리얄들"
+    ],
+    "symbol": "QAR"
+  },
+  "LRD": {
+    "aliases": [
+      "라이베리아 달러",
+      "라이베리아 달러들"
+    ],
+    "symbol": "LRD"
+  },
+  "millisatoshi": {
+    "aliases": [
+      "밀리 사토시"
+    ],
+    "symbol": "millisatoshi"
+  },
+  "ISK": {
+    "aliases": [
+      "아이슬란드 크로나",
+      "아이슬란드 크로나들"
+    ],
+    "symbol": "ISK"
+  },
+  "SYP": {
+    "aliases": [
+      "시리아 파운드",
+      "시리아 파운드들"
+    ],
+    "symbol": "SYP"
+  },
+  "TRY": {
+    "aliases": [
+      "터키 리라"
+    ],
+    "symbol": "TRY"
+  },
+  "Satoshi": {
+    "aliases": [
+      "사토시",
+      "사토시들"
+    ],
+    "symbol": "Satoshi"
+  },
+  "UAH": {
+    "aliases": [
+      "우크라이나 흐리비냐",
+      "우크라이나 흐리비냐들"
+    ],
+    "symbol": "UAH"
+  },
+  "SGD": {
+    "aliases": [
+      "S$",
+      "싱가포르 달러",
+      "싱가포르 달러들"
+    ],
+    "symbol": "SGD"
+  },
+  "MMK": {
+    "aliases": [
+      "미얀마 쿼트",
+      "미얀마 쿼트들"
+    ],
+    "symbol": "MMK"
+  },
+  "NIO": {
+    "aliases": [
+      "니카라과 코르도바",
+      "니카라과 코르도바들"
+    ],
+    "symbol": "NIO"
+  },
+  "BIF": {
+    "aliases": [
+      "부룬디 프랑",
+      "부룬디 프랑들"
+    ],
+    "symbol": "BIF"
+  },
+  "AFN": {
+    "aliases": [
+      "아프가니스탄 아프가니",
+      "아프가니스탄 아프가니"
+    ],
+    "symbol": "AFN"
+  },
+  "LKR": {
+    "aliases": [
+      "스리랑카 루피",
+      "스리랑카 루피들"
+    ],
+    "symbol": "LKR"
+  },
+  "LTC": {
+    "aliases": [
+      "라이트코인",
+      "라이트코인들"
+    ],
+    "symbol": "LTC"
+  },
+  "GTQ": {
+    "aliases": [
+      "과테말라 케찰",
+      "과테말라 케찰들"
+    ],
+    "symbol": "GTQ"
+  },
+  "XRP": {
+    "aliases": [
+      "리플"
+    ],
+    "symbol": "XRP"
+  },
+  "CHF": {
+    "aliases": [
+      "스위스 프랑",
+      "스위스 프랑들"
+    ],
+    "symbol": "CHF"
+  },
+  "LUNA": {
+    "aliases": [
+      "테라"
+    ],
+    "symbol": "LUNA"
+  },
+  "THB": {
+    "aliases": [
+      "태국 바트"
+    ],
+    "symbol": "THB"
+  },
+  "AMD": {
+    "aliases": [
+      "아르메니아 드람",
+      "아르메니아 드람들"
+    ],
+    "symbol": "AMD"
+  },
+  "AOA": {
+    "aliases": [
+      "앙골라 콰자",
+      "앙골라 콰자들"
+    ],
+    "symbol": "AOA"
+  },
+  "SEK": {
+    "aliases": [
+      "스웨덴 크로나",
+      "스웨덴 크로나들"
+    ],
+    "symbol": "SEK"
+  },
+  "DASH": {
+    "aliases": [
+      "대시"
+    ],
+    "symbol": "DASH"
+  },
+  "SAR": {
+    "aliases": [
+      "사우디 리얄",
+      "사우디 리얄들"
+    ],
+    "symbol": "SAR"
+  },
+  "KWD": {
+    "aliases": [
+      "쿠웨이트 디나르",
+      "쿠웨이트 디나르들"
+    ],
+    "symbol": "KWD"
+  },
+  "IRR": {
+    "aliases": [
+      "이란 리얄",
+      "이란 리얄들"
+    ],
+    "symbol": "IRR"
+  },
+  "WST": {
+    "aliases": [
+      "사모아 탈라"
+    ],
+    "symbol": "WST"
+  },
+  "BNB": {
+    "aliases": [
+      "바이낸스 코인"
+    ],
+    "symbol": "BNB"
+  },
+  "BMD": {
+    "aliases": [
+      "버뮤다 달러",
+      "버뮤다 달러들"
+    ],
+    "symbol": "BMD"
+  },
+  "BGN": {
+    "aliases": [
+      "불가리아 레프",
+      "불가리아 레프들"
+    ],
+    "symbol": "BGN"
+  },
+  "PHP": {
+    "aliases": [
+      "필리핀 페소",
+      "필리핀 페소들"
+    ],
+    "symbol": "PHP"
+  },
+  "ZMW": {
+    "aliases": [
+      "잠비아 콰차",
+      "잠비아 콰차들"
+    ],
+    "symbol": "ZMW"
+  },
+  "XAF": {
+    "aliases": [
+      "CFA 프랑",
+      "CFA 프랑들"
+    ],
+    "symbol": "XAF"
+  },
+  "BDT": {
+    "aliases": [
+      "방글라데시 타카",
+      "방글라데시 타카들"
+    ],
+    "symbol": "BDT"
+  },
+  "NOK": {
+    "aliases": [
+      "노르웨이 크로네",
+      "노르웨이 크로네들"
+    ],
+    "symbol": "NOK"
+  },
+  "BOB": {
+    "aliases": [
+      "볼리비아 볼리비아노",
+      "볼리비아 볼리비아노들"
+    ],
+    "symbol": "BOB"
+  },
+  "TZS": {
+    "aliases": [
+      "탄자니아 실링",
+      "탄자니아 실링들"
+    ],
+    "symbol": "TZS"
+  },
+  "XAG": {
+    "aliases": [
+      "은 가격"
+    ],
+    "symbol": "XAG"
+  },
+  "VES": {
+    "aliases": [
+      "베네수엘라 볼리바르",
+      "베네수엘라 볼리바르들"
+    ],
+    "symbol": "VES"
+  },
+  "ANG": {
+    "aliases": [
+      "네덜란드 안틸리안 길더",
+      "네덜란드 안틸리안 길더들"
+    ],
+    "symbol": "ANG"
+  },
+  "VUV": {
+    "aliases": [
+      "바누아투 바투",
+      "바누아투 바투"
+    ],
+    "symbol": "VUV"
+  },
+  "BND": {
+    "aliases": [
+      "브루나이 달러",
+      "브루나이 달러들"
+    ],
+    "symbol": "BND"
+  },
+  "XCD": {
+    "aliases": [
+      "동카리브 달러",
+      "동카리브 달러들"
+    ],
+    "symbol": "XCD"
+  },
+  "SCR": {
+    "aliases": [
+      "세이셸 루피",
+      "세이셸 루피들"
+    ],
+    "symbol": "SCR"
+  },
+  "KYD": {
+    "aliases": [
+      "케이맨 제도 달러",
+      "케이맨 제도 달러들"
+    ],
+    "symbol": "KYD"
+  },
+  "DJF": {
+    "aliases": [
+      "지부티 프랑",
+      "지부티 프랑들"
+    ],
+    "symbol": "DJF"
+  },
+  "LSL": {
+    "aliases": [
+      "레소토 로티",
+      "레소토 말로티"
+    ],
+    "symbol": "LSL"
+  },
+  "MOP": {
+    "aliases": [
+      "마카오 파타카",
+      "마카오 파타카들"
+    ],
+    "symbol": "MOP"
+  },
+  "ALL": {
+    "aliases": [
+      "알바니아 렉",
+      "알바니아 렉들"
+    ],
+    "symbol": "ALL"
+  },
+  "UZS": {
+    "aliases": [
+      "우즈베키스탄 솜",
+      "우즈베키스탄 솜들"
+    ],
+    "symbol": "UZS"
+  },
+  "UYU": {
+    "aliases": [
+      "우루과이 페소",
+      "우루과이 페소들"
+    ],
+    "symbol": "UYU"
+  },
+  "PLN": {
+    "aliases": [
+      "폴란드 즈워티",
+      "폴란드 즈워티들"
+    ],
+    "symbol": "PLN"
+  },
+  "LTL": {
+    "aliases": [
+      "리투아니아 리타",
+      "리투아니아 리타들"
+    ],
+    "symbol": "LTL"
+  },
+  "LYD": {
+    "aliases": [
+      "리비아 디나르",
+      "리비아 디나르들"
+    ],
+    "symbol": "LYD"
+  },
+  "JPY": {
+    "aliases": [
+      "엔",
+      "일본 엔"
+    ],
+    "symbol": "JPY"
+  },
+  "MNT": {
+    "aliases": [
+      "몽골 투그릭",
+      "몽골 테그렉"
+    ],
+    "symbol": "MNT"
+  },
+  "FJD": {
+    "aliases": [
+      "피지 달러",
+      "피지 달러들"
+    ],
+    "symbol": "FJD"
+  },
+  "ZWL": {
+    "aliases": [
+      "짐바브웨 달러",
+      "짐바브웨 달러들"
+    ],
+    "symbol": "ZWL"
+  },
+  "pence": {
+    "aliases": [
+      "페니",
+      "페니들",
+      "영국 펜스",
+      "GBX"
+    ],
+    "symbol": "pence"
+  },
+  "euro cents": {
+    "aliases": [
+      "유로 센트"
+    ],
+    "symbol": "euro cents"
+  },
+  "PKR": {
+    "aliases": [
+      "파키스탄 루피",
+      "파키스탄 루피들"
+    ],
+    "symbol": "PKR"
+  },
+  "MRU": {
+    "aliases": [
+      "모리타니 우기야"
+    ],
+    "symbol": "MRU"
+  },
+  "OMR": {
+    "aliases": [
+      "오만 리얄",
+      "오만 리얄들"
+    ],
+    "symbol": "OMR"
+  },
+  "GBP": {
+    "aliases": [
+      "영국 파운드",
+      "영국 파운드들",
+      "파운드 스털링"
+    ],
+    "symbol": "GBP"
+  },
+  "cents": {
+    "aliases": [
+      "센트"
+    ],
+    "symbol": "cents"
+  },
+  "LVL": {
+    "aliases": [
+      "라트비아 라트",
+      "라트비아 라트들"
+    ],
+    "symbol": "LVL"
+  },
+  "SHP": {
+    "aliases": [
+      "세인트헬레나 파운드",
+      "세인트헬레나 파운드들"
+    ],
+    "symbol": "SHP"
+  },
+  "GEL": {
+    "aliases": [
+      "조지아 라리",
+      "조지아 라리들"
+    ],
+    "symbol": "GEL"
+  },
+  "AVAX": {
+    "aliases": [
+      "아발란체"
+    ],
+    "symbol": "AVAX"
+  },
+  "TND": {
+    "aliases": [
+      "튀니지 디나르",
+      "튀니지 디나르들"
+    ],
+    "symbol": "TND"
+  },
+  "DKK": {
+    "aliases": [
+      "덴마크 크로네",
+      "덴마크 크로네들"
+    ],
+    "symbol": "DKK"
+  },
+  "NPR": {
+    "aliases": [
+      "네팔 루피",
+      "네팔 루피들"
+    ],
+    "symbol": "NPR"
+  },
+  "KRW": {
+    "aliases": [
+      "대한민국 원",
+      "대한민국 원들"
+    ],
+    "symbol": "KRW"
+  },
+  "BSD": {
+    "aliases": [
+      "바하마 달러",
+      "바하마 달러들"
+    ],
+    "symbol": "BSD"
+  },
+  "CRC": {
+    "aliases": [
+      "코스타리카 콜론",
+      "코스타리카 콜론들"
+    ],
+    "symbol": "CRC"
+  },
+  "EGP": {
+    "aliases": [
+      "이집트 파운드",
+      "이집트 파운드들"
+    ],
+    "symbol": "EGP"
+  },
+  "MAD": {
+    "aliases": [
+      "모로코 디르함",
+      "모로코 디르함들"
+    ],
+    "symbol": "MAD"
+  },
+  "AUD": {
+    "aliases": [
+      "A$",
+      "AU$",
+      "호주 달러들",
+      "호주 달러",
+      "호주 달러들"
+    ],
+    "symbol": "AUD"
+  },
+  "BTC": {
+    "aliases": [
+      "비트코인",
+      "비트코인들"
+    ],
+    "symbol": "BTC"
+  },
+  "SLL": {
+    "aliases": [
+      "시에라리온 레온",
+      "시에라리온 레온들"
+    ],
+    "symbol": "SLL"
+  },
+  "MWK": {
+    "aliases": [
+      "말라위 콰차",
+      "말라위 콰차들"
+    ],
+    "symbol": "MWK"
+  },
+  "RSD": {
+    "aliases": [
+      "세르비아 디나르",
+      "세르비아 디나르들"
+    ],
+    "symbol": "RSD"
+  },
+  "NZD": {
+    "aliases": [
+      "NZ$",
+      "뉴질랜드 달러들",
+      "뉴질랜드 달러",
+      "키위 달러",
+      "키위 달러들"
+    ],
+    "symbol": "NZD"
+  },
+  "SRD": {
+    "aliases": [
+      "수리남 달러",
+      "수리남 달러들"
+    ],
+    "symbol": "SRD"
+  },
+  "CLP": {
+    "aliases": [
+      "칠레 페소",
+      "칠레 페소들"
+    ],
+    "symbol": "CLP"
+  },
+  "RUB": {
+    "aliases": [
+      "러시아 루블",
+      "러시아 루블들",
+      "루블들",
+      "루블",
+      "руб"
+    ],
+    "symbol": "RUB"
+  },
+  "NAD": {
+    "aliases": [
+      "나미비아 달러",
+      "나미비아 달러들"
+    ],
+    "symbol": "NAD"
+  },
+  "HKD": {
+    "aliases": [
+      "홍콩 달러",
+      "홍콩 달러들"
+    ],
+    "symbol": "HKD"
+  },
+  "GMD": {
+    "aliases": [
+      "감비아 달라시",
+      "감비아 달라시들"
+    ],
+    "symbol": "GMD"
+  },
+  "VND": {
+    "aliases": [
+      "베트남 동"
+    ],
+    "symbol": "VND"
+  },
+  "LAK": {
+    "aliases": [
+      "라오스 키프",
+      "라오스 키프들"
+    ],
+    "symbol": "LAK"
+  },
+  "SHIB": {
+    "aliases": [
+      "시바 이누"
+    ],
+    "symbol": "SHIB"
+  },
+  "RON": {
+    "aliases": [
+      "루마니아 레우",
+      "루마니아 레이"
+    ],
+    "symbol": "RON"
+  },
+  "MUR": {
+    "aliases": [
+      "모리셔스 루피",
+      "모리셔스 루피들"
+    ],
+    "symbol": "MUR"
+  },
+  "XAU": {
+    "aliases": [
+      "금 가격"
+    ],
+    "symbol": "XAU"
+  },
+  "SOL": {
+    "aliases": [
+      "솔라나"
+    ],
+    "symbol": "SOL"
+  },
+  "MXN": {
+    "aliases": [
+      "멕시코 페소",
+      "멕시코 페소들"
+    ],
+    "symbol": "MXN"
+  },
+  "BRL": {
+    "aliases": [
+      "브라질 레알",
+      "브라질 레알들",
+      "R$"
+    ],
+    "symbol": "BRL"
+  },
+  "STD": {
+    "aliases": [
+      "상투메 프린시페 도브라",
+      "상투메 프린시페 도브라들"
+    ],
+    "symbol": "STD"
+  },
+  "AWG": {
+    "aliases": [
+      "아루바 길더",
+      "아루바 길더들"
+    ],
+    "symbol": "AWG"
+  },
+  "MVR": {
+    "aliases": [
+      "몰디브 루피야"
+    ],
+    "symbol": "MVR"
+  },
+  "PAB": {
+    "aliases": [
+      "파나마 발보아",
+      "파나마 발보아들"
+    ],
+    "symbol": "PAB"
+  },
+  "TJS": {
+    "aliases": [
+      "타지키스탄 소모니",
+      "타지키스탄 소모니들"
+    ],
+    "symbol": "TJS"
+  },
+  "GNF": {
+    "aliases": [
+      "기니 프랑",
+      "기니 프랑들"
+    ],
+    "symbol": "GNF"
+  },
+  "ETB": {
+    "aliases": [
+      "에티오피아 비르",
+      "에티오피아 비르들"
+    ],
+    "symbol": "ETB"
+  },
+  "ZAR": {
+    "aliases": [
+      "남아프리카 랜드"
+    ],
+    "symbol": "ZAR"
+  },
+  "COP": {
+    "aliases": [
+      "콜롬비아 페소",
+      "콜롬비아 페소들"
+    ],
+    "symbol": "COP"
+  },
+  "IDR": {
+    "aliases": [
+      "인도네시아 루피아"
+    ],
+    "symbol": "IDR"
+  },
+  "SVC": {
+    "aliases": [
+      "엘살바도르 콜론",
+      "엘살바도르 콜론들"
+    ],
+    "symbol": "SVC"
+  },
+  "CVE": {
+    "aliases": [
+      "카보베르데 에스쿠도",
+      "카보베르데 에스쿠도들"
+    ],
+    "symbol": "CVE"
+  },
+  "ETC": {
+    "aliases": [
+      "이더리움 클래식"
+    ],
+    "symbol": "ETC"
+  },
+  "TTD": {
+    "aliases": [
+      "트리니다드 토바고 달러",
+      "트리니다드 토바고 달러들"
+    ],
+    "symbol": "TTD"
+  },
+  "GIP": {
+    "aliases": [
+      "지브롤터 파운드",
+      "지브롤터 파운드들"
+    ],
+    "symbol": "GIP"
+  },
+  "PYG": {
+    "aliases": [
+      "파라과이 과라니",
+      "파라과이 과라니들"
+    ],
+    "symbol": "PYG"
+  },
+  "DOGE": {
+    "aliases": [
+      "도지코인",
+      "도지코인들"
+    ],
+    "symbol": "DOGE"
+  },
+  "MZN": {
+    "aliases": [
+      "모잠비크 메티칼",
+      "모잠비크 메티칼들"
+    ],
+    "symbol": "MZN"
+  },
+  "FKP": {
+    "aliases": [
+      "포클랜드 제도 파운드",
+      "포클랜드 제도 파운드들"
+    ],
+    "symbol": "FKP"
+  },
+  "KZT": {
+    "aliases": [
+      "카자흐스탄 텡게",
+      "카자흐스탄 텡게들",
+      "텐게",
+      "텐게들"
+    ],
+    "symbol": "KZT"
+  },
+  "USD": {
+    "aliases": [
+      "미국 달러",
+      "미국 달러들",
+      "미국 달러",
+      "미국 달러들",
+      "미국 달러",
+      "미국 달러들",
+      "USD",
+      "US$"
+    ],
+    "symbol": "USD"
+  },
+  "UGX": {
+    "aliases": [
+      "우간다 실링",
+      "우간다 실링들"
+    ],
+    "symbol": "UGX"
+  },
+  "RWF": {
+    "aliases": [
+      "르완다 프랑",
+      "르완다 프랑들"
+    ],
+    "symbol": "RWF"
+  },
+  "GHS": {
+    "aliases": [
+      "가나 세디",
+      "가나 세디들"
+    ],
+    "symbol": "GHS"
+  },
+  "ARS": {
+    "aliases": [
+      "아르헨티나 페소",
+      "아르헨티나 페소들"
+    ],
+    "symbol": "ARS"
+  },
+  "DOP": {
+    "aliases": [
+      "도미니카 페소",
+      "도미니카 페소들"
+    ],
+    "symbol": "DOP"
+  },
+  "LBP": {
+    "aliases": [
+      "레바논 파운드",
+      "레바논 파운드들"
+    ],
+    "symbol": "LBP"
+  },
+  "BZD": {
+    "aliases": [
+      "벨리즈 달러",
+      "벨리즈 달러들"
+    ],
+    "symbol": "BZD"
+  },
+  "ADA": {
+    "aliases": [
+      "카르다노"
+    ],
+    "symbol": "ADA"
+  },
+  "BTN": {
+    "aliases": [
+      "부탄 눌트럼"
+    ],
+    "symbol": "BTN"
+  },
+  "MYR": {
+    "aliases": [
+      "말레이시아 링깃",
+      "말레이시아 링깃들"
+    ],
+    "symbol": "MYR"
+  },
+  "YER": {
+    "aliases": [
+      "예멘 리얄",
+      "예멘 리얄들"
+    ],
+    "symbol": "YER"
+  },
+  "JMD": {
+    "aliases": [
+      "자메이카 달러",
+      "자메이카 달러들"
+    ],
+    "symbol": "JMD"
+  },
+  "USDT": {
+    "aliases": [
+      "테더",
+      "USD₮"
+    ],
+    "symbol": "USDT"
+  },
+  "TOP": {
+    "aliases": [
+      "통가 파앙가"
+    ],
+    "symbol": "TOP"
+  },
+  "SOS": {
+    "aliases": [
+      "소말리아 실링",
+      "소말리아 실링들"
+    ],
+    "symbol": "SOS"
+  },
+  "TMT": {
+    "aliases": [
+      "투르크메니스탄 마나트",
+      "투르크메니스탄 마나트들"
+    ],
+    "symbol": "TMT"
+  },
+  "MDL": {
+    "aliases": [
+      "몰도바 레우",
+      "몰도바 레이"
+    ],
+    "symbol": "MDL"
+  },
+  "XOF": {
+    "aliases": [
+      "중앙 아프리카 CFA 프랑",
+      "중앙 아프리카 CFA 프랑들"
+    ],
+    "symbol": "XOF"
+  },
+  "ETH": {
+    "aliases": [
+      "이더리움"
+    ],
+    "symbol": "ETH"
+  },
+  "TWD": {
+    "aliases": [
+      "NT$",
+      "NTD",
+      "ntd",
+      "신타이완 달러",
+      "신타이완 달러들"
+    ],
+    "symbol": "TWD"
+  },
+  "BBD": {
+    "aliases": [
+      "바베이도스 달러",
+      "바베이도스 달러들"
+    ],
+    "symbol": "BBD"
+  },
+  "DOT": {
+    "aliases": [
+      "폴카닷"
+    ],
+    "symbol": "DOT"
+  },
+  "CAD": {
+    "aliases": [
+      "C$",
+      "CA$",
+      "캐나다 달러",
+      "캐나다 달러들"
+    ],
+    "symbol": "CAD"
+  },
+  "CNY": {
+    "aliases": [
+      "RMB",
+      "rmb",
+      "위안",
+      "중국 위안",
+      "중국 위안들"
+    ],
+    "symbol": "CNY"
+  },
+  "JOD": {
+    "aliases": [
+      "요르단 디나르",
+      "요르단 디나르들"
+    ],
+    "symbol": "JOD"
+  },
+  "XPF": {
+    "aliases": [
+      "CFP 프랑",
+      "CFP 프랑들"
+    ],
+    "symbol": "XPF"
+  },
+  "XLM": {
+    "aliases": [
+      "스텔라"
+    ],
+    "symbol": "XLM"
+  },
+  "IQD": {
+    "aliases": [
+      "이라크 디나르",
+      "이라크 디나르들"
+    ],
+    "symbol": "IQD"
+  },
+  "HNL": {
+    "aliases": [
+      "온두라스 렘피라",
+      "온두라스 렘피라들"
+    ],
+    "symbol": "HNL"
+  },
+  "AED": {
+    "aliases": [
+      "UAE 디르함",
+      "UAE 디르함들"
+    ],
+    "symbol": "AED"
+  },
+  "EOS": {
+    "aliases": [
+      "EOS.IO"
+    ],
+    "symbol": "EOS"
+  },
+  "KES": {
+    "aliases": [
+      "케냐 실링",
+      "케냐 실링들"
+    ],
+    "symbol": "KES"
+  },
+  "KMF": {
+    "aliases": [
+      "코모로 프랑",
+      "코모로 프랑들"
+    ],
+    "symbol": "KMF"
+  },
+  "MKD": {
+    "aliases": [
+      "마케도니아 디나르",
+      "마케도니아 디나르들"
+    ],
+    "symbol": "MKD"
+  },
+  "DZD": {
+    "aliases": [
+      "알제리 디나르",
+      "알제리 디나르들"
+    ],
+    "symbol": "DZD"
+  },
+  "BSV": {
+    "aliases": [
+      "비트코인 SV"
+    ],
+    "symbol": "BSV"
+  },
+  "CUP": {
+    "aliases": [
+      "쿠바 페소",
+      "쿠바 페소들"
+    ],
+    "symbol": "CUP"
+  },
+  "BWP": {
+    "aliases": [
+      "보츠와나 풀라"
+    ],
+    "symbol": "BWP"
+  },
+  "SBD": {
+    "aliases": [
+      "솔로몬 제도 달러",
+      "솔로몬 제도 달러들"
+    ],
+    "symbol": "SBD"
+  },
+  "AZN": {
+    "aliases": [
+      "아제르바이잔 마나트",
+      "아제르바이잔 마나트들"
+    ],
+    "symbol": "AZN"
+  },
+  "BCH": {
+    "aliases": [
+      "비트코인 캐시"
+    ],
+    "symbol": "BCH"
+  },
+  "POL": {
+    "aliases": [
+      "폴리곤",
+      "MATIC"
+    ],
+    "symbol": "POL"
+  },
+  "KGS": {
+    "aliases": [
+      "키르기스스탄 솜",
+      "키르기스스탄 솜들"
+    ],
+    "symbol": "KGS"
+  },
+  "BYN": {
+    "aliases": [
+      "벨라루스 루블",
+      "벨라루스 루블들"
+    ],
+    "symbol": "BYN"
+  },
+  "KHR": {
+    "aliases": [
+      "캄보디아 리엘"
+    ],
+    "symbol": "KHR"
+  },
+  "NEO": {
+    "aliases": [
+      "네오"
+    ],
+    "symbol": "NEO"
+  },
+  "ZMK": {
+    "aliases": [
+      "잠비아 콰차"
+    ],
+    "symbol": "ZMK"
+  },
+  "HTG": {
+    "aliases": [
+      "아이티 굴드",
+      "아이티 굴드들"
+    ],
+    "symbol": "HTG"
+  },
+  "CZK": {
+    "aliases": [
+      "체코 코루나",
+      "체코 코루나들"
+    ],
+    "symbol": "CZK"
+  },
+  "BAM": {
+    "aliases": [
+      "보스니아-헤르체고비나 Convertible Mark",
+      "보스니아-헤르체고비나 Convertible Marks"
+    ],
+    "symbol": "BAM"
+  }
+}

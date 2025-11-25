@@ -1,0 +1,1113 @@
+{
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__unit_expression 를 __unit 로",
+        "__unit_expression 를 __unit 으로",
+        "__unit_expression 을 __unit 로",
+        "__unit_expression 을 __unit 으로"
+      ],
+      "identifier": "unitConversion"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit은 __unit_expression에 포함",
+        "__unit은 __unit에 포함"
+      ],
+      "identifier": "unitInUnitExpression"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit_expression의 __substance을 __unit으로",
+        "__unit_expression의 __substance을 __unit으로 측정",
+        "__unit_expression의 __substance을 __unit으로 변환"
+      ],
+      "identifier": "substanceWeightToVolumeConversion"
+    },
+    {
+      "prototypeExpressions": [
+        "__substance의 밀도"
+      ],
+      "identifier": "densityOfSubstance"
+    },
+    {
+      "prototypeExpressions": [
+        "__unit_rate는 무엇/__unit입니까",
+        "__unit_rate는 얼마나/__unit입니까",
+        "__unit_rate를/__unit으로"
+      ],
+      "identifier": "rateUnitChange"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration의 __unit_rate"
+      ],
+      "identifier": "rateForADuration"
+    },
+    {
+      "prototypeExpressions": [
+        "__resolution에서 __length의 ppi",
+        "__resolution에서 장치의 __length의 ppi",
+        "__resolution에서 화면의 __length의 ppi",
+        "__resolution에서 디스플레이의 __length의 ppi"
+      ],
+      "identifier": "screenDensity"
+    },
+    {
+      "prototypeExpressions": [
+        "__screenDensity에서 __length의 픽셀 수"
+      ],
+      "identifier": "pixelsInLengthAtPPI"
+    },
+    {
+      "prototypeExpressions": [
+        "__angularVelocity에서 __length 타이어의 속도"
+      ],
+      "identifier": "tyreSpeed"
+    },
+    {
+      "prototypeExpressions": [
+        "__duration_expression의 __speed_expression"
+      ],
+      "identifier": "speedForTime"
+    },
+    {
+      "prototypeExpressions": [
+        "__angularVelocity_expression에서 __power_expression"
+      ],
+      "identifier": "powerAtRotation"
+    }
+  ],
+  "datetime": [
+    {
+      "prototypeExpressions": [
+        "__datestamp과 __datestamp 사이의 __duration",
+        "__datestamp부터 __datestamp까지의 __duration"
+      ],
+      "identifier": "calendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp까지의 __duration"
+      ],
+      "identifier": "calendarUnitToDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datespan까지의 __duration"
+      ],
+      "identifier": "calendarUnitToDatespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 __duration"
+      ],
+      "identifier": "calendarUnitInDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan의 __duration"
+      ],
+      "identifier": "calendarUnitInTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 남은 __duration"
+      ],
+      "identifier": "calendarUnitLeftInDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datespan의 __duration"
+      ],
+      "identifier": "calendarUnitInDatespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp부터 __datestamp까지",
+        "__datestamp과 __datestamp 사이의 차이"
+      ],
+      "identifier": "intervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp부터 __datestamp까지의 __duration"
+      ],
+      "identifier": "inclusiveCalendarUnitBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp부터 __datestamp까지"
+      ],
+      "identifier": "inclusiveIntervalBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__timestamp부터 __timestamp까지"
+      ],
+      "identifier": "intervalBetweenTimestamps"
+    },
+    {
+      "prototypeExpressions": [
+        "__laptime부터 __laptime까지"
+      ],
+      "identifier": "intervalBetweenLaptimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__frametime부터 __frametime까지의 __frames",
+        "__frametime과 __frametime 사이의 __frames"
+      ],
+      "identifier": "framesBetweenFrametimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__frametime부터 __frametime까지"
+      ],
+      "identifier": "intervalBetweenFrametimes"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp 이후의 __duration"
+      ],
+      "identifier": "calendarUnitSinceDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp부터 __timezone의 __timespan",
+        "__datestamp부터 __timespan"
+      ],
+      "identifier": "calendarUnitExpressionAfterDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp 이전의 __timespan"
+      ],
+      "identifier": "calendarUnitExpressionBeforeDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 __timespan 전",
+        "__datestamp의 __timespan 전"
+      ],
+      "identifier": "calendarUnitExpressionAgo"
+    },
+    {
+      "prototypeExpressions": [
+        "새로운 타임스탬프",
+        "현재 타임스탬프"
+      ],
+      "identifier": "generateTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 현지 시간",
+        "__timezone의 시간"
+      ],
+      "identifier": "timeInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 날짜"
+      ],
+      "identifier": "dateInTimezone"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone과 __timezone의 시차"
+      ],
+      "identifier": "differenceBetweenTimezones"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan의 __datestamp",
+        "__timespan 이후의 __datestamp"
+      ],
+      "identifier": "weekdayAfterTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 주 번호",
+        "__datestamp의 연중 주"
+      ],
+      "identifier": "weekOfYearOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "연중 주"
+      ],
+      "identifier": "weekOfYear"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 월중 주"
+      ],
+      "identifier": "weekOfMonthOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "월중 주"
+      ],
+      "identifier": "weekOfMonth"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 일 번호",
+        "__datestamp의 연중 일"
+      ],
+      "identifier": "dayOfYearOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 월중 일"
+      ],
+      "identifier": "dayOfMonthOnDate"
+    },
+    {
+      "prototypeExpressions": [
+        "연중 일",
+        "일 번호"
+      ],
+      "identifier": "dayOfYear"
+    },
+    {
+      "prototypeExpressions": [
+        "월중 일"
+      ],
+      "identifier": "dayOfMonth"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp과 __datestamp 사이의 중간점"
+      ],
+      "identifier": "halfwayBetweenDates"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 요일",
+        "__duration의 __datestamp"
+      ],
+      "identifier": "dayOfWeekOnDate"
+    }
+  ],
+  "general": [
+    {
+      "prototypeExpressions": [
+        "20을 3으로 나눈 나머지"
+      ],
+      "identifier": "remainder"
+    },
+    {
+      "prototypeExpressions": [
+        "20은 소수입니까",
+        "소수 20입니까"
+      ],
+      "identifier": "isPrime"
+    },
+    {
+      "prototypeExpressions": [
+        "20을 5와 25 사이로 클램프",
+        "20을 5에서 25 사이로 클램프"
+      ],
+      "identifier": "clamp"
+    },
+    {
+      "prototypeExpressions": [
+        "21을 7로 나누기"
+      ],
+      "identifier": "dividedBy"
+    },
+    {
+      "prototypeExpressions": [
+        "21을 7로 곱하기"
+      ],
+      "identifier": "multipliedBy"
+    },
+    {
+      "prototypeExpressions": [
+        "3의 9승",
+        "3을 9로 올리기"
+      ],
+      "identifier": "toThePowerOf"
+    },
+    {
+      "prototypeExpressions": [
+        "20의 절반"
+      ],
+      "identifier": "halfOf"
+    },
+      {
+        "prototypeExpressions": [
+          "56.5 반올림"
+        ],
+        "identifier": "rounded"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 올림"
+        ],
+        "identifier": "roundedUp"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 내림"
+        ],
+        "identifier": "roundedDown"
+      },
+      {
+        "prototypeExpressions": [
+          "56.5 소수점 3자리",
+          "56.5 소수 3자리",
+          "56.5 소수점 1자리",
+          "56.5 소수 1자리",
+          "56.5 소수점 3자리로 반올림",
+          "56.5 반올림 소수점 3자리"
+        ],
+        "identifier": "roundedToDp"
+      },
+      {
+        "prototypeExpressions": [
+          "56 가장 가까운 10으로 올림",
+          "16 가장 가까운 10으로 올림",
+          "16 가장 가까운 10으로 반올림"
+        ],
+        "identifier": "upToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 가장 가까운 10으로 내림",
+          "16 가장 가까운 10으로 내림",
+          "16 가장 가까운 10으로 반올림"
+        ],
+        "identifier": "downToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "56 가장 가까운 10으로",
+          "16 가장 가까운 10으로 반올림",
+          "16 가장 가까운 10으로 반올림"
+        ],
+        "identifier": "toNearestX"
+      },
+    {
+      "prototypeExpressions": [
+        "2와 30 중 작은 것",
+        "__literal와 __literal 중 작은 것"
+      ],
+      "identifier": "lesserOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2와 30 중 큰 것",
+        "__literal와 __literal 중 큰 것"
+      ],
+      "identifier": "greaterOf"
+    },
+    {
+      "prototypeExpressions": [
+        "2와 32 사이의 중간점"
+      ],
+      "identifier": "midpoint"
+    },
+    {
+      "prototypeExpressions": [
+        "5와 8의 최소 공배수"
+      ],
+      "identifier": "lcm"
+    },
+    {
+      "prototypeExpressions": [
+        "20과 30의 최대 공약수",
+        "5와 8의 최대 공약수"
+      ],
+      "identifier": "gcd"
+    },
+    {
+      "prototypeExpressions": [
+        "6은 600으로 무엇에 해당합니까",
+        "6에 대해 600은 무엇에 해당합니까"
+      ],
+      "identifier": "proportionsFindNumerator"
+    },
+    {
+      "prototypeExpressions": [
+        "6은 600으로 8은 무엇에 해당합니까",
+        "6에 대해 600은 8에 대해 무엇입니까"
+      ],
+      "identifier": "proportionsFindDenominator"
+    },
+    {
+      "prototypeExpressions": [
+        "1에서 5 사이의 무작위 수",
+        "1에서 5 사이의 무작위"
+      ],
+      "identifier": "makeRandomNumber"
+    },
+    {
+      "prototypeExpressions": [
+        "5는 1의 배수로 무엇에 해당합니까",
+        "5는 1의 배수로 무엇입니까"
+      ],
+      "identifier": "isWhatMultiplierOf"
+    },
+    {
+      "prototypeExpressions": [
+        "5는 1의 배수로 무엇에 해당합니까",
+        "5는 1의 배수로 무엇입니까"
+      ],
+      "identifier": "isWhatMultiplierOff"
+    },
+    {
+      "prototypeExpressions": [
+        "5는 1의 배수로 무엇에 해당합니까",
+        "5는 1의 배수로 무엇입니까"
+      ],
+      "identifier": "isWhatMultiplierOn"
+    },
+    {
+      "prototypeExpressions": [
+        "100의 제곱근"
+      ],
+      "identifier": "squareRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "100의 세제곱근"
+      ],
+      "identifier": "cubedRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "100의 5제곱근"
+      ],
+      "identifier": "nthRoot"
+    },
+    {
+      "prototypeExpressions": [
+        "20의 4를 밑으로 한 로그",
+        "20의 4를 밑으로 하는 로그"
+      ],
+      "identifier": "nthLog"
+    },
+    {
+      "prototypeExpressions": [
+        "4를 밑으로 하는 20의 로그"
+      ],
+      "identifier": "nthLogReversed"
+    },
+    {
+      "prototypeExpressions": [
+        "5에서 3을 선택",
+        "5 조합 3"
+      ],
+      "identifier": "combination"
+    },
+    {
+      "prototypeExpressions": [
+        "5 순열 3"
+      ],
+      "identifier": "permutation"
+    },
+    {
+      "prototypeExpressions": [
+        "3의 5 조합"
+      ],
+      "identifier": "reversedCombination"
+    },
+    {
+      "prototypeExpressions": [
+        "3의 5 순열"
+      ],
+      "identifier": "reversedPermutation"
+    },
+    {
+      "prototypeExpressions": [
+        "0에서 10까지의 10을 스크럽",
+        "0에서 10까지의 10 스크러버"
+      ],
+      "identifier": "scrubNumberWithSpecifiedRange"
+    },
+    {
+      "prototypeExpressions": [
+        "새로운 단위",
+        "새로운 단위 유형",
+        "일반 단위",
+        "새로운 일반 단위",
+        "새로운 일반 단위 유형"
+      ],
+      "identifier": "declareGenericUnit"
+    },
+    {
+      "prototypeExpressions": [
+        "이는 SoulverCore가 존재하지 않는 함수 식별자를 올바르게 처리하는지 확인하기 위해 여기에 있습니다"
+      ],
+      "identifier": "nonexistingFunctionIdentifier"
+    }
+  ],
+  "financial": [
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage 의 1000의 현재 가치",
+        "__timespan에서 __percentage 의 1000의 현재 가치"
+      ],
+      "identifier": "presentValue"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 1000을 반환하고 500을 투자한 경우의 연간 수익률",
+        "__timespan에서 1000을 반환하고 500을 투자한 경우의 연간 수익률"
+      ],
+      "identifier": "returnOnInvestmentAfter"
+    },
+    {
+      "prototypeExpressions": [
+        "500 투자하고 1000 반환"
+      ],
+      "identifier": "returnOnInvestment"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage에서 __unit_rate의 투자 필요 금액",
+        "__percentage에서 __decimal_rate의 투자 필요 금액"
+      ],
+      "identifier": "investmentRequiredForReturn"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 총 상환액",
+        "__timespan 후 __percentage 의 10000의 총 상환액"
+      ],
+      "identifier": "totalLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 연간 상환액",
+        "__timespan 후 __percentage 의 10000의 연간 상환액"
+      ],
+      "identifier": "annualLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 월간 상환액",
+        "__timespan 후 __percentage 의 10000의 월간 상환액"
+      ],
+      "identifier": "monthlyLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 총 이자",
+        "__timespan 후 __percentage 의 10000의 총 이자"
+      ],
+      "identifier": "totalInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 연간 이자",
+        "__timespan 후 __percentage 의 10000의 연간 이자"
+      ],
+      "identifier": "annualInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan에서 __percentage 의 10000의 월간 이자",
+        "__timespan 후 __percentage 의 10000의 월간 이자"
+      ],
+      "identifier": "monthlyInterestOnLoanRepayment"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage로 매월 복리 계산된 100",
+        "__timespan으로 매월 복리 계산된 __percentage 의 100"
+      ],
+      "identifier": "compoundInterestCompoundingMonthly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage로 분기별 복리 계산된 100",
+        "__timespan으로 분기별 복리 계산된 __percentage 의 100"
+      ],
+      "identifier": "compoundInterestCompoundingQuarterly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage 의 100",
+        "__timespan에서 __percentage 의 100"
+      ],
+      "identifier": "compoundInterest"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage 의 100의 이자",
+        "__timespan에서 __percentage 의 100의 이자"
+      ],
+      "identifier": "compoundInterestSansPrincipal"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage로 매월 복리 계산된 100의 이자",
+        "__timespan으로 매월 복리 계산된 __percentage 의 100의 이자"
+      ],
+      "identifier": "compoundInterestSansPrincipalCompoundingMonthly"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 후 __percentage로 분기별 복리 계산된 100의 이자",
+        "__timespan으로 분기별 복리 계산된 __percentage 의 100의 이자"
+      ],
+      "identifier": "compoundInterestSansPrincipalCompoundingQuarterly"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp에서의 500이 __datestamp에서 얼마인지",
+        "__datestamp에서의 500은 __datestamp에서 얼마였습니까"
+      ],
+      "identifier": "dollarWorthAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "500은 __datestamp에서 얼마인지",
+        "500은 __datestamp에서 얼마였습니까"
+      ],
+      "identifier": "dollarWorthFromTodayAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp에서의 500은 얼마입니까"
+      ],
+      "identifier": "dollarWorthToTodayAdjustedForInflation"
+    },
+    {
+      "prototypeExpressions": [
+        "__percentage 인플레이션으로 __datestamp에서 500은 얼마입니까",
+        "__percentage 인플레이션을 고려하여 __datestamp에서 500은 얼마입니까"
+      ],
+      "identifier": "predictedDollarWorthGivenInflation"
+    }
+  ],
+  "videoRelated": [
+    {
+      "prototypeExpressions": [
+        "__frametime __at __frameRate_expression",
+        "__laptime __at __frameRate_expression",
+        "__timespan __at __frameRate_expression",
+        "__frametime __at __unit_rate",
+        "__laptime __at __unit_rate"
+      ],
+      "identifier": "formFrametime"
+    },
+    {
+      "prototypeExpressions": [
+        "__frames_expression __at __frameRate_expression",
+        "__frames_expression __at __unit_rate"
+      ],
+      "identifier": "framesToFrametime"
+    }
+  ],
+  "weatherRelated": [
+    {
+      "prototypeExpressions": [
+        "__timezone의 최저기온",
+        "__timezone의 최저기온",
+        "__timezone의 최저기온"
+      ],
+      "identifier": "lowTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 최고기온",
+        "__timezone의 최고기온",
+        "__timezone의 최고기온"
+      ],
+      "identifier": "highTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 강수 확률",
+        "강수 확률 __timezone"
+      ],
+      "identifier": "precipitationChance"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 강우량",
+        "__timezone의 강수량",
+        "강수량 __timezone"
+      ],
+      "identifier": "rainfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 강설량",
+        "강설량 __timezone"
+      ],
+      "identifier": "snowfallAmount"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 체감온도",
+        "체감온도 __timezone"
+      ],
+      "identifier": "apparentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 기온",
+        "기온 __timezone"
+      ],
+      "identifier": "currentTemperature"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 날씨",
+        "날씨 __timezone"
+      ],
+      "identifier": "weatherConditions"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 습도",
+        "습도 __timezone"
+      ],
+      "identifier": "humidity"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 구름량",
+        "구름량 __timezone"
+      ],
+      "identifier": "cloudCover"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 가시거리",
+        "가시거리 __timezone"
+      ],
+      "identifier": "visibility"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 풍속",
+        "풍속 __timezone"
+      ],
+      "identifier": "windSpeed"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 풍향",
+        "풍향 __timezone"
+      ],
+      "identifier": "windDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 이슬점",
+        "이슬점 __timezone"
+      ],
+      "identifier": "dewPoint"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 자외선 지수",
+        "자외선 지수 __timezone"
+      ],
+      "identifier": "uvIndex"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 기압",
+        "기압 __timezone"
+      ],
+      "identifier": "pressure"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 기압 변화",
+        "기압 변화 __timezone"
+      ],
+      "identifier": "pressureDirection"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 일출",
+        "일출 __timezone"
+      ],
+      "identifier": "sunrise"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 일몰",
+        "일몰 __timezone"
+      ],
+      "identifier": "sunset"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 월출",
+        "월출 __timezone"
+      ],
+      "identifier": "moonrise"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 월몰",
+        "월몰 __timezone"
+      ],
+      "identifier": "moonset"
+    },
+    {
+      "prototypeExpressions": [
+        "달의 위상",
+        "월상"
+      ],
+      "identifier": "moonPhase"
+    },
+    {
+      "prototypeExpressions": [
+        "__datestamp의 월일",
+        "월일"
+      ],
+      "identifier": "lunarDay"
+    }
+  ],
+  "geographic": [
+    {
+      "prototypeExpressions": [
+        "__timezone의 GPS",
+        "__timezone의 좌표",
+        "__timezone의 GPS 좌표",
+        "__timezone의 위치"
+      ],
+      "identifier": "gpsCoordinatesOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 경도",
+        "__gpsCoordinates의 경도"
+      ],
+      "identifier": "longitudeOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone의 위도",
+        "__gpsCoordinates의 위도"
+      ],
+      "identifier": "latitudeOfPlace"
+    },
+    {
+      "prototypeExpressions": [
+        "__timezone에서 __timezone까지의 거리",
+        "__timezone과 __timezone 사이의 거리",
+        "__timezone에서 __timezone까지의 거리"
+      ],
+      "identifier": "distanceBetweenPlaces"
+    }
+  ],
+  "changeRelated": [
+    {
+      "prototypeExpressions": [
+        "20 이후 __timespan에 __percentage씩 매 __timespan",
+        "20 이후 __timespan에 __percentage씩 매 __duration",
+        "20 이후 __timespan에 __percentage 성장 매 __timespan"
+      ],
+      "identifier": "exponentialGrowth"
+    },
+    {
+      "prototypeExpressions": [
+        "20 이후 __timespan에 −__percentage씩 매 __timespan",
+        "20 이후 __timespan에 −__percentage씩 매 __duration",
+        "20 이후 __timespan에 __percentage 감소 매 __timespan"
+      ],
+      "identifier": "exponentialDecay"
+    },
+    {
+      "prototypeExpressions": [
+        "20에서 30까지 __percentage씩 매 __timespan",
+        "20에서 30까지 __percentage씩 매 __duration",
+        "20에서 30까지 −__percentage씩 매 __timespan"
+      ],
+      "identifier": "timeRequiredForExponentialChange"
+    },
+    {
+      "prototypeExpressions": [
+        "20에서 30까지 20씩 매 __timespan",
+        "20에서 30까지 20 증가 매 __timespan",
+        "20에서 30까지 20 감소 매 __timespan"
+      ],
+      "identifier": "timeRequiredForLinearChange"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan 동안 20에서 30까지의 성장",
+        "__timespan 동안 20에서 30까지의 감소"
+      ],
+      "identifier": "growthOverExponentialChange"
+    },
+    {
+      "prototypeExpressions": [
+        "10에서 20은 몇 %입니까",
+        "10에서 20은 %입니까",
+        "10에서 20은 %로"
+      ],
+      "identifier": "xToYIsWhatPercentage"
+    },
+    {
+      "prototypeExpressions": [
+        "10에서 20은 몇 배수입니까",
+        "10에서 20은 배수입니까",
+        "10에서 20은 배수로"
+      ],
+      "identifier": "xToYIsWhatMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "10에서 20"
+      ],
+      "identifier": "xToY"
+    },
+    {
+      "prototypeExpressions": [
+        "10에서 20"
+      ],
+      "identifier": "xOnY"
+    },
+    {
+      "prototypeExpressions": [
+        "10에서 20"
+      ],
+      "identifier": "xOffY"
+    },
+    {
+      "prototypeExpressions": [
+        "__timespan __at 1.5x",
+        "__timespan to 1.5x"
+      ],
+      "identifier": "timeAtMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "시간 절약 __timespan to 1.5x",
+        "시간 절약 __timespan __at 1.5x"
+      ],
+      "identifier": "timeSavedAtMultiplier"
+    }
+  ],
+  "percentage": [
+    {
+      "prototypeExpressions": [
+        "100 의 __percentage",
+        "100 부터 __percentage"
+      ],
+      "identifier": "percentOf"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "percentOff"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "percentOn"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOfWhat"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOfWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOffWhat"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOffWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOnWhat"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isPercentOnWhatClassic"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isWhatPercentOf"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isWhatPercentWith"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isWhatPercentOff"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "isWhatPercentOn"
+    },
+    {
+      "prototypeExpressions": [
+      ],
+      "identifier": "salesTaxIn"
+    }
+  ],
+  "statistics": [
+    {
+      "prototypeExpressions": [
+        "__statistic_type의 __list",
+        "__statistic_type의 __list"
+      ],
+      "identifier": "statisticOfList"
+    },
+    {
+      "prototypeExpressions": [
+        "__statistic_type의 __tag",
+        "__tag의 __statistic_type"
+      ],
+      "identifier": "statisticOfTag"
+    }
+  ],
+  "literalRelated": [
+    {
+      "prototypeExpressions": [
+        "__literal의 수",
+        "__literal의 수"
+      ],
+      "identifier": "countOfLiteral"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal의 처음 10자",
+        "__literal의 처음 10자"
+      ],
+      "identifier": "extractLiteralPrefix"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal의 마지막 10자",
+        "__literal의 마지막 10자"
+      ],
+      "identifier": "extractLiteralSuffix"
+    },
+    {
+      "prototypeExpressions": [
+        "__literal 파싱"
+      ],
+      "identifier": "parseLiteral"
+    }
+  ]
+}

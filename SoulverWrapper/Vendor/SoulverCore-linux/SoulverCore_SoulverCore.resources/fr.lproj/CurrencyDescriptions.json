@@ -1,0 +1,1197 @@
+{
+	"HRK": {
+		"aliases": [
+			"kuna croate"
+		],
+		"symbol": "HRK"
+	},
+	"HUF": {
+		"aliases": [
+			"forint hongrois"
+		],
+		"symbol": "HUF"
+	},
+	"CDF": {
+		"aliases": [
+			"franc congolais"
+		],
+		"symbol": "CDF"
+	},
+	"XMR": {
+		"aliases": [
+			"monero"
+		],
+		"symbol": "XMR"
+	},
+	"ILS": {
+		"aliases": [
+			"shekel israélien"
+		],
+		"symbol": "ILS"
+	},
+	"NGN": {
+		"aliases": [
+			"naira nigérian"
+		],
+		"symbol": "NGN"
+	},
+	"GYD": {
+		"aliases": [
+			"dollar guyanais"
+		],
+		"symbol": "GYD"
+	},
+	"BHD": {
+		"aliases": [
+			"dinar bahreïnien"
+		],
+		"symbol": "BHD"
+	},
+	"SZL": {
+		"aliases": [
+			"lilangeni swazi",
+			"emalangeni swazi"
+		],
+		"symbol": "SZL"
+	},
+	"INR": {
+		"aliases": [
+			"roupie indienne"
+		],
+		"symbol": "INR"
+	},
+	"SDG": {
+		"aliases": [
+			"livre soudanaise"
+		],
+		"symbol": "SDG"
+	},
+	"PEN": {
+		"aliases": [
+			"sol péruvien"
+		],
+		"symbol": "PEN"
+	},
+	"EUR": {
+		"aliases": [
+			"euro",
+            "euros"
+		],
+		"symbol": "EUR"
+	},
+	"TRX": {
+		"aliases": [
+			"tron"
+		],
+		"symbol": "TRX"
+	},
+	"PGK": {
+		"aliases": [
+			"kina papouan-néo-guinéen"
+		],
+		"symbol": "PGK"
+	},
+	"QAR": {
+		"aliases": [
+			"rial qatari",
+			"rials qatari"
+		],
+		"symbol": "QAR"
+	},
+	"LRD": {
+		"aliases": [
+			"dollar libérien"
+		],
+		"symbol": "LRD"
+	},
+	"millisatoshi": {
+		"aliases": [
+			"milli satoshis"
+		],
+		"symbol": "millisatoshi"
+	},
+	"ISK": {
+		"aliases": [
+			"couronne islandaise"
+		],
+		"symbol": "ISK"
+	},
+	"SYP": {
+		"aliases": [
+			"livre syrienne"
+		],
+		"symbol": "SYP"
+	},
+	"TRY": {
+		"aliases": [
+			"livre turque"
+		],
+		"symbol": "TRY"
+	},
+	"UAH": {
+		"aliases": [
+			"hryvnia ukrainien"
+		],
+		"symbol": "UAH"
+	},
+	"SGD": {
+		"aliases": [
+			"dollar de Singapour"
+		],
+		"symbol": "SGD"
+	},
+	"MMK": {
+		"aliases": [
+			"kyat birman"
+		],
+		"symbol": "MMK"
+	},
+	"NIO": {
+		"aliases": [
+			"cordoba nicaraguayen"
+		],
+		"symbol": "NIO"
+	},
+	"BIF": {
+		"aliases": [
+			"franc burundais"
+		],
+		"symbol": "BIF"
+	},
+	"AFN": {
+		"aliases": [
+			"afghani afghan"
+		],
+		"symbol": "AFN"
+	},
+	"LKR": {
+		"aliases": [
+			"roupie srilankaise"
+		],
+		"symbol": "LKR"
+	},
+	"LTC": {
+		"aliases": [
+			"litecoin"
+		],
+		"symbol": "LTC"
+	},
+	"SOL": {
+		"aliases": [
+			"solana"
+		],
+		"symbol": "SOL"
+	},
+	"AVAX": {
+		"aliases": [
+			"avalanche"
+		],
+		"symbol": "AVAX"
+	},
+	"LUNA": {
+		"aliases": [
+			"terra"
+		],
+		"symbol": "LUNA"
+	},
+	"DOT": {
+		"aliases": [
+			"polkadot"
+		],
+		"symbol": "DOT"
+	},
+	"MATIC": {
+		"aliases": [
+			"polygon"
+		],
+		"symbol": "MATIC"
+	},
+	"SHIB": {
+		"aliases": [
+			"shiba inu"
+		],
+		"symbol": "SHIB"
+	},
+	"GTQ": {
+		"aliases": [
+			"quetzal guatémaltèque"
+		],
+		"symbol": "GTQ"
+	},
+	"XRP": {
+		"aliases": [
+			"ripple"
+		],
+		"symbol": "XRP"
+	},
+	"CHF": {
+		"aliases": [
+			"franc suisse"
+		],
+		"symbol": "CHF"
+	},
+	"THB": {
+		"aliases": [
+			"baht thaïlandais"
+		],
+		"symbol": "THB"
+	},
+	"AMD": {
+		"aliases": [
+			"dram arménien"
+		],
+		"symbol": "AMD"
+	},
+	"AOA": {
+		"aliases": [
+			"kwanza angolais"
+		],
+		"symbol": "AOA"
+	},
+	"SEK": {
+		"aliases": [
+			"couronne suédoise"
+		],
+		"symbol": "SEK"
+	},
+	"DASH": {
+		"aliases": [
+			"dash"
+		],
+		"symbol": "DASH"
+	},
+	"SAR": {
+		"aliases": [
+			"riyal saoudien"
+		],
+		"symbol": "SAR"
+	},
+	"KWD": {
+		"aliases": [
+			"dinar koweïtien"
+		],
+		"symbol": "KWD"
+	},
+	"IRR": {
+		"aliases": [
+			"rial iranien"
+		],
+		"symbol": "IRR"
+	},
+	"WST": {
+		"aliases": [
+			"tala samoan"
+		],
+		"symbol": "WST"
+	},
+	"BNB": {
+		"aliases": [
+			"binance coin"
+		],
+		"symbol": "BNB"
+	},
+	"BMD": {
+		"aliases": [
+			"dollar bermudien"
+		],
+		"symbol": "BMD"
+	},
+	"BGN": {
+		"aliases": [
+			"lev bulgare"
+		],
+		"symbol": "BGN"
+	},
+	"PHP": {
+		"aliases": [
+			"peso philippin"
+		],
+		"symbol": "PHP"
+	},
+	"ZMW": {
+		"aliases": [
+			"kwacha zambien"
+		],
+		"symbol": "ZMW"
+	},
+	"XAF": {
+		"aliases": [
+			"franc CFA"
+		],
+		"symbol": "XAF"
+	},
+	"BDT": {
+		"aliases": [
+			"taka bangladais"
+		],
+		"symbol": "BDT"
+	},
+	"NOK": {
+		"aliases": [
+			"couronne norvégienne"
+		],
+		"symbol": "NOK"
+	},
+	"BOB": {
+		"aliases": [
+			"boliviano bolivien"
+		],
+		"symbol": "BOB"
+	},
+	"TZS": {
+		"aliases": [
+			"shilling tanzanien"
+		],
+		"symbol": "TZS"
+	},
+	"XAG": {
+		"aliases": [
+			"prix de l'argent"
+		],
+		"symbol": "XAG"
+	},
+	"VES": {
+		"aliases": [
+			"bolivar vénézuélien"
+		],
+		"symbol": "VES"
+	},
+	"ANG": {
+		"aliases": [
+			"florin antillais néerlandais"
+		],
+		"symbol": "ANG"
+	},
+	"VUV": {
+		"aliases": [
+			"vatu vanuatuan"
+		],
+		"symbol": "VUV"
+	},
+	"BND": {
+		"aliases": [
+			"dollar de Brunei"
+		],
+		"symbol": "BND"
+	},
+	"XCD": {
+		"aliases": [
+			"dollar des Caraïbes orientales"
+		],
+		"symbol": "XCD"
+	},
+	"SCR": {
+		"aliases": [
+			"roupie seychelloise"
+		],
+		"symbol": "SCR"
+	},
+	"KYD": {
+		"aliases": [
+			"dollar des îles Caïmans"
+		],
+		"symbol": "KYD"
+	},
+	"DJF": {
+		"aliases": [
+			"franc djiboutien"
+		],
+		"symbol": "DJF"
+	},
+	"LSL": {
+		"aliases": [
+			"loti lesothan",
+			"maloti lesothan"
+		],
+		"symbol": "LSL"
+	},
+	"MOP": {
+		"aliases": [
+			"pataca macanaise"
+		],
+		"symbol": "MOP"
+	},
+	"ALL": {
+		"aliases": [
+			"lek albanais"
+		],
+		"symbol": "ALL"
+	},
+	"UZS": {
+		"aliases": [
+			"som ouzbek"
+		],
+		"symbol": "UZS"
+	},
+	"UYU": {
+		"aliases": [
+			"peso uruguayen"
+		],
+		"symbol": "UYU"
+	},
+	"PLN": {
+		"aliases": [
+			"zloty polonais"
+		],
+		"symbol": "PLN"
+	},
+	"LTL": {
+		"aliases": [
+			"litas lituanien"
+		],
+		"symbol": "LTL"
+	},
+	"LYD": {
+		"aliases": [
+			"dinar libyen"
+		],
+		"symbol": "LYD"
+	},
+	"JPY": {
+		"aliases": [
+			"yen japonais"
+		],
+		"symbol": "JPY"
+	},
+	"MNT": {
+		"aliases": [
+			"tugrik mongol"
+		],
+		"symbol": "MNT"
+	},
+	"FJD": {
+		"aliases": [
+			"dollar fidjien",
+			"dollars fidjiens"
+		],
+		"symbol": "FJD"
+	},
+	"ZWL": {
+		"aliases": [
+			"dollar zimbabwéen",
+			"dollars zimbabwéens"
+		],
+		"symbol": "ZWL"
+	},
+	"PKR": {
+		"aliases": [
+			"roupie pakistanaise",
+			"roupies pakistanaises"
+		],
+		"symbol": "PKR"
+	},
+	"MRU": {
+		"aliases": [
+			"ouguiya mauritanien"
+		],
+		"symbol": "MRU"
+	},
+	"OMR": {
+		"aliases": [
+			"rial omanais",
+			"rials omanais"
+		],
+		"symbol": "OMR"
+	},
+	"GBP": {
+		"aliases": [
+			"livre britannique",
+			"livres britanniques",
+			"sterling"
+		],
+		"symbol": "GBP"
+	},
+	"Satoshi": {
+		"aliases": [
+			"satoshis"
+		],
+		"symbol": "Satoshi"
+	},
+	"LVL": {
+		"aliases": [
+			"lat letton",
+			"lats lettons"
+		],
+		"symbol": "LVL"
+	},
+	"SHP": {
+		"aliases": [
+			"livre de Sainte-Hélène",
+			"livres de Sainte-Hélène"
+		],
+		"symbol": "SHP"
+	},
+	"GEL": {
+		"aliases": [
+			"lari géorgien",
+			"laris géorgiens"
+		],
+		"symbol": "GEL"
+	},
+	"TND": {
+		"aliases": [
+			"dinar tunisien",
+			"dinars tunisiens"
+		],
+		"symbol": "TND"
+	},
+	"DKK": {
+		"aliases": [
+			"couronne danoise",
+			"couronnes danoises"
+		],
+		"symbol": "DKK"
+	},
+	"NPR": {
+		"aliases": [
+			"roupie népalaise",
+			"roupies népalaises"
+		],
+		"symbol": "NPR"
+	},
+	"KRW": {
+		"aliases": [
+			"won sud-coréen",
+			"wons sud-coréens"
+		],
+		"symbol": "KRW"
+	},
+	"BSD": {
+		"aliases": [
+			"dollar bahaméen",
+			"dollars bahaméens"
+		],
+		"symbol": "BSD"
+	},
+	"CRC": {
+		"aliases": [
+			"colón costaricien",
+			"colóns costariciens"
+		],
+		"symbol": "CRC"
+	},
+	"EGP": {
+		"aliases": [
+			"livre égyptienne",
+			"livres égyptiennes"
+		],
+		"symbol": "EGP"
+	},
+	"MAD": {
+		"aliases": [
+			"dirham marocain",
+			"dirhams marocains"
+		],
+		"symbol": "MAD"
+	},
+	"AUD": {
+		"aliases": [
+			"$A",
+			"dollars australiens",
+			"dollar australien"
+		],
+		"symbol": "AUD"
+	},
+	"BTC": {
+		"aliases": [
+			"bitcoins",
+			"bitcoin"
+		],
+		"symbol": "BTC"
+	},
+	"SLL": {
+		"aliases": [
+			"leone sierra-léonais",
+			"leones sierra-léonais"
+		],
+		"symbol": "SLL"
+	},
+	"MWK": {
+		"aliases": [
+			"kwacha malawien",
+			"kwachas malawiens"
+		],
+		"symbol": "MWK"
+	},
+	"RSD": {
+		"aliases": [
+			"dinar serbe",
+			"dinars serbes"
+		],
+		"symbol": "RSD"
+	},
+	"NZD": {
+		"aliases": [
+			"$NZ",
+			"dollars néo-zélandais",
+			"dollar néo-zélandais"
+		],
+		"symbol": "NZD"
+	},
+	"SRD": {
+		"aliases": [
+			"dollar surinamais",
+			"dollars surinamais"
+		],
+		"symbol": "SRD"
+	},
+	"CLP": {
+		"aliases": [
+			"peso chilien",
+			"pesos chiliens"
+		],
+		"symbol": "CLP"
+	},
+	"RUB": {
+		"aliases": [
+			"roubles russes",
+			"rouble russe",
+			"roubles",
+			"rouble",
+			"руб"
+		],
+		"symbol": "RUB"
+	},
+	"NAD": {
+		"aliases": [
+			"dollar namibien",
+			"dollars namibiens"
+		],
+		"symbol": "NAD"
+	},
+	"HKD": {
+		"aliases": [
+			"dollar de Hong Kong",
+			"dollars de Hong Kong"
+		],
+		"symbol": "HKD"
+	},
+	"GMD": {
+		"aliases": [
+			"dalasi gambien",
+			"dalasis gambiens"
+		],
+		"symbol": "GMD"
+	},
+	"VND": {
+		"aliases": [
+			"dong vietnamien"
+		],
+		"symbol": "VND"
+	},
+	"LAK": {
+		"aliases": [
+			"kip laotien",
+			"kips laotiens"
+		],
+		"symbol": "LAK"
+	},
+	"RON": {
+		"aliases": [
+			"leu roumain",
+			"lei roumains"
+		],
+		"symbol": "RON"
+	},
+	"MUR": {
+		"aliases": [
+			"roupie mauricienne",
+			"roupies mauriciennes"
+		],
+		"symbol": "MUR"
+	},
+	"XAU": {
+		"aliases": [
+			"prix de l'or"
+		],
+		"symbol": "XAU"
+	},
+	"MXN": {
+		"aliases": [
+			"peso mexicain",
+			"pesos mexicains"
+		],
+		"symbol": "MXN"
+	},
+	"BRL": {
+		"aliases": [
+			"réal brésilien",
+			"réals brésiliens",
+			"R$"
+		],
+		"symbol": "BRL"
+	},
+	"STD": {
+		"aliases": [
+			"dobra santoméen",
+			"dobras santoméens"
+		],
+		"symbol": "STD"
+	},
+	"AWG": {
+		"aliases": [
+			"florin arubais",
+			"florins arubais"
+		],
+		"symbol": "AWG"
+	},
+	"MVR": {
+		"aliases": [
+			"rufiyaa maldivien"
+		],
+		"symbol": "MVR"
+	},
+	"PAB": {
+		"aliases": [
+			"balboa panaméen",
+			"balboas panaméens"
+		],
+		"symbol": "PAB"
+	},
+	"TJS": {
+		"aliases": [
+			"somonis tadjik",
+			"somonis tadjiks"
+		],
+		"symbol": "TJS"
+	},
+	"GNF": {
+		"aliases": [
+			"franc guinéen",
+			"francs guinéens"
+		],
+		"symbol": "GNF"
+	},
+	"ETB": {
+		"aliases": [
+			"birr éthiopien",
+			"birrs éthiopiens"
+		],
+		"symbol": "ETB"
+	},
+	"ZAR": {
+		"aliases": [
+			"rand sud-africain"
+		],
+		"symbol": "ZAR"
+	},
+	"COP": {
+		"aliases": [
+			"peso colombien",
+			"pesos colombiens"
+		],
+		"symbol": "COP"
+	},
+	"IDR": {
+		"aliases": [
+			"roupie indonésienne"
+		],
+		"symbol": "IDR"
+	},
+	"SVC": {
+		"aliases": [
+			"colón salvadorien",
+			"colóns salvadoriens"
+		],
+		"symbol": "SVC"
+	},
+	"CVE": {
+		"aliases": [
+			"escudo capverdien",
+			"escudos capverdiens"
+		],
+		"symbol": "CVE"
+	},
+	"ETC": {
+		"aliases": [
+			"ethereum classic"
+		],
+		"symbol": "ETC"
+	},
+	"TTD": {
+		"aliases": [
+			"dollar de Trinité-et-Tobago",
+			"dollars de Trinité-et-Tobago"
+		],
+		"symbol": "TTD"
+	},
+	"GIP": {
+		"aliases": [
+			"livre de Gibraltar",
+			"livres de Gibraltar"
+		],
+		"symbol": "GIP"
+	},
+	"PYG": {
+		"aliases": [
+			"guaraní paraguayen",
+			"guaranís paraguayens"
+		],
+		"symbol": "PYG"
+	},
+	"DOGE": {
+		"aliases": [
+			"dogecoins",
+			"dogecoin"
+		],
+		"symbol": "DOGE"
+	},
+	"MZN": {
+		"aliases": [
+			"meticais mozambicain",
+			"meticais mozambicains"
+		],
+		"symbol": "MZN"
+	},
+	"FKP": {
+		"aliases": [
+			"livre des îles Falkland",
+			"livres des îles Falkland"
+		],
+		"symbol": "FKP"
+	},
+	"KZT": {
+		"aliases": [
+			"tenge kazakh",
+			"tenges kazakhs"
+		],
+		"symbol": "KZT"
+	},
+	"USD": {
+		"aliases": [
+			"dollar américain",
+			"dollars américains",
+			"USD"
+		],
+		"symbol": "USD"
+	},
+	"UGX": {
+		"aliases": [
+			"shilling ougandais",
+			"shillings ougandais"
+		],
+		"symbol": "UGX"
+	},
+	"RWF": {
+		"aliases": [
+			"franc rwandais",
+			"francs rwandais"
+		],
+		"symbol": "RWF"
+	},
+	"GHS": {
+		"aliases": [
+			"cédi ghanéen",
+			"cédis ghanéens"
+		],
+		"symbol": "GHS"
+	},
+	"ARS": {
+		"aliases": [
+			"peso argentin",
+			"pesos argentins"
+		],
+		"symbol": "ARS"
+	},
+	"DOP": {
+		"aliases": [
+			"peso dominicain",
+			"pesos dominicains"
+		],
+		"symbol": "DOP"
+	},
+	"LBP": {
+		"aliases": [
+			"livre libanaise",
+			"livres libanaises"
+		],
+		"symbol": "LBP"
+	},
+	"BZD": {
+		"aliases": [
+			"dollar bélizien",
+			"dollars béliziens"
+		],
+		"symbol": "BZD"
+	},
+	"ADA": {
+		"aliases": [
+			"Cardano"
+		],
+		"symbol": "ADA"
+	},
+	"BTN": {
+		"aliases": [
+			"ngultrum bhoutanais"
+		],
+		"symbol": "BTN"
+	},
+	"MYR": {
+		"aliases": [
+			"ringgit malaisien",
+			"ringgits malaisiens"
+		],
+		"symbol": "MYR"
+	},
+	"YER": {
+		"aliases": [
+			"rial yéménite",
+			"rials yéménites"
+		],
+		"symbol": "YER"
+	},
+	"JMD": {
+		"aliases": [
+			"dollar jamaïcain",
+			"dollars jamaïcains"
+		],
+		"symbol": "JMD"
+	},
+	"TOP": {
+		"aliases": [
+			"paʻanga tongien"
+		],
+		"symbol": "TOP"
+	},
+	"SOS": {
+		"aliases": [
+			"shilling somalien",
+			"shillings somaliens"
+		],
+		"symbol": "SOS"
+	},
+	"TMT": {
+		"aliases": [
+			"manat turkmène",
+			"manats turkmènes"
+		],
+		"symbol": "TMT"
+	},
+	"MDL": {
+		"aliases": [
+			"leu moldave",
+			"lei moldaves"
+		],
+		"symbol": "MDL"
+	},
+	"XOF": {
+		"aliases": [
+			"franc CFA d'Afrique centrale",
+			"francs CFA d'Afrique centrale"
+		],
+		"symbol": "XOF"
+	},
+	"ETH": {
+		"aliases": [
+			"ethereum"
+		],
+		"symbol": "ETH"
+	},
+	"TWD": {
+		"aliases": [
+			"NT$",
+			"dollar taïwanais",
+			"dollars taïwanais"
+		],
+		"symbol": "TWD"
+	},
+	"BBD": {
+		"aliases": [
+			"dollar barbadien",
+			"dollars barbadiens"
+		],
+		"symbol": "BBD"
+	},
+	"CAD": {
+		"aliases": [
+			"$CA",
+			"dollar canadien",
+			"dollars canadiens"
+		],
+		"symbol": "CAD"
+	},
+	"pence": {
+		"aliases": [
+			"penny",
+			"pennies",
+			"pence britannique",
+			"GBX"
+		],
+		"symbol": "pence"
+	},
+	"CNY": {
+		"aliases": [
+			"RMB",
+			"yuan chinois",
+			"yuans chinois"
+		],
+		"symbol": "CNY"
+	},
+	"JOD": {
+		"aliases": [
+			"dinar jordanien",
+			"dinars jordaniens"
+		],
+		"symbol": "JOD"
+	},
+	"XPF": {
+		"aliases": [
+			"franc CFP",
+			"francs CFP"
+		],
+		"symbol": "XPF"
+	},
+	"XLM": {
+		"aliases": [
+			"Stellar"
+		],
+		"symbol": "XLM"
+	},
+	"IQD": {
+		"aliases": [
+			"dinar irakien",
+			"dinars irakiens"
+		],
+		"symbol": "IQD"
+	},
+	"HNL": {
+		"aliases": [
+			"lempira hondurien",
+			"lempiras honduriens"
+		],
+		"symbol": "HNL"
+	},
+	"AED": {
+		"aliases": [
+			"dirham des Émirats arabes unis",
+			"dirhams des Émirats arabes unis"
+		],
+		"symbol": "AED"
+	},
+	"EOS": {
+		"aliases": [
+			"EOS.IO"
+		],
+		"symbol": "EOS"
+	},
+	"KES": {
+		"aliases": [
+			"shilling kényan",
+			"shillings kényans"
+		],
+		"symbol": "KES"
+	},
+	"KMF": {
+		"aliases": [
+			"franc comorien",
+			"francs comoriens"
+		],
+		"symbol": "KMF"
+	},
+	"MKD": {
+		"aliases": [
+			"denar macédonien",
+			"denars macédoniens"
+		],
+		"symbol": "MKD"
+	},
+	"DZD": {
+		"aliases": [
+			"dinar algérien",
+			"dinars algériens"
+		],
+		"symbol": "DZD"
+	},
+	"BSV": {
+		"aliases": [
+			"bitcoin sv"
+		],
+		"symbol": "BSV"
+	},
+	"CUP": {
+		"aliases": [
+			"peso cubain",
+			"pesos cubains"
+		],
+		"symbol": "CUP"
+	},
+	"BWP": {
+		"aliases": [
+			"pula botswanais"
+		],
+		"symbol": "BWP"
+	},
+	"SBD": {
+		"aliases": [
+			"dollar des Îles Salomon",
+			"dollars des Îles Salomon"
+		],
+		"symbol": "SBD"
+	},
+	"AZN": {
+		"aliases": [
+			"manat azerbaïdjanais",
+			"manats azerbaïdjanais"
+		],
+		"symbol": "AZN"
+	},
+	"BCH": {
+		"aliases": [
+			"bitcoin cash"
+		],
+		"symbol": "BCH"
+	},
+	"KGS": {
+		"aliases": [
+			"som kirghize",
+			"soms kirghizes"
+		],
+		"symbol": "KGS"
+	},
+	"BYN": {
+		"aliases": [
+			"rouble biélorusse",
+			"roubles biélorusses"
+		],
+		"symbol": "BYN"
+	},
+	"KHR": {
+		"aliases": [
+			"riel cambodgien"
+		],
+		"symbol": "KHR"
+	},
+	"NEO": {
+		"aliases": [
+			"neo"
+		],
+		"symbol": "NEO"
+	},
+	"ZMK": {
+		"aliases": [
+			"kwacha zambien"
+		],
+		"symbol": "ZMK"
+	},
+	"HTG": {
+		"aliases": [
+			"gourde haïtienne",
+			"gourdes haïtiennes"
+		],
+		"symbol": "HTG"
+	},
+	"CZK": {
+		"aliases": [
+			"couronne tchèque",
+			"couronnes tchèques"
+		],
+		"symbol": "CZK"
+	},
+	"BAM": {
+		"aliases": [
+			"mark convertible de Bosnie-Herzégovine",
+			"marks convertibles de Bosnie-Herzégovine"
+		],
+		"symbol": "BAM"
+	}
+}

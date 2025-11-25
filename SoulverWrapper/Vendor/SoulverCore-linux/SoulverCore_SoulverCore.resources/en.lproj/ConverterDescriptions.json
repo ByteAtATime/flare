@@ -1,0 +1,289 @@
+{
+  "rounding": [
+      {
+        "prototypeExpressions": [
+          "rounded"
+        ],
+        "identifier": "rounded"
+      },
+      {
+        "prototypeExpressions": [
+          "rounded up"
+        ],
+        "identifier": "roundedUp"
+      },
+      {
+        "prototypeExpressions": [
+          "rounded down"
+        ],
+        "identifier": "roundedDown"
+      },
+      {
+        "prototypeExpressions": [
+            "rounded to 3 dp",
+            "rounded 3 dp",
+            "rounded to 1 digit",
+            "rounded to 2 digits",
+            "rounded to 1 decimal",
+            "rounded to 2 decimals",
+            "to 3 dp",
+            "to __headNumberCluster_dp",
+            "to 3 digit",
+            "to 3 digits",
+            "to 1 decimal point",
+            "to 1 decimal place",
+            "to 3 decimal points",
+            "to 3 decimal places",
+            "to 3 decimal",
+            "to 3 decimals"
+        ],
+        "identifier": "roundedToDp"
+      },
+      {
+        "prototypeExpressions": [
+          "round up to nearest 10",
+          "rounded up to nearest 10",
+          "round up to next 10",
+          "rounded up to next 10"
+        ],
+        "identifier": "roundedUpToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "rounded down to nearest 10",
+          "rounded down to last 10",
+          "rounded down to 10"
+        ],
+        "identifier": "roundedDownToNearestX"
+      },
+      {
+        "prototypeExpressions": [
+          "to nearest 10",
+          "round to nearest 10",
+          "rounded to nearest 10"
+        ],
+        "identifier": "roundedToNearestX"
+      }
+  ],
+  "compoundUnits": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol years and months",
+        "__converter_symbol years & months",
+        "__converter_symbol yrs & months",
+        "__converter_symbol months & years",
+        "__converter_symbol months and years"
+      ],
+      "identifier": "yearsAndMonths"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol months and weeks",
+        "__converter_symbol months & weeks",
+        "__converter_symbol months & wks",
+        "__converter_symbol weeks and months",
+        "__converter_symbol weeks & months"
+      ],
+      "identifier": "monthsAndWeeks"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol months and days",
+        "__converter_symbol months & days",
+        "__converter_symbol days and months",
+        "__converter_symbol days & months"
+      ],
+      "identifier": "monthsAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol weeks and days",
+        "__converter_symbol weeks & days",
+        "__converter_symbol wks and days",
+        "__converter_symbol wks & days",
+        "__converter_symbol days and weeks",
+        "__converter_symbol days and wks",
+        "__converter_symbol days & weeks"
+      ],
+      "identifier": "weeksAndDays"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol days and hours",
+        "__converter_symbol days and hrs",
+        "__converter_symbol hours and days",
+        "__converter_symbol hrs and days"
+      ],
+      "identifier": "daysAndHours"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol hours and minutes",
+        "__converter_symbol hours and min",
+        "__converter_symbol hrs and min",
+        "__converter_symbol hr and min"
+      ],
+      "identifier": "hoursAndMinutes"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol minutes and seconds",
+        "__converter_symbol min and sec",
+        "__converter_symbol min and s"
+      ],
+      "identifier": "minutesAndSeconds"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol pounds ounces",
+        "__converter_symbol pound ounce",
+        "__converter_symbol pounds and ounces",
+        "__converter_symbol pounds & ounces",
+        "__converter_symbol pound and ounce",
+        "__converter_symbol pound & ounce",
+        "__converter_symbol pounds and oz",
+        "__converter_symbol pounds & oz",
+        "__converter_symbol lb and oz",
+        "__converter_symbol lb & oz",
+        "__converter_symbol lb oz"
+      ],
+      "identifier": "poundsAndOunces"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol feet and inches",
+        "__converter_symbol feet and inch",
+        "__converter_symbol inches and feet",
+        "__converter_symbol feet inches",
+        "__converter_symbol foot inch",
+        "__converter_symbol feet inch",
+        "__converter_symbol ft inch"
+      ],
+      "identifier": "feetAndInches"
+    }
+  ],
+  "dateTime": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol date"
+      ],
+      "identifier": "toDate"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol timestamp",
+        "__converter_symbol time stamp"
+      ],
+      "identifier": "toTimestamp"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol timespan",
+        "__converter_symbol time span"
+      ],
+      "identifier": "toTimespan"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol laptime",
+        "__converter_symbol lap time"
+      ],
+      "identifier": "toLaptime"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol iso8601",
+        "__converter_symbol iso"
+      ],
+      "identifier": "toISO8601"
+    }
+  ],
+  "numberForms": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol num",
+        "__converter_symbol number",
+        "__converter_symbol decimal",
+        "__converter_symbol plain number",
+        "__converter_symbol dec"
+      ],
+      "identifier": "toDecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol frac",
+        "__converter_symbol fraction",
+        "__converter_symbol a fraction"
+      ],
+      "identifier": "toFraction"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol scientific notation",
+        "__converter_symbol scientific",
+        "__converter_symbol sci not",
+        "__converter_symbol sci"
+      ],
+      "identifier": "toScientificNotation"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol multiplier",
+        "__converter_symbol multiple"
+      ],
+      "identifier": "toMultiplier"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol hexadecimal",
+        "__converter_symbol hex"
+      ],
+      "identifier": "toHexadecimal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol binary",
+        "__converter_symbol bin"
+      ],
+      "identifier": "toBinary"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol octal",
+        "__converter_symbol oct"
+      ],
+      "identifier": "toOctal"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol base 8"
+      ],
+      "identifier": "toBaseX"
+    }
+  ],
+  "music": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol pitch",
+        "__converter_symbol musical note"
+      ],
+      "identifier": "toPitch"
+    },
+    {
+      "prototypeExpressions": [
+        "__converter_symbol midi note number",
+        "__converter_symbol midi number",
+        "__converter_symbol midi"
+      ],
+      "identifier": "toMIDI"
+    }
+  ],
+  "unitRelated": [
+    {
+      "prototypeExpressions": [
+        "__converter_symbol dms"
+      ],
+      "identifier": "toDMS"
+    }
+  ]
+}
