@@ -109,18 +109,13 @@ impl ListScreen {
     }
 
     pub fn view(&self) -> Element<'_, ListMessage> {
-        let content = render_list(
+        render_list(
             &self.filtered_props,
             self.selected_index,
             POSITION_TRACKER.clone(),
+            self.scrollable_id.clone(),
             self.detail_cache.as_ref(),
-        );
-
-        scrollable(content)
-            .id(self.scrollable_id.clone())
-            .on_scroll(ListMessage::Scrolled)
-            .height(iced::Length::Fill)
-            .into()
+        )
     }
 
     fn scroll_to_selection(&self) -> Task<ListMessage> {

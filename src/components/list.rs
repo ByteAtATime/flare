@@ -1,4 +1,4 @@
-use iced::widget::{column, container, row, space, text};
+use iced::widget::{column, container, row, scrollable, space, text};
 use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
 
@@ -70,6 +70,7 @@ pub fn render_list<'a>(
     props: &'a ListProps,
     selected_index: usize,
     column_id: position::Id,
+    scrollable_id: iced::widget::Id,
     detail_cache: Option<&'a Vec<iced::widget::markdown::Item>>,
 ) -> Element<'a, ListMessage> {
     let mut item_cursor = 0;
@@ -101,6 +102,11 @@ pub fn render_list<'a>(
         )
         .id(column_id);
 
+    let scrollable_list = scrollable(list_view)
+        .id(scrollable_id)
+        .on_scroll(ListMessage::Scrolled)
+        .height(Length::Fill);
+
     if props.props.is_showing_detail {
         let mut detail_element: Element<'a, ListMessage> = container(space()).into();
 
@@ -120,12 +126,17 @@ pub fn render_list<'a>(
         }
 
         row![
-            container(list_view).width(Length::FillPortion(1)),
-            container(detail_element).width(Length::FillPortion(2))
+            container(scrollable_list)
+                .width(Length::FillPortion(1))
+                .height(Length::Fill),
+            container(detail_element)
+                .width(Length::FillPortion(2))
+                .height(Length::Fill)
         ]
+        .height(Length::Fill)
         .into()
     } else {
-        list_view.into()
+        scrollable_list.into()
     }
 }
 
