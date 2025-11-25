@@ -3,6 +3,7 @@ use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
 
 use super::actions::ActionPanel;
+use super::dropdown::Dropdown;
 use super::types::{CallbackInfo, deserialize_icon};
 use crate::components::column as positionable_column;
 use crate::components::detail::{DetailProps, render_detail};
@@ -27,6 +28,8 @@ pub struct ListProperties {
     pub on_search_text_change: Option<CallbackInfo>,
     #[serde(default, rename = "isShowingDetail")]
     pub is_showing_detail: bool,
+    #[serde(default, rename = "searchBarAccessory")]
+    pub search_bar_accessory: Option<Dropdown>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]

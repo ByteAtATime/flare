@@ -22,6 +22,8 @@ pub struct DropdownProps {
     pub tooltip: String,
     #[serde(default)]
     pub value: Option<String>,
+    #[serde(default, rename = "defaultValue")]
+    pub default_value: Option<String>,
     #[serde(default, rename = "onChange")]
     pub on_change: Option<CallbackInfo>,
 }

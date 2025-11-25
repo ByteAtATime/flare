@@ -103,11 +103,15 @@ fn view(state: &State) -> Element<'_, Message> {
                 })
                 .collect();
 
-            let selected = dropdown
+            let selected_value = dropdown
                 .props
                 .value
                 .as_ref()
-                .and_then(|val| options.iter().find(|opt| &opt.value == val).cloned());
+                .or(dropdown.props.default_value.as_ref());
+
+            let selected = selected_value
+                .and_then(|val| options.iter().find(|opt| &opt.value == val).cloned())
+                .or_else(|| options.first().cloned());
 
             Some(
                 pick_list(options, selected, |opt| Message::DropdownChanged(opt.value)).padding(10),
@@ -165,14 +169,36 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
         Message::UpdateTree(tree) => {
             let first = tree.children.first();
+
+            // Capture current dropdown value to persist if needed
+            let current_dropdown_value = state
+                .screen
+                .get_search_bar_accessory()
+                .and_then(|d| d.props.value.clone());
+
             match first {
                 Some(components::types::Component::Grid(grid)) => {
                     let (vp, id) = match &state.screen {
                         Screen::Grid(gs) => (gs.get_viewport(), Some(gs.scrollable_id.clone())),
                         _ => (None, None),
                     };
-                    state.screen =
-                        Screen::Grid(screens::grid::GridScreen::new(grid.clone(), vp, id));
+
+                    let mut new_props = grid.clone();
+                    // If the backend didn't send a controlled value, preserve the user's selection
+                    if let Some(acc) = new_props.props.search_bar_accessory.as_mut() {
+                        if acc.props.value.is_none() {
+                            acc.props.value = current_dropdown_value;
+                        }
+                    }
+
+                    let mut screen = screens::grid::GridScreen::new(new_props, vp, id);
+
+                    // Re-apply search filter if there's text
+                    if !state.search_text.is_empty() {
+                        screen.on_search(&state.search_text);
+                    }
+
+                    state.screen = Screen::Grid(screen);
                     update_selected_actions(state);
                 }
                 Some(components::types::Component::List(list)) => {
@@ -180,8 +206,23 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         Screen::List(ls) => (ls.get_viewport(), Some(ls.scrollable_id.clone())),
                         _ => (None, None),
                     };
-                    state.screen =
-                        Screen::List(screens::list::ListScreen::new(list.clone(), vp, id));
+
+                    let mut new_props = list.clone();
+                    // If the backend didn't send a controlled value, preserve the user's selection
+                    if let Some(acc) = new_props.props.search_bar_accessory.as_mut() {
+                        if acc.props.value.is_none() {
+                            acc.props.value = current_dropdown_value;
+                        }
+                    }
+
+                    let mut screen = screens::list::ListScreen::new(new_props, vp, id);
+
+                    // Re-apply search filter if there's text
+                    if !state.search_text.is_empty() {
+                        screen.on_search(&state.search_text);
+                    }
+
+                    state.screen = Screen::List(screen);
                     update_selected_actions(state);
                 }
                 Some(components::types::Component::Detail(detail)) => {
@@ -198,6 +239,8 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             update_selected_actions(state);
         }
         Message::DropdownChanged(value) => {
+            state.screen.set_dropdown_value(&value);
+
             if let Some(dropdown) = state.screen.get_search_bar_accessory() {
                 if let Some(callback) = &dropdown.props.on_change {
                     if let Some(mut sender) = globals::RUNTIME_SENDER.lock().unwrap().clone() {

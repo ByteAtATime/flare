@@ -13,6 +13,10 @@ pub trait Shell {
     fn get_search_bar_accessory(&self) -> Option<&crate::components::dropdown::Dropdown> {
         None
     }
+
+    fn set_dropdown_value(&mut self, _value: &str) {
+        // Default implementation does nothing
+    }
 }
 
 pub enum Screen {
@@ -51,6 +55,14 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.get_search_bar_accessory(),
             Screen::Detail(screen) => screen.get_search_bar_accessory(),
             Screen::List(screen) => screen.get_search_bar_accessory(),
+        }
+    }
+
+    fn set_dropdown_value(&mut self, value: &str) {
+        match self {
+            Screen::Grid(screen) => screen.set_dropdown_value(value),
+            Screen::Detail(screen) => screen.set_dropdown_value(value),
+            Screen::List(screen) => screen.set_dropdown_value(value),
         }
     }
 }
