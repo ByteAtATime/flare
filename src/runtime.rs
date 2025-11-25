@@ -199,23 +199,23 @@ fn send_response(
     Ok(())
 }
 
-pub fn setup_and_run(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
-    let plugin_path = std::env::current_dir()
-        .unwrap()
-        .join("test/plugin.js")
-        .to_string_lossy()
-        .to_string();
+pub fn launch_extension(plugin_path: &str) -> Result<(), std::io::Error> {
+    let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
+    if runtime_guard.is_some() {
+        drop(runtime_guard.take());
+    }
 
-    let runtime = match SidecarRuntime::new(&plugin_path) {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("Failed to start sidecar: {:?}", e);
-            return;
-        }
-    };
+    let runtime = SidecarRuntime::new(plugin_path)?;
+    *runtime_guard = Some(runtime);
+    Ok(())
+}
 
-    *crate::globals::RUNTIME.lock().unwrap() = Some(runtime);
+pub fn stop_runtime() {
+    let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
+    drop(runtime_guard.take());
+}
 
+pub fn run_callback_loop(mut callback_receiver: mpsc::UnboundedReceiver<(String, Value)>) {
     loop {
         let msg = iced::futures::executor::block_on(callback_receiver.next());
 

@@ -386,7 +386,19 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             }
             _ => {}
         },
-        Message::LaunchCommand(_command) => {}
+        Message::LaunchCommand(command) => {
+            let entry_path = command
+                .extension_path
+                .join("src")
+                .join(format!("{}.tsx", command.command_name));
+            let entry_path_str = entry_path.to_string_lossy().to_string();
+
+            state.search_text.clear();
+
+            if let Err(e) = runtime::launch_extension(&entry_path_str) {
+                eprintln!("Failed to launch extension: {:?}", e);
+            }
+        }
     }
     Task::none()
 }
@@ -500,7 +512,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
 
     std::thread::spawn(move || {
-        runtime::setup_and_run(callback_receiver);
+        runtime::run_callback_loop(callback_receiver);
     });
 
     iced::application(State::new, update, view)
