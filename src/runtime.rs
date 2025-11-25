@@ -177,8 +177,18 @@ fn handle_sidecar_response(
             send_response(&result, stdin)?;
         }
         SidecarResponse::Pop { id } => {
-            let result = RustResponse::Success { id, result: None };
-            send_response(&result, stdin)?;
+            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                let stdin_clone = stdin.clone();
+                thread::spawn(move || {
+                    iced::futures::executor::block_on(async move {
+                        if let Err(e) = sender.send(Message::PopToRoot).await {
+                            eprintln!("Failed to send PopToRoot message: {:?}", e);
+                        }
+                        let response = RustResponse::Success { id, result: None };
+                        let _ = send_response(&response, &stdin_clone);
+                    });
+                });
+            }
         }
     }
 

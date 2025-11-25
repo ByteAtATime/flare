@@ -258,10 +258,19 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         return Task::none();
                     }
 
-                    if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
-                        let _ = runtime.send_request(&types::SidecarRequest::Pop);
+                    if let Screen::Root(_) = &state.screen {
                         return Task::none();
                     }
+
+                    let has_runtime = globals::RUNTIME.lock().unwrap().is_some();
+                    if has_runtime {
+                        if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
+                            let _ = runtime.send_request(&types::SidecarRequest::Pop);
+                        }
+                        return Task::none();
+                    }
+
+                    return Task::done(Message::PopToRoot);
                 }
 
                 if named_key == Named::Enter {
@@ -398,6 +407,12 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             if let Err(e) = runtime::launch_extension(&entry_path_str) {
                 eprintln!("Failed to launch extension: {:?}", e);
             }
+        }
+        Message::PopToRoot => {
+            runtime::stop_runtime();
+            state.search_text.clear();
+            let commands = extensions::get_launchable_commands(&state.extensions);
+            state.screen = Screen::Root(screens::root::RootScreen::new(commands));
         }
     }
     Task::none()

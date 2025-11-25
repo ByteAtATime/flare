@@ -13,6 +13,7 @@ pub enum Message {
     ShowToast(String),
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),
+    PopToRoot,
 
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
