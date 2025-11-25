@@ -86,9 +86,19 @@ Object.assign(ListItem, {
   Detail: ListItemDetail,
 });
 
+const ListDropdown = createComponent("List.Dropdown");
+const ListDropdownSection = createComponent("List.Dropdown.Section");
+const ListDropdownItem = createComponent("List.Dropdown.Item");
+
+Object.assign(ListDropdown, {
+  Section: ListDropdownSection,
+  Item: ListDropdownItem,
+});
+
 Object.assign(List, {
   Section: ListSection,
   Item: ListItem,
+  Dropdown: ListDropdown,
 });
 
 const ActionPanel = createComponent("ActionPanel");

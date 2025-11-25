@@ -5,9 +5,13 @@ use serde::Deserialize;
 #[serde(tag = "type")]
 pub enum DropdownChild {
     #[serde(rename = "Grid.Dropdown.Section")]
-    Section(DropdownSection),
+    GridSection(DropdownSection),
     #[serde(rename = "Grid.Dropdown.Item")]
-    Item(DropdownItem),
+    GridItem(DropdownItem),
+    #[serde(rename = "List.Dropdown.Section")]
+    ListSection(DropdownSection),
+    #[serde(rename = "List.Dropdown.Item")]
+    ListItem(DropdownItem),
 }
 
 #[derive(Debug, Clone, Deserialize)]

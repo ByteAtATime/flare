@@ -86,13 +86,15 @@ fn view(state: &State) -> Element<'_, Message> {
                 .children
                 .iter()
                 .flat_map(|child| match child {
-                    components::dropdown::DropdownChild::Item(item) => {
+                    components::dropdown::DropdownChild::GridItem(item)
+                    | components::dropdown::DropdownChild::ListItem(item) => {
                         vec![DropdownOption {
                             title: item.props.title.clone(),
                             value: item.props.value.clone(),
                         }]
                     }
-                    components::dropdown::DropdownChild::Section(section) => section
+                    components::dropdown::DropdownChild::GridSection(section)
+                    | components::dropdown::DropdownChild::ListSection(section) => section
                         .children
                         .iter()
                         .map(|item| DropdownOption {
