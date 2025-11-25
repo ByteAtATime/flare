@@ -262,11 +262,8 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                         return Task::none();
                     }
 
-                    let has_runtime = globals::RUNTIME.lock().unwrap().is_some();
-                    if has_runtime {
-                        if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
-                            let _ = runtime.send_request(&types::SidecarRequest::Pop);
-                        }
+                    if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
+                        let _ = runtime.send_request(&types::SidecarRequest::Pop);
                         return Task::none();
                     }
 
