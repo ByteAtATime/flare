@@ -38,19 +38,31 @@ pub struct DetailMetadata {
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "type")]
 pub enum DetailMetadataItem {
-    #[serde(rename = "Detail.Metadata.Label")]
+    #[serde(
+        rename = "Detail.Metadata.Label",
+        alias = "List.Item.Detail.Metadata.Label"
+    )]
     Label { props: MetadataLabelProps },
 
-    #[serde(rename = "Detail.Metadata.Link")]
+    #[serde(
+        rename = "Detail.Metadata.Link",
+        alias = "List.Item.Detail.Metadata.Link"
+    )]
     Link { props: MetadataLinkProps },
 
-    #[serde(rename = "Detail.Metadata.TagList")]
+    #[serde(
+        rename = "Detail.Metadata.TagList",
+        alias = "List.Item.Detail.Metadata.TagList"
+    )]
     TagList {
         props: MetadataTagListProps,
         children: Vec<MetadataTagListItem>,
     },
 
-    #[serde(rename = "Detail.Metadata.Separator")]
+    #[serde(
+        rename = "Detail.Metadata.Separator",
+        alias = "List.Item.Detail.Metadata.Separator"
+    )]
     Separator,
 }
 
@@ -77,7 +89,10 @@ pub struct MetadataTagListProps {
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "type")]
 pub enum MetadataTagListItem {
-    #[serde(rename = "Detail.Metadata.TagList.Item")]
+    #[serde(
+        rename = "Detail.Metadata.TagList.Item",
+        alias = "List.Item.Detail.Metadata.TagList.Item"
+    )]
     Item { props: MetadataTagListItemProps },
 }
 

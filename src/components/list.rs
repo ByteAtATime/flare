@@ -1,10 +1,11 @@
-use iced::widget::{column, container, row, text};
+use iced::widget::{column, container, row, space, text};
 use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
 
 use super::actions::ActionPanel;
 use super::types::{CallbackInfo, deserialize_icon};
 use crate::components::column as positionable_column;
+use crate::components::detail::{DetailProps, render_detail};
 use crate::icons;
 use crate::position;
 use crate::screens::list::ListMessage;
@@ -24,6 +25,8 @@ pub struct ListProps {
 pub struct ListProperties {
     #[serde(default, rename = "onSearchTextChange")]
     pub on_search_text_change: Option<CallbackInfo>,
+    #[serde(default, rename = "isShowingDetail")]
+    pub is_showing_detail: bool,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -56,13 +59,16 @@ pub struct ListItemProperties {
     pub icon: Option<String>,
     #[serde(default)]
     pub actions: Option<ActionPanel>,
+    #[serde(default)]
+    pub detail: Option<DetailProps>,
 }
 
-pub fn render_list(
-    props: &ListProps,
+pub fn render_list<'a>(
+    props: &'a ListProps,
     selected_index: usize,
     column_id: position::Id,
-) -> Element<'static, ListMessage> {
+    detail_cache: Option<&'a Vec<iced::widget::markdown::Item>>,
+) -> Element<'a, ListMessage> {
     let mut item_cursor = 0;
 
     let list_view = props
@@ -92,7 +98,32 @@ pub fn render_list(
         )
         .id(column_id);
 
-    list_view.into()
+    if props.props.is_showing_detail {
+        let mut detail_element: Element<'a, ListMessage> = container(space()).into();
+
+        let mut current_idx = 0;
+        'outer: for section in &props.sections {
+            for item in &section.items {
+                if current_idx == selected_index {
+                    if let Some(detail) = &item.props.detail {
+                        if let Some(items) = detail_cache {
+                            // detail_element = render_detail(detail, items).map(ListMessage::Detail);
+                        }
+                    }
+                    break 'outer;
+                }
+                current_idx += 1;
+            }
+        }
+
+        row![
+            container(list_view).width(Length::FillPortion(1)),
+            container(detail_element).width(Length::FillPortion(2))
+        ]
+        .into()
+    } else {
+        list_view.into()
+    }
 }
 
 fn render_list_item(item: &ListItemProps, is_selected: bool) -> Element<'static, ListMessage> {

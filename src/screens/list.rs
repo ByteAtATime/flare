@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, scrollable};
+use iced::widget::{self, markdown, scrollable};
 use iced::{
     Element, Task,
     keyboard::{Key, Modifiers},
@@ -10,6 +10,7 @@ use crate::{
     components::{actions::ActionPanel, list::render_list, types::ListProps},
     globals::{LAYOUT_CACHE, POSITION_TRACKER},
     screens::Shell,
+    utils::open_url,
 };
 
 pub struct ListScreen {
@@ -18,12 +19,14 @@ pub struct ListScreen {
     selected_index: usize,
     viewport: Option<Viewport>,
     pub scrollable_id: widget::Id,
+    detail_cache: Option<Vec<markdown::Item>>,
 }
 
 #[derive(Clone, Debug)]
 pub enum ListMessage {
     KeyPressed(Key, Modifiers),
     Scrolled(Viewport),
+    Detail(crate::screens::detail::DetailMessage),
 }
 
 impl ListScreen {
@@ -32,13 +35,37 @@ impl ListScreen {
         viewport: Option<Viewport>,
         scrollable_id: Option<widget::Id>,
     ) -> Self {
-        Self {
+        let mut screen = Self {
             filtered_props: props.clone(),
             raw_props: props,
             selected_index: 0,
             viewport,
             scrollable_id: scrollable_id.unwrap_or_else(widget::Id::unique),
+            detail_cache: None,
+        };
+        screen.update_detail_cache();
+        screen
+    }
+
+    fn update_detail_cache(&mut self) {
+        if self.filtered_props.props.is_showing_detail {
+            let mut cursor = 0;
+            for section in &self.filtered_props.sections {
+                if self.selected_index >= cursor
+                    && self.selected_index < cursor + section.items.len()
+                {
+                    if let Some(item) = section.items.get(self.selected_index - cursor) {
+                        if let Some(detail) = &item.props.detail {
+                            self.detail_cache =
+                                Some(markdown::parse(&detail.props.markdown).collect());
+                            return;
+                        }
+                    }
+                }
+                cursor += section.items.len();
+            }
         }
+        self.detail_cache = None;
     }
 
     pub fn update(&mut self, message: ListMessage) -> Task<ListMessage> {
@@ -67,6 +94,13 @@ impl ListScreen {
                 self.viewport = Some(viewport);
                 Task::none()
             }
+            ListMessage::Detail(msg) => match msg {
+                crate::screens::detail::DetailMessage::LinkClicked(url) => {
+                    let _ = open_url(&url);
+                    Task::none()
+                }
+                _ => Task::none(),
+            },
         }
     }
 
@@ -74,11 +108,12 @@ impl ListScreen {
         self.viewport.clone()
     }
 
-    pub fn view(&self) -> Element<'static, ListMessage> {
+    pub fn view(&self) -> Element<'_, ListMessage> {
         let content = render_list(
             &self.filtered_props,
             self.selected_index,
             POSITION_TRACKER.clone(),
+            self.detail_cache.as_ref(),
         );
 
         scrollable(content)
@@ -129,6 +164,7 @@ impl ListScreen {
         let total = self.count_total_items();
         if total > 0 {
             self.selected_index = (self.selected_index + 1) % total;
+            self.update_detail_cache();
         }
     }
 
@@ -136,6 +172,7 @@ impl ListScreen {
         let total = self.count_total_items();
         if total > 0 {
             self.selected_index = (self.selected_index + total - 1) % total;
+            self.update_detail_cache();
         }
     }
 
@@ -177,6 +214,7 @@ impl Shell for ListScreen {
         }
 
         self.selected_index = 0;
+        self.update_detail_cache();
     }
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {

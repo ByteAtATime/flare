@@ -49,6 +49,42 @@ Object.assign(Grid, {
 const List = createComponent("List");
 const ListSection = createComponent("List.Section");
 const ListItem = createComponent("List.Item");
+const ListItemDetail = createComponent("List.Item.Detail");
+const ListItemDetailMetadata = createComponent("List.Item.Detail.Metadata");
+const ListItemDetailMetadataLabel = createComponent(
+  "List.Item.Detail.Metadata.Label"
+);
+const ListItemDetailMetadataLink = createComponent(
+  "List.Item.Detail.Metadata.Link"
+);
+const ListItemDetailMetadataTagList = createComponent(
+  "List.Item.Detail.Metadata.TagList"
+);
+const ListItemDetailMetadataTagListItem = createComponent(
+  "List.Item.Detail.Metadata.TagList.Item"
+);
+const ListItemDetailMetadataSeparator = createComponent(
+  "List.Item.Detail.Metadata.Separator"
+);
+
+Object.assign(ListItemDetailMetadataTagList, {
+  Item: ListItemDetailMetadataTagListItem,
+});
+
+Object.assign(ListItemDetailMetadata, {
+  Label: ListItemDetailMetadataLabel,
+  Link: ListItemDetailMetadataLink,
+  TagList: ListItemDetailMetadataTagList,
+  Separator: ListItemDetailMetadataSeparator,
+});
+
+Object.assign(ListItemDetail, {
+  Metadata: ListItemDetailMetadata,
+});
+
+Object.assign(ListItem, {
+  Detail: ListItemDetail,
+});
 
 Object.assign(List, {
   Section: ListSection,
