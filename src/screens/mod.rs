@@ -1,4 +1,6 @@
 use crate::components::actions::ActionPanel;
+use crate::components::types::Component;
+use iced::widget::Id;
 
 pub mod detail;
 pub mod grid;
@@ -23,6 +25,53 @@ pub enum Screen {
     Grid(grid::GridScreen),
     Detail(detail::DetailScreen),
     List(list::ListScreen),
+}
+
+impl Screen {
+    pub fn new(component: Component, previous: Option<&Screen>) -> Option<Self> {
+        let (viewport, scroll_id, acc_value) = match previous {
+            Some(prev) => (
+                match prev {
+                    Screen::Grid(s) => s.get_viewport(),
+                    Screen::List(s) => s.get_viewport(),
+                    _ => None,
+                },
+                match prev {
+                    Screen::Grid(s) => Some(s.scrollable_id.clone()),
+                    Screen::List(s) => Some(s.scrollable_id.clone()),
+                    _ => None,
+                },
+                prev.get_search_bar_accessory()
+                    .and_then(|d| d.props.value.clone()),
+            ),
+            None => (None, None, None),
+        };
+
+        match component {
+            Component::Grid(mut props) => {
+                if let Some(acc) = props.props.search_bar_accessory.as_mut() {
+                    if acc.props.value.is_none() {
+                        acc.props.value = acc_value;
+                    }
+                }
+                Some(Screen::Grid(grid::GridScreen::new(
+                    props, viewport, scroll_id,
+                )))
+            }
+            Component::List(mut props) => {
+                if let Some(acc) = props.props.search_bar_accessory.as_mut() {
+                    if acc.props.value.is_none() {
+                        acc.props.value = acc_value;
+                    }
+                }
+                Some(Screen::List(list::ListScreen::new(
+                    props, viewport, scroll_id,
+                )))
+            }
+            Component::Detail(props) => Some(Screen::Detail(detail::DetailScreen::new(props))),
+            _ => None,
+        }
+    }
 }
 
 impl Shell for Screen {

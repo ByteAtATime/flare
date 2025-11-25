@@ -1,6 +1,7 @@
 use crate::message::Message;
 use crate::runtime::SidecarRuntime;
 use iced::Rectangle;
+use iced::futures::SinkExt;
 use iced::futures::channel::mpsc;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -18,3 +19,13 @@ pub static POSITION_TRACKER: LazyLock<crate::position::Id> =
 
 pub static LAYOUT_CACHE: LazyLock<Mutex<HashMap<usize, Rectangle>>> =
     LazyLock::new(|| Mutex::new(HashMap::new()));
+
+pub fn send_callback(callback_id: String, value: Value) {
+    if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
+        std::thread::spawn(move || {
+            iced::futures::executor::block_on(async move {
+                sender.send((callback_id, value)).await.ok();
+            });
+        });
+    }
+}
