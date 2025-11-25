@@ -265,6 +265,13 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                 }
 
                 if named_key == Named::Enter {
+                    if let Screen::Root(root_screen) = &state.screen {
+                        if let Some(cmd) = root_screen.get_selected_command() {
+                            return Task::done(Message::LaunchCommand(cmd.clone()));
+                        }
+                        return Task::none();
+                    }
+
                     let index = if modifiers.is_empty() {
                         Some(0)
                     } else if modifiers == iced::keyboard::Modifiers::COMMAND {
