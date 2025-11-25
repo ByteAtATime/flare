@@ -110,7 +110,7 @@ pub fn render_list<'a>(
                 if current_idx == selected_index {
                     if let Some(detail) = &item.props.detail {
                         if let Some(items) = detail_cache {
-                            // detail_element = render_detail(detail, items).map(ListMessage::Detail);
+                            detail_element = render_detail(detail, items).map(ListMessage::Detail);
                         }
                     }
                     break 'outer;
