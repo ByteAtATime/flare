@@ -1,5 +1,6 @@
 mod cache;
 mod components;
+mod extensions;
 mod globals;
 mod icons;
 mod image_cache;
@@ -32,7 +33,6 @@ struct State {
 
 impl Default for State {
     fn default() -> Self {
-        // TODO: why do we need a default? is there some way to not prefer a certain component?
         Self {
             screen: Screen::Grid(screens::grid::GridScreen::new(
                 components::types::GridProps {
@@ -172,7 +172,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::UpdateTree(tree) => {
             let first = tree.children.first();
 
-            // Capture current dropdown value to persist if needed
             let current_dropdown_value = state
                 .screen
                 .get_search_bar_accessory()
@@ -186,7 +185,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     };
 
                     let mut new_props = grid.clone();
-                    // If the backend didn't send a controlled value, preserve the user's selection
                     if let Some(acc) = new_props.props.search_bar_accessory.as_mut() {
                         if acc.props.value.is_none() {
                             acc.props.value = current_dropdown_value;
@@ -195,7 +193,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
 
                     let mut screen = screens::grid::GridScreen::new(new_props, vp, id);
 
-                    // Re-apply search filter if there's text
                     if !state.search_text.is_empty() {
                         screen.on_search(&state.search_text);
                     }
@@ -210,7 +207,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
                     };
 
                     let mut new_props = list.clone();
-                    // If the backend didn't send a controlled value, preserve the user's selection
                     if let Some(acc) = new_props.props.search_bar_accessory.as_mut() {
                         if acc.props.value.is_none() {
                             acc.props.value = current_dropdown_value;
@@ -219,7 +215,6 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
 
                     let mut screen = screens::list::ListScreen::new(new_props, vp, id);
 
-                    // Re-apply search filter if there's text
                     if !state.search_text.is_empty() {
                         screen.on_search(&state.search_text);
                     }
@@ -429,6 +424,8 @@ fn subscription(_state: &State) -> Subscription<Message> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    extensions::scan_extensions();
+
     let (sender, receiver) = mpsc::unbounded();
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);
@@ -455,7 +452,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .build()
                 .unwrap();
 
-            // apparently this prevents too many threads, i have no idea how it works it's above my paygrade
             let semaphore = Arc::new(tokio::sync::Semaphore::new(10));
 
             loop {
