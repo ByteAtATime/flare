@@ -15,8 +15,7 @@ pub trait Shell {
         None
     }
 
-    fn set_dropdown_value(&mut self, _value: &str) {
-    }
+    fn set_dropdown_value(&mut self, _value: &str) {}
 }
 
 pub enum Screen {

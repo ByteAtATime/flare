@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, column, container, row, scrollable, text};
+use iced::widget::{self, Space, column, container, row, scrollable, text};
 use iced::{
     Alignment, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
@@ -84,7 +84,9 @@ impl RootScreen {
                     row![
                         column![
                             text(&cmd.command_title).size(14),
-                            text(subtitle).size(12).color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
+                            text(subtitle)
+                                .size(12)
+                                .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
                         ]
                         .spacing(2),
                     ]
