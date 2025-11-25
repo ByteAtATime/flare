@@ -118,11 +118,33 @@ impl ListScreen {
         )
     }
 
+    fn get_layout_index(&self, item_index: usize) -> usize {
+        let mut current_layout_index = 0;
+        let mut current_item_index = 0;
+
+        for section in &self.filtered_props.sections {
+            if !section.props.title.is_empty() {
+                current_layout_index += 1;
+            }
+
+            let count = section.items.len();
+            if item_index >= current_item_index && item_index < current_item_index + count {
+                return current_layout_index + (item_index - current_item_index);
+            }
+
+            current_layout_index += count;
+            current_item_index += count;
+        }
+
+        current_layout_index
+    }
+
     fn scroll_to_selection(&self) -> Task<ListMessage> {
+        let layout_index = self.get_layout_index(self.selected_index);
         let target_bounds = match LAYOUT_CACHE
             .lock()
             .ok()
-            .and_then(|cache| cache.get(&self.selected_index).copied())
+            .and_then(|cache| cache.get(&layout_index).copied())
         {
             Some(bounds) => bounds,
             None => return Task::none(),

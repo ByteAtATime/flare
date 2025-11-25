@@ -1,4 +1,4 @@
-use iced::widget::{column, container, row, scrollable, space, text};
+use iced::widget::{container, row, scrollable, space, text};
 use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
 
@@ -75,32 +75,22 @@ pub fn render_list<'a>(
 ) -> Element<'a, ListMessage> {
     let mut item_cursor = 0;
 
-    let list_view = props
-        .sections
-        .iter()
-        .fold(
-            positionable_column::Column::new().spacing(2).padding(10),
-            |col, section| {
-                let mut section_col = column![].spacing(2);
+    let mut col = positionable_column::Column::new().spacing(2).padding(10);
 
-                if !section.props.title.is_empty() {
-                    section_col =
-                        section_col.push(text(section.props.title.clone()).font(INTER_FONT));
-                }
+    for section in &props.sections {
+        if !section.props.title.is_empty() {
+            col = col.push(text(section.props.title.clone()).font(INTER_FONT));
+        }
 
-                let start_idx = item_cursor;
-                let items = section.items.iter().enumerate().map(|(idx, item)| {
-                    let global_idx = start_idx + idx;
-                    let is_selected = global_idx == selected_index;
-                    render_list_item(item, is_selected)
-                });
+        for (idx, item) in section.items.iter().enumerate() {
+            let global_idx = item_cursor + idx;
+            let is_selected = global_idx == selected_index;
+            col = col.push(render_list_item(item, is_selected));
+        }
+        item_cursor += section.items.len();
+    }
 
-                item_cursor += section.items.len();
-
-                col.push(section_col.extend(items))
-            },
-        )
-        .id(column_id);
+    let list_view = col.id(column_id);
 
     let scrollable_list = scrollable(list_view)
         .id(scrollable_id)
