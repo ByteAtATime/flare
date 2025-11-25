@@ -134,7 +134,9 @@ impl RootScreen {
                     None
                 }
             }
-            None => Some(target_y),
+            // this should only happen if the viewport hasn't been scrolled yet
+            // TODO: cleaner way to handle this?
+            None => None,
         };
 
         match offset {
