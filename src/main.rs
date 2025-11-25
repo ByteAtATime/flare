@@ -25,27 +25,21 @@ use crate::screens::{Screen, Shell};
 
 struct State {
     screen: Screen,
+    extensions: Vec<extensions::Extension>,
     search_text: String,
     action_panel_visible: bool,
     selected_actions: Vec<components::actions::ActionPanelItem>,
     toast_message: String,
 }
 
-impl Default for State {
-    fn default() -> Self {
+impl State {
+    fn new() -> Self {
+        let extensions = extensions::scan_extensions();
+        let commands = extensions::get_launchable_commands(&extensions);
+
         Self {
-            screen: Screen::Grid(screens::grid::GridScreen::new(
-                components::types::GridProps {
-                    sections: vec![],
-                    props: components::grid::GridProperties {
-                        columns: None,
-                        on_search_text_change: None,
-                        search_bar_accessory: None,
-                    },
-                },
-                None,
-                None,
-            )),
+            screen: Screen::Root(screens::root::RootScreen::new(commands)),
+            extensions,
             search_text: String::new(),
             action_panel_visible: false,
             selected_actions: Vec::new(),
@@ -385,8 +379,7 @@ fn update(state: &mut State, message: Message) -> Task<Message> {
             }
             _ => {}
         },
-        Message::LaunchCommand(_command) => {
-        }
+        Message::LaunchCommand(_command) => {}
     }
     Task::none()
 }
@@ -440,8 +433,6 @@ fn subscription(_state: &State) -> Subscription<Message> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    extensions::scan_extensions();
-
     let (sender, receiver) = mpsc::unbounded();
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);
@@ -505,7 +496,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         runtime::setup_and_run(callback_receiver);
     });
 
-    iced::application(|| State::default(), update, view)
+    iced::application(State::new, update, view)
         .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .font(include_bytes!("./assets/icons.ttf").as_slice())
