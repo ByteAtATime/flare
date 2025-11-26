@@ -8,6 +8,7 @@ mod image_cache;
 mod ipc;
 mod message;
 mod position;
+mod preferences;
 mod runtime;
 mod screens;
 #[cfg(feature = "soulver")]
