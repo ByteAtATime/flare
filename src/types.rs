@@ -21,6 +21,9 @@ pub struct Tree {
     rename_all_fields = "camelCase"
 )]
 pub enum SidecarRequest {
+    SetPreferences {
+        preferences: std::collections::HashMap<String, serde_json::Value>,
+    },
     InvokeCallback {
         callback_id: String,
         args: serde_json::Value,
