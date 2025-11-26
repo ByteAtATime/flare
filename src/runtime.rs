@@ -44,6 +44,10 @@ impl SidecarRuntime {
 
                 if let Err(e) = handle_sidecar_response(&message_buf, &stdin_clone) {
                     eprintln!("Failed to handle sidecar response: {:?}", e);
+                    fn to_hex_string(bytes: &[u8]) -> String {
+                        bytes.iter().map(|b| format!("{:02x}", b)).collect()
+                    }
+                    eprintln!("{:?}", to_hex_string(&message_buf));
                 }
             }
         });
