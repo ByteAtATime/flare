@@ -25,6 +25,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             if state.window_id == Some(id) {
                 state.window_id = None;
             }
+            if state.settings_window_id == Some(id) {
+                state.settings_window_id = None;
+            }
         }
         Message::ToggleWindow => {
             if let Some(id) = state.window_id {
@@ -33,6 +36,20 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 let (id, open) = window::open(window::Settings::default());
                 return open.map(move |_| Message::WindowOpened(id));
             }
+        }
+        Message::OpenSettings => {
+            if state.settings_window_id.is_some() {
+                return Task::none();
+            }
+            let (id, open) = window::open(window::Settings {
+                size: iced::Size::new(600.0, 400.0),
+                resizable: true,
+                ..Default::default()
+            });
+            return open.map(move |_| Message::SettingsWindowOpened(id));
+        }
+        Message::SettingsWindowOpened(id) => {
+            state.settings_window_id = Some(id);
         }
         Message::UpdateTree(tree) => {
             if let Some(component) = tree.children.into_iter().next() {
@@ -154,6 +171,14 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                 }
             }
             return Task::none();
+        }
+    }
+
+    if modifiers == Modifiers::CTRL {
+        if let Key::Character(c) = &key {
+            if c == "," {
+                return Task::done(Message::OpenSettings);
+            }
         }
     }
 

@@ -19,6 +19,8 @@ pub enum Message {
     WindowOpened(window::Id),
     WindowClosed(window::Id),
     ToggleWindow,
+    OpenSettings,
+    SettingsWindowOpened(window::Id),
 
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
