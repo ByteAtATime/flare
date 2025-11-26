@@ -26,6 +26,9 @@ const packr = new Packr({
   // but rmp_serde doesn't understand that
   // TODO: does this help performance, and if so, can we implement it in rmp_serde?
   useRecords: false,
+
+  // it also tries to encode undefined as a custom extension
+  encodeUndefinedAsNil: true,
 });
 
 const sendRequest = (request: RustRequest): Promise<unknown> => {
