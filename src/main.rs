@@ -1,5 +1,6 @@
 mod cache;
 mod components;
+mod deep_link;
 mod extensions;
 mod globals;
 mod icons;
@@ -55,6 +56,13 @@ fn subscription(_state: &State) -> Subscription<Message> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
+    {
+        if let Err(e) = deep_link::register_all() {
+            eprintln!("Failed to register deep links: {}", e);
+        }
+    }
+
     let (sender, receiver) = mpsc::unbounded();
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);

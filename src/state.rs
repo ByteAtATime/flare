@@ -16,10 +16,15 @@ impl State {
         let extensions = extensions::scan_extensions();
         let commands = extensions::get_launchable_commands(&extensions);
 
+        let mut search_text = String::new();
+        if let Some(url) = crate::deep_link::get_current() {
+            search_text = url;
+        }
+
         Self {
             screen: Screen::Root(crate::screens::root::RootScreen::new(commands)),
             extensions,
-            search_text: String::new(),
+            search_text,
             action_panel_visible: false,
             selected_actions: Vec::new(),
             toast_message: String::new(),
