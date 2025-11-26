@@ -1,10 +1,11 @@
 use iced::widget::{container, row, scrollable, space, text};
 use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
+use serde_json::Value;
 
 use super::actions::ActionPanel;
 use super::dropdown::Dropdown;
-use super::types::{CallbackInfo, deserialize_icon};
+use super::types::{CallbackInfo, deserialize_icon, parse_hex_color};
 use crate::components::column as positionable_column;
 use crate::components::detail::{DetailProps, render_detail};
 use crate::icons;
@@ -64,6 +65,89 @@ pub struct ListItemProperties {
     pub actions: Option<ActionPanel>,
     #[serde(default)]
     pub detail: Option<DetailProps>,
+    #[serde(default)]
+    pub accessories: Vec<ListItemAccessory>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ListItemAccessory {
+    #[serde(default, deserialize_with = "deserialize_accessory_value")]
+    pub text: Option<AccessoryValue>,
+    #[serde(default, deserialize_with = "deserialize_accessory_value")]
+    pub date: Option<AccessoryValue>,
+    #[serde(default, deserialize_with = "deserialize_accessory_value")]
+    pub tag: Option<AccessoryValue>,
+    #[serde(default, deserialize_with = "deserialize_icon")]
+    pub icon: Option<String>,
+    pub tooltip: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct AccessoryValue {
+    pub value: String,
+    pub color: Option<Color>,
+}
+
+fn parse_color(s: &str) -> Color {
+    if s.starts_with("#") {
+        return parse_hex_color(s);
+    }
+    match s {
+        "red" => Color::from_rgb8(255, 59, 48),
+        "orange" => Color::from_rgb8(255, 149, 0),
+        "yellow" => Color::from_rgb8(255, 204, 0),
+        "green" => Color::from_rgb8(40, 205, 65),
+        "blue" => Color::from_rgb8(0, 122, 255),
+        "purple" => Color::from_rgb8(175, 82, 222),
+        "magenta" => Color::from_rgb8(175, 82, 222),
+        _ => Color::from_rgb(0.5, 0.5, 0.5),
+    }
+}
+
+pub fn deserialize_accessory_value<'de, D>(
+    deserializer: D,
+) -> Result<Option<AccessoryValue>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let v: Value = Value::deserialize(deserializer)?;
+    match v {
+        Value::String(s) => Ok(Some(AccessoryValue {
+            value: s,
+            color: None,
+        })),
+        Value::Object(map) => {
+            let value = if let Some(val) = map.get("value") {
+                val.as_str()
+                    .map(|s| s.to_string())
+                    .or_else(|| Some(val.to_string()))
+                    .unwrap()
+            } else if let Some(text) = map.get("text") {
+                text.as_str().map(|s| s.to_string()).unwrap_or_default()
+            } else {
+                return Ok(None);
+            };
+
+            let color = if let Some(c) = map.get("color") {
+                if let Some(s) = c.as_str() {
+                    Some(parse_color(s))
+                } else if let Some(obj) = c.as_object() {
+                    if let Some(l) = obj.get("light").and_then(|v| v.as_str()) {
+                        Some(parse_color(l))
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                }
+            } else {
+                None
+            };
+
+            Ok(Some(AccessoryValue { value, color }))
+        }
+        _ => Ok(None),
+    }
 }
 
 pub fn render_list<'a>(
@@ -156,6 +240,100 @@ fn render_list_item(item: &ListItemProps, is_selected: bool) -> Element<'static,
 
     if let Some(sub) = &item.props.subtitle {
         content = content.push(text(sub.clone()).font(INTER_FONT));
+    }
+
+    if !item.props.accessories.is_empty() {
+        let mut accessories_row = row![].spacing(8).align_y(iced::Alignment::Center);
+
+        for accessory in &item.props.accessories {
+            let mut acc_content = row![].spacing(4).align_y(iced::Alignment::Center);
+
+            if let Some(icon_name) = &accessory.icon {
+                if let Some(icon_char) = icons::get_icon(icon_name) {
+                    acc_content = acc_content.push(text(icon_char).font(ICON_FONT).size(12).style(
+                        move |_theme: &Theme| text::Style {
+                            color: Some(if is_selected {
+                                Color::WHITE
+                            } else {
+                                Color::from_rgb8(0x88, 0x88, 0x88)
+                            }),
+                            ..Default::default()
+                        },
+                    ));
+                }
+            }
+
+            if let Some(txt) = &accessory.text {
+                let color = if is_selected {
+                    Some(Color::WHITE)
+                } else {
+                    txt.color.or(Some(Color::from_rgb8(0x88, 0x88, 0x88)))
+                };
+
+                acc_content =
+                    acc_content.push(text(txt.value.clone()).font(INTER_FONT).size(12).style(
+                        move |_| text::Style {
+                            color,
+                            ..Default::default()
+                        },
+                    ));
+            }
+
+            if let Some(date) = &accessory.date {
+                let color = if is_selected {
+                    Some(Color::WHITE)
+                } else {
+                    date.color.or(Some(Color::from_rgb8(0x88, 0x88, 0x88)))
+                };
+                acc_content =
+                    acc_content.push(text(date.value.clone()).font(INTER_FONT).size(12).style(
+                        move |_| text::Style {
+                            color,
+                            ..Default::default()
+                        },
+                    ));
+            }
+
+            if let Some(tag) = &accessory.tag {
+                let tag_color = if is_selected {
+                    Color::WHITE
+                } else {
+                    tag.color.unwrap_or(Color::from_rgb8(0x88, 0x88, 0x88))
+                };
+                let bg = if is_selected {
+                    Color::from_rgba(1.0, 1.0, 1.0, 0.2)
+                } else {
+                    Color {
+                        a: 0.1,
+                        ..tag_color
+                    }
+                };
+
+                acc_content = acc_content.push(
+                    container(
+                        text(tag.value.clone())
+                            .size(10)
+                            .style(move |_| text::Style {
+                                color: Some(tag_color),
+                                ..Default::default()
+                            }),
+                    )
+                    .padding([2, 6])
+                    .style(move |_| container::Style {
+                        background: Some(bg.into()),
+                        border: iced::Border {
+                            radius: 4.0.into(),
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    }),
+                );
+            }
+
+            accessories_row = accessories_row.push(acc_content);
+        }
+
+        content = content.push(accessories_row);
     }
 
     container(content)

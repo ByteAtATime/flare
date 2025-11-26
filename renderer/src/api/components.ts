@@ -49,6 +49,7 @@ Object.assign(Grid, {
 const List = createComponent("List");
 const ListSection = createComponent("List.Section");
 const ListItem = createComponent("List.Item");
+const ListItemAccessory = createComponent("List.Item.Accessory");
 const ListItemDetail = createComponent("List.Item.Detail");
 const ListItemDetailMetadata = createComponent("List.Item.Detail.Metadata");
 const ListItemDetailMetadataLabel = createComponent(
@@ -84,6 +85,7 @@ Object.assign(ListItemDetail, {
 
 Object.assign(ListItem, {
   Detail: ListItemDetail,
+  Accessory: ListItemAccessory,
 });
 
 const ListDropdown = createComponent("List.Dropdown");
