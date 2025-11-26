@@ -1,4 +1,4 @@
-import { pack, unpack } from "msgpackr";
+import { pack, Packr, unpack } from "msgpackr";
 
 type RustRequest =
   | { type: "showToast"; title: string; message?: string; style?: string }
@@ -21,12 +21,19 @@ const pendingRequests = new Map<
   { resolve: (value: unknown) => void; reject: (error: Error) => void }
 >();
 
+const packr = new Packr({
+  // msgpackr tries to optimize small maps into structs by default,
+  // but rmp_serde doesn't understand that
+  // TODO: does this help performance, and if so, can we implement it in rmp_serde?
+  useRecords: false,
+});
+
 const sendRequest = (request: RustRequest): Promise<unknown> => {
   return new Promise((resolve, reject) => {
     const id = requestId++;
     pendingRequests.set(id, { resolve, reject });
 
-    const message = pack({ id, ...request });
+    const message = packr.pack({ id, ...request });
     const length = Buffer.allocUnsafe(4);
     length.writeUInt32BE(message.length, 0);
     process.stdout.write(length);
