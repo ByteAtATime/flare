@@ -5,6 +5,7 @@ mod extensions;
 mod globals;
 mod icons;
 mod image_cache;
+mod ipc;
 mod message;
 mod position;
 mod runtime;
@@ -17,9 +18,11 @@ mod update;
 mod utils;
 mod view;
 
+use clap::{Parser, Subcommand};
 use iced::Subscription;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
+use iced::window;
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
@@ -27,6 +30,28 @@ use crate::message::Message;
 use crate::state::State;
 use crate::update::update;
 use crate::view::view;
+
+#[derive(Parser)]
+#[command(name = "flare")]
+#[command(about = "A Raycast-compatible launcher for Linux")]
+struct Cli {
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    Daemon,
+    Toggle,
+}
+
+fn boot() -> (State, iced::Task<Message>) {
+    (State::new(), iced::Task::none())
+}
+
+fn daemon_view<'a>(state: &'a State, _window: window::Id) -> iced::Element<'a, Message> {
+    view(state)
+}
 
 fn message_stream() -> impl futures::Stream<Item = Message> {
     let receiver = {
@@ -46,23 +71,39 @@ fn message_stream() -> impl futures::Stream<Item = Message> {
     })
 }
 
-fn subscription(_state: &State) -> Subscription<Message> {
+fn subscription(state: &State) -> Subscription<Message> {
     let keyboard_sub =
         iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
 
     let message_sub = Subscription::run(message_stream);
 
-    Subscription::batch(vec![message_sub, keyboard_sub])
+    let window_close_sub = window::close_events().map(Message::WindowClosed);
+
+    if state.window_id.is_some() {
+        Subscription::batch(vec![message_sub, keyboard_sub, window_close_sub])
+    } else {
+        Subscription::batch(vec![message_sub, window_close_sub])
+    }
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    #[cfg(any(target_os = "linux", target_os = "windows"))]
-    {
-        if let Err(e) = deep_link::register_all() {
-            eprintln!("Failed to register deep links: {}", e);
-        }
-    }
+    let cli = Cli::parse();
 
+    match cli.command {
+        Some(Command::Toggle) => {
+            if ipc::is_daemon_running() {
+                ipc::send_toggle()?;
+            } else {
+                eprintln!("You have to run `flare daemon` first!");
+            }
+            Ok(())
+        }
+        Some(Command::Daemon) => run_daemon(),
+        None => run_application(),
+    }
+}
+
+fn setup_channels() {
     let (sender, receiver) = mpsc::unbounded();
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);
@@ -125,6 +166,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     std::thread::spawn(move || {
         runtime::run_callback_loop(callback_receiver);
     });
+}
+
+fn run_application() -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
+    {
+        if let Err(e) = deep_link::register_all() {
+            eprintln!("Failed to register deep links: {}", e);
+        }
+    }
+
+    setup_channels();
 
     iced::application(State::new, update, view)
         .subscription(subscription)
@@ -133,6 +185,42 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .default_font(iced::Font::DEFAULT)
         .run()
         .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
+    if ipc::is_daemon_running() {
+        eprintln!("Daemon is already running");
+        return Ok(());
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
+    {
+        if let Err(e) = deep_link::register_all() {
+            eprintln!("Failed to register deep links: {}", e);
+        }
+    }
+
+    setup_channels();
+
+    ipc::start_listener(|| {
+        if let Some(mut sender) = globals::SENDER.lock().unwrap().clone() {
+            let _ = iced::futures::executor::block_on(sender.send(Message::ToggleWindow));
+        }
+    })?;
+
+    let result = iced::daemon(boot, update, daemon_view)
+        .subscription(subscription)
+        .title("Flare")
+        .font(include_bytes!("./assets/Inter.ttf").as_slice())
+        .font(include_bytes!("./assets/icons.ttf").as_slice())
+        .default_font(iced::Font::DEFAULT)
+        .run()
+        .map_err(|e| e.to_string());
+
+    ipc::cleanup();
+    result?;
 
     Ok(())
 }

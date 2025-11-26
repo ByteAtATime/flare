@@ -1,3 +1,5 @@
+use iced::window;
+
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::screens::{Screen, Shell};
@@ -9,6 +11,7 @@ pub struct State {
     pub action_panel_visible: bool,
     pub selected_actions: Vec<ActionPanelItem>,
     pub toast_message: String,
+    pub window_id: Option<window::Id>,
 }
 
 impl State {
@@ -28,6 +31,7 @@ impl State {
             action_panel_visible: false,
             selected_actions: Vec::new(),
             toast_message: String::new(),
+            window_id: None,
         }
     }
 

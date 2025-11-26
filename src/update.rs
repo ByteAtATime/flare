@@ -1,6 +1,7 @@
 use iced::{
     Task,
     keyboard::{Key, Modifiers, key::Named},
+    window,
 };
 use serde_json::Value;
 
@@ -17,6 +18,22 @@ use crate::types::SidecarRequest;
 
 pub fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
+        Message::WindowOpened(id) => {
+            state.window_id = Some(id);
+        }
+        Message::WindowClosed(id) => {
+            if state.window_id == Some(id) {
+                state.window_id = None;
+            }
+        }
+        Message::ToggleWindow => {
+            if let Some(id) = state.window_id {
+                return window::close(id);
+            } else {
+                let (id, open) = window::open(window::Settings::default());
+                return open.map(move |_| Message::WindowOpened(id));
+            }
+        }
         Message::UpdateTree(tree) => {
             if let Some(component) = tree.children.into_iter().next() {
                 if let Some(mut new_screen) = Screen::new(component, Some(&state.screen)) {

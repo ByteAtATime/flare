@@ -1,6 +1,7 @@
 use crate::extensions::ExtensionCommand;
 use crate::types::Tree;
 use iced::widget::image::Handle;
+use iced::window;
 
 #[derive(Clone, Debug)]
 pub enum Message {
@@ -14,6 +15,10 @@ pub enum Message {
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),
     PopToRoot,
+
+    WindowOpened(window::Id),
+    WindowClosed(window::Id),
+    ToggleWindow,
 
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
