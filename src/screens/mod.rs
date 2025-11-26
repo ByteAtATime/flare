@@ -6,6 +6,7 @@ pub mod detail;
 pub mod grid;
 pub mod list;
 pub mod root;
+pub mod settings;
 
 pub trait Shell {
     fn can_search(&self) -> bool;

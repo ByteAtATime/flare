@@ -57,16 +57,9 @@ fn dev_boot() -> (State, iced::Task<Message>) {
 
 fn daemon_view<'a>(state: &'a State, window: window::Id) -> iced::Element<'a, Message> {
     if state.settings_window_id == Some(window) {
-        return settings_view();
+        return screens::settings::settings_view(&state.extensions);
     }
     view(state)
-}
-
-fn settings_view<'a>() -> iced::Element<'a, Message> {
-    iced::widget::container(iced::widget::column![iced::widget::text("Settings")])
-        .width(iced::Length::Fill)
-        .height(iced::Length::Fill)
-        .into()
 }
 
 fn message_stream() -> impl futures::Stream<Item = Message> {
