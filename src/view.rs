@@ -40,13 +40,13 @@ pub fn view(state: &State) -> Element<'_, Message> {
         .push(container(content).width(Length::Fill).height(Length::Fill))
         .push(render_footer(state));
 
-    let main_view = container(if state.action_panel_visible {
-        stack![base_col, render_action_panel(state)].into()
+    let action_panel = if state.action_panel_visible {
+        Some(render_action_panel(state))
     } else {
-        Element::from(base_col)
-    });
+        None
+    };
 
-    main_view.into()
+    stack![base_col, action_panel].into()
 }
 
 fn render_search_bar(state: &State) -> Element<'_, Message> {
