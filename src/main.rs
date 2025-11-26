@@ -43,10 +43,16 @@ struct Cli {
 enum Command {
     Daemon,
     Toggle,
+    Dev,
 }
 
 fn boot() -> (State, iced::Task<Message>) {
     (State::new(), iced::Task::none())
+}
+
+fn dev_boot() -> (State, iced::Task<Message>) {
+    let (id, open) = window::open(window::Settings::default());
+    (State::new(), open.map(move |_| Message::WindowOpened(id)))
 }
 
 fn daemon_view<'a>(state: &'a State, _window: window::Id) -> iced::Element<'a, Message> {
@@ -99,6 +105,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(())
         }
         Some(Command::Daemon) => run_daemon(),
+        Some(Command::Dev) => run_dev(),
         None => run_application(),
     }
 }
@@ -180,6 +187,21 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
 
     iced::application(State::new, update, view)
         .subscription(subscription)
+        .font(include_bytes!("./assets/Inter.ttf").as_slice())
+        .font(include_bytes!("./assets/icons.ttf").as_slice())
+        .default_font(iced::Font::DEFAULT)
+        .run()
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+fn run_dev() -> Result<(), Box<dyn std::error::Error>> {
+    setup_channels();
+
+    iced::daemon(dev_boot, update, daemon_view)
+        .subscription(subscription)
+        .title("Flare (Dev)")
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .font(include_bytes!("./assets/icons.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)
