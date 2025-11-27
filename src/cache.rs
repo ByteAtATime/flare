@@ -1,3 +1,4 @@
+use blake3;
 use std::fs;
 use std::path::PathBuf;
 
@@ -14,7 +15,22 @@ fn get_cache_root() -> PathBuf {
     PathBuf::from(".flare_cache")
 }
 
-fn get_path(namespace: &str, key: Option<&str>) -> PathBuf {
+fn get_namespace_path(namespace: &str) -> PathBuf {
+    let root = get_cache_root();
+    let ns = if namespace.is_empty() {
+        "default"
+    } else {
+        namespace
+    };
+    root.join(ns)
+}
+
+fn hash_key_hex(key: &str) -> String {
+    let hash = blake3::hash(key.as_bytes());
+    hash.to_hex().to_string()
+}
+
+fn get_hashed_path(namespace: &str, key: Option<&str>) -> PathBuf {
     let root = get_cache_root();
 
     let ns = if namespace.is_empty() {
@@ -25,7 +41,7 @@ fn get_path(namespace: &str, key: Option<&str>) -> PathBuf {
     let ns_path = root.join(ns);
 
     if let Some(k) = key {
-        let safe_key: String = k.as_bytes().iter().map(|b| format!("{:02x}", b)).collect();
+        let safe_key = hash_key_hex(k);
         ns_path.join(safe_key)
     } else {
         ns_path
@@ -33,35 +49,47 @@ fn get_path(namespace: &str, key: Option<&str>) -> PathBuf {
 }
 
 pub fn set(namespace: &str, key: &str, data: &str) -> Result<(), String> {
-    let path = get_path(namespace, Some(key));
+    let path = get_hashed_path(namespace, Some(key));
 
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|e| e.to_string())?;
     }
-    fs::write(path, data).map_err(|e| e.to_string())
+
+    fs::write(&path, data).map_err(|e| e.to_string())?;
+
+    let meta_path = path.with_extension("meta");
+    let _ = fs::write(meta_path, key);
+
+    Ok(())
 }
 
 pub fn get(namespace: &str, key: &str) -> Option<String> {
-    let path = get_path(namespace, Some(key));
-    fs::read_to_string(path).ok()
+    let path = get_hashed_path(namespace, Some(key));
+    if path.exists() {
+        return fs::read_to_string(path).ok();
+    }
+    None
 }
 
 pub fn has(namespace: &str, key: &str) -> bool {
-    let path = get_path(namespace, Some(key));
-    path.exists()
+    let path = get_hashed_path(namespace, Some(key));
+    if path.exists() {
+        return true;
+    }
+    false
 }
 
 pub fn remove(namespace: &str, key: &str) -> bool {
-    let path = get_path(namespace, Some(key));
+    let path = get_hashed_path(namespace, Some(key));
     if path.exists() {
-        fs::remove_file(path).is_ok()
+        fs::remove_file(&path).is_ok()
     } else {
         false
     }
 }
 
 pub fn clear(namespace: &str) -> Result<(), String> {
-    let path = get_path(namespace, None);
+    let path = get_namespace_path(namespace);
     if path.exists() {
         fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
     }
@@ -69,7 +97,7 @@ pub fn clear(namespace: &str) -> Result<(), String> {
 }
 
 pub fn is_empty(namespace: &str) -> bool {
-    let path = get_path(namespace, None);
+    let path = get_namespace_path(namespace);
     if !path.exists() {
         return true;
     }
