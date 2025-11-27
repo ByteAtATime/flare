@@ -3,6 +3,7 @@ mod cache;
 mod components;
 mod deep_link;
 mod extensions;
+mod frecency;
 mod globals;
 mod handlers;
 mod icons;

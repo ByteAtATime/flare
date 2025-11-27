@@ -108,6 +108,10 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 .extension_path
                 .join(format!("{}.js", command.command_name));
             let assets_path = command.extension_path.join("assets");
+
+            let id = format!("ext:{}:{}", command.extension_name, command.command_name);
+            state.frecency.visit(id);
+
             state.search_text.clear();
             let preferences = state
                 .preferences
@@ -121,6 +125,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             }
         }
         Message::LaunchApp(app) => {
+            let id = format!("app:{}", app.id);
+            state.frecency.visit(id);
+
             apps::launch_application(&app);
             if let Some(id) = state.window_id {
                 return window::close(id);
@@ -130,10 +137,12 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             runtime::stop_runtime();
             state.search_text.clear();
             let commands = extensions::get_launchable_commands(&state.extensions);
-            state.screen = Screen::Root(crate::screens::root::RootScreen::new(
-                commands,
-                state.apps.clone(),
-            ));
+
+            let mut root_screen =
+                crate::screens::root::RootScreen::new(commands, state.apps.clone());
+            root_screen.sort_items(&state.frecency);
+
+            state.screen = Screen::Root(root_screen);
             state.update_selected_actions();
             if state.screen.can_search() {
                 return operation::focus(state.search_input_id.clone());

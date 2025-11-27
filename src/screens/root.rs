@@ -10,6 +10,7 @@ use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
 use crate::components::column::Column;
 use crate::extensions::ExtensionCommand;
+use crate::frecency::FrecencyStore;
 use crate::globals::POSITION_TRACKER;
 use crate::message::Message;
 use crate::screens::Shell;
@@ -26,6 +27,7 @@ pub enum ResolvedIcon {
 
 #[derive(Clone, Debug)]
 pub struct RootItem {
+    pub id: String,
     pub kind: RootItemKind,
     pub actions: ActionPanel,
     pub resolved_icon: ResolvedIcon,
@@ -59,7 +61,9 @@ impl RootScreen {
 
         for cmd in commands {
             let icon = resolve_extension_icon(&cmd);
+            let id = format!("ext:{}:{}", cmd.extension_name, cmd.command_name);
             items.push(RootItem {
+                id,
                 actions: create_action_panel(&RootItemKind::Extension(cmd.clone())),
                 kind: RootItemKind::Extension(cmd),
                 resolved_icon: icon,
@@ -68,7 +72,9 @@ impl RootScreen {
 
         for app in apps {
             let icon = resolve_app_icon(&app);
+            let id = format!("app:{}", app.id);
             items.push(RootItem {
+                id,
                 actions: create_action_panel(&RootItemKind::App(app.clone())),
                 kind: RootItemKind::App(app),
                 resolved_icon: icon,
@@ -86,6 +92,12 @@ impl RootScreen {
             #[cfg(feature = "soulver")]
             calculator_result: None,
         }
+    }
+
+    pub fn sort_items(&mut self, store: &FrecencyStore) {
+        store.sort(&mut self.items, |item| &item.id);
+        self.filtered_items = self.items.clone();
+        self.state = Self::create_state(&self.filtered_items);
     }
 
     fn create_state(items: &Vec<RootItem>) -> SelectionState<RootItem> {
