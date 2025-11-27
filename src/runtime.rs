@@ -1,17 +1,17 @@
-use crate::globals::SENDER;
-use crate::message::Message;
-use crate::types::{RustResponse, SidecarRequest, SidecarResponse};
+use iced::futures::StreamExt;
 use iced::futures::channel::mpsc;
-use iced::futures::{SinkExt, StreamExt};
 use serde_json::Value;
-use std::io::{Read, Write};
 use std::process::{Child, Command, Stdio};
-use std::sync::{Arc, Mutex};
 use std::thread;
+
+use crate::globals;
+use crate::handlers;
+use crate::transport::{MessageReader, Transport};
+use crate::types::{RustResponse, SidecarRequest, SidecarResponse};
 
 pub struct SidecarRuntime {
     process: Child,
-    stdin: Arc<Mutex<std::process::ChildStdin>>,
+    transport: Transport,
 }
 
 impl SidecarRuntime {
@@ -25,46 +25,31 @@ impl SidecarRuntime {
             .stderr(Stdio::inherit())
             .spawn()?;
 
-        let stdin = Arc::new(Mutex::new(process.stdin.take().unwrap()));
-        let mut stdout = process.stdout.take().unwrap();
+        let stdin = process.stdin.take().unwrap();
+        let stdout = process.stdout.take().unwrap();
 
-        let stdin_clone = stdin.clone();
+        let transport = Transport::new(stdin);
+        let mut reader = MessageReader::new(stdout);
+
+        let transport_clone = transport.clone();
         thread::spawn(move || {
-            let mut length_buf = [0u8; 4];
             loop {
-                if stdout.read_exact(&mut length_buf).is_err() {
-                    break;
-                }
-                let length = u32::from_be_bytes(length_buf) as usize;
-
-                let mut message_buf = vec![0u8; length];
-                if stdout.read_exact(&mut message_buf).is_err() {
-                    break;
-                }
-
-                if let Err(e) = handle_sidecar_response(&message_buf, &stdin_clone) {
-                    eprintln!("Failed to handle sidecar response: {:?}", e);
-                    fn to_hex_string(bytes: &[u8]) -> String {
-                        bytes.iter().map(|b| format!("{:02x}", b)).collect()
+                match reader.read_next() {
+                    Some(data) => {
+                        if let Err(e) = handle_sidecar_response(&data, &transport_clone) {
+                            eprintln!("Failed to handle sidecar response: {:?}", e);
+                        }
                     }
-                    eprintln!("{:?}", to_hex_string(&message_buf));
+                    None => break,
                 }
             }
         });
 
-        Ok(Self { process, stdin })
+        Ok(Self { process, transport })
     }
 
     pub fn send_request(&mut self, request: &SidecarRequest) -> Result<(), std::io::Error> {
-        let data = rmp_serde::to_vec_named(request)
-            .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
-        let length = (data.len() as u32).to_be_bytes();
-
-        let mut stdin = self.stdin.lock().unwrap();
-        stdin.write_all(&length)?;
-        stdin.write_all(&data)?;
-        stdin.flush()?;
-        Ok(())
+        self.transport.send_request(request)
     }
 }
 
@@ -76,353 +61,94 @@ impl Drop for SidecarRuntime {
 
 fn handle_sidecar_response(
     data: &[u8],
-    stdin: &Arc<Mutex<std::process::ChildStdin>>,
+    transport: &Transport,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let response: SidecarResponse = rmp_serde::from_slice(data)?;
 
-    match response {
+    let (id, result) = match response {
         SidecarResponse::Initialized { success, error } => {
             if !success {
                 eprintln!("Plugin initialization failed: {:?}", error);
             }
+            return Ok(());
         }
         SidecarResponse::CallbackResult { success, error } => {
             if !success {
                 eprintln!("Callback failed: {:?}", error);
             }
+            return Ok(());
         }
-        SidecarResponse::ShowToast {
-            id,
-            title,
-            message: _,
-            style: _,
-        } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::ShowToast(title)).await {
-                            eprintln!("Failed to send toast message: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
-        SidecarResponse::UpdateTree { id, tree } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::UpdateTree(tree)).await {
-                            eprintln!("Failed to send tree update: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
+
+        SidecarResponse::ShowToast { id, title, .. } => (id, handlers::ui::show_toast(title)),
+        SidecarResponse::UpdateTree { id, tree } => (id, handlers::ui::update_tree(tree)),
+        SidecarResponse::Pop { id } => (id, handlers::ui::pop()),
+        SidecarResponse::OpenExtensionPreferences { id }
+        | SidecarResponse::OpenCommandPreferences { id } => (id, handlers::ui::open_settings()),
+        SidecarResponse::OpenUrl { id, url } => (id, handlers::ui::open_url(url)),
+
         SidecarResponse::CacheSet {
             id,
             namespace,
             key,
             data,
-        } => {
-            let result = match crate::cache::set(&namespace, &key, &data) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
-        }
+        } => (id, handlers::cache::set(namespace, key, data)),
         SidecarResponse::CacheGet { id, namespace, key } => {
-            let result = match crate::cache::get(&namespace, &key) {
-                Some(data) => RustResponse::Success {
-                    id,
-                    result: Some(Value::String(data)),
-                },
-                None => RustResponse::Success {
-                    id,
-                    result: Some(Value::Null),
-                },
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::cache::get(namespace, key))
         }
         SidecarResponse::CacheHas { id, namespace, key } => {
-            let has = crate::cache::has(&namespace, &key);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(has)),
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::cache::has(namespace, key))
         }
         SidecarResponse::CacheRemove { id, namespace, key } => {
-            let removed = crate::cache::remove(&namespace, &key);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(removed)),
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::cache::remove(namespace, key))
         }
-        SidecarResponse::CacheClear { id, namespace } => {
-            let result = match crate::cache::clear(&namespace) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
-        }
+        SidecarResponse::CacheClear { id, namespace } => (id, handlers::cache::clear(namespace)),
         SidecarResponse::CacheIsEmpty { id, namespace } => {
-            let is_empty = crate::cache::is_empty(&namespace);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(is_empty)),
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::cache::is_empty(namespace))
         }
-        SidecarResponse::Pop { id } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::PopToRoot).await {
-                            eprintln!("Failed to send PopToRoot message: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
-        SidecarResponse::OpenExtensionPreferences { id }
-        | SidecarResponse::OpenCommandPreferences { id } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::OpenSettings).await {
-                            eprintln!("Failed to send OpenSettings message: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
+
         SidecarResponse::LocalStorageSet {
             id,
             namespace,
             key,
             data,
-        } => {
-            let result = match crate::storage::set(&namespace, &key, &data) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
-        }
+        } => (id, handlers::storage::set(namespace, key, data)),
         SidecarResponse::LocalStorageGet { id, namespace, key } => {
-            let result = match crate::storage::get(&namespace, &key) {
-                Some(data) => RustResponse::Success {
-                    id,
-                    result: Some(Value::String(data)),
-                },
-                None => RustResponse::Success {
-                    id,
-                    result: Some(Value::Null),
-                },
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::storage::get(namespace, key))
         }
         SidecarResponse::LocalStorageRemove { id, namespace, key } => {
-            let removed = crate::storage::remove(&namespace, &key);
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Bool(removed)),
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::storage::remove(namespace, key))
         }
         SidecarResponse::LocalStorageClear { id, namespace } => {
-            let result = match crate::storage::clear(&namespace) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error { id, error: e },
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::storage::clear(namespace))
         }
         SidecarResponse::LocalStorageAll { id, namespace } => {
-            let items = crate::storage::get_all(&namespace);
-            let json_map: serde_json::Map<String, Value> = items
-                .into_iter()
-                .map(|(k, v)| (k, Value::String(v)))
-                .collect();
-            let result = RustResponse::Success {
-                id,
-                result: Some(Value::Object(json_map)),
-            };
-            send_response(&result, stdin)?;
+            (id, handlers::storage::get_all(namespace))
         }
+
         SidecarResponse::ClipboardCopy {
             id,
             content,
-            concealed: _, // TODO: handle concealed
-        } => {
-            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
-            if clipboard_guard.is_none() {
-                match arboard::Clipboard::new() {
-                    Ok(c) => *clipboard_guard = Some(c),
-                    Err(e) => {
-                        let response = RustResponse::Error {
-                            id,
-                            error: e.to_string(),
-                        };
-                        send_response(&response, stdin)?;
-                        return Ok(());
-                    }
-                }
-            }
+            concealed,
+        } => (id, handlers::clipboard::copy(content, concealed)),
+        SidecarResponse::ClipboardClear { id } => (id, handlers::clipboard::clear()),
+        SidecarResponse::ClipboardRead { id, .. } => (id, handlers::clipboard::read()),
+    };
 
-            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
-                let res = match content {
-                    crate::types::ClipboardContent::Text { text } => clipboard.set_text(text),
-                    crate::types::ClipboardContent::File { file } => {
-                        // arboard doesn't support files, fallback to text
-                        clipboard.set_text(file)
-                    }
-                    crate::types::ClipboardContent::Html { html, text } => {
-                        if let Some(t) = text {
-                            let _ = clipboard.set_text(t);
-                        }
-                        clipboard.set_html(html, None)
-                    }
-                };
-                match res {
-                    Ok(_) => RustResponse::Success { id, result: None },
-                    Err(e) => RustResponse::Error {
-                        id,
-                        error: e.to_string(),
-                    },
-                }
-            } else {
-                RustResponse::Error {
-                    id,
-                    error: "Failed to initialize clipboard".to_string(),
-                }
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::ClipboardClear { id } => {
-            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
-            if clipboard_guard.is_none() {
-                match arboard::Clipboard::new() {
-                    Ok(c) => *clipboard_guard = Some(c),
-                    Err(e) => {
-                        let response = RustResponse::Error {
-                            id,
-                            error: e.to_string(),
-                        };
-                        send_response(&response, stdin)?;
-                        return Ok(());
-                    }
-                }
-            }
+    let rust_response = match result {
+        Ok(res) => RustResponse::Success { id, result: res },
+        Err(e) => RustResponse::Error { id, error: e },
+    };
 
-            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
-                match clipboard.clear() {
-                    Ok(_) => RustResponse::Success { id, result: None },
-                    Err(e) => RustResponse::Error {
-                        id,
-                        error: e.to_string(),
-                    },
-                }
-            } else {
-                RustResponse::Error {
-                    id,
-                    error: "Failed to initialize clipboard".to_string(),
-                }
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::ClipboardRead { id, offset: _ } => {
-            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
-            if clipboard_guard.is_none() {
-                match arboard::Clipboard::new() {
-                    Ok(c) => *clipboard_guard = Some(c),
-                    Err(e) => {
-                        let response = RustResponse::Error {
-                            id,
-                            error: e.to_string(),
-                        };
-                        send_response(&response, stdin)?;
-                        return Ok(());
-                    }
-                }
-            }
-
-            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
-                match clipboard.get_text() {
-                    Ok(text) => {
-                        let content = crate::types::ClipboardReadResponse {
-                            text,
-                            html: None,
-                            file: None,
-                        };
-                        RustResponse::Success {
-                            id,
-                            result: Some(serde_json::to_value(content).unwrap()),
-                        }
-                    }
-                    Err(e) => RustResponse::Error {
-                        id,
-                        error: e.to_string(),
-                    },
-                }
-            } else {
-                RustResponse::Error {
-                    id,
-                    error: "Failed to initialize clipboard".to_string(),
-                }
-            };
-            send_response(&result, stdin)?;
-        }
-        SidecarResponse::OpenUrl { id, url } => {
-            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
-                let stdin_clone = stdin.clone();
-                thread::spawn(move || {
-                    iced::futures::executor::block_on(async move {
-                        if let Err(e) = sender.send(Message::OpenUrl(url)).await {
-                            eprintln!("Failed to send OpenUrl message: {:?}", e);
-                        }
-                        let response = RustResponse::Success { id, result: None };
-                        let _ = send_response(&response, &stdin_clone);
-                    });
-                });
-            }
-        }
-    }
-
-    Ok(())
-}
-
-fn send_response(
-    response: &RustResponse,
-    stdin: &Arc<Mutex<std::process::ChildStdin>>,
-) -> Result<(), Box<dyn std::error::Error>> {
-    let data = rmp_serde::to_vec_named(response)?;
-    let length = (data.len() as u32).to_be_bytes();
-
-    let mut stdin = stdin.lock().unwrap();
-    stdin.write_all(&length)?;
-    stdin.write_all(&data)?;
-    stdin.flush()?;
+    transport.send(&rust_response)?;
     Ok(())
 }
 
 pub fn launch_extension(
     plugin_path: &str,
     assets_path: &str,
-    preferences: std::collections::HashMap<String, serde_json::Value>,
+    preferences: std::collections::HashMap<String, Value>,
 ) -> Result<(), std::io::Error> {
-    let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
+    let mut runtime_guard = globals::RUNTIME.lock().unwrap();
     if runtime_guard.is_some() {
         drop(runtime_guard.take());
     }
@@ -437,7 +163,7 @@ pub fn launch_extension(
 }
 
 pub fn stop_runtime() {
-    let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
+    let mut runtime_guard = globals::RUNTIME.lock().unwrap();
     drop(runtime_guard.take());
 }
 
@@ -448,7 +174,7 @@ pub fn run_callback_loop(mut callback_receiver: mpsc::UnboundedReceiver<(String,
         match msg {
             Some((callback_id, args)) => {
                 let request = SidecarRequest::InvokeCallback { callback_id, args };
-                if let Some(runtime) = crate::globals::RUNTIME.lock().unwrap().as_mut() {
+                if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
                     if let Err(e) = runtime.send_request(&request) {
                         eprintln!("Failed to send callback request: {:?}", e);
                     }
