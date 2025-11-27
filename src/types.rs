@@ -50,6 +50,23 @@ pub enum RustResponse {
     },
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ClipboardContent {
+    Text { text: String },
+    File { file: String },
+    Html { html: String, text: Option<String> },
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ClipboardReadResponse {
+    pub text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub html: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub file: Option<String>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 #[serde(
     tag = "type",
@@ -139,8 +156,16 @@ pub enum SidecarResponse {
         id: u32,
         namespace: String,
     },
-    CopyToClipboard {
+    ClipboardCopy {
         id: u32,
-        content: String,
+        content: ClipboardContent,
+        concealed: bool,
+    },
+    ClipboardClear {
+        id: u32,
+    },
+    ClipboardRead {
+        id: u32,
+        offset: Option<usize>,
     },
 }

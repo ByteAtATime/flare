@@ -1,5 +1,10 @@
 import { pack, Packr, unpack } from "msgpackr";
 
+export type ClipboardContent =
+  | { text: string }
+  | { file: string }
+  | { html: string; text?: string };
+
 type RustRequest =
   | { type: "showToast"; title: string; message?: string; style?: string }
   | { type: "updateTree"; tree: unknown }
@@ -17,7 +22,9 @@ type RustRequest =
   | { type: "pop" }
   | { type: "openExtensionPreferences" }
   | { type: "openCommandPreferences" }
-  | { type: "copyToClipboard"; content: string };
+  | { type: "clipboardCopy"; content: ClipboardContent; concealed: boolean }
+  | { type: "clipboardClear" }
+  | { type: "clipboardRead"; offset?: number };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -156,8 +163,22 @@ export const openCommandPreferences = async (): Promise<void> => {
   await sendRequest({ type: "openCommandPreferences" });
 };
 
-export const copyToClipboard = async (content: string): Promise<void> => {
-  await sendRequest({ type: "copyToClipboard", content });
+export const clipboardCopy = async (
+  content: ClipboardContent,
+  concealed: boolean
+): Promise<void> => {
+  await sendRequest({ type: "clipboardCopy", content, concealed });
+};
+
+export const clipboardClear = async (): Promise<void> => {
+  await sendRequest({ type: "clipboardClear" });
+};
+
+export const clipboardRead = async (
+  offset?: number
+): Promise<{ text: string; html?: string; file?: string }> => {
+  const result = await sendRequest({ type: "clipboardRead", offset });
+  return result as { text: string; html?: string; file?: string };
 };
 
 export const handleRustResponse = (data: Buffer) => {

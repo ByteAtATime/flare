@@ -2,6 +2,7 @@ import { Grid, List, ActionPanel, Action, Detail } from "./components";
 import { Toast } from "./toast";
 import { Cache } from "./cache";
 import { LocalStorage } from "./storage";
+import { Clipboard } from "./clipboard";
 import { LaunchType, environment, getPreferenceValues } from "./environment";
 import { useNavigation } from "./navigation";
 import { Icon } from "./icons";
@@ -23,6 +24,7 @@ const raycastApi = {
   Toast,
   Cache,
   LocalStorage,
+  Clipboard,
   getPreferenceValues,
   Icon,
   openExtensionPreferences,

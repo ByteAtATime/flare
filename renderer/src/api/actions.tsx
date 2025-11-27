@@ -1,7 +1,7 @@
 import { useCallback, type FunctionComponent, type ReactNode } from "react";
 import { useNavigation } from "./navigation";
 import { Action } from "./components";
-import * as protocol from "../protocol";
+import { Clipboard } from "./clipboard";
 import { Icon } from "./icons";
 
 type PushProps = {
@@ -54,7 +54,7 @@ export const CopyToClipboard: FunctionComponent<CopyToClipboardProps> = (
   } = props;
 
   const handleAction = useCallback(async () => {
-    await protocol.copyToClipboard(String(content));
+    await Clipboard.copy(content);
     onCopy?.(content);
     // TODO: close window and show hud thingy
   }, [content, onCopy]);
