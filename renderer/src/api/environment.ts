@@ -17,6 +17,10 @@ export const setPreferences = (prefs: Record<string, unknown>) => {
   preferenceValues = prefs;
 };
 
+export const setEnvironment = (env: Partial<typeof environment>) => {
+  Object.assign(environment, env);
+};
+
 const getPreferenceValues = <T extends Record<string, unknown>>(): T => {
   return preferenceValues as T;
 };

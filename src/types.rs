@@ -23,6 +23,7 @@ pub struct Tree {
 pub enum SidecarRequest {
     Initialize {
         preferences: std::collections::HashMap<String, serde_json::Value>,
+        assets_path: String,
     },
     InvokeCallback {
         callback_id: String,

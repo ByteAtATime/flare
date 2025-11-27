@@ -4,7 +4,7 @@ import { pack, unpack } from "msgpackr";
 import React from "react";
 import ReactJsxRuntime from "react/jsx-runtime";
 import { NavigationRoot } from "./api/navigation";
-import { setPreferences } from "./api/environment";
+import { setPreferences, setEnvironment } from "./api/environment";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { raycastApi } from "./api";
 import * as protocol from "./protocol";
@@ -40,7 +40,11 @@ stderrConsole.profileEnd ??= (label = "default") => {
 globalThis.console = stderrConsole;
 
 type Request =
-  | { type: "initialize"; preferences: Record<string, unknown> }
+  | {
+      type: "initialize";
+      preferences: Record<string, unknown>;
+      assetsPath?: string;
+    }
   | { type: "invokeCallback"; callbackId: string; args: unknown }
   | { type: "pop" }
   | { type: "response"; id: number; result?: unknown; error?: string };
@@ -135,6 +139,9 @@ const startCommandLoop = () => {
 
         if (request.type === "initialize") {
           setPreferences(request.preferences);
+          if (request.assetsPath) {
+            setEnvironment({ assetsPath: request.assetsPath });
+          }
           if (!pluginInitialized) {
             pluginInitialized = true;
             initializePlugin();

@@ -230,6 +230,7 @@ fn send_response(
 
 pub fn launch_extension(
     plugin_path: &str,
+    assets_path: &str,
     preferences: std::collections::HashMap<String, serde_json::Value>,
 ) -> Result<(), std::io::Error> {
     let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
@@ -238,7 +239,10 @@ pub fn launch_extension(
     }
 
     let mut runtime = SidecarRuntime::new(plugin_path)?;
-    runtime.send_request(&SidecarRequest::Initialize { preferences })?;
+    runtime.send_request(&SidecarRequest::Initialize {
+        preferences,
+        assets_path: assets_path.to_string(),
+    })?;
     *runtime_guard = Some(runtime);
     Ok(())
 }

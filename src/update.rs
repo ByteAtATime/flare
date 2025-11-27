@@ -94,11 +94,16 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             let entry = command
                 .extension_path
                 .join(format!("{}.js", command.command_name));
+            let assets_path = command.extension_path.join("assets");
             state.search_text.clear();
             let preferences = state
                 .preferences
                 .get_extension_preferences(&command.extension_name, &state.extensions);
-            if let Err(e) = runtime::launch_extension(&entry.to_string_lossy(), preferences) {
+            if let Err(e) = runtime::launch_extension(
+                &entry.to_string_lossy(),
+                &assets_path.to_string_lossy(),
+                preferences,
+            ) {
                 eprintln!("Failed to launch extension: {:?}", e);
             }
         }

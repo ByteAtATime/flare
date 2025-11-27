@@ -1,5 +1,5 @@
-use iced::widget::{checkbox, column, pick_list, row, scrollable, text, text_input};
 use iced::Element;
+use iced::widget::{checkbox, column, pick_list, row, scrollable, text, text_input};
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
