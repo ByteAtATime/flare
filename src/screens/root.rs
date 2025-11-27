@@ -5,6 +5,7 @@ use iced::{
     keyboard::{Key, Modifiers, key::Named},
     widget::operation,
 };
+use std::path::PathBuf;
 
 use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
@@ -17,9 +18,17 @@ use crate::screens::Shell;
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
 #[derive(Clone, Debug)]
+pub enum ResolvedIcon {
+    FontChar(String),
+    Svg(PathBuf),
+    Image(PathBuf),
+}
+
+#[derive(Clone, Debug)]
 pub struct RootItem {
     pub kind: RootItemKind,
     pub actions: ActionPanel,
+    pub resolved_icon: ResolvedIcon,
 }
 
 #[derive(Clone, Debug)]
@@ -46,17 +55,23 @@ pub enum RootMessage {
 
 impl RootScreen {
     pub fn new(commands: Vec<ExtensionCommand>, apps: Vec<AppEntry>) -> Self {
-        let mut items = Vec::new();
+        let mut items = Vec::with_capacity(commands.len() + apps.len());
+
         for cmd in commands {
+            let icon = resolve_extension_icon(&cmd);
             items.push(RootItem {
                 actions: create_action_panel(&RootItemKind::Extension(cmd.clone())),
                 kind: RootItemKind::Extension(cmd),
+                resolved_icon: icon,
             });
         }
+
         for app in apps {
+            let icon = resolve_app_icon(&app);
             items.push(RootItem {
                 actions: create_action_panel(&RootItemKind::App(app.clone())),
                 kind: RootItemKind::App(app),
+                resolved_icon: icon,
             });
         }
 
@@ -100,7 +115,13 @@ impl RootScreen {
     }
 
     pub fn view(&self) -> Element<'_, RootMessage> {
-        let mut ui_rows: Vec<Element<'_, RootMessage>> = Vec::new();
+        let mut ui_rows: Vec<Element<'_, RootMessage>> =
+            Vec::with_capacity(self.filtered_items.len() + 1);
+
+        #[cfg(feature = "soulver")]
+        let has_calc = self.calculator_result.is_some();
+        #[cfg(not(feature = "soulver"))]
+        let has_calc = false;
 
         #[cfg(feature = "soulver")]
         if let Some(result) = &self.calculator_result {
@@ -123,6 +144,14 @@ impl RootScreen {
             ui_rows.push(calc_item.into());
         }
 
+        let layout_cache = LAYOUT_CACHE.lock().unwrap_or_else(|e| e.into_inner());
+
+        let visible_range = self.viewport.as_ref().map(|vp| {
+            let y = vp.absolute_offset().y;
+            let height = vp.bounds().height;
+            (y - 500.0, y + height + 500.0)
+        });
+
         for (idx, item) in self.filtered_items.iter().enumerate() {
             let is_selected = idx == self.selected_index;
             let background = if is_selected {
@@ -131,80 +160,45 @@ impl RootScreen {
                 iced::Color::TRANSPARENT
             };
 
-            let (title, subtitle, accessory, icon_element) = match &item.kind {
+            let layout_idx = idx + if has_calc { 1 } else { 0 };
+
+            // TODO: why do we need to virtualize this?
+            let is_visible = if let Some((start, end)) = visible_range {
+                if let Some(bounds) = layout_cache.get(&layout_idx) {
+                    let item_top = bounds.y;
+                    let item_bottom = bounds.y + bounds.height;
+                    item_bottom >= start && item_top <= end
+                } else {
+                    layout_idx < 30
+                }
+            } else {
+                layout_idx < 30
+            };
+
+            let (title, subtitle, accessory) = match &item.kind {
                 RootItemKind::Extension(cmd) => {
                     let sub = cmd
                         .command_subtitle
                         .clone()
                         .or_else(|| Some(cmd.extension_title.clone()));
-
-                    let icon_str = cmd.command_icon.as_ref().or(cmd.extension_icon.as_ref());
-                    let icon: Element<'_, RootMessage> = if let Some(s) = icon_str {
-                        if let Some(c) = crate::icons::get_icon(s) {
-                            text(c)
-                                .font(ICON_FONT)
-                                .size(20)
-                                .width(24)
-                                .align_x(Alignment::Center)
-                                .into()
-                        } else {
-                            let path = if std::path::Path::new(s).is_absolute() {
-                                std::path::PathBuf::from(s)
-                            } else {
-                                let assets_path = cmd.extension_path.join("assets").join(s);
-                                if assets_path.exists() {
-                                    assets_path
-                                } else {
-                                    cmd.extension_path.join(s)
-                                }
-                            };
-
-                            if path.extension().map_or(false, |e| e == "svg") {
-                                svg(path).width(24).height(24).into()
-                            } else {
-                                image(path).width(24).height(24).into()
-                            }
-                        }
-                    } else {
-                        text(crate::icons::get_icon("box-16").unwrap_or(""))
-                            .font(ICON_FONT)
-                            .size(20)
-                            .width(24)
-                            .align_x(Alignment::Center)
-                            .into()
-                    };
-
-                    (cmd.command_title.clone(), sub, "Command", icon)
+                    (cmd.command_title.clone(), sub, "Command")
                 }
-                RootItemKind::App(app) => {
-                    let icon: Element<'_, RootMessage> =
-                        if std::path::Path::new(&app.icon).is_absolute() {
-                            let path = std::path::Path::new(&app.icon);
-                            if path.extension().map_or(false, |e| e == "svg") {
-                                svg(path).width(24).height(24).into()
-                            } else {
-                                image(path).width(24).height(24).into()
-                            }
-                        } else {
-                            if let Some(icon_path) = freedesktop_icons::lookup(&app.icon).find() {
-                                let path = std::path::Path::new(&icon_path);
-                                if path.extension().map_or(false, |e| e == "svg") {
-                                    svg(path).width(24).height(24).into()
-                                } else {
-                                    image(path).width(24).height(24).into()
-                                }
-                            } else {
-                                text(crate::icons::get_icon("app-window-16").unwrap_or(""))
-                                    .font(ICON_FONT)
-                                    .size(20)
-                                    .width(24)
-                                    .align_x(Alignment::Center)
-                                    .into()
-                            }
-                        };
+                RootItemKind::App(app) => (app.name.clone(), None, "Application"),
+            };
 
-                    (app.name.clone(), None, "Application", icon)
+            let icon_element: Element<'_, RootMessage> = if is_visible {
+                match &item.resolved_icon {
+                    ResolvedIcon::FontChar(c) => text(c)
+                        .font(ICON_FONT)
+                        .size(20)
+                        .width(24)
+                        .align_x(Alignment::Center)
+                        .into(),
+                    ResolvedIcon::Svg(path) => svg(path).width(24).height(24).into(),
+                    ResolvedIcon::Image(path) => image(path).width(24).height(24).into(),
                 }
+            } else {
+                widget::space().width(24).height(24).into()
             };
 
             let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
@@ -388,5 +382,63 @@ fn create_action_panel(kind: &RootItemKind) -> ActionPanel {
 
     ActionPanel {
         children: vec![ActionPanelItem::Action(action)],
+    }
+}
+
+fn resolve_app_icon(app: &AppEntry) -> ResolvedIcon {
+    if std::path::Path::new(&app.icon).is_absolute() {
+        let path = std::path::PathBuf::from(&app.icon);
+        if path.extension().map_or(false, |e| e == "svg") {
+            ResolvedIcon::Svg(path)
+        } else {
+            ResolvedIcon::Image(path)
+        }
+    } else {
+        if let Some(icon_path) = freedesktop_icons::lookup(&app.icon).find() {
+            let path = std::path::PathBuf::from(icon_path);
+            if path.extension().map_or(false, |e| e == "svg") {
+                ResolvedIcon::Svg(path)
+            } else {
+                ResolvedIcon::Image(path)
+            }
+        } else {
+            if let Some(c) = crate::icons::get_icon("app-window-16") {
+                ResolvedIcon::FontChar(c.to_string())
+            } else {
+                ResolvedIcon::FontChar("".to_string())
+            }
+        }
+    }
+}
+
+fn resolve_extension_icon(cmd: &ExtensionCommand) -> ResolvedIcon {
+    let icon_str = cmd.command_icon.as_ref().or(cmd.extension_icon.as_ref());
+    if let Some(s) = icon_str {
+        if let Some(c) = crate::icons::get_icon(s) {
+            return ResolvedIcon::FontChar(c.to_string());
+        }
+
+        let path = if std::path::Path::new(s).is_absolute() {
+            std::path::PathBuf::from(s)
+        } else {
+            let assets_path = cmd.extension_path.join("assets").join(s);
+            if assets_path.exists() {
+                assets_path
+            } else {
+                cmd.extension_path.join(s)
+            }
+        };
+
+        if path.extension().map_or(false, |e| e == "svg") {
+            ResolvedIcon::Svg(path)
+        } else {
+            ResolvedIcon::Image(path)
+        }
+    } else {
+        if let Some(c) = crate::icons::get_icon("box-16") {
+            ResolvedIcon::FontChar(c.to_string())
+        } else {
+            ResolvedIcon::FontChar("".to_string())
+        }
     }
 }
