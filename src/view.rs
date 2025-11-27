@@ -66,8 +66,8 @@ fn render_search_bar(state: &State) -> Element<'_, Message> {
     let text_input = text_input("Search...", &state.search_text)
         .id(state.search_input_id.clone())
         .on_input(Message::SearchTextChanged)
-        .size(20)
-        .padding(12)
+        .size(16)
+        .padding([10, 8])
         .style(move |_theme: &Theme, status| {
             let base = text_input::default(_theme, status);
             text_input::Style {
