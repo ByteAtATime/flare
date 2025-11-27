@@ -19,6 +19,7 @@ mod selection;
 mod soulver;
 mod state;
 mod storage;
+mod theme;
 mod transport;
 mod types;
 mod update;

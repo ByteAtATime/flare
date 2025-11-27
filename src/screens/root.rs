@@ -15,6 +15,7 @@ use crate::globals::POSITION_TRACKER;
 use crate::message::Message;
 use crate::screens::Shell;
 use crate::selection::{HeaderPolicy, Section, SelectionState, scroll_to};
+use crate::theme::Theme;
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
@@ -137,9 +138,16 @@ impl RootScreen {
         }
     }
 
-    pub fn view(&self) -> Element<'_, RootMessage> {
+    pub fn view<'a>(&'a self, theme: &'a Theme) -> Element<'a, RootMessage> {
         let mut ui_rows: Vec<Element<'_, RootMessage>> =
             Vec::with_capacity(self.filtered_items.len() + 1);
+
+        let text_color = theme.colors.text;
+        let secondary_text_color = iced::Color {
+            a: 0.6,
+            ..text_color
+        };
+        let selection_color = theme.colors.selection;
 
         #[cfg(feature = "soulver")]
         let has_calc = self.calculator_result.is_some();
@@ -150,17 +158,15 @@ impl RootScreen {
         if let Some(result) = &self.calculator_result {
             let calc_item = container(
                 row![
-                    text(result),
+                    text(result).color(text_color),
                     widget::space().width(Length::Fill),
-                    text("Calculator").color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
+                    text("Calculator").color(secondary_text_color),
                 ]
                 .align_y(Alignment::Center)
                 .padding(12),
             )
             .style(move |_theme| container::Style {
-                background: Some(iced::Background::Color(iced::Color::from_rgb8(
-                    0x33, 0x33, 0x55,
-                ))),
+                background: Some(iced::Background::Color(selection_color)),
                 ..Default::default()
             })
             .width(Length::Fill);
@@ -173,7 +179,6 @@ impl RootScreen {
             (y - 500.0, y + height + 500.0)
         });
 
-        // Use global layout cache directly for rendering visibility optimization
         let layout_cache = crate::globals::LAYOUT_CACHE
             .lock()
             .unwrap_or_else(|e| e.into_inner());
@@ -181,7 +186,7 @@ impl RootScreen {
         for (idx, item) in self.filtered_items.iter().enumerate() {
             let is_selected = idx == self.state.selected_index;
             let background = if is_selected {
-                iced::Color::from_rgb8(0x44, 0x44, 0x44)
+                selection_color
             } else {
                 iced::Color::TRANSPARENT
             };
@@ -218,6 +223,11 @@ impl RootScreen {
                         .size(20)
                         .width(24)
                         .align_x(Alignment::Center)
+                        .color(if is_selected {
+                            text_color
+                        } else {
+                            secondary_text_color
+                        })
                         .into(),
                     ResolvedIcon::Svg(path) => svg(path).width(24).height(24).into(),
                     ResolvedIcon::Image(path) => image(path).width(24).height(24).into(),
@@ -228,23 +238,15 @@ impl RootScreen {
 
             let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
 
-            let mut text_col = widget::column![text(title).size(14)].spacing(2);
+            let mut text_col = widget::column![text(title).size(14).color(text_color)].spacing(2);
 
             if let Some(sub) = subtitle {
-                text_col = text_col.push(
-                    text(sub)
-                        .size(12)
-                        .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
-                );
+                text_col = text_col.push(text(sub).size(12).color(secondary_text_color));
             }
 
             row_content = row_content.push(text_col);
             row_content = row_content.push(widget::space().width(Length::Fill));
-            row_content = row_content.push(
-                text(accessory)
-                    .size(12)
-                    .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
-            );
+            row_content = row_content.push(text(accessory).size(12).color(secondary_text_color));
 
             let item_row = container(row_content.padding(12))
                 .style(move |_theme| container::Style {

@@ -8,6 +8,7 @@ use crate::extensions;
 use crate::frecency::FrecencyStore;
 use crate::preferences::PreferenceStore;
 use crate::screens::{Screen, Shell};
+use crate::theme::Theme;
 
 pub struct State {
     pub screen: Screen,
@@ -15,6 +16,7 @@ pub struct State {
     pub apps: Vec<apps::AppEntry>,
     pub preferences: PreferenceStore,
     pub frecency: FrecencyStore,
+    pub theme: Theme,
     pub search_text: String,
     pub search_input_id: WidgetId,
     pub action_panel_visible: bool,
@@ -41,6 +43,7 @@ impl State {
         let apps = apps::scan_applications();
         let preferences = PreferenceStore::load();
         let frecency = FrecencyStore::new(get_frecency_path());
+        let theme = Theme::default();
 
         let mut search_text = String::new();
         if let Some(url) = crate::deep_link::get_current() {
@@ -56,6 +59,7 @@ impl State {
             apps,
             preferences,
             frecency,
+            theme,
             search_text,
             search_input_id: WidgetId::unique(),
             action_panel_visible: false,

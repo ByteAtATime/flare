@@ -23,6 +23,7 @@ impl std::fmt::Display for DropdownOption {
 }
 
 pub fn view(state: &State) -> Element<'_, Message> {
+    let theme = &state.theme;
     let mut base_col = column![];
 
     if state.screen.can_search() {
@@ -30,7 +31,7 @@ pub fn view(state: &State) -> Element<'_, Message> {
     }
 
     let content = match &state.screen {
-        Screen::Root(s) => s.view().map(Message::Root),
+        Screen::Root(s) => s.view(theme).map(Message::Root),
         Screen::Grid(s) => s.view().map(Message::Grid),
         Screen::Detail(s) => s.view().map(Message::Detail),
         Screen::List(s) => s.view().map(Message::List),
@@ -38,7 +39,7 @@ pub fn view(state: &State) -> Element<'_, Message> {
 
     base_col = base_col
         .push(container(content).width(Length::Fill).height(Length::Fill))
-        .push(render_footer(state));
+        .push(render_footer(state, theme));
 
     let action_panel = if state.action_panel_visible {
         Some(render_action_panel(state))
@@ -46,20 +47,38 @@ pub fn view(state: &State) -> Element<'_, Message> {
         None
     };
 
-    stack![base_col, action_panel].into()
+    let bg_color = theme.colors.background;
+
+    container(stack![base_col, action_panel])
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .style(move |_| container::Style {
+            background: Some(bg_color.into()),
+            ..Default::default()
+        })
+        .into()
 }
 
 fn render_search_bar(state: &State) -> Element<'_, Message> {
+    let theme = &state.theme;
+    let text_color = theme.colors.text;
+
     let text_input = text_input("Search...", &state.search_text)
         .id(state.search_input_id.clone())
         .on_input(Message::SearchTextChanged)
         .size(20)
         .padding(12)
-        .style(|_theme: &Theme, status| {
+        .style(move |_theme: &Theme, status| {
             let base = text_input::default(_theme, status);
             text_input::Style {
                 background: iced::Background::Color(iced::Color::TRANSPARENT),
                 border: iced::Border::default(),
+                value: text_color,
+                placeholder: iced::Color {
+                    a: 0.5,
+                    ..text_color
+                },
+                selection: theme.colors.selection,
                 ..base
             }
         });
@@ -70,11 +89,16 @@ fn render_search_bar(state: &State) -> Element<'_, Message> {
         row_content = row_content.push(render_dropdown_accessory(dropdown));
     }
 
+    let border_color = iced::Color {
+        a: 0.2,
+        ..text_color
+    };
+
     container(row_content)
         .padding(10)
-        .style(|_theme: &Theme| container::Style {
+        .style(move |_theme: &Theme| container::Style {
             border: iced::Border {
-                color: iced::Color::from_rgb8(0x33, 0x33, 0x33),
+                color: border_color,
                 width: 1.0,
                 ..Default::default()
             },

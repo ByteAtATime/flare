@@ -7,12 +7,18 @@ use crate::{Message, components::actions::ActionPanelItem};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
-pub fn render_footer(state: &crate::State) -> Element<'static, Message> {
+pub fn render_footer<'a>(
+    state: &crate::State,
+    theme: &'a crate::theme::Theme,
+) -> Element<'a, Message> {
     let flattened_actions = state.selected_actions.iter().flat_map(|item| match item {
         ActionPanelItem::Action(action) => std::slice::from_ref(action).iter(),
         ActionPanelItem::Section(section) => section.children.iter(),
     });
     let primary_action = flattened_actions.clone().next();
+
+    let text_color = theme.colors.text;
+    let bg_color = Color::from_rgba(1.0, 1.0, 1.0, 0.05);
 
     let action_button = if let Some(action) = primary_action {
         let mut btn = button(text(action.title.clone()).font(INTER_FONT));
@@ -21,19 +27,33 @@ pub fn render_footer(state: &crate::State) -> Element<'static, Message> {
             btn = btn.on_press(Message::InvokeAction(handler.clone()));
         }
 
-        Some(btn)
+        Some(btn.style(move |_, _| button::Style {
+            text_color,
+            ..Default::default()
+        }))
     } else {
         None
     };
 
     let action_panel_button = if flattened_actions.count() > 1 {
-        Some(button(text("Actions").font(INTER_FONT)).on_press(Message::ToggleActionPanel(true)))
+        Some(
+            button(text("Actions").font(INTER_FONT))
+                .on_press(Message::ToggleActionPanel(true))
+                .style(move |_, _| button::Style {
+                    text_color,
+                    ..Default::default()
+                }),
+        )
     } else {
         None
     };
 
-    let mut footer_content =
-        row![text(state.toast_message.clone()).width(Length::Fill)].spacing(10);
+    let mut footer_content = row![
+        text(state.toast_message.clone())
+            .width(Length::Fill)
+            .color(text_color)
+    ]
+    .spacing(10);
 
     if let Some(action_button) = action_button {
         footer_content = footer_content.push(action_button);
@@ -47,9 +67,9 @@ pub fn render_footer(state: &crate::State) -> Element<'static, Message> {
         .width(Length::Fill)
         .padding([0, 8])
         .center_y(40)
-        .style(|_theme: &Theme| container::Style {
-            background: Some(Color::from_rgb8(0x22, 0x22, 0x22).into()),
-            text_color: Some(Color::WHITE),
+        .style(move |_theme: &Theme| container::Style {
+            background: Some(bg_color.into()),
+            text_color: Some(text_color),
             ..Default::default()
         })
         .into()
