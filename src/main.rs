@@ -14,6 +14,7 @@ mod screens;
 #[cfg(feature = "soulver")]
 mod soulver;
 mod state;
+mod storage;
 mod types;
 mod update;
 mod utils;
