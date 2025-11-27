@@ -213,13 +213,17 @@ fn send_response(
     Ok(())
 }
 
-pub fn launch_extension(plugin_path: &str) -> Result<(), std::io::Error> {
+pub fn launch_extension(
+    plugin_path: &str,
+    preferences: std::collections::HashMap<String, serde_json::Value>,
+) -> Result<(), std::io::Error> {
     let mut runtime_guard = crate::globals::RUNTIME.lock().unwrap();
     if runtime_guard.is_some() {
         drop(runtime_guard.take());
     }
 
-    let runtime = SidecarRuntime::new(plugin_path)?;
+    let mut runtime = SidecarRuntime::new(plugin_path)?;
+    runtime.send_request(&SidecarRequest::Initialize { preferences })?;
     *runtime_guard = Some(runtime);
     Ok(())
 }

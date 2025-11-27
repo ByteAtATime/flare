@@ -4,6 +4,7 @@ import { pack, unpack } from "msgpackr";
 import React from "react";
 import ReactJsxRuntime from "react/jsx-runtime";
 import { NavigationRoot } from "./api/navigation";
+import { setPreferences } from "./api/environment";
 import { invokeCallback, updateContainer } from "./reconciler";
 import { raycastApi } from "./api";
 import * as protocol from "./protocol";
@@ -39,7 +40,7 @@ stderrConsole.profileEnd ??= (label = "default") => {
 globalThis.console = stderrConsole;
 
 type Request =
-  | { type: "initialize"; pluginPath: string }
+  | { type: "initialize"; preferences: Record<string, unknown> }
   | { type: "invokeCallback"; callbackId: string; args: unknown }
   | { type: "pop" }
   | { type: "response"; id: number; result?: unknown; error?: string };
@@ -107,6 +108,8 @@ const initializePlugin = async () => {
   }
 };
 
+let pluginInitialized = false;
+
 const startCommandLoop = () => {
   let buffer = Buffer.alloc(0);
   let expectedLength: number | null = null;
@@ -130,7 +133,14 @@ const startCommandLoop = () => {
       try {
         const request = unpack(messageData) as Request;
 
-        if (request.type === "invokeCallback") {
+        if (request.type === "initialize") {
+          setPreferences(request.preferences);
+          if (!pluginInitialized) {
+            pluginInitialized = true;
+            initializePlugin();
+          }
+          sendResponse({ type: "callbackResult", success: true });
+        } else if (request.type === "invokeCallback") {
           try {
             invokeCallback(request.callbackId, request.args);
             sendResponse({ type: "callbackResult", success: true });
@@ -165,4 +175,3 @@ const startCommandLoop = () => {
 };
 
 startCommandLoop();
-initializePlugin();

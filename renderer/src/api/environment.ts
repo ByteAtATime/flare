@@ -11,11 +11,14 @@ const environment = {
   assetsPath: "./test/assets",
 } satisfies Partial<RaycastApiType.Environment>;
 
-// temprary values for testing the pokedex extension
-const getPreferenceValues = () => ({
-  language: "9",
-  duration: "0",
-  artwork: "official",
-});
+let preferenceValues: Record<string, unknown> = {};
+
+export const setPreferences = (prefs: Record<string, unknown>) => {
+  preferenceValues = prefs;
+};
+
+const getPreferenceValues = <T extends Record<string, unknown>>(): T => {
+  return preferenceValues as T;
+};
 
 export { LaunchType, environment, getPreferenceValues };

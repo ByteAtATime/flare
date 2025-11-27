@@ -2,11 +2,13 @@ use iced::window;
 
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
+use crate::preferences::PreferenceStore;
 use crate::screens::{Screen, Shell};
 
 pub struct State {
     pub screen: Screen,
     pub extensions: Vec<extensions::Extension>,
+    pub preferences: PreferenceStore,
     pub search_text: String,
     pub action_panel_visible: bool,
     pub selected_actions: Vec<ActionPanelItem>,
@@ -19,6 +21,7 @@ impl State {
     pub fn new() -> Self {
         let extensions = extensions::scan_extensions();
         let commands = extensions::get_launchable_commands(&extensions);
+        let preferences = PreferenceStore::load();
 
         let mut search_text = String::new();
         if let Some(url) = crate::deep_link::get_current() {
@@ -28,6 +31,7 @@ impl State {
         Self {
             screen: Screen::Root(crate::screens::root::RootScreen::new(commands)),
             extensions,
+            preferences,
             search_text,
             action_panel_visible: false,
             selected_actions: Vec::new(),

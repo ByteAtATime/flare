@@ -79,9 +79,7 @@ impl PreferenceStore {
         extension_id: &str,
         extensions: &[Extension],
     ) -> ExtensionPreferences {
-        let ext = extensions
-            .iter()
-            .find(|e| e.manifest.name == extension_id);
+        let ext = extensions.iter().find(|e| e.manifest.name == extension_id);
 
         let mut prefs = ExtensionPreferences::new();
 

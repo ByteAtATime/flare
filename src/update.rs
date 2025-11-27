@@ -95,7 +95,10 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 .extension_path
                 .join(format!("{}.js", command.command_name));
             state.search_text.clear();
-            if let Err(e) = runtime::launch_extension(&entry.to_string_lossy()) {
+            let preferences = state
+                .preferences
+                .get_extension_preferences(&command.extension_name, &state.extensions);
+            if let Err(e) = runtime::launch_extension(&entry.to_string_lossy(), preferences) {
                 eprintln!("Failed to launch extension: {:?}", e);
             }
         }
