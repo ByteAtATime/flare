@@ -1,4 +1,4 @@
-use iced::widget::{column, container, pick_list, row, stack, text_input};
+use iced::widget::{column, container, pick_list, row, rule, stack, text_input};
 use iced::{Element, Length, Theme};
 
 use crate::components::{
@@ -67,7 +67,6 @@ fn render_search_bar(state: &State) -> Element<'_, Message> {
         .id(state.search_input_id.clone())
         .on_input(Message::SearchTextChanged)
         .size(16)
-        .padding([10, 8])
         .style(move |_theme: &Theme, status| {
             let base = text_input::default(_theme, status);
             text_input::Style {
@@ -83,28 +82,25 @@ fn render_search_bar(state: &State) -> Element<'_, Message> {
             }
         });
 
-    let mut row_content = row![text_input].align_y(iced::Alignment::Center);
+    let mut row_content = row![text_input]
+        .align_y(iced::Alignment::Center)
+        .height(Length::Fill);
 
     if let Some(dropdown) = state.screen.get_search_bar_accessory() {
         row_content = row_content.push(render_dropdown_accessory(dropdown));
     }
 
-    let border_color = iced::Color {
-        a: 0.2,
-        ..text_color
-    };
-
-    container(row_content)
-        .padding(10)
-        .style(move |_theme: &Theme| container::Style {
-            border: iced::Border {
-                color: border_color,
-                width: 1.0,
-                ..Default::default()
-            },
-            ..Default::default()
+    let search_bar = column![
+        row_content.padding(10),
+        rule::horizontal(1).style(|iced_theme: &iced::Theme| rule::Style {
+            color: theme.colors.text_10,
+            ..rule::default(iced_theme)
         })
-        .into()
+    ]
+    .width(Length::Fill)
+    .height(60);
+
+    container(search_bar).into()
 }
 
 fn render_dropdown_accessory(dropdown: &Dropdown) -> Element<'_, Message> {
