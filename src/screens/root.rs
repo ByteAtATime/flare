@@ -10,6 +10,7 @@ use std::path::PathBuf;
 use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
 use crate::components::column::Column;
+use crate::components::scrollable::scrollable_style;
 use crate::extensions::ExtensionCommand;
 use crate::frecency::FrecencyStore;
 use crate::globals::POSITION_TRACKER;
@@ -266,10 +267,14 @@ impl RootScreen {
             .padding([0, 8])
             .id(POSITION_TRACKER.clone());
 
+        let (style, direction) = scrollable_style();
+
         scrollable(content)
             .id(self.scrollable_id.clone())
             .on_scroll(RootMessage::Scrolled)
             .height(Length::Fill)
+            .style(style)
+            .direction(direction)
             .into()
     }
 
