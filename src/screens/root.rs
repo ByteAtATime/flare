@@ -186,12 +186,21 @@ impl RootScreen {
                                 image(path).width(24).height(24).into()
                             }
                         } else {
-                            text(crate::icons::get_icon("app-window-16").unwrap_or(""))
-                                .font(ICON_FONT)
-                                .size(20)
-                                .width(24)
-                                .align_x(Alignment::Center)
-                                .into()
+                            if let Some(icon_path) = freedesktop_icons::lookup(&app.icon).find() {
+                                let path = std::path::Path::new(&icon_path);
+                                if path.extension().map_or(false, |e| e == "svg") {
+                                    svg(path).width(24).height(24).into()
+                                } else {
+                                    image(path).width(24).height(24).into()
+                                }
+                            } else {
+                                text(crate::icons::get_icon("app-window-16").unwrap_or(""))
+                                    .font(ICON_FONT)
+                                    .size(20)
+                                    .width(24)
+                                    .align_x(Alignment::Center)
+                                    .into()
+                            }
                         };
 
                     (app.name.clone(), None, "Application", icon)

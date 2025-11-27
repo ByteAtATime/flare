@@ -25,6 +25,7 @@ walkdir = "2.5.0"
 rayon = "1.11.0"
 which = "8.0.0"
 rust-ini = "0.21"
+freedesktop-icons = "0.4.0"
 
 # implementation ~stolen~ inspired by Tauri - we probably don't need this
 [target.'cfg(windows)'.dependencies]
