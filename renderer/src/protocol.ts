@@ -24,7 +24,8 @@ type RustRequest =
   | { type: "openCommandPreferences" }
   | { type: "clipboardCopy"; content: ClipboardContent; concealed: boolean }
   | { type: "clipboardClear" }
-  | { type: "clipboardRead"; offset?: number };
+  | { type: "clipboardRead"; offset?: number }
+  | { type: "openUrl"; url: string };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -179,6 +180,10 @@ export const clipboardRead = async (
 ): Promise<{ text: string; html?: string; file?: string }> => {
   const result = await sendRequest({ type: "clipboardRead", offset });
   return result as { text: string; html?: string; file?: string };
+};
+
+export const openUrl = async (url: string): Promise<void> => {
+  await sendRequest({ type: "openUrl", url });
 };
 
 export const handleRustResponse = (data: Buffer) => {

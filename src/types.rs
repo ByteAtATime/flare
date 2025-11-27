@@ -168,4 +168,8 @@ pub enum SidecarResponse {
         id: u32,
         offset: Option<usize>,
     },
+    OpenUrl {
+        id: u32,
+        url: String,
+    },
 }

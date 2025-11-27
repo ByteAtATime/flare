@@ -128,6 +128,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 }
             }
         }
+        Message::OpenUrl(url) => {
+            let _ = crate::utils::open_url(&url);
+        }
         msg => return dispatch_screen_message(state, msg),
     }
     Task::none()

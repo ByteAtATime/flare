@@ -23,6 +23,7 @@ pub enum Message {
     SettingsWindowOpened(window::Id),
 
     Settings(crate::screens::settings::SettingsMessage),
+    OpenUrl(String),
 
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),

@@ -3,6 +3,7 @@ import { useNavigation } from "./navigation";
 import { Action } from "./components";
 import { Clipboard } from "./clipboard";
 import { Icon } from "./icons";
+import * as protocol from "../protocol";
 
 type PushProps = {
   title: string;
@@ -70,3 +71,37 @@ export const CopyToClipboard: FunctionComponent<CopyToClipboardProps> = (
 };
 
 CopyToClipboard.displayName = "Action.CopyToClipboard";
+
+type OpenInBrowserProps = {
+  url: string;
+  title?: string;
+  icon?: unknown;
+  shortcut?: unknown;
+  onOpen?: (url: string) => void;
+};
+
+export const OpenInBrowser: FunctionComponent<OpenInBrowserProps> = (props) => {
+  const {
+    url,
+    title = "Open in Browser",
+    icon = Icon.Globe,
+    shortcut,
+    onOpen,
+  } = props;
+
+  const handleAction = useCallback(async () => {
+    await protocol.openUrl(url);
+    onOpen?.(url);
+  }, [url, onOpen]);
+
+  return (
+    <Action
+      title={title}
+      icon={icon}
+      shortcut={shortcut}
+      onAction={handleAction}
+    />
+  );
+};
+
+OpenInBrowser.displayName = "Action.OpenInBrowser";

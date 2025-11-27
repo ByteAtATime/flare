@@ -327,6 +327,20 @@ fn handle_sidecar_response(
             };
             send_response(&result, stdin)?;
         }
+        SidecarResponse::OpenUrl { id, url } => {
+            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                let stdin_clone = stdin.clone();
+                thread::spawn(move || {
+                    iced::futures::executor::block_on(async move {
+                        if let Err(e) = sender.send(Message::OpenUrl(url)).await {
+                            eprintln!("Failed to send OpenUrl message: {:?}", e);
+                        }
+                        let response = RustResponse::Success { id, result: None };
+                        let _ = send_response(&response, &stdin_clone);
+                    });
+                });
+            }
+        }
     }
 
     Ok(())
