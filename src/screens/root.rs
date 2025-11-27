@@ -1,3 +1,4 @@
+use iced::Border;
 use iced::widget::scrollable::Viewport;
 use iced::widget::{self, container, image, row, scrollable, svg, text};
 use iced::{
@@ -251,8 +252,10 @@ impl RootScreen {
             let item_row = container(row_content.padding(12))
                 .style(move |_theme| container::Style {
                     background: Some(iced::Background::Color(background)),
+                    border: Border::default().rounded(6.0),
                     ..Default::default()
                 })
+                .height(Length::Fixed(48.0))
                 .width(Length::Fill);
 
             ui_rows.push(item_row.into());
@@ -260,6 +263,7 @@ impl RootScreen {
 
         let content = Column::with_children(ui_rows)
             .width(Length::Fill)
+            .padding([0, 8])
             .id(POSITION_TRACKER.clone());
 
         scrollable(content)
