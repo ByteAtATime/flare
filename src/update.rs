@@ -82,23 +82,8 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
         }
-        Message::InvokeAction(callback_id) => {
-            if callback_id.starts_with("native:") {
-                let json = &callback_id[7..];
-                if let Ok(action) = serde_json::from_str::<crate::screens::root::NativeAction>(json)
-                {
-                    match action {
-                        crate::screens::root::NativeAction::LaunchApp(app) => {
-                            return Task::done(Message::LaunchApp(app));
-                        }
-                        crate::screens::root::NativeAction::LaunchCommand(cmd) => {
-                            return Task::done(Message::LaunchCommand(cmd));
-                        }
-                    }
-                }
-            } else {
-                globals::send_callback(callback_id, Value::Null);
-            }
+        Message::InvokeAction(handler) => {
+            return handler.call();
         }
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
@@ -210,8 +195,8 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                     .nth(i);
 
                 if let Some(action) = action {
-                    if let Some(cb) = &action.props.on_action {
-                        return Task::done(Message::InvokeAction(cb.id.clone()));
+                    if let Some(handler) = &action.handler {
+                        return handler.call();
                     }
                 }
             }

@@ -1,8 +1,11 @@
 use iced::{
-    Color, Element, Length,
+    Color, Element, Length, Task,
     widget::{Button, column, container, mouse_area, opaque, row, text},
 };
 use serde::Deserialize;
+use serde_json::Value;
+use std::fmt;
+use std::sync::Arc;
 
 use crate::{
     Message,
@@ -12,9 +15,34 @@ use crate::{
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
+/// A thread-safe wrapper for action callbacks.
+#[derive(Clone)]
+pub struct ActionHandler(Arc<dyn Fn() -> Task<Message> + Send + Sync>);
+
+impl ActionHandler {
+    pub fn new<F>(f: F) -> Self
+    where
+        F: Fn() -> Task<Message> + Send + Sync + 'static,
+    {
+        Self(Arc::new(f))
+    }
+
+    pub fn call(&self) -> Task<Message> {
+        (self.0)()
+    }
+}
+
+impl fmt::Debug for ActionHandler {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "ActionHandler")
+    }
+}
+
+// --- Public View Models ---
+
 #[derive(Debug, Clone, Default, Deserialize)]
+#[serde(from = "ActionPanelDto")]
 pub struct ActionPanel {
-    #[serde(default)]
     pub children: Vec<ActionPanelItem>,
 }
 
@@ -40,14 +68,39 @@ pub struct ActionPanelSectionProps {
     pub title: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone)]
 pub struct Action {
+    pub title: String,
+    pub icon: Option<String>,
+    pub handler: Option<ActionHandler>,
+}
+
+impl<'de> Deserialize<'de> for Action {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let dto = ActionDto::deserialize(deserializer)?;
+        Ok(Action::from(dto))
+    }
+}
+
+// --- DTOs (Data Transfer Objects) for JSON deserialization ---
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ActionPanelDto {
     #[serde(default)]
-    pub props: ActionProps,
+    pub children: Vec<ActionPanelItem>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct ActionDto {
+    #[serde(default)]
+    pub props: ActionPropsDto,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub struct ActionProps {
+struct ActionPropsDto {
     #[serde(default)]
     pub title: String,
     #[serde(default, deserialize_with = "deserialize_icon")]
@@ -56,22 +109,51 @@ pub struct ActionProps {
     pub on_action: Option<CallbackInfo>,
 }
 
+// --- Conversions ---
+
+impl From<ActionPanelDto> for ActionPanel {
+    fn from(dto: ActionPanelDto) -> Self {
+        Self {
+            children: dto.children,
+        }
+    }
+}
+
+impl From<ActionDto> for Action {
+    fn from(dto: ActionDto) -> Self {
+        let handler = dto.props.on_action.map(|cb| {
+            // Default handler: call back to the sidecar via IPC
+            ActionHandler::new(move || {
+                crate::globals::send_callback(cb.id.clone(), Value::Null);
+                Task::none()
+            })
+        });
+
+        Self {
+            title: dto.props.title,
+            icon: dto.props.icon,
+            handler,
+        }
+    }
+}
+
+// --- Rendering ---
+
 fn render_action(action: &Action) -> iced::Element<'_, crate::Message> {
     let mut button = Button::new(
         if let Some(icon) = action
-            .props
             .icon
             .as_ref()
             .and_then(|icon_name| icons::get_icon(icon_name))
         {
-            row![text(icon).font(ICON_FONT), text(action.props.title.clone())].into()
+            row![text(icon).font(ICON_FONT), text(action.title.clone())].into()
         } else {
-            Element::from(text(action.props.title.clone()))
+            Element::from(text(action.title.clone()))
         },
     );
 
-    if let Some(callback) = &action.props.on_action {
-        button = button.on_press(Message::InvokeAction(callback.id.clone()));
+    if let Some(handler) = &action.handler {
+        button = button.on_press(Message::InvokeAction(handler.clone()));
     }
 
     button.into()

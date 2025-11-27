@@ -1,4 +1,5 @@
 use crate::apps::AppEntry;
+use crate::components::actions::ActionHandler;
 use crate::extensions::ExtensionCommand;
 use crate::types::Tree;
 use iced::widget::image::Handle;
@@ -10,7 +11,7 @@ pub enum Message {
     SearchTextChanged(String),
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
     ImageLoaded(String, Handle),
-    InvokeAction(String),
+    InvokeAction(ActionHandler),
     ToggleActionPanel(bool),
     ShowToast(String),
     DropdownChanged(String),

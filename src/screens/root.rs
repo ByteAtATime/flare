@@ -5,12 +5,11 @@ use iced::{
     keyboard::{Key, Modifiers, key::Named},
     widget::operation,
 };
-use serde::{Deserialize, Serialize};
 
 use crate::apps::AppEntry;
-use crate::components::actions::{Action, ActionPanel, ActionPanelItem, ActionProps};
-use crate::components::types::CallbackInfo;
+use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
 use crate::extensions::ExtensionCommand;
+use crate::message::Message;
 use crate::screens::Shell;
 
 #[derive(Clone, Debug)]
@@ -23,12 +22,6 @@ pub struct RootItem {
 pub enum RootItemKind {
     Extension(ExtensionCommand),
     App(AppEntry),
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum NativeAction {
-    LaunchApp(AppEntry),
-    LaunchCommand(ExtensionCommand),
 }
 
 pub struct RootScreen {
@@ -287,23 +280,21 @@ impl Shell for RootScreen {
 }
 
 fn create_action_panel(kind: &RootItemKind) -> ActionPanel {
-    let native_action = match kind {
-        RootItemKind::Extension(cmd) => NativeAction::LaunchCommand(cmd.clone()),
-        RootItemKind::App(app) => NativeAction::LaunchApp(app.clone()),
+    let handler = match kind {
+        RootItemKind::Extension(cmd) => {
+            let cmd = cmd.clone();
+            ActionHandler::new(move || Task::done(Message::LaunchCommand(cmd.clone())))
+        }
+        RootItemKind::App(app) => {
+            let app = app.clone();
+            ActionHandler::new(move || Task::done(Message::LaunchApp(app.clone())))
+        }
     };
 
-    let json = serde_json::to_string(&native_action).unwrap();
-    let id = format!("native:{}", json);
-
     let action = Action {
-        props: ActionProps {
-            title: "Open".to_string(),
-            icon: None,
-            on_action: Some(CallbackInfo {
-                callback_type: "native".to_string(),
-                id,
-            }),
-        },
+        title: "Open".to_string(),
+        icon: None,
+        handler: Some(handler),
     };
 
     ActionPanel {
