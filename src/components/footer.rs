@@ -1,6 +1,6 @@
 use iced::{
     Color, Element, Length, Theme,
-    widget::{button, container, row, text},
+    widget::{button, column, container, row, rule, text},
 };
 
 use crate::{Message, components::actions::ActionPanelItem};
@@ -53,7 +53,9 @@ pub fn render_footer<'a>(
             .width(Length::Fill)
             .color(text_color)
     ]
-    .spacing(10);
+    .spacing(10)
+    .height(Length::Fill)
+    .padding([0, 8]);
 
     if let Some(action_button) = action_button {
         footer_content = footer_content.push(action_button);
@@ -63,14 +65,25 @@ pub fn render_footer<'a>(
         footer_content = footer_content.push(action_panel_button);
     }
 
-    container(footer_content)
-        .width(Length::Fill)
-        .padding([0, 8])
-        .center_y(40)
-        .style(move |_theme: &Theme| container::Style {
-            background: Some(bg_color.into()),
-            text_color: Some(text_color),
-            ..Default::default()
-        })
-        .into()
+    let footer = column![
+        rule::horizontal(1).style(|_theme| rule::Style {
+            color: theme.colors.text_10,
+            fill_mode: rule::FillMode::Full,
+            radius: 0.into(),
+            snap: true
+        }),
+        footer_content
+    ];
+
+    column![
+        container(footer)
+            .width(Length::Fill)
+            .height(40)
+            .style(move |_theme: &Theme| container::Style {
+                background: Some(bg_color.into()),
+                text_color: Some(text_color),
+                ..Default::default()
+            })
+    ]
+    .into()
 }
