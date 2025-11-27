@@ -17,6 +17,7 @@ pub enum Message {
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),
     LaunchApp(AppEntry),
+    ResetFrecency(String),
     PopToRoot,
 
     WindowOpened(window::Id),

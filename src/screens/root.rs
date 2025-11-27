@@ -66,8 +66,8 @@ impl RootScreen {
             let icon = resolve_extension_icon(&cmd);
             let id = format!("ext:{}:{}", cmd.extension_name, cmd.command_name);
             items.push(RootItem {
-                id,
-                actions: create_action_panel(&RootItemKind::Extension(cmd.clone())),
+                id: id.clone(),
+                actions: create_action_panel(&RootItemKind::Extension(cmd.clone()), &id),
                 kind: RootItemKind::Extension(cmd),
                 resolved_icon: icon,
             });
@@ -77,8 +77,8 @@ impl RootScreen {
             let icon = resolve_app_icon(&app);
             let id = format!("app:{}", app.id);
             items.push(RootItem {
-                id,
-                actions: create_action_panel(&RootItemKind::App(app.clone())),
+                id: id.clone(),
+                actions: create_action_panel(&RootItemKind::App(app.clone()), &id),
                 kind: RootItemKind::App(app),
                 resolved_icon: icon,
             });
@@ -352,8 +352,8 @@ impl Shell for RootScreen {
     }
 }
 
-fn create_action_panel(kind: &RootItemKind) -> ActionPanel {
-    let handler = match kind {
+fn create_action_panel(kind: &RootItemKind, id: &str) -> ActionPanel {
+    let open_handler = match kind {
         RootItemKind::Extension(cmd) => {
             let cmd = cmd.clone();
             ActionHandler::new(move || Task::done(Message::LaunchCommand(cmd.clone())))
@@ -364,14 +364,27 @@ fn create_action_panel(kind: &RootItemKind) -> ActionPanel {
         }
     };
 
-    let action = Action {
+    let open_action = Action {
         title: "Open".to_string(),
         icon: None,
-        handler: Some(handler),
+        handler: Some(open_handler),
+    };
+
+    let id_clone = id.to_string();
+    let reset_handler =
+        ActionHandler::new(move || Task::done(Message::ResetFrecency(id_clone.clone())));
+
+    let reset_action = Action {
+        title: "Reset Ranking".to_string(),
+        icon: None,
+        handler: Some(reset_handler),
     };
 
     ActionPanel {
-        children: vec![ActionPanelItem::Action(action)],
+        children: vec![
+            ActionPanelItem::Action(open_action),
+            ActionPanelItem::Action(reset_action),
+        ],
     }
 }
 

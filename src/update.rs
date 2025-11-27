@@ -140,6 +140,13 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 return window::close(id);
             }
         }
+        Message::ResetFrecency(id) => {
+            state.frecency.reset(&id);
+            if let Screen::Root(root_screen) = &mut state.screen {
+                root_screen.sort_items(&state.frecency);
+            }
+            state.update_selected_actions();
+        }
         Message::PopToRoot => {
             runtime::stop_runtime();
             state.search_text.clear();
