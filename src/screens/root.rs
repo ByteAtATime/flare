@@ -8,7 +8,9 @@ use iced::{
 
 use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
+use crate::components::column::Column;
 use crate::extensions::ExtensionCommand;
+use crate::globals::{LAYOUT_CACHE, POSITION_TRACKER};
 use crate::message::Message;
 use crate::screens::Shell;
 
@@ -163,7 +165,9 @@ impl RootScreen {
             ui_rows.push(item_row.into());
         }
 
-        let content = column(ui_rows).width(Length::Fill);
+        let content = Column::with_children(ui_rows)
+            .width(Length::Fill)
+            .id(POSITION_TRACKER.clone());
 
         scrollable(content)
             .id(self.scrollable_id.clone())
@@ -177,15 +181,28 @@ impl RootScreen {
     }
 
     fn scroll_to_selection(&self) -> Task<RootMessage> {
-        let item_height = 60.0;
-        let target_y = self.selected_index as f32 * item_height;
+        #[cfg(feature = "soulver")]
+        let has_calc = self.calculator_result.is_some();
+        #[cfg(not(feature = "soulver"))]
+        let has_calc = false;
+
+        let layout_index = self.selected_index + if has_calc { 1 } else { 0 };
+
+        let target_bounds = match LAYOUT_CACHE
+            .lock()
+            .ok()
+            .and_then(|cache| cache.get(&layout_index).copied())
+        {
+            Some(bounds) => bounds,
+            None => return Task::none(),
+        };
 
         let offset = match &self.viewport {
             Some(vp) => {
                 let view_top = vp.absolute_offset().y;
                 let view_bottom = view_top + vp.bounds().height;
-                let target_top = target_y;
-                let target_bottom = target_top + item_height;
+                let target_top = target_bounds.y;
+                let target_bottom = target_top + target_bounds.height;
 
                 if target_top < view_top {
                     Some(target_top)
@@ -195,7 +212,7 @@ impl RootScreen {
                     None
                 }
             }
-            None => None,
+            None => Some(target_bounds.y),
         };
 
         match offset {
