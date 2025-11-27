@@ -115,4 +115,28 @@ pub enum SidecarResponse {
     OpenCommandPreferences {
         id: u32,
     },
+    LocalStorageSet {
+        id: u32,
+        namespace: String,
+        key: String,
+        data: String,
+    },
+    LocalStorageGet {
+        id: u32,
+        namespace: String,
+        key: String,
+    },
+    LocalStorageRemove {
+        id: u32,
+        namespace: String,
+        key: String,
+    },
+    LocalStorageClear {
+        id: u32,
+        namespace: String,
+    },
+    LocalStorageAll {
+        id: u32,
+        namespace: String,
+    },
 }
