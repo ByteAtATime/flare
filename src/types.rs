@@ -108,4 +108,10 @@ pub enum SidecarResponse {
     Pop {
         id: u32,
     },
+    OpenExtensionPreferences {
+        id: u32,
+    },
+    OpenCommandPreferences {
+        id: u32,
+    },
 }

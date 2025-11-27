@@ -4,6 +4,10 @@ import { Cache } from "./cache";
 import { LaunchType, environment, getPreferenceValues } from "./environment";
 import { useNavigation } from "./navigation";
 import { Icon } from "./icons";
+import * as protocol from "../protocol";
+
+const openExtensionPreferences = () => protocol.openExtensionPreferences();
+const openCommandPreferences = () => protocol.openCommandPreferences();
 
 const raycastApi = {
   showToast: (message: string) => {},
@@ -19,6 +23,8 @@ const raycastApi = {
   Cache,
   getPreferenceValues,
   Icon,
+  openExtensionPreferences,
+  openCommandPreferences,
   Color: {
     Blue: "raycast-blue",
     Green: "raycast-green",

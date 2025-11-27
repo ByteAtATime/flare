@@ -9,7 +9,9 @@ type RustRequest =
   | { type: "cacheRemove"; namespace: string; key: string }
   | { type: "cacheClear"; namespace: string }
   | { type: "cacheIsEmpty"; namespace: string }
-  | { type: "pop" };
+  | { type: "pop" }
+  | { type: "openExtensionPreferences" }
+  | { type: "openCommandPreferences" };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -99,6 +101,14 @@ export const cacheIsEmpty = async (namespace: string): Promise<boolean> => {
 
 export const pop = async (): Promise<void> => {
   await sendRequest({ type: "pop" });
+};
+
+export const openExtensionPreferences = async (): Promise<void> => {
+  await sendRequest({ type: "openExtensionPreferences" });
+};
+
+export const openCommandPreferences = async (): Promise<void> => {
+  await sendRequest({ type: "openCommandPreferences" });
 };
 
 export const handleRustResponse = (data: Buffer) => {

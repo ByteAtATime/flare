@@ -194,6 +194,21 @@ fn handle_sidecar_response(
                 });
             }
         }
+        SidecarResponse::OpenExtensionPreferences { id }
+        | SidecarResponse::OpenCommandPreferences { id } => {
+            if let Some(mut sender) = SENDER.lock().unwrap().clone() {
+                let stdin_clone = stdin.clone();
+                thread::spawn(move || {
+                    iced::futures::executor::block_on(async move {
+                        if let Err(e) = sender.send(Message::OpenSettings).await {
+                            eprintln!("Failed to send OpenSettings message: {:?}", e);
+                        }
+                        let response = RustResponse::Success { id, result: None };
+                        let _ = send_response(&response, &stdin_clone);
+                    });
+                });
+            }
+        }
     }
 
     Ok(())
