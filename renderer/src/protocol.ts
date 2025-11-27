@@ -9,6 +9,11 @@ type RustRequest =
   | { type: "cacheRemove"; namespace: string; key: string }
   | { type: "cacheClear"; namespace: string }
   | { type: "cacheIsEmpty"; namespace: string }
+  | { type: "localStorageSet"; namespace: string; key: string; data: string }
+  | { type: "localStorageGet"; namespace: string; key: string }
+  | { type: "localStorageRemove"; namespace: string; key: string }
+  | { type: "localStorageClear"; namespace: string }
+  | { type: "localStorageAll"; namespace: string }
   | { type: "pop" }
   | { type: "openExtensionPreferences" }
   | { type: "openCommandPreferences" };
@@ -97,6 +102,45 @@ export const cacheClear = async (namespace: string): Promise<void> => {
 export const cacheIsEmpty = async (namespace: string): Promise<boolean> => {
   const result = await sendRequest({ type: "cacheIsEmpty", namespace });
   return result as boolean;
+};
+
+export const localStorageSet = async (
+  namespace: string,
+  key: string,
+  data: string
+): Promise<void> => {
+  await sendRequest({ type: "localStorageSet", namespace, key, data });
+};
+
+export const localStorageGet = async (
+  namespace: string,
+  key: string
+): Promise<string | null> => {
+  const result = await sendRequest({ type: "localStorageGet", namespace, key });
+  return result as string | null;
+};
+
+export const localStorageRemove = async (
+  namespace: string,
+  key: string
+): Promise<boolean> => {
+  const result = await sendRequest({
+    type: "localStorageRemove",
+    namespace,
+    key,
+  });
+  return result as boolean;
+};
+
+export const localStorageClear = async (namespace: string): Promise<void> => {
+  await sendRequest({ type: "localStorageClear", namespace });
+};
+
+export const localStorageAll = async (
+  namespace: string
+): Promise<Record<string, string>> => {
+  const result = await sendRequest({ type: "localStorageAll", namespace });
+  return result as Record<string, string>;
 };
 
 export const pop = async (): Promise<void> => {
