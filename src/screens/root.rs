@@ -223,7 +223,7 @@ impl RootScreen {
                     ResolvedIcon::FontChar(c) => text(c)
                         .font(ICON_FONT)
                         .size(20)
-                        .width(24)
+                        .width(20)
                         .align_x(Alignment::Center)
                         .color(if is_selected {
                             text_color
@@ -231,29 +231,30 @@ impl RootScreen {
                             secondary_text_color
                         })
                         .into(),
-                    ResolvedIcon::Svg(path) => svg(path).width(24).height(24).into(),
-                    ResolvedIcon::Image(path) => image(path).width(24).height(24).into(),
+                    ResolvedIcon::Svg(path) => svg(path).width(20).height(20).into(),
+                    ResolvedIcon::Image(path) => image(path).width(20).height(20).into(),
                 }
             } else {
-                widget::space().width(24).height(24).into()
+                widget::space().width(20).height(20).into()
             };
 
             let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
 
-            row_content = row_content.push(text(title).size(14).color(text_color));
+            row_content = row_content.push(text(title).size(16).color(text_color));
             if let Some(sub) = subtitle {
-                row_content = row_content.push(text(sub).size(14).color(secondary_text_color));
+                row_content = row_content.push(text(sub).size(16).color(secondary_text_color));
             }
             row_content = row_content.push(widget::space().width(Length::Fill));
-            row_content = row_content.push(text(accessory).size(12).color(secondary_text_color));
+            row_content = row_content.push(text(accessory).size(16).color(secondary_text_color));
 
-            let item_row = container(row_content.padding(12))
+            let item_row = container(row_content)
                 .style(move |_theme| container::Style {
                     background: Some(iced::Background::Color(background)),
-                    border: Border::default().rounded(6.0),
+                    border: Border::default().rounded(8.0),
                     ..Default::default()
                 })
-                .height(Length::Fixed(48.0))
+                .center_y(48.0)
+                .padding([0, 8])
                 .width(Length::Fill);
 
             ui_rows.push(item_row.into());
@@ -261,7 +262,7 @@ impl RootScreen {
 
         let content = Column::with_children(ui_rows)
             .width(Length::Fill)
-            .padding([0, 8])
+            .padding([8, 8])
             .id(POSITION_TRACKER.clone());
 
         let (style, direction) = scrollable_style();
