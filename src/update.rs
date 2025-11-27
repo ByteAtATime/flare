@@ -83,7 +83,22 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             image_cache::set(url, handle);
         }
         Message::InvokeAction(callback_id) => {
-            globals::send_callback(callback_id, Value::Null);
+            if callback_id.starts_with("native:") {
+                let json = &callback_id[7..];
+                if let Ok(action) = serde_json::from_str::<crate::screens::root::NativeAction>(json)
+                {
+                    match action {
+                        crate::screens::root::NativeAction::LaunchApp(app) => {
+                            return Task::done(Message::LaunchApp(app));
+                        }
+                        crate::screens::root::NativeAction::LaunchCommand(cmd) => {
+                            return Task::done(Message::LaunchCommand(cmd));
+                        }
+                    }
+                }
+            } else {
+                globals::send_callback(callback_id, Value::Null);
+            }
         }
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
@@ -122,6 +137,7 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 commands,
                 state.apps.clone(),
             ));
+            state.update_selected_actions();
         }
         Message::Settings(settings_msg) => {
             use crate::screens::settings::SettingsMessage;
@@ -177,20 +193,6 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
         }
 
         if named_key == Named::Enter {
-            if let Screen::Root(root) = &state.screen {
-                if let Some(item) = root.get_selected_item() {
-                    match item {
-                        root::RootItem::Extension(cmd) => {
-                            return Task::done(Message::LaunchCommand(cmd.clone()));
-                        }
-                        root::RootItem::App(app) => {
-                            return Task::done(Message::LaunchApp(app.clone()));
-                        }
-                    }
-                }
-                return Task::none();
-            }
-
             let index = match modifiers {
                 m if m.is_empty() => Some(0),
                 m if m == Modifiers::COMMAND => Some(1),
@@ -209,7 +211,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
 
                 if let Some(action) = action {
                     if let Some(cb) = &action.props.on_action {
-                        globals::send_callback(cb.id.clone(), Value::Null);
+                        return Task::done(Message::InvokeAction(cb.id.clone()));
                     }
                 }
             }

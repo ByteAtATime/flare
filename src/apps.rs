@@ -1,4 +1,5 @@
 use rayon::prelude::*;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::env;
 use std::path::{Path, PathBuf};
@@ -6,7 +7,7 @@ use std::process::Command;
 use walkdir::WalkDir;
 use which::which;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct AppEntry {
     pub id: String,
     pub name: String,

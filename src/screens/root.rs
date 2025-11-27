@@ -5,15 +5,30 @@ use iced::{
     keyboard::{Key, Modifiers, key::Named},
     widget::operation,
 };
+use serde::{Deserialize, Serialize};
 
 use crate::apps::AppEntry;
+use crate::components::actions::{Action, ActionPanel, ActionPanelItem, ActionProps};
+use crate::components::types::CallbackInfo;
 use crate::extensions::ExtensionCommand;
 use crate::screens::Shell;
 
 #[derive(Clone, Debug)]
-pub enum RootItem {
+pub struct RootItem {
+    pub kind: RootItemKind,
+    pub actions: ActionPanel,
+}
+
+#[derive(Clone, Debug)]
+pub enum RootItemKind {
     Extension(ExtensionCommand),
     App(AppEntry),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum NativeAction {
+    LaunchApp(AppEntry),
+    LaunchCommand(ExtensionCommand),
 }
 
 pub struct RootScreen {
@@ -36,10 +51,16 @@ impl RootScreen {
     pub fn new(commands: Vec<ExtensionCommand>, apps: Vec<AppEntry>) -> Self {
         let mut items = Vec::new();
         for cmd in commands {
-            items.push(RootItem::Extension(cmd));
+            items.push(RootItem {
+                actions: create_action_panel(&RootItemKind::Extension(cmd.clone())),
+                kind: RootItemKind::Extension(cmd),
+            });
         }
         for app in apps {
-            items.push(RootItem::App(app));
+            items.push(RootItem {
+                actions: create_action_panel(&RootItemKind::App(app.clone())),
+                kind: RootItemKind::App(app),
+            });
         }
 
         Self {
@@ -117,15 +138,15 @@ impl RootScreen {
                 iced::Color::TRANSPARENT
             };
 
-            let (title, subtitle) = match item {
-                RootItem::Extension(cmd) => {
+            let (title, subtitle) = match &item.kind {
+                RootItemKind::Extension(cmd) => {
                     let sub = cmd
                         .command_subtitle
                         .as_ref()
                         .unwrap_or(&cmd.extension_title);
                     (cmd.command_title.clone(), sub.clone())
                 }
-                RootItem::App(app) => (app.name.clone(), "Application".to_string()),
+                RootItemKind::App(app) => (app.name.clone(), "Application".to_string()),
             };
 
             let item_row = container(
@@ -237,8 +258,8 @@ impl Shell for RootScreen {
             self.filtered_items = self
                 .items
                 .iter()
-                .filter(|item| match item {
-                    RootItem::Extension(cmd) => {
+                .filter(|item| match &item.kind {
+                    RootItemKind::Extension(cmd) => {
                         cmd.command_title.to_lowercase().contains(&query_lower)
                             || cmd.extension_title.to_lowercase().contains(&query_lower)
                             || cmd
@@ -246,7 +267,7 @@ impl Shell for RootScreen {
                                 .as_ref()
                                 .map_or(false, |s| s.to_lowercase().contains(&query_lower))
                     }
-                    RootItem::App(app) => {
+                    RootItemKind::App(app) => {
                         app.name.to_lowercase().contains(&query_lower)
                             || app.id.to_lowercase().contains(&query_lower)
                     }
@@ -258,7 +279,34 @@ impl Shell for RootScreen {
         self.selected_index = 0;
     }
 
-    fn get_action_panel(&mut self) -> Option<&mut crate::components::actions::ActionPanel> {
-        None
+    fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
+        self.filtered_items
+            .get_mut(self.selected_index)
+            .map(|item| &mut item.actions)
+    }
+}
+
+fn create_action_panel(kind: &RootItemKind) -> ActionPanel {
+    let native_action = match kind {
+        RootItemKind::Extension(cmd) => NativeAction::LaunchCommand(cmd.clone()),
+        RootItemKind::App(app) => NativeAction::LaunchApp(app.clone()),
+    };
+
+    let json = serde_json::to_string(&native_action).unwrap();
+    let id = format!("native:{}", json);
+
+    let action = Action {
+        props: ActionProps {
+            title: "Open".to_string(),
+            icon: None,
+            on_action: Some(CallbackInfo {
+                callback_type: "native".to_string(),
+                id,
+            }),
+        },
+    };
+
+    ActionPanel {
+        children: vec![ActionPanelItem::Action(action)],
     }
 }

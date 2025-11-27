@@ -31,7 +31,7 @@ impl State {
             search_text = url;
         }
 
-        Self {
+        let mut state = Self {
             screen: Screen::Root(crate::screens::root::RootScreen::new(
                 commands,
                 apps.clone(),
@@ -45,7 +45,11 @@ impl State {
             toast_message: String::new(),
             window_id: None,
             settings_window_id: None,
-        }
+        };
+
+        state.update_selected_actions();
+
+        state
     }
 
     pub fn update_selected_actions(&mut self) {
