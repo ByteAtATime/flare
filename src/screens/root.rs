@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, container, row, scrollable, text};
+use iced::widget::{self, container, image, row, scrollable, svg, text};
 use iced::{
     Alignment, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
@@ -13,6 +13,8 @@ use crate::extensions::ExtensionCommand;
 use crate::globals::{LAYOUT_CACHE, POSITION_TRACKER};
 use crate::message::Message;
 use crate::screens::Shell;
+
+const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
 #[derive(Clone, Debug)]
 pub struct RootItem {
@@ -129,36 +131,100 @@ impl RootScreen {
                 iced::Color::TRANSPARENT
             };
 
-            let (title, subtitle, accessory) = match &item.kind {
+            let (title, subtitle, accessory, icon_element) = match &item.kind {
                 RootItemKind::Extension(cmd) => {
                     let sub = cmd
                         .command_subtitle
                         .clone()
                         .or_else(|| Some(cmd.extension_title.clone()));
-                    (cmd.command_title.clone(), sub, "Command")
+
+                    let icon_str = cmd.command_icon.as_ref().or(cmd.extension_icon.as_ref());
+                    let icon: Element<'_, RootMessage> = if let Some(s) = icon_str {
+                        if let Some(c) = crate::icons::get_icon(s) {
+                            text(c)
+                                .font(ICON_FONT)
+                                .size(20)
+                                .width(24)
+                                .align_x(Alignment::Center)
+                                .into()
+                        } else {
+                            let path = if std::path::Path::new(s).is_absolute() {
+                                std::path::PathBuf::from(s)
+                            } else {
+                                let assets_path = cmd.extension_path.join("assets").join(s);
+                                if assets_path.exists() {
+                                    assets_path
+                                } else {
+                                    cmd.extension_path.join(s)
+                                }
+                            };
+
+                            if path.extension().map_or(false, |e| e == "svg") {
+                                svg(path).width(24).height(24).into()
+                            } else {
+                                image(path).width(24).height(24).into()
+                            }
+                        }
+                    } else {
+                        text(crate::icons::get_icon("box-16").unwrap_or(""))
+                            .font(ICON_FONT)
+                            .size(20)
+                            .width(24)
+                            .align_x(Alignment::Center)
+                            .into()
+                    };
+
+                    (cmd.command_title.clone(), sub, "Command", icon)
                 }
-                RootItemKind::App(app) => (app.name.clone(), None, "Application"),
+                RootItemKind::App(app) => {
+                    let icon: Element<'_, RootMessage> =
+                        if std::path::Path::new(&app.icon).is_absolute() {
+                            let path = std::path::Path::new(&app.icon);
+                            if path.extension().map_or(false, |e| e == "svg") {
+                                svg(path).width(24).height(24).into()
+                            } else {
+                                image(path).width(24).height(24).into()
+                            }
+                        } else {
+                            text(crate::icons::get_icon("app-window-16").unwrap_or(""))
+                                .font(ICON_FONT)
+                                .size(20)
+                                .width(24)
+                                .align_x(Alignment::Center)
+                                .into()
+                        };
+
+                    (app.name.clone(), None, "Application", icon)
+                }
             };
 
-            let mut item_row_content = row![text(title).size(15),]
-                .align_y(Alignment::Center)
-                .spacing(12);
+            let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
+
+            let mut text_col = widget::column![text(title).size(14)].spacing(2);
 
             if let Some(sub) = subtitle {
-                item_row_content = item_row_content
-                    .push(text(sub).color(iced::Color::from_rgb8(0x88, 0x88, 0x88)));
+                text_col = text_col.push(
+                    text(sub)
+                        .size(12)
+                        .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
+                );
             }
 
-            item_row_content = item_row_content
-                .push(widget::space().width(Length::Fill))
-                .push(text(accessory).color(iced::Color::from_rgb8(0x88, 0x88, 0x88)));
+            row_content = row_content.push(text_col);
+            row_content = row_content.push(widget::space().width(Length::Fill));
+            row_content = row_content.push(
+                text(accessory)
+                    .size(12)
+                    .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
+            );
 
-            let item_row = container(item_row_content.padding(12))
+            let item_row = container(row_content.padding(12))
                 .style(move |_theme| container::Style {
                     background: Some(iced::Background::Color(background)),
                     ..Default::default()
                 })
                 .width(Length::Fill);
+
             ui_rows.push(item_row.into());
         }
 
