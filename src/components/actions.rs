@@ -15,7 +15,6 @@ use crate::{
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
-/// A thread-safe wrapper for action callbacks.
 #[derive(Clone)]
 pub struct ActionHandler(Arc<dyn Fn() -> Task<Message> + Send + Sync>);
 
@@ -37,8 +36,6 @@ impl fmt::Debug for ActionHandler {
         write!(f, "ActionHandler")
     }
 }
-
-// --- Public View Models ---
 
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(from = "ActionPanelDto")]
@@ -85,8 +82,6 @@ impl<'de> Deserialize<'de> for Action {
     }
 }
 
-// --- DTOs (Data Transfer Objects) for JSON deserialization ---
-
 #[derive(Debug, Clone, Default, Deserialize)]
 struct ActionPanelDto {
     #[serde(default)]
@@ -108,8 +103,6 @@ struct ActionPropsDto {
     #[serde(rename = "onAction")]
     pub on_action: Option<CallbackInfo>,
 }
-
-// --- Conversions ---
 
 impl From<ActionPanelDto> for ActionPanel {
     fn from(dto: ActionPanelDto) -> Self {
@@ -136,8 +129,6 @@ impl From<ActionDto> for Action {
         }
     }
 }
-
-// --- Rendering ---
 
 fn render_action(action: &Action) -> iced::Element<'_, crate::Message> {
     let mut button = Button::new(
