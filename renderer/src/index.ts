@@ -47,7 +47,8 @@ type Request =
     }
   | { type: "invokeCallback"; callbackId: string; args: unknown }
   | { type: "pop" }
-  | { type: "response"; id: number; result?: unknown; error?: string };
+  | { type: "success"; id: number; result?: unknown }
+  | { type: "error"; id: number; error: string };
 
 type Response =
   | { type: "initialized"; success: boolean; error?: string }
@@ -171,7 +172,7 @@ const startCommandLoop = () => {
               error: String(error),
             });
           }
-        } else if (request.type === "response") {
+        } else if (request.type === "success" || request.type === "error") {
           protocol.handleRustResponse(messageData);
         }
       } catch (error) {
