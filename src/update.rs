@@ -5,6 +5,7 @@ use iced::{
 };
 use serde_json::Value;
 
+use crate::apps;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::globals;
@@ -107,11 +108,20 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 eprintln!("Failed to launch extension: {:?}", e);
             }
         }
+        Message::LaunchApp(app) => {
+            apps::launch_application(&app);
+            if let Some(id) = state.window_id {
+                return window::close(id);
+            }
+        }
         Message::PopToRoot => {
             runtime::stop_runtime();
             state.search_text.clear();
             let commands = extensions::get_launchable_commands(&state.extensions);
-            state.screen = Screen::Root(crate::screens::root::RootScreen::new(commands));
+            state.screen = Screen::Root(crate::screens::root::RootScreen::new(
+                commands,
+                state.apps.clone(),
+            ));
         }
         Message::Settings(settings_msg) => {
             use crate::screens::settings::SettingsMessage;
@@ -168,8 +178,15 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
 
         if named_key == Named::Enter {
             if let Screen::Root(root) = &state.screen {
-                if let Some(cmd) = root.get_selected_command() {
-                    return Task::done(Message::LaunchCommand(cmd.clone()));
+                if let Some(item) = root.get_selected_item() {
+                    match item {
+                        root::RootItem::Extension(cmd) => {
+                            return Task::done(Message::LaunchCommand(cmd.clone()));
+                        }
+                        root::RootItem::App(app) => {
+                            return Task::done(Message::LaunchApp(app.clone()));
+                        }
+                    }
                 }
                 return Task::none();
             }

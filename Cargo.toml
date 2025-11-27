@@ -21,6 +21,10 @@ rmp-serde = "1.3.0"
 dirs = "6.0.0"
 webbrowser = "1.0.6"
 arboard = "3.6.1"
+walkdir = "2.5.0"
+rayon = "1.11.0"
+which = "8.0.0"
+rust-ini = "0.21"
 
 # implementation ~stolen~ inspired by Tauri - we probably don't need this
 [target.'cfg(windows)'.dependencies]

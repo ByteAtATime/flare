@@ -1,5 +1,6 @@
 use iced::window;
 
+use crate::apps;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::preferences::PreferenceStore;
@@ -8,6 +9,7 @@ use crate::screens::{Screen, Shell};
 pub struct State {
     pub screen: Screen,
     pub extensions: Vec<extensions::Extension>,
+    pub apps: Vec<apps::AppEntry>,
     pub preferences: PreferenceStore,
     pub search_text: String,
     pub action_panel_visible: bool,
@@ -21,6 +23,7 @@ impl State {
     pub fn new() -> Self {
         let extensions = extensions::scan_extensions();
         let commands = extensions::get_launchable_commands(&extensions);
+        let apps = apps::scan_applications();
         let preferences = PreferenceStore::load();
 
         let mut search_text = String::new();
@@ -29,8 +32,12 @@ impl State {
         }
 
         Self {
-            screen: Screen::Root(crate::screens::root::RootScreen::new(commands)),
+            screen: Screen::Root(crate::screens::root::RootScreen::new(
+                commands,
+                apps.clone(),
+            )),
             extensions,
+            apps,
             preferences,
             search_text,
             action_panel_visible: false,

@@ -1,3 +1,4 @@
+use crate::apps::AppEntry;
 use crate::extensions::ExtensionCommand;
 use crate::types::Tree;
 use iced::widget::image::Handle;
@@ -14,6 +15,7 @@ pub enum Message {
     ShowToast(String),
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),
+    LaunchApp(AppEntry),
     PopToRoot,
 
     WindowOpened(window::Id),

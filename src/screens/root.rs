@@ -6,12 +6,19 @@ use iced::{
     widget::operation,
 };
 
+use crate::apps::AppEntry;
 use crate::extensions::ExtensionCommand;
 use crate::screens::Shell;
 
+#[derive(Clone, Debug)]
+pub enum RootItem {
+    Extension(ExtensionCommand),
+    App(AppEntry),
+}
+
 pub struct RootScreen {
-    commands: Vec<ExtensionCommand>,
-    filtered_commands: Vec<ExtensionCommand>,
+    items: Vec<RootItem>,
+    filtered_items: Vec<RootItem>,
     selected_index: usize,
     viewport: Option<Viewport>,
     scrollable_id: widget::Id,
@@ -26,10 +33,18 @@ pub enum RootMessage {
 }
 
 impl RootScreen {
-    pub fn new(commands: Vec<ExtensionCommand>) -> Self {
+    pub fn new(commands: Vec<ExtensionCommand>, apps: Vec<AppEntry>) -> Self {
+        let mut items = Vec::new();
+        for cmd in commands {
+            items.push(RootItem::Extension(cmd));
+        }
+        for app in apps {
+            items.push(RootItem::App(app));
+        }
+
         Self {
-            filtered_commands: commands.clone(),
-            commands,
+            filtered_items: items.clone(),
+            items,
             selected_index: 0,
             viewport: None,
             scrollable_id: widget::Id::unique(),
@@ -67,7 +82,7 @@ impl RootScreen {
     }
 
     pub fn view(&self) -> Element<'_, RootMessage> {
-        let mut items: Vec<Element<'_, RootMessage>> = Vec::new();
+        let mut ui_rows: Vec<Element<'_, RootMessage>> = Vec::new();
 
         #[cfg(feature = "soulver")]
         if let Some(result) = &self.calculator_result {
@@ -91,10 +106,10 @@ impl RootScreen {
                 ..Default::default()
             })
             .width(Length::Fill);
-            items.push(calc_item.into());
+            ui_rows.push(calc_item.into());
         }
 
-        for (idx, cmd) in self.filtered_commands.iter().enumerate() {
+        for (idx, item) in self.filtered_items.iter().enumerate() {
             let is_selected = idx == self.selected_index;
             let background = if is_selected {
                 iced::Color::from_rgb8(0x44, 0x44, 0x44)
@@ -102,15 +117,21 @@ impl RootScreen {
                 iced::Color::TRANSPARENT
             };
 
-            let subtitle = cmd
-                .command_subtitle
-                .as_ref()
-                .unwrap_or(&cmd.extension_title);
+            let (title, subtitle) = match item {
+                RootItem::Extension(cmd) => {
+                    let sub = cmd
+                        .command_subtitle
+                        .as_ref()
+                        .unwrap_or(&cmd.extension_title);
+                    (cmd.command_title.clone(), sub.clone())
+                }
+                RootItem::App(app) => (app.name.clone(), "Application".to_string()),
+            };
 
-            let item = container(
+            let item_row = container(
                 row![
                     column![
-                        text(&cmd.command_title).size(14),
+                        text(title).size(14),
                         text(subtitle)
                             .size(12)
                             .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
@@ -125,10 +146,10 @@ impl RootScreen {
                 ..Default::default()
             })
             .width(Length::Fill);
-            items.push(item.into());
+            ui_rows.push(item_row.into());
         }
 
-        let content = column(items).width(Length::Fill);
+        let content = column(ui_rows).width(Length::Fill);
 
         scrollable(content)
             .id(self.scrollable_id.clone())
@@ -137,8 +158,8 @@ impl RootScreen {
             .into()
     }
 
-    pub fn get_selected_command(&self) -> Option<&ExtensionCommand> {
-        self.filtered_commands.get(self.selected_index)
+    pub fn get_selected_item(&self) -> Option<&RootItem> {
+        self.filtered_items.get(self.selected_index)
     }
 
     fn scroll_to_selection(&self) -> Task<RootMessage> {
@@ -160,8 +181,6 @@ impl RootScreen {
                     None
                 }
             }
-            // this should only happen if the viewport hasn't been scrolled yet
-            // TODO: cleaner way to handle this?
             None => None,
         };
 
@@ -175,14 +194,14 @@ impl RootScreen {
     }
 
     fn select_next(&mut self) {
-        let total = self.filtered_commands.len();
+        let total = self.filtered_items.len();
         if total > 0 {
             self.selected_index = (self.selected_index + 1) % total;
         }
     }
 
     fn select_prev(&mut self) {
-        let total = self.filtered_commands.len();
+        let total = self.filtered_items.len();
         if total > 0 {
             self.selected_index = (self.selected_index + total - 1) % total;
         }
@@ -213,18 +232,24 @@ impl Shell for RootScreen {
         }
 
         if query.is_empty() {
-            self.filtered_commands = self.commands.clone();
+            self.filtered_items = self.items.clone();
         } else {
-            self.filtered_commands = self
-                .commands
+            self.filtered_items = self
+                .items
                 .iter()
-                .filter(|cmd| {
-                    cmd.command_title.to_lowercase().contains(&query_lower)
-                        || cmd.extension_title.to_lowercase().contains(&query_lower)
-                        || cmd
-                            .command_subtitle
-                            .as_ref()
-                            .map_or(false, |s| s.to_lowercase().contains(&query_lower))
+                .filter(|item| match item {
+                    RootItem::Extension(cmd) => {
+                        cmd.command_title.to_lowercase().contains(&query_lower)
+                            || cmd.extension_title.to_lowercase().contains(&query_lower)
+                            || cmd
+                                .command_subtitle
+                                .as_ref()
+                                .map_or(false, |s| s.to_lowercase().contains(&query_lower))
+                    }
+                    RootItem::App(app) => {
+                        app.name.to_lowercase().contains(&query_lower)
+                            || app.id.to_lowercase().contains(&query_lower)
+                    }
                 })
                 .cloned()
                 .collect();
