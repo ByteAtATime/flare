@@ -51,6 +51,7 @@ pub fn view(state: &State) -> Element<'_, Message> {
 
 fn render_search_bar(state: &State) -> Element<'_, Message> {
     let text_input = text_input("Search...", &state.search_text)
+        .id(state.search_input_id.clone())
         .on_input(Message::SearchTextChanged)
         .size(20)
         .padding(12)

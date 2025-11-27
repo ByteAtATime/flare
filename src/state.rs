@@ -1,3 +1,4 @@
+use iced::widget::Id as WidgetId;
 use iced::window;
 
 use crate::apps;
@@ -12,6 +13,7 @@ pub struct State {
     pub apps: Vec<apps::AppEntry>,
     pub preferences: PreferenceStore,
     pub search_text: String,
+    pub search_input_id: WidgetId,
     pub action_panel_visible: bool,
     pub selected_actions: Vec<ActionPanelItem>,
     pub toast_message: String,
@@ -40,6 +42,7 @@ impl State {
             apps,
             preferences,
             search_text,
+            search_input_id: WidgetId::unique(),
             action_panel_visible: false,
             selected_actions: Vec::new(),
             toast_message: String::new(),

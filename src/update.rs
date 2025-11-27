@@ -1,3 +1,4 @@
+use iced::widget::operation;
 use iced::{
     Task,
     keyboard::{Key, Modifiers, key::Named},
@@ -21,6 +22,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
         Message::WindowOpened(id) => {
             state.window_id = Some(id);
+            if state.screen.can_search() {
+                return operation::focus(state.search_input_id.clone());
+            }
         }
         Message::WindowClosed(id) => {
             if state.window_id == Some(id) {
@@ -59,6 +63,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                         new_screen.on_search(&state.search_text);
                     }
                     state.screen = new_screen;
+                    if state.screen.can_search() {
+                        return operation::focus(state.search_input_id.clone());
+                    }
                     state.update_selected_actions();
                 }
             }
@@ -123,6 +130,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 state.apps.clone(),
             ));
             state.update_selected_actions();
+            if state.screen.can_search() {
+                return operation::focus(state.search_input_id.clone());
+            }
         }
         Message::Settings(settings_msg) => {
             use crate::screens::settings::SettingsMessage;
