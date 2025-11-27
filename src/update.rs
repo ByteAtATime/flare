@@ -38,7 +38,14 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             if let Some(id) = state.window_id {
                 return window::close(id);
             } else {
-                let (id, open) = window::open(window::Settings::default());
+                let (id, open) = window::open(window::Settings {
+                    decorations: false,
+                    level: window::Level::AlwaysOnTop,
+                    resizable: false,
+                    // TODO: these sizes are copied from raycast
+                    size: iced::Size::new(774.0, 474.0),
+                    ..Default::default()
+                });
                 return open.map(move |_| Message::WindowOpened(id));
             }
         }
