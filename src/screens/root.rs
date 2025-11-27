@@ -14,6 +14,7 @@ use crate::extensions::ExtensionCommand;
 use crate::globals::{LAYOUT_CACHE, POSITION_TRACKER};
 use crate::message::Message;
 use crate::screens::Shell;
+use crate::selection::{HeaderPolicy, Section, SelectionState};
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
@@ -40,7 +41,7 @@ pub enum RootItemKind {
 pub struct RootScreen {
     items: Vec<RootItem>,
     filtered_items: Vec<RootItem>,
-    selected_index: usize,
+    state: SelectionState<RootItem>,
     viewport: Option<Viewport>,
     scrollable_id: widget::Id,
     #[cfg(feature = "soulver")]
@@ -75,15 +76,26 @@ impl RootScreen {
             });
         }
 
+        let state = Self::create_state(&items);
+
         Self {
             filtered_items: items.clone(),
             items,
-            selected_index: 0,
+            state,
             viewport: None,
             scrollable_id: widget::Id::unique(),
             #[cfg(feature = "soulver")]
             calculator_result: None,
         }
+    }
+
+    fn create_state(items: &Vec<RootItem>) -> SelectionState<RootItem> {
+        let sections = vec![Section {
+            title: String::new(),
+            items: items.clone(),
+            columns: Some(1),
+        }];
+        SelectionState::new(sections, 1)
     }
 
     pub fn update(&mut self, message: RootMessage) -> Task<RootMessage> {
@@ -92,11 +104,11 @@ impl RootScreen {
                 if let Key::Named(named_key) = key {
                     let moved = match named_key {
                         Named::ArrowDown => {
-                            self.select_next();
+                            self.state.move_vertical(1);
                             true
                         }
                         Named::ArrowUp => {
-                            self.select_prev();
+                            self.state.move_vertical(-1);
                             true
                         }
                         _ => false,
@@ -153,7 +165,7 @@ impl RootScreen {
         });
 
         for (idx, item) in self.filtered_items.iter().enumerate() {
-            let is_selected = idx == self.selected_index;
+            let is_selected = idx == self.state.selected_index;
             let background = if is_selected {
                 iced::Color::from_rgb8(0x44, 0x44, 0x44)
             } else {
@@ -162,7 +174,6 @@ impl RootScreen {
 
             let layout_idx = idx + if has_calc { 1 } else { 0 };
 
-            // TODO: why do we need to virtualize this?
             let is_visible = if let Some((start, end)) = visible_range {
                 if let Some(bounds) = layout_cache.get(&layout_idx) {
                     let item_top = bounds.y;
@@ -243,7 +254,7 @@ impl RootScreen {
     }
 
     pub fn get_selected_item(&self) -> Option<&RootItem> {
-        self.filtered_items.get(self.selected_index)
+        self.state.selected_item()
     }
 
     fn scroll_to_selection(&self) -> Task<RootMessage> {
@@ -252,12 +263,15 @@ impl RootScreen {
         #[cfg(not(feature = "soulver"))]
         let has_calc = false;
 
-        let layout_index = self.selected_index + if has_calc { 1 } else { 0 };
+        let container_index = match self.state.get_layout_index(HeaderPolicy::Never) {
+            Some(idx) => idx + if has_calc { 1 } else { 0 },
+            None => return Task::none(),
+        };
 
         let target_bounds = match LAYOUT_CACHE
             .lock()
             .ok()
-            .and_then(|cache| cache.get(&layout_index).copied())
+            .and_then(|cache| cache.get(&container_index).copied())
         {
             Some(bounds) => bounds,
             None => return Task::none(),
@@ -287,20 +301,6 @@ impl RootScreen {
                 scrollable::AbsoluteOffset { x: 0.0, y },
             ),
             None => Task::none(),
-        }
-    }
-
-    fn select_next(&mut self) {
-        let total = self.filtered_items.len();
-        if total > 0 {
-            self.selected_index = (self.selected_index + 1) % total;
-        }
-    }
-
-    fn select_prev(&mut self) {
-        let total = self.filtered_items.len();
-        if total > 0 {
-            self.selected_index = (self.selected_index + total - 1) % total;
         }
     }
 }
@@ -352,13 +352,11 @@ impl Shell for RootScreen {
                 .collect();
         }
 
-        self.selected_index = 0;
+        self.state = Self::create_state(&self.filtered_items);
     }
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
-        self.filtered_items
-            .get_mut(self.selected_index)
-            .map(|item| &mut item.actions)
+        self.state.selected_item_mut().map(|item| &mut item.actions)
     }
 }
 

@@ -13,6 +13,7 @@ mod position;
 mod preferences;
 mod runtime;
 mod screens;
+mod selection;
 #[cfg(feature = "soulver")]
 mod soulver;
 mod state;

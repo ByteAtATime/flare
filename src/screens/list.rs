@@ -10,13 +10,14 @@ use crate::{
     components::{actions::ActionPanel, list::render_list, types::ListProps},
     globals::{LAYOUT_CACHE, POSITION_TRACKER},
     screens::Shell,
+    selection::{HeaderPolicy, Section, SelectionState},
     utils::open_url,
 };
 
 pub struct ListScreen {
     raw_props: ListProps,
     filtered_props: ListProps,
-    selected_index: usize,
+    state: SelectionState<crate::components::types::ListItemProps>,
     viewport: Option<Viewport>,
     pub scrollable_id: widget::Id,
     detail_cache: Option<Vec<markdown::Item>>,
@@ -35,10 +36,12 @@ impl ListScreen {
         viewport: Option<Viewport>,
         scrollable_id: Option<widget::Id>,
     ) -> Self {
+        let state = Self::create_state(&props);
+
         let mut screen = Self {
             filtered_props: props.clone(),
             raw_props: props,
-            selected_index: 0,
+            state,
             viewport,
             scrollable_id: scrollable_id.unwrap_or_else(widget::Id::unique),
             detail_cache: None,
@@ -47,22 +50,26 @@ impl ListScreen {
         screen
     }
 
+    fn create_state(props: &ListProps) -> SelectionState<crate::components::types::ListItemProps> {
+        let sections = props
+            .sections
+            .iter()
+            .map(|s| Section {
+                title: s.props.title.clone(),
+                items: s.items.clone(),
+                columns: Some(1),
+            })
+            .collect();
+        SelectionState::new(sections, 1)
+    }
+
     fn update_detail_cache(&mut self) {
         if self.filtered_props.props.is_showing_detail {
-            let mut cursor = 0;
-            for section in &self.filtered_props.sections {
-                if self.selected_index >= cursor
-                    && self.selected_index < cursor + section.items.len()
-                {
-                    if let Some(item) = section.items.get(self.selected_index - cursor) {
-                        if let Some(detail) = &item.props.detail {
-                            self.detail_cache =
-                                Some(markdown::parse(&detail.props.markdown).collect());
-                            return;
-                        }
-                    }
+            if let Some(item) = self.state.selected_item() {
+                if let Some(detail) = &item.props.detail {
+                    self.detail_cache = Some(markdown::parse(&detail.props.markdown).collect());
+                    return;
                 }
-                cursor += section.items.len();
             }
         }
         self.detail_cache = None;
@@ -75,11 +82,13 @@ impl ListScreen {
                     use iced::keyboard::key::Named;
                     let moved = match named_key {
                         Named::ArrowDown => {
-                            self.select_next();
+                            self.state.move_vertical(1);
+                            self.update_detail_cache();
                             true
                         }
                         Named::ArrowUp => {
-                            self.select_prev();
+                            self.state.move_vertical(-1);
+                            self.update_detail_cache();
                             true
                         }
                         _ => false,
@@ -111,40 +120,23 @@ impl ListScreen {
     pub fn view(&self) -> Element<'_, ListMessage> {
         render_list(
             &self.filtered_props,
-            self.selected_index,
+            self.state.selected_index,
             POSITION_TRACKER.clone(),
             self.scrollable_id.clone(),
             self.detail_cache.as_ref(),
         )
     }
 
-    fn get_layout_index(&self, item_index: usize) -> usize {
-        let mut current_layout_index = 0;
-        let mut current_item_index = 0;
-
-        for section in &self.filtered_props.sections {
-            if !section.props.title.is_empty() {
-                current_layout_index += 1;
-            }
-
-            let count = section.items.len();
-            if item_index >= current_item_index && item_index < current_item_index + count {
-                return current_layout_index + (item_index - current_item_index);
-            }
-
-            current_layout_index += count;
-            current_item_index += count;
-        }
-
-        current_layout_index
-    }
-
     fn scroll_to_selection(&self) -> Task<ListMessage> {
-        let layout_index = self.get_layout_index(self.selected_index);
+        let container_index = match self.state.get_layout_index(HeaderPolicy::IfTitleNotEmpty) {
+            Some(idx) => idx,
+            None => return Task::none(),
+        };
+
         let target_bounds = match LAYOUT_CACHE
             .lock()
             .ok()
-            .and_then(|cache| cache.get(&layout_index).copied())
+            .and_then(|cache| cache.get(&container_index).copied())
         {
             Some(bounds) => bounds,
             None => return Task::none(),
@@ -176,30 +168,6 @@ impl ListScreen {
             None => Task::none(),
         }
     }
-
-    fn select_next(&mut self) {
-        let total = self.count_total_items();
-        if total > 0 {
-            self.selected_index = (self.selected_index + 1) % total;
-            self.update_detail_cache();
-        }
-    }
-
-    fn select_prev(&mut self) {
-        let total = self.count_total_items();
-        if total > 0 {
-            self.selected_index = (self.selected_index + total - 1) % total;
-            self.update_detail_cache();
-        }
-    }
-
-    fn count_total_items(&self) -> usize {
-        self.filtered_props
-            .sections
-            .iter()
-            .map(|s| s.items.len())
-            .sum()
-    }
 }
 
 impl Shell for ListScreen {
@@ -230,26 +198,14 @@ impl Shell for ListScreen {
             self.filtered_props = new_props;
         }
 
-        self.selected_index = 0;
+        self.state = Self::create_state(&self.filtered_props);
         self.update_detail_cache();
     }
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
-        let mut global_index = 0;
-        for section in &mut self.filtered_props.sections {
-            let section_len = section.items.len();
-            if self.selected_index >= global_index
-                && self.selected_index < global_index + section_len
-            {
-                let item_index = self.selected_index - global_index;
-                return section
-                    .items
-                    .get_mut(item_index)
-                    .and_then(|item| item.props.actions.as_mut());
-            }
-            global_index += section_len;
-        }
-        None
+        self.state
+            .selected_item_mut()
+            .and_then(|item| item.props.actions.as_mut())
     }
 
     fn get_search_bar_accessory(&self) -> Option<&crate::components::dropdown::Dropdown> {
