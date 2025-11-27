@@ -266,64 +266,121 @@ fn handle_sidecar_response(
             content,
             concealed: _, // TODO: handle concealed
         } => {
-            let result = match arboard::Clipboard::new() {
-                Ok(mut clipboard) => {
-                    let res = match content {
-                        crate::types::ClipboardContent::Text { text } => clipboard.set_text(text),
-                        crate::types::ClipboardContent::File { file } => {
-                            // arboard doesn't support files, fallback to text
-                            clipboard.set_text(file)
-                        }
-                        crate::types::ClipboardContent::Html { html, text } => {
-                            if let Some(t) = text {
-                                let _ = clipboard.set_text(t);
-                            }
-                            clipboard.set_html(html, None)
-                        }
-                    };
-                    match res {
-                        Ok(_) => RustResponse::Success { id, result: None },
-                        Err(e) => RustResponse::Error {
+            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
+            if clipboard_guard.is_none() {
+                match arboard::Clipboard::new() {
+                    Ok(c) => *clipboard_guard = Some(c),
+                    Err(e) => {
+                        let response = RustResponse::Error {
                             id,
                             error: e.to_string(),
-                        },
+                        };
+                        send_response(&response, stdin)?;
+                        return Ok(());
                     }
                 }
-                Err(e) => RustResponse::Error {
+            }
+
+            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
+                let res = match content {
+                    crate::types::ClipboardContent::Text { text } => clipboard.set_text(text),
+                    crate::types::ClipboardContent::File { file } => {
+                        // arboard doesn't support files, fallback to text
+                        clipboard.set_text(file)
+                    }
+                    crate::types::ClipboardContent::Html { html, text } => {
+                        if let Some(t) = text {
+                            let _ = clipboard.set_text(t);
+                        }
+                        clipboard.set_html(html, None)
+                    }
+                };
+                match res {
+                    Ok(_) => RustResponse::Success { id, result: None },
+                    Err(e) => RustResponse::Error {
+                        id,
+                        error: e.to_string(),
+                    },
+                }
+            } else {
+                RustResponse::Error {
                     id,
-                    error: e.to_string(),
-                },
+                    error: "Failed to initialize clipboard".to_string(),
+                }
             };
             send_response(&result, stdin)?;
         }
         SidecarResponse::ClipboardClear { id } => {
-            let result = match arboard::Clipboard::new().and_then(|mut c| c.clear()) {
-                Ok(_) => RustResponse::Success { id, result: None },
-                Err(e) => RustResponse::Error {
+            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
+            if clipboard_guard.is_none() {
+                match arboard::Clipboard::new() {
+                    Ok(c) => *clipboard_guard = Some(c),
+                    Err(e) => {
+                        let response = RustResponse::Error {
+                            id,
+                            error: e.to_string(),
+                        };
+                        send_response(&response, stdin)?;
+                        return Ok(());
+                    }
+                }
+            }
+
+            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
+                match clipboard.clear() {
+                    Ok(_) => RustResponse::Success { id, result: None },
+                    Err(e) => RustResponse::Error {
+                        id,
+                        error: e.to_string(),
+                    },
+                }
+            } else {
+                RustResponse::Error {
                     id,
-                    error: e.to_string(),
-                },
+                    error: "Failed to initialize clipboard".to_string(),
+                }
             };
             send_response(&result, stdin)?;
         }
         SidecarResponse::ClipboardRead { id, offset: _ } => {
-            let result = match arboard::Clipboard::new() {
-                Ok(mut clipboard) => {
-                    let text = clipboard.get_text().unwrap_or_default();
-                    let content = crate::types::ClipboardReadResponse {
-                        text,
-                        html: None,
-                        file: None,
-                    };
-                    RustResponse::Success {
-                        id,
-                        result: Some(serde_json::to_value(content).unwrap()),
+            let mut clipboard_guard = crate::globals::CLIPBOARD.lock().unwrap();
+            if clipboard_guard.is_none() {
+                match arboard::Clipboard::new() {
+                    Ok(c) => *clipboard_guard = Some(c),
+                    Err(e) => {
+                        let response = RustResponse::Error {
+                            id,
+                            error: e.to_string(),
+                        };
+                        send_response(&response, stdin)?;
+                        return Ok(());
                     }
                 }
-                Err(e) => RustResponse::Error {
+            }
+
+            let result = if let Some(clipboard) = clipboard_guard.as_mut() {
+                match clipboard.get_text() {
+                    Ok(text) => {
+                        let content = crate::types::ClipboardReadResponse {
+                            text,
+                            html: None,
+                            file: None,
+                        };
+                        RustResponse::Success {
+                            id,
+                            result: Some(serde_json::to_value(content).unwrap()),
+                        }
+                    }
+                    Err(e) => RustResponse::Error {
+                        id,
+                        error: e.to_string(),
+                    },
+                }
+            } else {
+                RustResponse::Error {
                     id,
-                    error: e.to_string(),
-                },
+                    error: "Failed to initialize clipboard".to_string(),
+                }
             };
             send_response(&result, stdin)?;
         }

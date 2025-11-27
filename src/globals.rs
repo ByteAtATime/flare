@@ -20,6 +20,9 @@ pub static POSITION_TRACKER: LazyLock<crate::position::Id> =
 pub static LAYOUT_CACHE: LazyLock<Mutex<HashMap<usize, Rectangle>>> =
     LazyLock::new(|| Mutex::new(HashMap::new()));
 
+pub static CLIPBOARD: LazyLock<Mutex<Option<arboard::Clipboard>>> =
+    LazyLock::new(|| Mutex::new(None));
+
 pub fn send_callback(callback_id: String, value: Value) {
     if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {
         std::thread::spawn(move || {
