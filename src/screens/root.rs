@@ -240,13 +240,10 @@ impl RootScreen {
 
             let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
 
-            let mut text_col = widget::column![text(title).size(14).color(text_color)].spacing(2);
-
+            row_content = row_content.push(text(title).size(14).color(text_color));
             if let Some(sub) = subtitle {
-                text_col = text_col.push(text(sub).size(12).color(secondary_text_color));
+                row_content = row_content.push(text(sub).size(14).color(secondary_text_color));
             }
-
-            row_content = row_content.push(text_col);
             row_content = row_content.push(widget::space().width(Length::Fill));
             row_content = row_content.push(text(accessory).size(12).color(secondary_text_color));
 
