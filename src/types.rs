@@ -139,4 +139,8 @@ pub enum SidecarResponse {
         id: u32,
         namespace: String,
     },
+    CopyToClipboard {
+        id: u32,
+        content: String,
+    },
 }

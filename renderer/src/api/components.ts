@@ -1,5 +1,5 @@
 import React from "react";
-import { Push } from "./actions";
+import { Push, CopyToClipboard } from "./actions";
 
 const createComponent = (name: string) => {
   const Component = ({
@@ -114,6 +114,7 @@ const Action = createComponent("Action");
 
 Object.assign(Action, {
   Push,
+  CopyToClipboard,
 });
 
 const Detail = createComponent("Detail");

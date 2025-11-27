@@ -16,7 +16,8 @@ type RustRequest =
   | { type: "localStorageAll"; namespace: string }
   | { type: "pop" }
   | { type: "openExtensionPreferences" }
-  | { type: "openCommandPreferences" };
+  | { type: "openCommandPreferences" }
+  | { type: "copyToClipboard"; content: string };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -153,6 +154,10 @@ export const openExtensionPreferences = async (): Promise<void> => {
 
 export const openCommandPreferences = async (): Promise<void> => {
   await sendRequest({ type: "openCommandPreferences" });
+};
+
+export const copyToClipboard = async (content: string): Promise<void> => {
+  await sendRequest({ type: "copyToClipboard", content });
 };
 
 export const handleRustResponse = (data: Buffer) => {

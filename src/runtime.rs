@@ -261,6 +261,18 @@ fn handle_sidecar_response(
             };
             send_response(&result, stdin)?;
         }
+        SidecarResponse::CopyToClipboard { id, content } => {
+            let result = match arboard::Clipboard::new()
+                .and_then(|mut clipboard| clipboard.set_text(content))
+            {
+                Ok(_) => RustResponse::Success { id, result: None },
+                Err(e) => RustResponse::Error {
+                    id,
+                    error: e.to_string(),
+                },
+            };
+            send_response(&result, stdin)?;
+        }
     }
 
     Ok(())
