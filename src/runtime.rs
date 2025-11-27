@@ -209,6 +209,58 @@ fn handle_sidecar_response(
                 });
             }
         }
+        SidecarResponse::LocalStorageSet {
+            id,
+            namespace,
+            key,
+            data,
+        } => {
+            let result = match crate::storage::set(&namespace, &key, &data) {
+                Ok(_) => RustResponse::Success { id, result: None },
+                Err(e) => RustResponse::Error { id, error: e },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::LocalStorageGet { id, namespace, key } => {
+            let result = match crate::storage::get(&namespace, &key) {
+                Some(data) => RustResponse::Success {
+                    id,
+                    result: Some(Value::String(data)),
+                },
+                None => RustResponse::Success {
+                    id,
+                    result: Some(Value::Null),
+                },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::LocalStorageRemove { id, namespace, key } => {
+            let removed = crate::storage::remove(&namespace, &key);
+            let result = RustResponse::Success {
+                id,
+                result: Some(Value::Bool(removed)),
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::LocalStorageClear { id, namespace } => {
+            let result = match crate::storage::clear(&namespace) {
+                Ok(_) => RustResponse::Success { id, result: None },
+                Err(e) => RustResponse::Error { id, error: e },
+            };
+            send_response(&result, stdin)?;
+        }
+        SidecarResponse::LocalStorageAll { id, namespace } => {
+            let items = crate::storage::get_all(&namespace);
+            let json_map: serde_json::Map<String, Value> = items
+                .into_iter()
+                .map(|(k, v)| (k, Value::String(v)))
+                .collect();
+            let result = RustResponse::Success {
+                id,
+                result: Some(Value::Object(json_map)),
+            };
+            send_response(&result, stdin)?;
+        }
     }
 
     Ok(())
