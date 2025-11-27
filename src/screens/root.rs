@@ -3,7 +3,6 @@ use iced::widget::{self, container, image, row, scrollable, svg, text};
 use iced::{
     Alignment, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
-    widget::operation,
 };
 use std::path::PathBuf;
 
@@ -11,10 +10,10 @@ use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
 use crate::components::column::Column;
 use crate::extensions::ExtensionCommand;
-use crate::globals::{LAYOUT_CACHE, POSITION_TRACKER};
+use crate::globals::POSITION_TRACKER;
 use crate::message::Message;
 use crate::screens::Shell;
-use crate::selection::{HeaderPolicy, Section, SelectionState};
+use crate::selection::{HeaderPolicy, Section, SelectionState, scroll_to};
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
@@ -156,13 +155,16 @@ impl RootScreen {
             ui_rows.push(calc_item.into());
         }
 
-        let layout_cache = LAYOUT_CACHE.lock().unwrap_or_else(|e| e.into_inner());
-
         let visible_range = self.viewport.as_ref().map(|vp| {
             let y = vp.absolute_offset().y;
             let height = vp.bounds().height;
             (y - 500.0, y + height + 500.0)
         });
+
+        // Use global layout cache directly for rendering visibility optimization
+        let layout_cache = crate::globals::LAYOUT_CACHE
+            .lock()
+            .unwrap_or_else(|e| e.into_inner());
 
         for (idx, item) in self.filtered_items.iter().enumerate() {
             let is_selected = idx == self.state.selected_index;
@@ -253,55 +255,24 @@ impl RootScreen {
             .into()
     }
 
-    pub fn get_selected_item(&self) -> Option<&RootItem> {
-        self.state.selected_item()
-    }
-
     fn scroll_to_selection(&self) -> Task<RootMessage> {
         #[cfg(feature = "soulver")]
         let has_calc = self.calculator_result.is_some();
         #[cfg(not(feature = "soulver"))]
         let has_calc = false;
 
-        let container_index = match self.state.get_layout_index(HeaderPolicy::Never) {
-            Some(idx) => idx + if has_calc { 1 } else { 0 },
+        let base_index = match self.state.get_layout_index(HeaderPolicy::Never) {
+            Some(idx) => idx,
             None => return Task::none(),
         };
 
-        let target_bounds = match LAYOUT_CACHE
-            .lock()
-            .ok()
-            .and_then(|cache| cache.get(&container_index).copied())
-        {
-            Some(bounds) => bounds,
-            None => return Task::none(),
-        };
+        let final_index = base_index + if has_calc { 1 } else { 0 };
 
-        let offset = match &self.viewport {
-            Some(vp) => {
-                let view_top = vp.absolute_offset().y;
-                let view_bottom = view_top + vp.bounds().height;
-                let target_top = target_bounds.y;
-                let target_bottom = target_top + target_bounds.height;
-
-                if target_top < view_top {
-                    Some(target_top)
-                } else if target_bottom > view_bottom {
-                    Some(target_bottom - vp.bounds().height)
-                } else {
-                    None
-                }
-            }
-            None => Some(target_bounds.y),
-        };
-
-        match offset {
-            Some(y) => operation::scroll_to(
-                self.scrollable_id.clone(),
-                scrollable::AbsoluteOffset { x: 0.0, y },
-            ),
-            None => Task::none(),
-        }
+        scroll_to(
+            self.scrollable_id.clone(),
+            self.viewport.as_ref(),
+            final_index,
+        )
     }
 }
 

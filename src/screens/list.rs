@@ -1,16 +1,15 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, markdown, scrollable};
+use iced::widget::{self, markdown};
 use iced::{
     Element, Task,
     keyboard::{Key, Modifiers},
-    widget::operation,
 };
 
 use crate::{
     components::{actions::ActionPanel, list::render_list, types::ListProps},
-    globals::{LAYOUT_CACHE, POSITION_TRACKER},
+    globals::POSITION_TRACKER,
     screens::Shell,
-    selection::{HeaderPolicy, Section, SelectionState},
+    selection::{HeaderPolicy, Section, SelectionState, scroll_to},
     utils::open_url,
 };
 
@@ -133,40 +132,11 @@ impl ListScreen {
             None => return Task::none(),
         };
 
-        let target_bounds = match LAYOUT_CACHE
-            .lock()
-            .ok()
-            .and_then(|cache| cache.get(&container_index).copied())
-        {
-            Some(bounds) => bounds,
-            None => return Task::none(),
-        };
-
-        let offset = match &self.viewport {
-            Some(vp) => {
-                let view_top = vp.absolute_offset().y;
-                let view_bottom = view_top + vp.bounds().height;
-                let target_top = target_bounds.y;
-                let target_bottom = target_top + target_bounds.height;
-
-                if target_top < view_top {
-                    Some(target_top)
-                } else if target_bottom > view_bottom {
-                    Some(target_bottom - vp.bounds().height)
-                } else {
-                    None
-                }
-            }
-            None => Some(target_bounds.y),
-        };
-
-        match offset {
-            Some(y) => operation::scroll_to(
-                self.scrollable_id.clone(),
-                scrollable::AbsoluteOffset { x: 0.0, y },
-            ),
-            None => Task::none(),
-        }
+        scroll_to(
+            self.scrollable_id.clone(),
+            self.viewport.as_ref(),
+            container_index,
+        )
     }
 }
 

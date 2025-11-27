@@ -216,3 +216,45 @@ impl<T> SelectionState<T> {
         self.sections.iter().map(|s| s.items.len()).sum()
     }
 }
+
+pub fn scroll_to<Message: 'static>(
+    id: iced::widget::Id,
+    viewport: Option<&iced::widget::scrollable::Viewport>,
+    layout_index: usize,
+) -> iced::Task<Message> {
+    use crate::globals::LAYOUT_CACHE;
+    use iced::widget::operation;
+    use iced::widget::scrollable;
+
+    let target_bounds = match LAYOUT_CACHE
+        .lock()
+        .ok()
+        .and_then(|c| c.get(&layout_index).copied())
+    {
+        Some(b) => b,
+        None => return iced::Task::none(),
+    };
+
+    let offset = match viewport {
+        Some(vp) => {
+            let view_top = vp.absolute_offset().y;
+            let view_bottom = view_top + vp.bounds().height;
+            let target_top = target_bounds.y;
+            let target_bottom = target_top + target_bounds.height;
+
+            if target_top < view_top {
+                Some(target_top)
+            } else if target_bottom > view_bottom {
+                Some(target_bottom - vp.bounds().height)
+            } else {
+                None
+            }
+        }
+        None => Some(target_bounds.y),
+    };
+
+    match offset {
+        Some(y) => operation::scroll_to(id, scrollable::AbsoluteOffset { x: 0.0, y }),
+        None => iced::Task::none(),
+    }
+}
