@@ -94,6 +94,11 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
+            if visibility {
+                return operation::focus_next();
+            } else if state.screen.can_search() {
+                return operation::focus(state.search_input_id.clone());
+            }
         }
         Message::ShowToast(message) => {
             state.toast_message = message;
@@ -172,6 +177,10 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
         if modifiers.is_empty() && named_key == Named::Escape {
             if state.action_panel_visible {
                 state.action_panel_visible = false;
+                // restore search focus when the action panel closes via Escape
+                if state.screen.can_search() {
+                    return operation::focus(state.search_input_id.clone());
+                }
                 return Task::none();
             }
 
@@ -226,7 +235,17 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
         if let Key::Character(c) = &key {
             if c == "k" {
                 state.action_panel_visible = !state.action_panel_visible;
-                return Task::none();
+                if state.action_panel_visible {
+                    // when opening the action panel, move focus away from the search field
+                    return operation::focus_next();
+                } else {
+                    // when closing the action panel, restore focus to the search field if available
+                    if state.screen.can_search() {
+                        return operation::focus(state.search_input_id.clone());
+                    } else {
+                        return Task::none();
+                    }
+                }
             }
         }
     }
