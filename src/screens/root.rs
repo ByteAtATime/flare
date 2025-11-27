@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, column, container, row, scrollable, text};
+use iced::widget::{self, container, row, scrollable, text};
 use iced::{
     Alignment, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
@@ -104,13 +104,9 @@ impl RootScreen {
         if let Some(result) = &self.calculator_result {
             let calc_item = container(
                 row![
-                    column![
-                        text(result).size(14),
-                        text("Calculator")
-                            .size(12)
-                            .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
-                    ]
-                    .spacing(2),
+                    text(result),
+                    widget::space().width(Length::Fill),
+                    text("Calculator").color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
                 ]
                 .align_y(Alignment::Center)
                 .padding(12),
@@ -133,35 +129,36 @@ impl RootScreen {
                 iced::Color::TRANSPARENT
             };
 
-            let (title, subtitle) = match &item.kind {
+            let (title, subtitle, accessory) = match &item.kind {
                 RootItemKind::Extension(cmd) => {
                     let sub = cmd
                         .command_subtitle
-                        .as_ref()
-                        .unwrap_or(&cmd.extension_title);
-                    (cmd.command_title.clone(), sub.clone())
+                        .clone()
+                        .or_else(|| Some(cmd.extension_title.clone()));
+                    (cmd.command_title.clone(), sub, "Command")
                 }
-                RootItemKind::App(app) => (app.name.clone(), "Application".to_string()),
+                RootItemKind::App(app) => (app.name.clone(), None, "Application"),
             };
 
-            let item_row = container(
-                row![
-                    column![
-                        text(title).size(14),
-                        text(subtitle)
-                            .size(12)
-                            .color(iced::Color::from_rgb8(0x88, 0x88, 0x88)),
-                    ]
-                    .spacing(2),
-                ]
+            let mut item_row_content = row![text(title).size(15),]
                 .align_y(Alignment::Center)
-                .padding(12),
-            )
-            .style(move |_theme| container::Style {
-                background: Some(iced::Background::Color(background)),
-                ..Default::default()
-            })
-            .width(Length::Fill);
+                .spacing(12);
+
+            if let Some(sub) = subtitle {
+                item_row_content = item_row_content
+                    .push(text(sub).color(iced::Color::from_rgb8(0x88, 0x88, 0x88)));
+            }
+
+            item_row_content = item_row_content
+                .push(widget::space().width(Length::Fill))
+                .push(text(accessory).color(iced::Color::from_rgb8(0x88, 0x88, 0x88)));
+
+            let item_row = container(item_row_content.padding(12))
+                .style(move |_theme| container::Style {
+                    background: Some(iced::Background::Color(background)),
+                    ..Default::default()
+                })
+                .width(Length::Fill);
             ui_rows.push(item_row.into());
         }
 
