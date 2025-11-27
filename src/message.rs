@@ -22,6 +22,8 @@ pub enum Message {
     OpenSettings,
     SettingsWindowOpened(window::Id),
 
+    Settings(crate::screens::settings::SettingsMessage),
+
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),

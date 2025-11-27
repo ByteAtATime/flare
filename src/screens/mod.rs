@@ -1,6 +1,5 @@
 use crate::components::actions::ActionPanel;
 use crate::components::types::Component;
-use iced::widget::Id;
 
 pub mod detail;
 pub mod grid;

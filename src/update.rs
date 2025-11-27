@@ -108,6 +108,21 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             let commands = extensions::get_launchable_commands(&state.extensions);
             state.screen = Screen::Root(crate::screens::root::RootScreen::new(commands));
         }
+        Message::Settings(settings_msg) => {
+            use crate::screens::settings::SettingsMessage;
+            match settings_msg {
+                SettingsMessage::PreferenceChanged {
+                    extension_id,
+                    key,
+                    value,
+                } => {
+                    state.preferences.set_value(&extension_id, &key, value);
+                    if let Err(e) = state.preferences.save() {
+                        eprintln!("Failed to save preferences: {}", e);
+                    }
+                }
+            }
+        }
         msg => return dispatch_screen_message(state, msg),
     }
     Task::none()

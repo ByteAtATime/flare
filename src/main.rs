@@ -58,7 +58,8 @@ fn dev_boot() -> (State, iced::Task<Message>) {
 
 fn daemon_view<'a>(state: &'a State, window: window::Id) -> iced::Element<'a, Message> {
     if state.settings_window_id == Some(window) {
-        return screens::settings::settings_view(&state.extensions);
+        return screens::settings::settings_view(&state.extensions, &state.preferences)
+            .map(Message::Settings);
     }
     view(state)
 }
