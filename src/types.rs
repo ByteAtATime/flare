@@ -178,4 +178,20 @@ pub enum SidecarResponse {
         url: String,
         state: String,
     },
+    #[serde(rename = "oauthSetTokens")]
+    OAuthSetTokens {
+        id: u32,
+        provider_id: String,
+        tokens: String,
+    },
+    #[serde(rename = "oauthGetTokens")]
+    OAuthGetTokens {
+        id: u32,
+        provider_id: String,
+    },
+    #[serde(rename = "oauthRemoveTokens")]
+    OAuthRemoveTokens {
+        id: u32,
+        provider_id: String,
+    },
 }

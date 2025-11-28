@@ -26,7 +26,10 @@ type RustRequest =
   | { type: "clipboardClear" }
   | { type: "clipboardRead"; offset?: number }
   | { type: "openUrl"; url: string }
-  | { type: "oauthAuthorize"; url: string; state: string };
+  | { type: "oauthAuthorize"; url: string; state: string }
+  | { type: "oauthSetTokens"; providerId: string; tokens: string }
+  | { type: "oauthGetTokens"; providerId: string }
+  | { type: "oauthRemoveTokens"; providerId: string };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -193,6 +196,24 @@ export const oauthAuthorize = async (
 ): Promise<{ authorizationCode: string }> => {
   const result = await sendRequest({ type: "oauthAuthorize", url, state });
   return result as { authorizationCode: string };
+};
+
+export const oauthSetTokens = async (
+  providerId: string,
+  tokens: string
+): Promise<void> => {
+  await sendRequest({ type: "oauthSetTokens", providerId, tokens });
+};
+
+export const oauthGetTokens = async (
+  providerId: string
+): Promise<string | null> => {
+  const result = await sendRequest({ type: "oauthGetTokens", providerId });
+  return result as string | null;
+};
+
+export const oauthRemoveTokens = async (providerId: string): Promise<void> => {
+  await sendRequest({ type: "oauthRemoveTokens", providerId });
 };
 
 export const handleRustResponse = (data: Buffer) => {

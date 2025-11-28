@@ -172,6 +172,8 @@ pub mod oauth {
 
     use super::*;
 
+    const OAUTH_NAMESPACE: &str = "__flare_oauth_tokens__";
+
     pub fn authorize(id: u32, url: String, state: String, transport: &Transport) {
         globals::OAUTH_PENDING
             .lock()
@@ -194,5 +196,22 @@ pub mod oauth {
         } else {
             false
         }
+    }
+
+    pub fn set_tokens(provider_id: String, tokens: String) -> HandlerResult {
+        crate::storage::set(OAUTH_NAMESPACE, &provider_id, &tokens).map(|_| None)
+    }
+
+    pub fn get_tokens(provider_id: String) -> HandlerResult {
+        ok_val(
+            crate::storage::get(OAUTH_NAMESPACE, &provider_id)
+                .map(Value::String)
+                .unwrap_or(Value::Null),
+        )
+    }
+
+    pub fn remove_tokens(provider_id: String) -> HandlerResult {
+        crate::storage::remove(OAUTH_NAMESPACE, &provider_id);
+        ok_none()
     }
 }

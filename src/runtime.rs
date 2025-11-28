@@ -137,6 +137,17 @@ fn handle_sidecar_response(
             handlers::oauth::authorize(id, url, state, transport);
             return Ok(());
         }
+        SidecarResponse::OAuthSetTokens {
+            id,
+            provider_id,
+            tokens,
+        } => (id, handlers::oauth::set_tokens(provider_id, tokens)),
+        SidecarResponse::OAuthGetTokens { id, provider_id } => {
+            (id, handlers::oauth::get_tokens(provider_id))
+        }
+        SidecarResponse::OAuthRemoveTokens { id, provider_id } => {
+            (id, handlers::oauth::remove_tokens(provider_id))
+        }
     };
 
     let rust_response = match result {

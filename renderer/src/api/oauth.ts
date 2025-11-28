@@ -7,6 +7,45 @@ export enum RedirectMethod {
   AppURI = "app_uri",
 }
 
+type TokenResponse = {
+  access_token: string;
+  refresh_token?: string;
+  expires_in?: number;
+  scope?: string;
+  token_type?: string;
+};
+
+type TokenSetOptions = {
+  accessToken: string;
+  refreshToken?: string;
+  idToken?: string;
+  expiresIn?: number;
+  scope?: string;
+};
+
+class TokenSet {
+  public readonly accessToken: string;
+  public readonly refreshToken?: string;
+  public readonly idToken?: string;
+  public readonly scope?: string;
+  private readonly expiresAt?: number;
+
+  constructor(options: TokenSetOptions & { expiresAt?: number }) {
+    this.accessToken = options.accessToken;
+    this.refreshToken = options.refreshToken;
+    this.idToken = options.idToken;
+    this.scope = options.scope;
+    this.expiresAt = options.expiresAt;
+  }
+
+  public isExpired(): boolean {
+    if (!this.expiresAt) {
+      return false;
+    }
+    return Date.now() >= this.expiresAt;
+  }
+}
+
 type Options = {
   redirectMethod: RedirectMethod;
   // TODO
@@ -111,5 +150,46 @@ export class PKCEClient {
     const state = parsedUrl.searchParams.get("state") ?? "";
 
     return protocol.oauthAuthorize(url, state);
+  }
+
+  public async setTokens(
+    options: TokenSetOptions | TokenResponse
+  ): Promise<void> {
+    const providerId = this.options.providerId ?? "default";
+    const isTokenResponse = "access_token" in options;
+
+    const stored = {
+      accessToken: isTokenResponse ? options.access_token : options.accessToken,
+      refreshToken: isTokenResponse
+        ? options.refresh_token
+        : options.refreshToken,
+      idToken: isTokenResponse ? undefined : options.idToken,
+      scope: isTokenResponse ? options.scope : options.scope,
+      expiresAt: undefined as number | undefined,
+    };
+
+    const expiresIn = isTokenResponse ? options.expires_in : options.expiresIn;
+    if (expiresIn) {
+      stored.expiresAt = Date.now() + expiresIn * 1000;
+    }
+
+    await protocol.oauthSetTokens(providerId, JSON.stringify(stored));
+  }
+
+  public async getTokens(): Promise<TokenSet | undefined> {
+    const providerId = this.options.providerId ?? "default";
+    const data = await protocol.oauthGetTokens(providerId);
+
+    if (!data) {
+      return undefined;
+    }
+
+    const parsed = JSON.parse(data);
+    return new TokenSet(parsed);
+  }
+
+  public async removeTokens(): Promise<void> {
+    const providerId = this.options.providerId ?? "default";
+    await protocol.oauthRemoveTokens(providerId);
   }
 }
