@@ -49,38 +49,6 @@ pub mod ui {
     }
 }
 
-pub mod cache {
-    use super::*;
-
-    pub fn set(n: String, k: String, d: String) -> HandlerResult {
-        crate::cache::set(&n, &k, &d).map(|_| None)
-    }
-
-    pub fn get(n: String, k: String) -> HandlerResult {
-        ok_val(
-            crate::cache::get(&n, &k)
-                .map(Value::String)
-                .unwrap_or(Value::Null),
-        )
-    }
-
-    pub fn has(n: String, k: String) -> HandlerResult {
-        ok(crate::cache::has(&n, &k))
-    }
-
-    pub fn remove(n: String, k: String) -> HandlerResult {
-        ok(crate::cache::remove(&n, &k))
-    }
-
-    pub fn clear(n: String) -> HandlerResult {
-        crate::cache::clear(&n).map(|_| None)
-    }
-
-    pub fn is_empty(n: String) -> HandlerResult {
-        ok(crate::cache::is_empty(&n))
-    }
-}
-
 pub mod storage {
     use super::*;
 

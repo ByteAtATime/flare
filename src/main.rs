@@ -1,5 +1,4 @@
 mod apps;
-mod cache;
 mod components;
 mod deep_link;
 mod extensions;

@@ -8,12 +8,6 @@ export type ClipboardContent =
 type RustRequest =
   | { type: "showToast"; title: string; message?: string; style?: string }
   | { type: "updateTree"; tree: unknown }
-  | { type: "cacheSet"; namespace: string; key: string; data: string }
-  | { type: "cacheGet"; namespace: string; key: string }
-  | { type: "cacheHas"; namespace: string; key: string }
-  | { type: "cacheRemove"; namespace: string; key: string }
-  | { type: "cacheClear"; namespace: string }
-  | { type: "cacheIsEmpty"; namespace: string }
   | { type: "localStorageSet"; namespace: string; key: string; data: string }
   | { type: "localStorageGet"; namespace: string; key: string }
   | { type: "localStorageRemove"; namespace: string; key: string }
@@ -74,47 +68,6 @@ export const showToast = async (options: {
 
 export const updateTree = async (tree: unknown): Promise<void> => {
   await sendRequest({ type: "updateTree", tree });
-};
-
-export const cacheSet = async (
-  namespace: string,
-  key: string,
-  data: string
-): Promise<void> => {
-  await sendRequest({ type: "cacheSet", namespace, key, data });
-};
-
-export const cacheGet = async (
-  namespace: string,
-  key: string
-): Promise<string | null> => {
-  const result = await sendRequest({ type: "cacheGet", namespace, key });
-  return result as string | null;
-};
-
-export const cacheHas = async (
-  namespace: string,
-  key: string
-): Promise<boolean> => {
-  const result = await sendRequest({ type: "cacheHas", namespace, key });
-  return result as boolean;
-};
-
-export const cacheRemove = async (
-  namespace: string,
-  key: string
-): Promise<boolean> => {
-  const result = await sendRequest({ type: "cacheRemove", namespace, key });
-  return result as boolean;
-};
-
-export const cacheClear = async (namespace: string): Promise<void> => {
-  await sendRequest({ type: "cacheClear", namespace });
-};
-
-export const cacheIsEmpty = async (namespace: string): Promise<boolean> => {
-  const result = await sendRequest({ type: "cacheIsEmpty", namespace });
-  return result as boolean;
 };
 
 export const localStorageSet = async (

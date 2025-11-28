@@ -86,26 +86,6 @@ fn handle_sidecar_response(
         | SidecarResponse::OpenCommandPreferences { id } => (id, handlers::ui::open_settings()),
         SidecarResponse::OpenUrl { id, url } => (id, handlers::ui::open_url(url)),
 
-        SidecarResponse::CacheSet {
-            id,
-            namespace,
-            key,
-            data,
-        } => (id, handlers::cache::set(namespace, key, data)),
-        SidecarResponse::CacheGet { id, namespace, key } => {
-            (id, handlers::cache::get(namespace, key))
-        }
-        SidecarResponse::CacheHas { id, namespace, key } => {
-            (id, handlers::cache::has(namespace, key))
-        }
-        SidecarResponse::CacheRemove { id, namespace, key } => {
-            (id, handlers::cache::remove(namespace, key))
-        }
-        SidecarResponse::CacheClear { id, namespace } => (id, handlers::cache::clear(namespace)),
-        SidecarResponse::CacheIsEmpty { id, namespace } => {
-            (id, handlers::cache::is_empty(namespace))
-        }
-
         SidecarResponse::LocalStorageSet {
             id,
             namespace,
