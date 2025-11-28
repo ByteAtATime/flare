@@ -25,25 +25,25 @@ export class Cache {
     return path.join(this.directory, hash);
   }
 
-  public get(key: string): string | undefined {
+  public get = (key: string): string | undefined => {
     const filePath = this.getPath(key);
     if (fs.existsSync(filePath)) {
       return fs.readFileSync(filePath, "utf-8");
     }
     return undefined;
-  }
+  };
 
-  public has(key: string): boolean {
+  public has = (key: string): boolean => {
     return fs.existsSync(this.getPath(key));
-  }
+  };
 
-  public set(key: string, data: string): void {
+  public set = (key: string, data: string): void => {
     const filePath = this.getPath(key);
     fs.writeFileSync(filePath, data);
     this.notifySubscribers(key, data);
-  }
+  };
 
-  public remove(key: string): boolean {
+  public remove = (key: string): boolean => {
     const filePath = this.getPath(key);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
@@ -51,11 +51,11 @@ export class Cache {
       return true;
     }
     return false;
-  }
+  };
 
-  public clear(
+  public clear = (
     options: { notifySubscribers: boolean } = { notifySubscribers: true }
-  ): void {
+  ): void => {
     if (fs.existsSync(this.directory)) {
       const files = fs.readdirSync(this.directory);
       for (const file of files) {
@@ -65,24 +65,24 @@ export class Cache {
     if (options.notifySubscribers) {
       this.notifySubscribers(undefined, undefined);
     }
-  }
+  };
 
-  public isEmpty(): boolean {
+  public isEmpty = (): boolean => {
     if (!fs.existsSync(this.directory)) {
       return true;
     }
     const files = fs.readdirSync(this.directory);
     return files.length === 0;
-  }
+  };
 
-  public subscribe(
+  public subscribe = (
     subscriber: RaycastApiType.Cache.Subscriber
-  ): RaycastApiType.Cache.Subscription {
+  ): RaycastApiType.Cache.Subscription => {
     this.subscribers.add(subscriber);
     return () => {
       this.subscribers.delete(subscriber);
     };
-  }
+  };
 
   private notifySubscribers(key: string | undefined, data: string | undefined) {
     for (const subscriber of this.subscribers) {
