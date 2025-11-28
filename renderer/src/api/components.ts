@@ -91,6 +91,7 @@ Object.assign(ListItem, {
 const ListDropdown = createComponent("List.Dropdown");
 const ListDropdownSection = createComponent("List.Dropdown.Section");
 const ListDropdownItem = createComponent("List.Dropdown.Item");
+const ListEmptyView = createComponent("List.EmptyView");
 
 Object.assign(ListDropdown, {
   Section: ListDropdownSection,
@@ -101,6 +102,7 @@ Object.assign(List, {
   Section: ListSection,
   Item: ListItem,
   Dropdown: ListDropdown,
+  EmptyView: ListEmptyView,
 });
 
 const ActionPanel = createComponent("ActionPanel");

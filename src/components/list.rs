@@ -16,11 +16,79 @@ const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub struct ListProps {
+pub struct EmptyViewProps {
     #[serde(default)]
+    pub props: EmptyViewProperties,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct EmptyViewProperties {
+    #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
+    pub description: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(tag = "type")]
+pub enum ListChild {
+    #[serde(rename = "List.Section")]
+    Section(ListSectionProps),
+    #[serde(rename = "List.Item")]
+    Item(ListItemProps),
+    #[serde(rename = "List.EmptyView")]
+    EmptyView(EmptyViewProps),
+    #[serde(other)]
+    Unknown,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(from = "ListPropsRaw")]
+pub struct ListProps {
     pub props: ListProperties,
-    #[serde(default, rename = "children")]
     pub sections: Vec<ListSectionProps>,
+    pub empty_view: Option<EmptyViewProps>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ListPropsRaw {
+    #[serde(default)]
+    props: ListProperties,
+    #[serde(default)]
+    children: Vec<ListChild>,
+}
+
+impl From<ListPropsRaw> for ListProps {
+    fn from(raw: ListPropsRaw) -> Self {
+        let mut sections = Vec::new();
+        let mut empty_view = None;
+        let mut loose_items = Vec::new();
+
+        for child in raw.children {
+            match child {
+                ListChild::Section(section) => sections.push(section),
+                ListChild::Item(item) => loose_items.push(item),
+                ListChild::EmptyView(ev) => empty_view = Some(ev),
+                ListChild::Unknown => {}
+            }
+        }
+
+        if !loose_items.is_empty() {
+            sections.insert(
+                0,
+                ListSectionProps {
+                    props: ListSectionProperties::default(),
+                    items: loose_items,
+                },
+            );
+        }
+
+        ListProps {
+            props: raw.props,
+            sections,
+            empty_view,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -150,6 +218,40 @@ where
     }
 }
 
+fn render_empty_view(empty_view: &EmptyViewProps) -> Element<'static, ListMessage> {
+    let mut col = iced::widget::column![]
+        .spacing(8)
+        .align_x(iced::Alignment::Center);
+
+    if let Some(title) = &empty_view.props.title {
+        col = col.push(
+            text(title.clone())
+                .font(INTER_FONT)
+                .size(16)
+                .style(|_theme: &Theme| text::Style {
+                    color: Some(Color::WHITE),
+                    ..Default::default()
+                }),
+        );
+    }
+
+    if let Some(description) = &empty_view.props.description {
+        col = col.push(text(description.clone()).font(INTER_FONT).size(13).style(
+            |_theme: &Theme| text::Style {
+                color: Some(Color::from_rgb8(0x88, 0x88, 0x88)),
+                ..Default::default()
+            },
+        ));
+    }
+
+    container(col)
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .center_x(Length::Fill)
+        .center_y(Length::Fill)
+        .into()
+}
+
 pub fn render_list<'a>(
     props: &'a ListProps,
     selected_index: usize,
@@ -157,6 +259,14 @@ pub fn render_list<'a>(
     scrollable_id: iced::widget::Id,
     detail_cache: Option<&'a Vec<iced::widget::markdown::Item>>,
 ) -> Element<'a, ListMessage> {
+    let total_items: usize = props.sections.iter().map(|s| s.items.len()).sum();
+
+    if total_items == 0 {
+        if let Some(empty_view) = &props.empty_view {
+            return render_empty_view(empty_view);
+        }
+    }
+
     let mut item_cursor = 0;
 
     let mut col = positionable_column::Column::new().spacing(2).padding(10);
