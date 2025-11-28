@@ -7,7 +7,7 @@ import { LaunchType, environment, getPreferenceValues } from "./environment";
 import { useNavigation } from "./navigation";
 import { Icon } from "./icons";
 import * as protocol from "../protocol";
-import { PCKEClient, RedirectMethod } from "./oauth";
+import { PKCEClient, RedirectMethod } from "./oauth";
 
 const openExtensionPreferences = () => protocol.openExtensionPreferences();
 const openCommandPreferences = () => protocol.openCommandPreferences();
@@ -31,7 +31,7 @@ const raycastApi = {
   openExtensionPreferences,
   openCommandPreferences,
   OAuth: {
-    PCKEClient,
+    PKCEClient,
     RedirectMethod,
   },
   Color: {

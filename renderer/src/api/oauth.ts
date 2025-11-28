@@ -34,7 +34,7 @@ const generateChallenge = () => {
   };
 };
 
-export class PCKEClient {
+export class PKCEClient {
   constructor(private options: Options) {}
 
   public async authorizationRequest(options: {
