@@ -7,17 +7,25 @@ use iced::{
 };
 
 use crate::{
-    Message,
-    components::{actions::ActionPanelItem, kbd::render_kbd},
+    components::actions::{ActionHandler, ActionPanelItem},
+    components::kbd::render_kbd,
+    theme,
 };
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
+#[derive(Debug, Clone)]
+pub enum FooterMessage {
+    OpenActionPanel,
+    InvokeAction(ActionHandler),
+}
+
 pub fn render_footer<'a>(
-    state: &crate::State,
-    theme: &'a crate::theme::Theme,
-) -> Element<'a, Message> {
-    let flattened_actions = state.selected_actions.iter().flat_map(|item| match item {
+    actions: &[ActionPanelItem],
+    toast_message: &str,
+    theme: &'a theme::Theme,
+) -> Element<'a, FooterMessage> {
+    let flattened_actions = actions.iter().flat_map(|item| match item {
         ActionPanelItem::Action(action) => std::slice::from_ref(action).iter(),
         ActionPanelItem::Section(section) => section.children.iter(),
     });
@@ -26,7 +34,7 @@ pub fn render_footer<'a>(
     let text_color = theme.colors.text;
     let bg_color = Color::from_rgba(1.0, 1.0, 1.0, 0.05);
 
-    let action_button = if let Some(action) = primary_action {
+    let action_button = primary_action.map(|action| {
         let btn_text = text(action.title.clone())
             .font(INTER_FONT)
             .size(14)
@@ -36,16 +44,14 @@ pub fn render_footer<'a>(
         let mut btn = button(row![btn_text, shortcut].spacing(10).align_y(Center));
 
         if let Some(handler) = &action.handler {
-            btn = btn.on_press(Message::InvokeAction(handler.clone()));
+            btn = btn.on_press(FooterMessage::InvokeAction(handler.clone()));
         }
 
-        Some(btn.style(move |_, _| button::Style {
+        btn.style(move |_, _| button::Style {
             text_color,
             ..Default::default()
-        }))
-    } else {
-        None
-    };
+        })
+    });
 
     let action_panel_button = if flattened_actions.count() > 1 {
         let btn_text = text("Actions")
@@ -64,7 +70,7 @@ pub fn render_footer<'a>(
 
         Some(
             button(row![btn_text, shortcut].spacing(10).align_y(Center))
-                .on_press(Message::ToggleActionPanel(true))
+                .on_press(FooterMessage::OpenActionPanel)
                 .style(move |_, _| button::Style {
                     text_color,
                     ..Default::default()
@@ -75,7 +81,7 @@ pub fn render_footer<'a>(
     };
 
     let mut footer_content = row![
-        text(state.toast_message.clone())
+        text(toast_message.to_string())
             .width(Length::Fill)
             .color(text_color)
     ]
@@ -111,4 +117,11 @@ pub fn render_footer<'a>(
             ..Default::default()
         })
         .into()
+}
+
+pub fn map_footer_message(msg: FooterMessage) -> crate::Message {
+    match msg {
+        FooterMessage::OpenActionPanel => crate::Message::ToggleActionPanel(true),
+        FooterMessage::InvokeAction(handler) => crate::Message::InvokeAction(handler),
+    }
 }

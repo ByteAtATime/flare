@@ -1,3 +1,4 @@
+pub mod action_panel;
 pub mod actions;
 pub mod column;
 pub mod detail;
