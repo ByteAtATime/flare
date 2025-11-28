@@ -187,6 +187,7 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
 
 fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message> {
     match (&mut state.screen, message) {
+        (Screen::Root(_), Message::Root(root::RootMessage::RunAction(handler))) => handler.call(),
         (Screen::Root(s), Message::Root(m)) => s.update(m).map(Message::Root),
         (Screen::Grid(s), Message::Grid(m)) => s.update(m).map(Message::Grid),
         (Screen::List(s), Message::List(m)) => s.update(m).map(Message::List),

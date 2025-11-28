@@ -1,11 +1,11 @@
-use iced::Border;
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, container, image, row, scrollable, svg, text};
+use iced::widget::{self, container, image, mouse_area, row, scrollable, svg, text};
 use iced::{
-    Alignment, Element, Length, Task,
+    Alignment, Border, Color, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
 };
 use std::path::PathBuf;
+use std::time::{Duration, Instant};
 
 use crate::apps::AppEntry;
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
@@ -20,6 +20,7 @@ use crate::selection::{HeaderPolicy, Section, SelectionState, scroll_to};
 use crate::theme::Theme;
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
+const DOUBLE_CLICK_THRESHOLD: Duration = Duration::from_millis(300);
 
 #[derive(Clone, Debug)]
 pub enum ResolvedIcon {
@@ -48,6 +49,8 @@ pub struct RootScreen {
     state: SelectionState<RootItem>,
     viewport: Option<Viewport>,
     scrollable_id: widget::Id,
+    last_click: Option<(usize, Instant)>,
+    hovered_index: Option<usize>,
     #[cfg(feature = "soulver")]
     calculator_result: Option<String>,
 }
@@ -56,6 +59,10 @@ pub struct RootScreen {
 pub enum RootMessage {
     KeyPressed(Key, Modifiers),
     Scrolled(Viewport),
+    ItemClicked(usize),
+    ItemHovered(usize),
+    ItemUnhovered(usize),
+    RunAction(ActionHandler),
 }
 
 impl RootScreen {
@@ -92,6 +99,8 @@ impl RootScreen {
             state,
             viewport: None,
             scrollable_id: widget::Id::unique(),
+            last_click: None,
+            hovered_index: None,
             #[cfg(feature = "soulver")]
             calculator_result: None,
         }
@@ -128,6 +137,7 @@ impl RootScreen {
                         _ => false,
                     };
                     if moved {
+                        self.last_click = None;
                         return self.scroll_to_selection();
                     }
                 }
@@ -137,6 +147,58 @@ impl RootScreen {
                 self.viewport = Some(viewport);
                 Task::none()
             }
+            RootMessage::ItemHovered(idx) => {
+                if self.hovered_index != Some(idx) {
+                    self.hovered_index = Some(idx);
+                }
+                Task::none()
+            }
+            RootMessage::ItemUnhovered(idx) => {
+                if self.hovered_index == Some(idx) {
+                    self.hovered_index = None;
+                }
+                Task::none()
+            }
+            RootMessage::ItemClicked(index) => {
+                let now = Instant::now();
+                let mut is_double_click = false;
+
+                if let Some((last_idx, last_time)) = self.last_click {
+                    if last_idx == index && now.duration_since(last_time) < DOUBLE_CLICK_THRESHOLD {
+                        is_double_click = true;
+                    }
+                }
+
+                if is_double_click {
+                    self.last_click = None;
+                    if let Some(item) = self.filtered_items.get(index) {
+                        let primary_action = item
+                            .actions
+                            .children
+                            .iter()
+                            .flat_map(|item| match item {
+                                ActionPanelItem::Action(action) => {
+                                    std::slice::from_ref(action).iter()
+                                }
+                                ActionPanelItem::Section(section) => section.children.iter(),
+                            })
+                            .next();
+
+                        if let Some(action) = primary_action {
+                            if let Some(handler) = &action.handler {
+                                return Task::done(RootMessage::RunAction(handler.clone()));
+                            }
+                        }
+                    }
+                } else {
+                    self.last_click = Some((index, now));
+                    self.state.selected_index = index;
+                    return self.scroll_to_selection();
+                }
+
+                Task::none()
+            }
+            RootMessage::RunAction(_) => Task::none(),
         }
     }
 
@@ -150,6 +212,7 @@ impl RootScreen {
             ..text_color
         };
         let selection_color = theme.colors.selection;
+        let hover_color = Color::from_rgb8(39, 39, 39);
 
         #[cfg(feature = "soulver")]
         let has_calc = self.calculator_result.is_some();
@@ -187,8 +250,12 @@ impl RootScreen {
 
         for (idx, item) in self.filtered_items.iter().enumerate() {
             let is_selected = idx == self.state.selected_index;
+            let is_hovered = self.hovered_index == Some(idx);
+
             let background = if is_selected {
                 selection_color
+            } else if is_hovered {
+                hover_color
             } else {
                 iced::Color::TRANSPARENT
             };
@@ -238,7 +305,10 @@ impl RootScreen {
                 widget::space().width(20).height(20).into()
             };
 
-            let mut row_content = row![icon_element].align_y(Alignment::Center).spacing(12);
+            let mut row_content = row![icon_element]
+                .align_y(Alignment::Center)
+                .spacing(12)
+                .height(48);
 
             row_content = row_content.push(text(title).size(16).color(text_color));
             if let Some(sub) = subtitle {
@@ -247,7 +317,7 @@ impl RootScreen {
             row_content = row_content.push(widget::space().width(Length::Fill));
             row_content = row_content.push(text(accessory).size(16).color(secondary_text_color));
 
-            let item_row = container(row_content)
+            let item_container = container(row_content)
                 .style(move |_theme| container::Style {
                     background: Some(iced::Background::Color(background)),
                     border: Border::default().rounded(8.0),
@@ -257,7 +327,12 @@ impl RootScreen {
                 .padding([0, 8])
                 .width(Length::Fill);
 
-            ui_rows.push(item_row.into());
+            let item_area = mouse_area(item_container)
+                .on_press(RootMessage::ItemClicked(idx))
+                .on_enter(RootMessage::ItemHovered(idx))
+                .on_exit(RootMessage::ItemUnhovered(idx));
+
+            ui_rows.push(item_area.into());
         }
 
         let content = Column::with_children(ui_rows)
