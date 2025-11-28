@@ -105,9 +105,11 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::ToggleActionPanel(visibility) => {
             state.action_panel_visible = visibility;
             if visibility {
+                state.action_panel_selected = 0;
                 return operation::focus_next();
             } else {
                 state.action_panel_search.clear();
+                state.action_panel_selected = 0;
                 if state.screen.can_search() {
                     return operation::focus(state.search_input_id.clone());
                 }
@@ -115,6 +117,24 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ActionPanelSearchChanged(text) => {
             state.action_panel_search = text;
+            state.action_panel_selected = 0;
+        }
+        Message::ActionPanelSelect(index) => {
+            state.action_panel_selected = index;
+        }
+        Message::ActionPanelMoveUp => {
+            if state.action_panel_selected > 0 {
+                state.action_panel_selected -= 1;
+            }
+        }
+        Message::ActionPanelMoveDown => {
+            let count = crate::components::action_panel::count_actions(
+                &state.selected_actions,
+                &state.action_panel_search,
+            );
+            if state.action_panel_selected < count.saturating_sub(1) {
+                state.action_panel_selected += 1;
+            }
         }
         Message::ShowToast(message) => {
             state.toast_message = message;
@@ -210,7 +230,8 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
         if modifiers.is_empty() && named_key == Named::Escape {
             if state.action_panel_visible {
                 state.action_panel_visible = false;
-                // restore search focus when the action panel closes via Escape
+                state.action_panel_search.clear();
+                state.action_panel_selected = 0;
                 if state.screen.can_search() {
                     return operation::focus(state.search_input_id.clone());
                 }
@@ -227,6 +248,43 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
             }
 
             return Task::done(Message::PopToRoot);
+        }
+
+        if state.action_panel_visible {
+            if modifiers.is_empty() {
+                match named_key {
+                    Named::ArrowUp => {
+                        return Task::done(Message::ActionPanelMoveUp);
+                    }
+                    Named::ArrowDown => {
+                        return Task::done(Message::ActionPanelMoveDown);
+                    }
+                    Named::Enter => {
+                        let filtered = crate::components::action_panel::filter_actions(
+                            &state.selected_actions,
+                            &state.action_panel_search,
+                        );
+                        let action = filtered
+                            .iter()
+                            .flat_map(|item| match item {
+                                ActionPanelItem::Action(a) => std::slice::from_ref(a).iter(),
+                                ActionPanelItem::Section(s) => s.children.iter(),
+                            })
+                            .nth(state.action_panel_selected);
+
+                        if let Some(action) = action {
+                            if let Some(handler) = &action.handler {
+                                state.action_panel_visible = false;
+                                state.action_panel_search.clear();
+                                state.action_panel_selected = 0;
+                                return handler.call();
+                            }
+                        }
+                        return Task::none();
+                    }
+                    _ => {}
+                }
+            }
         }
 
         if named_key == Named::Enter {

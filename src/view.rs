@@ -46,8 +46,12 @@ pub fn view(state: &State) -> Element<'_, Message> {
 
     let action_panel = if state.action_panel_visible {
         Some(
-            render_action_panel(&state.selected_actions, &state.action_panel_search)
-                .map(map_action_panel_message),
+            render_action_panel(
+                &state.selected_actions,
+                &state.action_panel_search,
+                state.action_panel_selected,
+            )
+            .map(map_action_panel_message),
         )
     } else {
         None
