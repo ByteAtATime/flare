@@ -1,9 +1,15 @@
 use iced::{
+    Alignment::Center,
     Color, Element, Length, Theme,
+    advanced::graphics::core::SmolStr,
+    keyboard::{Key, Modifiers, key::Named},
     widget::{button, column, container, row, rule, text},
 };
 
-use crate::{Message, components::actions::ActionPanelItem};
+use crate::{
+    Message,
+    components::{actions::ActionPanelItem, kbd::render_kbd},
+};
 
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
@@ -21,7 +27,13 @@ pub fn render_footer<'a>(
     let bg_color = Color::from_rgba(1.0, 1.0, 1.0, 0.05);
 
     let action_button = if let Some(action) = primary_action {
-        let mut btn = button(text(action.title.clone()).font(INTER_FONT));
+        let btn_text = text(action.title.clone())
+            .font(INTER_FONT)
+            .size(14)
+            .line_height(1.5);
+        let shortcut = render_kbd(theme, Key::Named(Named::Enter), Modifiers::empty());
+
+        let mut btn = button(row![btn_text, shortcut].spacing(10).align_y(Center));
 
         if let Some(handler) = &action.handler {
             btn = btn.on_press(Message::InvokeAction(handler.clone()));
@@ -36,8 +48,22 @@ pub fn render_footer<'a>(
     };
 
     let action_panel_button = if flattened_actions.count() > 1 {
+        let btn_text = text("Actions")
+            .font(INTER_FONT)
+            .size(14)
+            .line_height(1.5)
+            .style(|_theme| text::Style {
+                color: theme.colors.text_60.into(),
+                ..Default::default()
+            });
+        let shortcut = render_kbd(
+            theme,
+            Key::Character(SmolStr::new_inline("k")),
+            Modifiers::COMMAND,
+        );
+
         Some(
-            button(text("Actions").font(INTER_FONT))
+            button(row![btn_text, shortcut].spacing(10).align_y(Center))
                 .on_press(Message::ToggleActionPanel(true))
                 .style(move |_, _| button::Style {
                     text_color,
@@ -55,6 +81,7 @@ pub fn render_footer<'a>(
     ]
     .spacing(10)
     .height(Length::Fill)
+    .align_y(iced::Alignment::Center)
     .padding([0, 8]);
 
     if let Some(action_button) = action_button {
@@ -75,15 +102,13 @@ pub fn render_footer<'a>(
         footer_content
     ];
 
-    column![
-        container(footer)
-            .width(Length::Fill)
-            .height(40)
-            .style(move |_theme: &Theme| container::Style {
-                background: Some(bg_color.into()),
-                text_color: Some(text_color),
-                ..Default::default()
-            })
-    ]
-    .into()
+    container(footer)
+        .width(Length::Fill)
+        .height(40)
+        .style(move |_theme: &Theme| container::Style {
+            background: Some(bg_color.into()),
+            text_color: Some(text_color),
+            ..Default::default()
+        })
+        .into()
 }
