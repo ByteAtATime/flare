@@ -1,5 +1,5 @@
 use crate::components::actions::ActionPanel;
-use crate::components::types::Component;
+use crate::components::types::{CallbackInfo, Component};
 
 pub mod detail;
 pub mod grid;
@@ -18,6 +18,10 @@ pub trait Shell {
     }
 
     fn set_dropdown_value(&mut self, _value: &str) {}
+
+    fn on_search_text_change(&self) -> Option<&CallbackInfo> {
+        None
+    }
 }
 
 pub enum Screen {
@@ -117,6 +121,15 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.set_dropdown_value(value),
             Screen::Detail(screen) => screen.set_dropdown_value(value),
             Screen::List(screen) => screen.set_dropdown_value(value),
+        }
+    }
+
+    fn on_search_text_change(&self) -> Option<&CallbackInfo> {
+        match self {
+            Screen::Root(screen) => screen.on_search_text_change(),
+            Screen::Grid(screen) => screen.on_search_text_change(),
+            Screen::Detail(screen) => screen.on_search_text_change(),
+            Screen::List(screen) => screen.on_search_text_change(),
         }
     }
 }

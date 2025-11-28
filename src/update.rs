@@ -81,6 +81,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             state.search_text = text.clone();
             state.screen.on_search(&text);
             state.update_selected_actions();
+            if let Some(callback) = state.screen.on_search_text_change() {
+                globals::send_callback(callback.id.clone(), Value::String(text));
+            }
         }
         Message::DropdownChanged(value) => {
             state.screen.set_dropdown_value(&value);

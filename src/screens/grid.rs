@@ -172,4 +172,8 @@ impl Shell for GridScreen {
             dropdown.props.value = Some(value.to_string());
         }
     }
+
+    fn on_search_text_change(&self) -> Option<&crate::components::types::CallbackInfo> {
+        self.raw_props.props.on_search_text_change.as_ref()
+    }
 }
