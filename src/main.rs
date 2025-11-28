@@ -27,10 +27,10 @@ mod utils;
 mod view;
 
 use clap::{Parser, Subcommand};
+use iced::Subscription;
 use iced::futures::channel::mpsc;
 use iced::futures::{self, SinkExt, StreamExt};
 use iced::window;
-use iced::{Subscription, Task};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
 
@@ -51,11 +51,9 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
-    Server {
-        #[arg(long)]
-        dev: bool,
-    },
+    Daemon,
     Toggle,
+    Dev,
 }
 
 fn boot() -> (State, iced::Task<Message>) {
@@ -131,11 +129,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             if ipc::is_daemon_running() {
                 ipc::send_toggle()?;
             } else {
-                eprintln!("You have to run `flare server` first!");
+                eprintln!("You have to run `flare daemon` first!");
             }
             Ok(())
         }
-        Some(Command::Server { dev }) => run_server(dev),
+        Some(Command::Daemon) => run_daemon(),
+        Some(Command::Dev) => run_dev(),
         None => run_application(),
     }
 }
@@ -226,9 +225,24 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn run_server(is_dev_mode: bool) -> Result<(), Box<dyn std::error::Error>> {
-    if !is_dev_mode && ipc::is_daemon_running() {
-        eprintln!("Server (Daemon) is already running");
+fn run_dev() -> Result<(), Box<dyn std::error::Error>> {
+    setup_channels();
+
+    iced::daemon(dev_boot, update, daemon_view)
+        .subscription(subscription)
+        .title("Flare (Dev)")
+        .font(include_bytes!("./assets/Inter.ttf").as_slice())
+        .font(include_bytes!("./assets/icons.ttf").as_slice())
+        .default_font(iced::Font::DEFAULT)
+        .run()
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
+    if ipc::is_daemon_running() {
+        eprintln!("Daemon is already running");
         return Ok(());
     }
 
@@ -247,25 +261,16 @@ fn run_server(is_dev_mode: bool) -> Result<(), Box<dyn std::error::Error>> {
         }
     })?;
 
-    let (boot_fn, title): (fn() -> (State, Task<Message>), &str) = if is_dev_mode {
-        (dev_boot, "Flare (Dev)")
-    } else {
-        (boot, "Flare")
-    };
-
-    let result = iced::daemon(boot_fn, update, daemon_view)
+    let result = iced::daemon(boot, update, daemon_view)
         .subscription(subscription)
-        .title(title)
+        .title("Flare")
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
         .font(include_bytes!("./assets/icons.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)
         .run()
         .map_err(|e| e.to_string());
 
-    if !is_dev_mode {
-        ipc::cleanup();
-    }
-
+    ipc::cleanup();
     result?;
 
     Ok(())
