@@ -7,6 +7,7 @@ import { LaunchType, environment, getPreferenceValues } from "./environment";
 import { useNavigation } from "./navigation";
 import { Icon } from "./icons";
 import * as protocol from "../protocol";
+import { PCKEClient, RedirectMethod } from "./oauth";
 
 const openExtensionPreferences = () => protocol.openExtensionPreferences();
 const openCommandPreferences = () => protocol.openCommandPreferences();
@@ -29,6 +30,10 @@ const raycastApi = {
   Icon,
   openExtensionPreferences,
   openCommandPreferences,
+  OAuth: {
+    PCKEClient,
+    RedirectMethod,
+  },
   Color: {
     Blue: "raycast-blue",
     Green: "raycast-green",
