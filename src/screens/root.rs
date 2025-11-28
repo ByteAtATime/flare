@@ -1,5 +1,5 @@
 use iced::widget::scrollable::Viewport;
-use iced::widget::{self, container, image, mouse_area, row, scrollable, svg, text};
+use iced::widget::{self, container, image, mouse_area, row, scrollable, space, svg, text};
 use iced::{
     Alignment, Border, Color, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
@@ -16,11 +16,12 @@ use crate::frecency::FrecencyStore;
 use crate::globals::POSITION_TRACKER;
 use crate::message::Message;
 use crate::screens::Shell;
-use crate::selection::{HeaderPolicy, Section, SelectionState, scroll_to};
+use crate::selection::{HeaderPolicy, Section, SelectionState};
 use crate::theme::Theme;
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 const DOUBLE_CLICK_THRESHOLD: Duration = Duration::from_millis(300);
+const ROW_HEIGHT: f32 = 48.0;
 
 #[derive(Clone, Debug)]
 pub enum ResolvedIcon {
@@ -203,8 +204,7 @@ impl RootScreen {
     }
 
     pub fn view<'a>(&'a self, theme: &'a Theme) -> Element<'a, RootMessage> {
-        let mut ui_rows: Vec<Element<'_, RootMessage>> =
-            Vec::with_capacity(self.filtered_items.len() + 1);
+        let mut ui_rows: Vec<Element<'_, RootMessage>> = Vec::with_capacity(30);
 
         let text_color = theme.colors.text;
         let secondary_text_color = iced::Color {
@@ -238,17 +238,43 @@ impl RootScreen {
             ui_rows.push(calc_item.into());
         }
 
-        let visible_range = self.viewport.as_ref().map(|vp| {
-            let y = vp.absolute_offset().y;
-            let height = vp.bounds().height;
-            (y - 500.0, y + height + 500.0)
-        });
+        let total_items = self.filtered_items.len();
 
-        let layout_cache = crate::globals::LAYOUT_CACHE
-            .lock()
-            .unwrap_or_else(|e| e.into_inner());
+        let scroll_offset = self
+            .viewport
+            .as_ref()
+            .map(|vp| vp.absolute_offset().y)
+            .unwrap_or(0.0);
 
-        for (idx, item) in self.filtered_items.iter().enumerate() {
+        let viewport_height = self
+            .viewport
+            .as_ref()
+            .map(|vp| vp.bounds().height)
+            .unwrap_or(474.0);
+
+        let start_index = (scroll_offset / ROW_HEIGHT).floor() as usize;
+        let start_index = start_index.saturating_sub(5);
+
+        let visible_count = (viewport_height / ROW_HEIGHT).ceil() as usize + 10;
+        let end_index = (start_index + visible_count).min(total_items);
+
+        if start_index > 0 {
+            ui_rows.push(
+                space()
+                    .height(Length::Fixed(start_index as f32 * ROW_HEIGHT))
+                    .width(Length::Fill)
+                    .into(),
+            );
+        }
+
+        for (i, item) in self
+            .filtered_items
+            .iter()
+            .enumerate()
+            .skip(start_index)
+            .take(end_index - start_index)
+        {
+            let idx = i;
             let is_selected = idx == self.state.selected_index;
             let is_hovered = self.hovered_index == Some(idx);
 
@@ -258,20 +284,6 @@ impl RootScreen {
                 hover_color
             } else {
                 iced::Color::TRANSPARENT
-            };
-
-            let layout_idx = idx + if has_calc { 1 } else { 0 };
-
-            let is_visible = if let Some((start, end)) = visible_range {
-                if let Some(bounds) = layout_cache.get(&layout_idx) {
-                    let item_top = bounds.y;
-                    let item_bottom = bounds.y + bounds.height;
-                    item_bottom >= start && item_top <= end
-                } else {
-                    layout_idx < 30
-                }
-            } else {
-                layout_idx < 30
             };
 
             let (title, subtitle, accessory) = match &item.kind {
@@ -285,30 +297,26 @@ impl RootScreen {
                 RootItemKind::App(app) => (app.name.clone(), None, "Application"),
             };
 
-            let icon_element: Element<'_, RootMessage> = if is_visible {
-                match &item.resolved_icon {
-                    ResolvedIcon::FontChar(c) => text(c)
-                        .font(ICON_FONT)
-                        .size(20)
-                        .width(20)
-                        .align_x(Alignment::Center)
-                        .color(if is_selected {
-                            text_color
-                        } else {
-                            secondary_text_color
-                        })
-                        .into(),
-                    ResolvedIcon::Svg(path) => svg(path).width(20).height(20).into(),
-                    ResolvedIcon::Image(path) => image(path).width(20).height(20).into(),
-                }
-            } else {
-                widget::space().width(20).height(20).into()
+            let icon_element: Element<'_, RootMessage> = match &item.resolved_icon {
+                ResolvedIcon::FontChar(c) => text(c)
+                    .font(ICON_FONT)
+                    .size(20)
+                    .width(20)
+                    .align_x(Alignment::Center)
+                    .color(if is_selected {
+                        text_color
+                    } else {
+                        secondary_text_color
+                    })
+                    .into(),
+                ResolvedIcon::Svg(path) => svg(path).width(20).height(20).into(),
+                ResolvedIcon::Image(path) => image(path).width(20).height(20).into(),
             };
 
             let mut row_content = row![icon_element]
                 .align_y(Alignment::Center)
                 .spacing(12)
-                .height(48);
+                .height(ROW_HEIGHT);
 
             row_content = row_content.push(text(title).size(16).color(text_color));
             if let Some(sub) = subtitle {
@@ -323,7 +331,7 @@ impl RootScreen {
                     border: Border::default().rounded(8.0),
                     ..Default::default()
                 })
-                .center_y(48.0)
+                .center_y(ROW_HEIGHT)
                 .padding([0, 8])
                 .width(Length::Fill);
 
@@ -333,6 +341,16 @@ impl RootScreen {
                 .on_exit(RootMessage::ItemUnhovered(idx));
 
             ui_rows.push(item_area.into());
+        }
+
+        let remaining = total_items.saturating_sub(end_index);
+        if remaining > 0 {
+            ui_rows.push(
+                space()
+                    .height(Length::Fixed(remaining as f32 * ROW_HEIGHT))
+                    .width(Length::Fill)
+                    .into(),
+            );
         }
 
         let content = Column::with_children(ui_rows)
@@ -362,12 +380,17 @@ impl RootScreen {
             None => return Task::none(),
         };
 
-        let final_index = base_index + if has_calc { 1 } else { 0 };
+        let calc_offset = if has_calc { 48.0 + 12.0 } else { 0.0 };
+        let padding_top = 8.0;
 
-        scroll_to(
+        let y_offset = (base_index as f32 * ROW_HEIGHT) + padding_top + calc_offset;
+
+        widget::operation::scroll_to(
             self.scrollable_id.clone(),
-            self.viewport.as_ref(),
-            final_index,
+            widget::scrollable::AbsoluteOffset {
+                x: 0.0,
+                y: y_offset,
+            },
         )
     }
 }
