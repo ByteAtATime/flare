@@ -1,4 +1,6 @@
+use iced::widget::image::Handle as ImageHandle;
 use iced::widget::scrollable::Viewport;
+use iced::widget::svg::Handle as SvgHandle;
 use iced::widget::{self, container, image, mouse_area, row, scrollable, space, svg, text};
 use iced::{
     Alignment, Border, Color, Element, Length, Task,
@@ -26,8 +28,8 @@ const ROW_HEIGHT: f32 = 48.0;
 #[derive(Clone, Debug)]
 pub enum ResolvedIcon {
     FontChar(String),
-    Svg(PathBuf),
-    Image(PathBuf),
+    Svg(SvgHandle),
+    Image(ImageHandle),
 }
 
 #[derive(Clone, Debug)]
@@ -309,8 +311,8 @@ impl RootScreen {
                         secondary_text_color
                     })
                     .into(),
-                ResolvedIcon::Svg(path) => svg(path).width(20).height(20).into(),
-                ResolvedIcon::Image(path) => image(path).width(20).height(20).into(),
+                ResolvedIcon::Svg(handle) => svg(handle.clone()).width(20).height(20).into(),
+                ResolvedIcon::Image(handle) => image(handle.clone()).width(20).height(20).into(),
             };
 
             let mut row_content = row![icon_element]
@@ -487,27 +489,35 @@ fn create_action_panel(kind: &RootItemKind, id: &str) -> ActionPanel {
 }
 
 fn resolve_app_icon(app: &AppEntry) -> ResolvedIcon {
-    if std::path::Path::new(&app.icon).is_absolute() {
-        let path = std::path::PathBuf::from(&app.icon);
-        if path.extension().map_or(false, |e| e == "svg") {
-            ResolvedIcon::Svg(path)
-        } else {
-            ResolvedIcon::Image(path)
+    let path = if std::path::Path::new(&app.icon).is_absolute() {
+        Some(std::path::PathBuf::from(&app.icon))
+    } else {
+        freedesktop_icons::lookup(&app.icon).find()
+    };
+
+    if let Some(path) = path {
+        let is_svg = path.extension().map_or(false, |e| e == "svg");
+        match std::fs::read(&path) {
+            Ok(bytes) => {
+                if is_svg {
+                    ResolvedIcon::Svg(SvgHandle::from_memory(bytes))
+                } else {
+                    ResolvedIcon::Image(ImageHandle::from_bytes(bytes))
+                }
+            }
+            Err(_) => {
+                if let Some(c) = crate::icons::get_icon("app-window-16") {
+                    ResolvedIcon::FontChar(c.to_string())
+                } else {
+                    ResolvedIcon::FontChar("".to_string())
+                }
+            }
         }
     } else {
-        if let Some(icon_path) = freedesktop_icons::lookup(&app.icon).find() {
-            let path = std::path::PathBuf::from(icon_path);
-            if path.extension().map_or(false, |e| e == "svg") {
-                ResolvedIcon::Svg(path)
-            } else {
-                ResolvedIcon::Image(path)
-            }
+        if let Some(c) = crate::icons::get_icon("app-window-16") {
+            ResolvedIcon::FontChar(c.to_string())
         } else {
-            if let Some(c) = crate::icons::get_icon("app-window-16") {
-                ResolvedIcon::FontChar(c.to_string())
-            } else {
-                ResolvedIcon::FontChar("".to_string())
-            }
+            ResolvedIcon::FontChar("".to_string())
         }
     }
 }
@@ -530,10 +540,22 @@ fn resolve_extension_icon(cmd: &ExtensionCommand) -> ResolvedIcon {
             }
         };
 
-        if path.extension().map_or(false, |e| e == "svg") {
-            ResolvedIcon::Svg(path)
-        } else {
-            ResolvedIcon::Image(path)
+        let is_svg = path.extension().map_or(false, |e| e == "svg");
+        match std::fs::read(&path) {
+            Ok(bytes) => {
+                if is_svg {
+                    ResolvedIcon::Svg(SvgHandle::from_memory(bytes))
+                } else {
+                    ResolvedIcon::Image(ImageHandle::from_bytes(bytes))
+                }
+            }
+            Err(_) => {
+                if let Some(c) = crate::icons::get_icon("box-16") {
+                    ResolvedIcon::FontChar(c.to_string())
+                } else {
+                    ResolvedIcon::FontChar("".to_string())
+                }
+            }
         }
     } else {
         if let Some(c) = crate::icons::get_icon("box-16") {
