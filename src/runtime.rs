@@ -132,6 +132,11 @@ fn handle_sidecar_response(
         } => (id, handlers::clipboard::copy(content, concealed)),
         SidecarResponse::ClipboardClear { id } => (id, handlers::clipboard::clear()),
         SidecarResponse::ClipboardRead { id, .. } => (id, handlers::clipboard::read()),
+
+        SidecarResponse::OAuthAuthorize { id, url, state } => {
+            handlers::oauth::authorize(id, url, state, transport);
+            return Ok(());
+        }
     };
 
     let rust_response = match result {

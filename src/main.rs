@@ -45,6 +45,8 @@ use crate::view::view;
 struct Cli {
     #[command(subcommand)]
     command: Option<Command>,
+    #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+    args: Vec<String>,
 }
 
 #[derive(Subcommand)]
@@ -106,6 +108,21 @@ fn subscription(state: &State) -> Subscription<Message> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
+
+    let deep_link = if cli.args.is_empty() {
+        deep_link::get_current()
+    } else {
+        cli.args.first().cloned()
+    };
+
+    if let Some(link) = &deep_link {
+        if deep_link::is_oauth_redirect(link) {
+            if ipc::is_daemon_running() {
+                ipc::send_oauth_redirect(link)?;
+            }
+            return Ok(());
+        }
+    }
 
     match cli.command {
         Some(Command::Toggle) => {

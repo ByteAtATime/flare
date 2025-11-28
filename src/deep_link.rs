@@ -8,7 +8,7 @@ use std::{
 #[cfg(windows)]
 use windows_registry::{CLASSES_ROOT, CURRENT_USER, LOCAL_MACHINE};
 
-const SCHEMES: &[&str] = &["flare", "raycast"];
+pub const SCHEMES: &[&str] = &["flare", "raycast"];
 
 pub fn get_current() -> Option<String> {
     let args: Vec<String> = std::env::args().collect();
@@ -20,6 +20,32 @@ pub fn get_current() -> Option<String> {
         }
     }
     None
+}
+
+pub fn is_oauth_redirect(url: &str) -> bool {
+    url.starts_with("raycast://oauth") || url.starts_with("flare://oauth")
+}
+
+pub fn handle_oauth_redirect(url: &str) -> bool {
+    if !is_oauth_redirect(url) {
+        return false;
+    }
+
+    let url = match url::Url::parse(url) {
+        Ok(u) => u,
+        Err(_) => return false,
+    };
+
+    let params: std::collections::HashMap<_, _> = url.query_pairs().collect();
+
+    let state = params.get("state").map(|s| s.to_string());
+    let code = params.get("code").map(|c| c.to_string());
+
+    if let (Some(state), Some(code)) = (state, code) {
+        return crate::handlers::oauth::complete(&state, &code);
+    }
+
+    false
 }
 
 pub fn register_all() -> Result<(), Box<dyn std::error::Error>> {

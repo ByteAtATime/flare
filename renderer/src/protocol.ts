@@ -25,7 +25,8 @@ type RustRequest =
   | { type: "clipboardCopy"; content: ClipboardContent; concealed: boolean }
   | { type: "clipboardClear" }
   | { type: "clipboardRead"; offset?: number }
-  | { type: "openUrl"; url: string };
+  | { type: "openUrl"; url: string }
+  | { type: "oauthAuthorize"; url: string; state: string };
 
 type RustResponse =
   | { type: "success"; result?: unknown }
@@ -184,6 +185,14 @@ export const clipboardRead = async (
 
 export const openUrl = async (url: string): Promise<void> => {
   await sendRequest({ type: "openUrl", url });
+};
+
+export const oauthAuthorize = async (
+  url: string,
+  state: string
+): Promise<{ authorizationCode: string }> => {
+  const result = await sendRequest({ type: "oauthAuthorize", url, state });
+  return result as { authorizationCode: string };
 };
 
 export const handleRustResponse = (data: Buffer) => {

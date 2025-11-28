@@ -172,4 +172,10 @@ pub enum SidecarResponse {
         id: u32,
         url: String,
     },
+    #[serde(rename = "oauthAuthorize")]
+    OAuthAuthorize {
+        id: u32,
+        url: String,
+        state: String,
+    },
 }

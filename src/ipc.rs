@@ -3,6 +3,7 @@ use std::os::unix::net::{UnixListener, UnixStream};
 use std::path::PathBuf;
 
 const IPC_COMMAND_TOGGLE: &[u8] = b"toggle";
+const IPC_COMMAND_OAUTH_PREFIX: &[u8] = b"oauth:";
 const IPC_RESPONSE_OK: &[u8] = b"ok";
 
 fn socket_path() -> PathBuf {
@@ -26,8 +27,26 @@ pub fn send_toggle() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
+pub fn send_oauth_redirect(url: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let path = socket_path();
+    let mut stream = UnixStream::connect(&path)?;
+
+    let mut msg = Vec::from(IPC_COMMAND_OAUTH_PREFIX);
+    msg.extend_from_slice(url.as_bytes());
+    stream.write_all(&msg)?;
+
+    let mut response = [0u8; 16];
+    let n = stream.read(&mut response)?;
+    if &response[..n] == IPC_RESPONSE_OK {
+        Ok(())
+    } else {
+        Err("Unexpected response from daemon".into())
+    }
+}
+
 pub fn is_daemon_running() -> bool {
     let path = socket_path();
+    println!("Checking daemon socket at: {:?}", path);
     UnixStream::connect(&path).is_ok()
 }
 
@@ -46,10 +65,16 @@ where
     std::thread::spawn(move || {
         for stream in listener.incoming() {
             if let Ok(mut stream) = stream {
-                let mut buf = [0u8; 64];
+                let mut buf = [0u8; 2048];
                 if let Ok(n) = stream.read(&mut buf) {
-                    if &buf[..n] == IPC_COMMAND_TOGGLE {
+                    let data = &buf[..n];
+                    if data == IPC_COMMAND_TOGGLE {
                         on_toggle();
+                        let _ = stream.write_all(IPC_RESPONSE_OK);
+                    } else if data.starts_with(IPC_COMMAND_OAUTH_PREFIX) {
+                        let url = std::str::from_utf8(&data[IPC_COMMAND_OAUTH_PREFIX.len()..])
+                            .unwrap_or("");
+                        crate::deep_link::handle_oauth_redirect(url);
                         let _ = stream.write_all(IPC_RESPONSE_OK);
                     }
                 }

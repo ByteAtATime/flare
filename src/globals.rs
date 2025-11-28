@@ -1,5 +1,6 @@
 use crate::message::Message;
 use crate::runtime::SidecarRuntime;
+use crate::transport::Transport;
 use iced::Rectangle;
 use iced::futures::SinkExt;
 use iced::futures::channel::mpsc;
@@ -22,6 +23,9 @@ pub static LAYOUT_CACHE: LazyLock<Mutex<HashMap<usize, Rectangle>>> =
 
 pub static CLIPBOARD: LazyLock<Mutex<Option<arboard::Clipboard>>> =
     LazyLock::new(|| Mutex::new(None));
+
+pub static OAUTH_PENDING: LazyLock<Mutex<HashMap<String, (u32, Transport)>>> =
+    LazyLock::new(|| Mutex::new(HashMap::new()));
 
 pub fn send_callback(callback_id: String, value: Value) {
     if let Some(mut sender) = RUNTIME_SENDER.lock().unwrap().clone() {

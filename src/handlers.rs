@@ -166,3 +166,33 @@ pub mod clipboard {
         .map(Some)
     }
 }
+
+pub mod oauth {
+    use crate::transport::Transport;
+
+    use super::*;
+
+    pub fn authorize(id: u32, url: String, state: String, transport: &Transport) {
+        globals::OAUTH_PENDING
+            .lock()
+            .unwrap()
+            .insert(state, (id, transport.clone()));
+
+        let _ = crate::utils::open_url(&url);
+    }
+
+    pub fn complete(state: &str, code: &str) -> bool {
+        let entry = globals::OAUTH_PENDING.lock().unwrap().remove(state);
+
+        if let Some((id, transport)) = entry {
+            let response = crate::types::RustResponse::Success {
+                id,
+                result: Some(serde_json::json!({ "authorizationCode": code })),
+            };
+            let _ = transport.send(&response);
+            true
+        } else {
+            false
+        }
+    }
+}

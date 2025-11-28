@@ -1,4 +1,5 @@
-import { randomBytes, createHash } from "node:crypto";
+import { randomBytes, createHash, randomUUID } from "node:crypto";
+import * as protocol from "../protocol";
 
 export enum RedirectMethod {
   Web = "web",
@@ -51,7 +52,14 @@ export class PKCEClient {
   }> {
     const { codeChallenge, codeVerifier } = generateChallenge();
 
-    const state = base64URLEncode(randomBytes(16)); // i have no idea how oauth works please help
+    // TODO: figure out what is required in here
+    const state = btoa(
+      JSON.stringify({
+        providerName: "temp value",
+        id: randomUUID(),
+        flavor: "release",
+      })
+    );
 
     let redirectURI = "";
     switch (this.options.redirectMethod) {
@@ -88,5 +96,20 @@ export class PKCEClient {
       redirectURI,
       toURL: () => url,
     };
+  }
+
+  public async authorize(
+    options:
+      | {
+          url: string;
+        }
+      | { toURL: () => string }
+  ): Promise<{ authorizationCode: string }> {
+    const url = "url" in options ? options.url : options.toURL();
+
+    const parsedUrl = new URL(url);
+    const state = parsedUrl.searchParams.get("state") ?? "";
+
+    return protocol.oauthAuthorize(url, state);
   }
 }
