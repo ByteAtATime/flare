@@ -199,6 +199,16 @@ const HostConfig: Reconciler.HostConfig<
   detachDeletedInstance() {},
 
   getPublicInstance: (instance) => instance,
+
+  scheduleTimeout: setTimeout,
+  cancelTimeout: clearTimeout,
+  noTimeout: -1,
+
+  maySuspendCommit: () => false,
+  preloadInstance: () => true,
+  startSuspendingCommit: () => {},
+  suspendInstance: () => {},
+  waitForCommitToBeReady: () => null,
 };
 
 const reconciler = Reconciler(HostConfig);

@@ -1,6 +1,7 @@
 import {
   createContext,
   Fragment,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -10,6 +11,7 @@ import {
 } from "react";
 import * as protocol from "../protocol";
 import { setNavigationPop } from "../index";
+import { List } from "./components";
 
 declare module "react/jsx-runtime" {
   namespace JSX {
@@ -95,7 +97,11 @@ export const NavigationRoot: React.FC<{ children: ReactNode }> = (props) => {
     <NavigationContext.Provider value={navigation}>
       <flare-nav-stack>
         {routes.map((route) => (
-          <Fragment key={route.id}>{route.component}</Fragment>
+          <Fragment key={route.id}>
+            <Suspense fallback={<List isLoading={true} />}>
+              {route.component}
+            </Suspense>
+          </Fragment>
         ))}
       </flare-nav-stack>
     </NavigationContext.Provider>
