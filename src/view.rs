@@ -2,9 +2,9 @@ use iced::widget::{column, container, pick_list, row, rule, stack, text_input};
 use iced::{Element, Length, Theme};
 
 use crate::components::{
-    action_panel::{render_action_panel, map_action_panel_message},
+    action_panel::{map_action_panel_message, render_action_panel},
     dropdown::{Dropdown, DropdownChild},
-    footer::{render_footer, map_footer_message},
+    footer::{map_footer_message, render_footer},
 };
 use crate::message::Message;
 use crate::screens::{Screen, Shell};
@@ -37,15 +37,18 @@ pub fn view(state: &State) -> Element<'_, Message> {
         Screen::List(s) => s.view().map(Message::List),
     };
 
-    let footer = render_footer(&state.selected_actions, &state.toast_message, theme)
-        .map(map_footer_message);
+    let footer =
+        render_footer(&state.selected_actions, &state.toast_message, theme).map(map_footer_message);
 
     base_col = base_col
         .push(container(content).width(Length::Fill).height(Length::Fill))
         .push(footer);
 
     let action_panel = if state.action_panel_visible {
-        Some(render_action_panel(&state.selected_actions).map(map_action_panel_message))
+        Some(
+            render_action_panel(&state.selected_actions, &state.action_panel_search)
+                .map(map_action_panel_message),
+        )
     } else {
         None
     };

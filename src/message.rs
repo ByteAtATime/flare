@@ -13,6 +13,7 @@ pub enum Message {
     ImageLoaded(String, Handle),
     InvokeAction(ActionHandler),
     ToggleActionPanel(bool),
+    ActionPanelSearchChanged(String),
     ShowToast(String),
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),

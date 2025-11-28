@@ -106,9 +106,15 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             state.action_panel_visible = visibility;
             if visibility {
                 return operation::focus_next();
-            } else if state.screen.can_search() {
-                return operation::focus(state.search_input_id.clone());
+            } else {
+                state.action_panel_search.clear();
+                if state.screen.can_search() {
+                    return operation::focus(state.search_input_id.clone());
+                }
             }
+        }
+        Message::ActionPanelSearchChanged(text) => {
+            state.action_panel_search = text;
         }
         Message::ShowToast(message) => {
             state.toast_message = message;
