@@ -4,6 +4,7 @@ use iced::{
     widget::markdown,
 };
 
+use crate::image_cache;
 use crate::screens::Shell;
 use crate::{
     components::{actions::ActionPanel, detail::render_detail, types::DetailProps},
@@ -52,5 +53,19 @@ impl Shell for DetailScreen {
 
     fn get_action_panel(&mut self) -> Option<&mut ActionPanel> {
         self.props.props.actions.as_mut()
+    }
+
+    fn load_images(&self) -> Task<crate::Message> {
+        let mut tasks = Vec::new();
+
+        for item in &self.parsed {
+            if let markdown::Item::Image { url, .. } = item {
+                if url.starts_with("http") {
+                    tasks.push(image_cache::fetch(url.clone()));
+                }
+            }
+        }
+
+        Task::batch(tasks)
     }
 }

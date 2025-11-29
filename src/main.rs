@@ -28,10 +28,9 @@ mod view;
 
 use clap::{Parser, Subcommand};
 use iced::Subscription;
-use iced::futures::channel::mpsc;
-use iced::futures::{self, SinkExt, StreamExt, stream};
+use iced::futures::{self, stream};
 use iced::window;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use tokio::sync::Mutex as AsyncMutex;
 
 use crate::message::Message;
@@ -75,24 +74,6 @@ fn daemon_view<'a>(state: &'a State, window: window::Id) -> iced::Element<'a, Me
     view(state)
 }
 
-fn message_stream() -> impl futures::Stream<Item = Message> {
-    let receiver = {
-        let mut guard = globals::RECEIVER.lock().unwrap();
-        guard.take()
-    };
-
-    futures::stream::unfold(receiver, |state| async move {
-        if let Some(mut receiver) = state {
-            if let Some(msg) = receiver.next().await {
-                return Some((msg, Some(receiver)));
-            }
-        } else {
-            futures::future::pending::<()>().await;
-        }
-        None
-    })
-}
-
 fn sidecar_stream(reader: Arc<AsyncMutex<SidecarReader>>) -> impl futures::Stream<Item = Message> {
     stream::unfold(reader, |reader| async move {
         let mut guard = reader.lock().await;
@@ -109,8 +90,6 @@ fn sidecar_stream(reader: Arc<AsyncMutex<SidecarReader>>) -> impl futures::Strea
 fn subscription(state: &State) -> Subscription<Message> {
     let keyboard_sub =
         iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
-
-    let message_sub = Subscription::run(message_stream);
 
     let sidecar_sub = if let Some(reader) = &state.reader {
         Subscription::run_with(
@@ -151,7 +130,6 @@ fn subscription(state: &State) -> Subscription<Message> {
     let ipc_sub = ipc::subscription();
 
     let mut subs = vec![
-        message_sub,
         sidecar_sub,
         window_close_sub,
         animation_sub,
@@ -199,64 +177,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-fn setup_channels() {
-    let (sender, receiver) = mpsc::unbounded();
-    *globals::SENDER.lock().unwrap() = Some(sender);
-    *globals::RECEIVER.lock().unwrap() = Some(receiver);
-
-    let (image_sender, image_receiver) = std::sync::mpsc::channel::<String>();
-    *globals::IMAGE_LOADER.lock().unwrap() = Some(image_sender);
-
-    let shared_receiver = Arc::new(Mutex::new(image_receiver));
-
-    std::thread::spawn(move || {
-        let rt = tokio::runtime::Builder::new_multi_thread()
-            .worker_threads(4)
-            .enable_all()
-            .build()
-            .unwrap();
-
-        rt.block_on(async {
-            let client = reqwest::Client::builder()
-                .pool_max_idle_per_host(20)
-                .tcp_nodelay(true)
-                .build()
-                .unwrap();
-
-            let semaphore = Arc::new(tokio::sync::Semaphore::new(10));
-
-            loop {
-                let url = {
-                    let lock = shared_receiver.lock().unwrap();
-                    match lock.recv() {
-                        Ok(u) => u,
-                        Err(_) => break,
-                    }
-                };
-
-                let client = client.clone();
-                let permit = semaphore.clone().acquire_owned().await.unwrap();
-
-                tokio::spawn(async move {
-                    let _permit = permit;
-
-                    match image_cache::fetch_and_cache(&client, url.clone()).await {
-                        Ok(handle) => {
-                            let sender = globals::SENDER.lock().unwrap().clone();
-                            if let Some(mut s) = sender {
-                                let _ = s.send(Message::ImageLoaded(url, handle)).await;
-                            }
-                        }
-                        Err(_) => {
-                            image_cache::clear_pending(&url);
-                        }
-                    }
-                });
-            }
-        });
-    });
-}
-
 fn run_application() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(any(target_os = "linux", target_os = "windows"))]
     {
@@ -264,8 +184,6 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("Failed to register deep links: {}", e);
         }
     }
-
-    setup_channels();
 
     iced::application(State::new, update, view)
         .subscription(subscription)
@@ -279,8 +197,6 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn run_dev() -> Result<(), Box<dyn std::error::Error>> {
-    setup_channels();
-
     iced::daemon(dev_boot, update, daemon_view)
         .subscription(subscription)
         .title("Flare (Dev)")
@@ -305,8 +221,6 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("Failed to register deep links: {}", e);
         }
     }
-
-    setup_channels();
 
     let result = iced::daemon(boot, update, daemon_view)
         .subscription(subscription)

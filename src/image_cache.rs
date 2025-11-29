@@ -1,9 +1,17 @@
+use crate::message::Message;
+use iced::Task;
 use iced::widget::image::Handle;
 use std::collections::{HashMap, HashSet};
-use std::sync::{Mutex, RwLock};
+use std::sync::{LazyLock, Mutex, RwLock};
 
 static IMAGE_CACHE: RwLock<Option<HashMap<String, Handle>>> = RwLock::new(None);
 static PENDING: Mutex<Option<HashSet<String>>> = Mutex::new(None);
+static CLIENT: LazyLock<reqwest::Client> = LazyLock::new(|| {
+    reqwest::Client::builder()
+        .user_agent("flare/0.1.0")
+        .build()
+        .unwrap()
+});
 
 fn ensure_cache() {
     let mut cache = IMAGE_CACHE.write().unwrap();
@@ -35,32 +43,41 @@ pub fn set(url: String, handle: Handle) {
         }
     }
 
+    clear_pending(&url);
+}
+
+pub fn clear_pending(url: &str) {
     ensure_pending();
     let mut pending = PENDING.lock().unwrap();
     if let Some(ref mut set) = *pending {
-        set.remove(&url);
+        set.remove(url);
     }
 }
 
-pub fn should_load(url: &str) -> bool {
-    if get(url).is_some() {
-        return false;
+/// Returns a Task to fetch the image if it's not already cached or pending.
+pub fn fetch(url: String) -> Task<Message> {
+    if get(&url).is_some() {
+        return Task::none();
     }
 
     ensure_pending();
-    let mut pending = PENDING.lock().unwrap();
-    let set = pending.as_mut().unwrap();
-
-    if set.contains(url) {
-        return false;
+    {
+        let mut pending = PENDING.lock().unwrap();
+        let set = pending.as_mut().unwrap();
+        if set.contains(&url) {
+            return Task::none();
+        }
+        set.insert(url.clone());
     }
 
-    set.insert(url.to_string());
-    true
+    Task::perform(download(url.clone()), move |res| match res {
+        Ok(handle) => Message::ImageLoaded(url, handle),
+        Err(_) => Message::ImageLoadFailed(url),
+    })
 }
 
-pub async fn fetch_and_cache(client: &reqwest::Client, url: String) -> Result<Handle, String> {
-    let response = client
+async fn download(url: String) -> Result<Handle, String> {
+    let response = CLIENT
         .get(&url)
         .send()
         .await
@@ -71,16 +88,5 @@ pub async fn fetch_and_cache(client: &reqwest::Client, url: String) -> Result<Ha
         .await
         .map_err(|e| format!("Failed to read image bytes: {}", e))?;
 
-    let handle = Handle::from_bytes(bytes);
-
-    set(url, handle.clone());
-    Ok(handle)
-}
-
-pub fn clear_pending(url: &str) {
-    ensure_pending();
-    let mut pending = PENDING.lock().unwrap();
-    if let Some(ref mut set) = *pending {
-        set.remove(url);
-    }
+    Ok(Handle::from_bytes(bytes))
 }

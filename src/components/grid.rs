@@ -1,4 +1,4 @@
-use iced::widget::{column, container, image, row, scrollable, svg, text};
+use iced::widget::{column, container, image, row, text};
 use iced::{Color, Element, Length, Theme};
 use serde::Deserialize;
 use serde_json::Value;
@@ -106,7 +106,7 @@ pub fn render_grid(
     props: &GridProps,
     selected_index: usize,
     column_id: position::Id,
-    viewport: Option<&scrollable::Viewport>,
+    viewport: Option<&iced::widget::scrollable::Viewport>,
 ) -> Element<'static, GridMessage> {
     let layout_cache = crate::globals::LAYOUT_CACHE.lock().unwrap();
 
@@ -188,7 +188,7 @@ pub fn render_grid(
 pub fn render_grid_item(
     props: GridItemProps,
     is_selected: bool,
-    should_load_visibility: bool,
+    _is_visible: bool,
 ) -> Element<'static, GridMessage> {
     let border_color = if is_selected {
         Color::from_rgb8(0x00, 0x7A, 0xFF)
@@ -214,13 +214,7 @@ pub fn render_grid_item(
                         })
                         .into()
                 } else {
-                    if should_load_visibility && image_cache::should_load(path) {
-                        if let Some(loader) = crate::globals::IMAGE_LOADER.lock().unwrap().as_ref()
-                        {
-                            let _ = loader.send(path.clone());
-                        }
-                    }
-
+                    // Note: Loading is now triggered by the Screen update loop, not here.
                     let bg_color = Color::from_rgb8(0x33, 0x33, 0x33);
                     container(text(""))
                         .width(150)
@@ -238,7 +232,7 @@ pub fn render_grid_item(
                 }
             } else {
                 container(if path.ends_with(".svg") {
-                    Element::from(svg(path))
+                    Element::from(iced::widget::svg(path))
                 } else {
                     Element::from(image(path))
                 })

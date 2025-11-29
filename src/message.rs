@@ -18,6 +18,7 @@ pub enum Message {
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
     EscapePressed,
     ImageLoaded(String, Handle),
+    ImageLoadFailed(String),
     InvokeAction(ActionHandler),
 
     ActionPanel(action_panel::Message),

@@ -6,8 +6,13 @@ use iced::{
 };
 
 use crate::{
-    components::{actions::ActionPanel, grid::render_grid, types::GridProps},
+    components::{
+        actions::ActionPanel,
+        grid::{GridItemContent, render_grid},
+        types::GridProps,
+    },
     globals::POSITION_TRACKER,
+    image_cache,
     screens::Shell,
     selection::{HeaderPolicy, Section, SelectionState, scroll_to},
 };
@@ -175,5 +180,59 @@ impl Shell for GridScreen {
 
     fn on_search_text_change(&self) -> Option<&crate::components::types::CallbackInfo> {
         self.raw_props.props.on_search_text_change.as_ref()
+    }
+
+    fn load_images(&self) -> Task<crate::Message> {
+        let layout_cache = crate::globals::LAYOUT_CACHE.lock().unwrap();
+
+        let visible_range = self.viewport.as_ref().map(|vp| {
+            let offset_y = vp.absolute_offset().y;
+            let height = vp.bounds().height;
+            (offset_y - 1500.0, offset_y + height + 1500.0)
+        });
+
+        let mut tasks = Vec::new();
+        let mut col_child_idx = 0;
+        let default_columns = self.filtered_props.props.columns.unwrap_or(5) as usize;
+
+        for section in &self.filtered_props.sections {
+            col_child_idx += 1;
+            let columns = section
+                .props
+                .columns
+                .map(|c| c as usize)
+                .unwrap_or(default_columns);
+            let start_row_idx = col_child_idx;
+            let row_count = (section.items.len() + columns - 1) / columns;
+            col_child_idx += row_count;
+
+            for (chunk_idx, chunk) in section.items.chunks(columns).enumerate() {
+                let current_row_idx = start_row_idx + chunk_idx;
+
+                let is_visible = if let Some((start, end)) = visible_range {
+                    if let Some(bounds) = layout_cache.get(&current_row_idx) {
+                        let row_top = bounds.y;
+                        let row_bottom = bounds.y + bounds.height;
+                        row_bottom >= start && row_top <= end
+                    } else {
+                        current_row_idx < 10
+                    }
+                } else {
+                    current_row_idx < 10
+                };
+
+                if is_visible {
+                    for item in chunk {
+                        if let Some(GridItemContent::Image(url)) = &item.props.content {
+                            if url.starts_with("http") {
+                                tasks.push(image_cache::fetch(url.clone()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Task::batch(tasks)
     }
 }

@@ -1,13 +1,6 @@
-use crate::message::Message;
 use iced::Rectangle;
-use iced::futures::channel::mpsc;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
-
-pub static SENDER: Mutex<Option<mpsc::UnboundedSender<Message>>> = Mutex::new(None);
-pub static RECEIVER: Mutex<Option<mpsc::UnboundedReceiver<Message>>> = Mutex::new(None);
-
-pub static IMAGE_LOADER: Mutex<Option<std::sync::mpsc::Sender<String>>> = Mutex::new(None);
 
 pub static POSITION_TRACKER: LazyLock<crate::position::Id> =
     LazyLock::new(|| crate::position::Id::new("items_column"));

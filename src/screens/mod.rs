@@ -1,5 +1,6 @@
 use crate::components::actions::ActionPanel;
 use crate::components::types::{CallbackInfo, Component};
+use iced::Task;
 
 pub mod detail;
 pub mod grid;
@@ -21,6 +22,10 @@ pub trait Shell {
 
     fn on_search_text_change(&self) -> Option<&CallbackInfo> {
         None
+    }
+
+    fn load_images(&self) -> Task<crate::Message> {
+        Task::none()
     }
 }
 
@@ -130,6 +135,15 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.on_search_text_change(),
             Screen::Detail(screen) => screen.on_search_text_change(),
             Screen::List(screen) => screen.on_search_text_change(),
+        }
+    }
+
+    fn load_images(&self) -> Task<crate::Message> {
+        match self {
+            Screen::Root(screen) => screen.load_images(),
+            Screen::Grid(screen) => screen.load_images(),
+            Screen::Detail(screen) => screen.load_images(),
+            Screen::List(screen) => screen.load_images(),
         }
     }
 }

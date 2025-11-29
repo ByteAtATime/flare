@@ -82,6 +82,7 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                         return operation::focus(state.search_input_id.clone());
                     }
                     state.update_selected_actions();
+                    return state.screen.load_images();
                 }
             }
         }
@@ -89,9 +90,17 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             state.search_text = text.clone();
             state.screen.on_search(&text);
             state.update_selected_actions();
+
+            let mut tasks = vec![state.screen.load_images()];
+
             if let Some(callback) = state.screen.on_search_text_change() {
-                return send_callback(state, callback.id.clone(), Value::String(text));
+                tasks.push(send_callback(
+                    state,
+                    callback.id.clone(),
+                    Value::String(text),
+                ));
             }
+            return Task::batch(tasks);
         }
         Message::DropdownChanged(value) => {
             state.screen.set_dropdown_value(&value);
@@ -106,6 +115,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ImageLoaded(url, handle) => {
             image_cache::set(url, handle);
+        }
+        Message::ImageLoadFailed(url) => {
+            image_cache::clear_pending(&url);
         }
         Message::InvokeAction(handler) => {
             return handler.call();
@@ -291,6 +303,10 @@ fn handle_sidecar_response(state: &mut State, response: SidecarResponse) -> Task
                     }
                     state.screen = new_screen;
                     state.update_selected_actions();
+                    return Task::batch(vec![
+                        state.screen.load_images(),
+                        Task::done(Message::SidecarOperationFinished(id, Ok(None))),
+                    ]);
                 }
             }
 
@@ -417,6 +433,12 @@ fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message>
             handler.call()
         }
         (Screen::Root(s), Message::Root(m)) => s.update(m).map(Message::Root),
+        (Screen::Grid(s), Message::Grid(crate::screens::grid::GridMessage::Scrolled(vp))) => {
+            let task = s
+                .update(crate::screens::grid::GridMessage::Scrolled(vp))
+                .map(Message::Grid);
+            Task::batch(vec![task, s.load_images()])
+        }
         (Screen::Grid(s), Message::Grid(m)) => s.update(m).map(Message::Grid),
         (Screen::List(s), Message::List(m)) => s.update(m).map(Message::List),
         (Screen::Detail(s), Message::Detail(m)) => s.update(m).map(Message::Detail),
