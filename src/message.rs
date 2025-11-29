@@ -38,6 +38,7 @@ pub enum Message {
 
     Settings(crate::screens::settings::SettingsMessage),
     OpenUrl(String),
+    HandleOAuthRedirect(String),
 
     Tick(Instant),
 

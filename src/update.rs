@@ -227,6 +227,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::OpenUrl(url) => {
             let _ = crate::utils::open_url(&url);
         }
+        Message::HandleOAuthRedirect(url) => {
+            crate::deep_link::handle_oauth_redirect(&url);
+        }
 
         Message::SidecarMessage(response) => {
             return handle_sidecar_response(state, response);

@@ -148,12 +148,15 @@ fn subscription(state: &State) -> Subscription<Message> {
         None
     });
 
+    let ipc_sub = ipc::subscription();
+
     let mut subs = vec![
         message_sub,
         sidecar_sub,
         window_close_sub,
         animation_sub,
         escape_sub,
+        ipc_sub,
     ];
 
     if state.window_id.is_some() {
@@ -304,12 +307,6 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     setup_channels();
-
-    ipc::start_listener(|| {
-        if let Some(mut sender) = globals::SENDER.lock().unwrap().clone() {
-            let _ = iced::futures::executor::block_on(sender.send(Message::ToggleWindow));
-        }
-    })?;
 
     let result = iced::daemon(boot, update, daemon_view)
         .subscription(subscription)

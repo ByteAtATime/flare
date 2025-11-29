@@ -1,6 +1,11 @@
+use iced::futures::channel::mpsc;
+use iced::futures::{SinkExt, Stream};
+use iced::{Subscription, stream};
 use std::io::{Read, Write};
-use std::os::unix::net::{UnixListener, UnixStream};
+use std::os::unix::net::UnixStream;
 use std::path::PathBuf;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::UnixListener;
 
 const IPC_COMMAND_TOGGLE: &[u8] = b"toggle";
 const IPC_COMMAND_OAUTH_PREFIX: &[u8] = b"oauth:";
@@ -50,39 +55,49 @@ pub fn is_daemon_running() -> bool {
     UnixStream::connect(&path).is_ok()
 }
 
-pub fn start_listener<F>(on_toggle: F) -> Result<(), Box<dyn std::error::Error>>
-where
-    F: Fn() + Send + 'static,
-{
-    let path = socket_path();
+fn listener() -> impl Stream<Item = crate::Message> {
+    stream::channel(100, |mut output: mpsc::Sender<crate::Message>| async move {
+        let path = socket_path();
 
-    if path.exists() {
-        std::fs::remove_file(&path)?;
-    }
+        if path.exists() {
+            let _ = std::fs::remove_file(&path);
+        }
 
-    let listener = UnixListener::bind(&path)?;
+        let listener = match UnixListener::bind(&path) {
+            Ok(l) => l,
+            Err(e) => {
+                eprintln!("Failed to bind IPC socket: {}", e);
+                std::future::pending::<()>().await;
+                return;
+            }
+        };
 
-    std::thread::spawn(move || {
-        for stream in listener.incoming() {
-            if let Ok(mut stream) = stream {
+        loop {
+            if let Ok((mut stream, _)) = listener.accept().await {
                 let mut buf = [0u8; 2048];
-                if let Ok(n) = stream.read(&mut buf) {
+                if let Ok(n) = stream.read(&mut buf).await {
                     let data = &buf[..n];
                     if data == IPC_COMMAND_TOGGLE {
-                        on_toggle();
-                        let _ = stream.write_all(IPC_RESPONSE_OK);
+                        let _ = output.send(crate::Message::ToggleWindow).await;
+                        let _ = stream.write_all(IPC_RESPONSE_OK).await;
                     } else if data.starts_with(IPC_COMMAND_OAUTH_PREFIX) {
-                        let url = std::str::from_utf8(&data[IPC_COMMAND_OAUTH_PREFIX.len()..])
-                            .unwrap_or("");
-                        crate::deep_link::handle_oauth_redirect(url);
-                        let _ = stream.write_all(IPC_RESPONSE_OK);
+                        if let Ok(url) =
+                            std::str::from_utf8(&data[IPC_COMMAND_OAUTH_PREFIX.len()..])
+                        {
+                            let _ = output
+                                .send(crate::Message::HandleOAuthRedirect(url.to_string()))
+                                .await;
+                            let _ = stream.write_all(IPC_RESPONSE_OK).await;
+                        }
                     }
                 }
             }
         }
-    });
+    })
+}
 
-    Ok(())
+pub fn subscription() -> Subscription<crate::Message> {
+    Subscription::run(listener)
 }
 
 pub fn cleanup() {
