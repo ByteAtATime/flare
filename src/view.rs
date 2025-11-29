@@ -1,6 +1,7 @@
 use iced::widget::{column, container, pick_list, row, rule, stack, text_input};
 use iced::{Element, Length, Theme};
 
+use crate::components::animator::Scaler;
 use crate::components::{
     action_panel::{map_action_panel_message, render_action_panel},
     dropdown::{Dropdown, DropdownChild},
@@ -45,14 +46,17 @@ pub fn view(state: &State) -> Element<'_, Message> {
         .push(footer);
 
     let action_panel = if state.action_panel_visible {
-        Some(
-            render_action_panel(
-                &state.selected_actions,
-                &state.action_panel_search,
-                state.action_panel_selected,
-            )
-            .map(map_action_panel_message),
+        let panel_content = render_action_panel(
+            &state.selected_actions,
+            &state.action_panel_search,
+            state.action_panel_selected,
+            state.action_panel_opacity,
         )
+        .map(map_action_panel_message);
+
+        let animated = Scaler::new(state.action_panel_scale, panel_content);
+
+        Some(Element::from(animated))
     } else {
         None
     };

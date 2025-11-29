@@ -5,8 +5,10 @@ use iced::{
     window,
 };
 use serde_json::Value;
+use std::time::Instant;
 
 use crate::apps;
+use crate::components::action_panel;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::globals;
@@ -106,12 +108,36 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             state.action_panel_visible = visibility;
             if visibility {
                 state.action_panel_selected = 0;
+                state.action_panel_start_time = Some(Instant::now());
+                state.action_panel_opacity = action_panel::animation::OPACITY_START;
+                state.action_panel_scale = action_panel::animation::SCALE_START;
                 return operation::focus_next();
             } else {
+                state.action_panel_start_time = None;
                 state.action_panel_search.clear();
                 state.action_panel_selected = 0;
                 if state.screen.can_search() {
                     return operation::focus(state.search_input_id.clone());
+                }
+            }
+        }
+        Message::Tick(now) => {
+            if let Some(start) = state.action_panel_start_time {
+                let elapsed = now.duration_since(start).as_millis() as f32;
+                let duration = action_panel::animation::DURATION_MS as f32;
+                let t = (elapsed / duration).clamp(0.0, 1.0);
+
+                let ease = 1.0 - (1.0 - t).powi(2);
+
+                state.action_panel_opacity = action_panel::animation::OPACITY_START
+                    + (1.0 - action_panel::animation::OPACITY_START) * ease;
+                state.action_panel_scale = action_panel::animation::SCALE_START
+                    + (1.0 - action_panel::animation::SCALE_START) * ease;
+
+                if t >= 1.0 {
+                    state.action_panel_start_time = None;
+                    state.action_panel_opacity = 1.0;
+                    state.action_panel_scale = 1.0;
                 }
             }
         }
@@ -232,6 +258,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                 state.action_panel_visible = false;
                 state.action_panel_search.clear();
                 state.action_panel_selected = 0;
+                state.action_panel_start_time = None;
                 if state.screen.can_search() {
                     return operation::focus(state.search_input_id.clone());
                 }
@@ -277,6 +304,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                                 state.action_panel_visible = false;
                                 state.action_panel_search.clear();
                                 state.action_panel_selected = 0;
+                                state.action_panel_start_time = None;
                                 return handler.call();
                             }
                         }
@@ -325,12 +353,16 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
     if modifiers == Modifiers::COMMAND {
         if let Key::Character(c) = &key {
             if c == "k" {
-                state.action_panel_visible = !state.action_panel_visible;
-                if state.action_panel_visible {
-                    // when opening the action panel, move focus away from the search field
+                let new_vis = !state.action_panel_visible;
+                state.action_panel_visible = new_vis;
+                if new_vis {
+                    state.action_panel_selected = 0;
+                    state.action_panel_start_time = Some(Instant::now());
+                    state.action_panel_opacity = 0.9;
+                    state.action_panel_scale = action_panel::animation::SCALE_START;
                     return operation::focus_next();
                 } else {
-                    // when closing the action panel, restore focus to the search field if available
+                    state.action_panel_start_time = None;
                     if state.screen.can_search() {
                         return operation::focus(state.search_input_id.clone());
                     } else {

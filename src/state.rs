@@ -1,6 +1,7 @@
 use iced::widget::Id as WidgetId;
 use iced::window;
 use std::path::PathBuf;
+use std::time::Instant;
 
 use crate::apps;
 use crate::components::actions::ActionPanelItem;
@@ -26,6 +27,11 @@ pub struct State {
     pub toast_message: String,
     pub window_id: Option<window::Id>,
     pub settings_window_id: Option<window::Id>,
+
+    // Animation state
+    pub action_panel_start_time: Option<Instant>,
+    pub action_panel_opacity: f32,
+    pub action_panel_scale: f32,
 }
 
 fn get_frecency_path() -> PathBuf {
@@ -71,6 +77,9 @@ impl State {
             toast_message: String::new(),
             window_id: None,
             settings_window_id: None,
+            action_panel_start_time: None,
+            action_panel_opacity: 1.0,
+            action_panel_scale: 1.0,
         };
 
         state.update_selected_actions();

@@ -98,11 +98,19 @@ fn subscription(state: &State) -> Subscription<Message> {
 
     let window_close_sub = window::close_events().map(Message::WindowClosed);
 
-    if state.window_id.is_some() {
-        Subscription::batch(vec![message_sub, keyboard_sub, window_close_sub])
+    let animation_sub = if state.action_panel_start_time.is_some() {
+        window::frames().map(Message::Tick)
     } else {
-        Subscription::batch(vec![message_sub, window_close_sub])
+        Subscription::none()
+    };
+
+    let mut subs = vec![message_sub, window_close_sub, animation_sub];
+
+    if state.window_id.is_some() {
+        subs.push(keyboard_sub);
     }
+
+    Subscription::batch(subs)
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

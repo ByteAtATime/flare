@@ -13,6 +13,12 @@ use crate::{
     icons,
 };
 
+pub mod animation {
+    pub const DURATION_MS: u64 = 125; // below this feels choppy, above is sluggish
+    pub const OPACITY_START: f32 = 0.8;
+    pub const SCALE_START: f32 = 0.95;
+}
+
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
 
@@ -32,10 +38,24 @@ pub fn render_action_panel(
     actions: &[ActionPanelItem],
     search_text: &str,
     selected_index: usize,
+    opacity: f32,
 ) -> Element<'static, ActionPanelMessage> {
     let filtered_actions = filter_actions(actions, search_text);
     let search_text_owned = search_text.to_string();
     let filtered_count = filtered_actions.len();
+
+    let text_color = Color {
+        a: opacity,
+        ..TEXT_COLOR
+    };
+    let section_title_color = Color {
+        a: 0.5 * opacity,
+        ..SECTION_TITLE_COLOR
+    };
+    let bg_color = Color {
+        a: opacity,
+        ..color!(0x2c2c2c)
+    };
 
     let mut current_index = 0usize;
     let _total_actions = count_actions(&filtered_actions, &search_text_owned);
@@ -48,9 +68,14 @@ pub fn render_action_panel(
                 current_index += 1;
 
                 col.push(
-                    container(render_action_owned(action, is_selected, current_index - 1))
-                        .width(Length::Fill)
-                        .padding([0, 8]),
+                    container(render_action_owned(
+                        action,
+                        is_selected,
+                        current_index - 1,
+                        opacity,
+                    ))
+                    .width(Length::Fill)
+                    .padding([0, 8]),
                 )
             }
             ActionPanelItem::Section(section) => {
@@ -61,6 +86,8 @@ pub fn render_action_panel(
                     selected_index,
                     &mut current_index,
                     is_first,
+                    section_title_color,
+                    opacity,
                 ));
 
                 if idx < filtered_count - 1 {
@@ -79,21 +106,21 @@ pub fn render_action_panel(
         .on_input(ActionPanelMessage::SearchChanged)
         .size(13)
         .padding([0, 16])
-        .style(|_theme: &Theme, _status| text_input::Style {
+        .style(move |_theme: &Theme, _status| text_input::Style {
             background: iced::Background::Color(Color::TRANSPARENT),
             border: iced::Border::default(),
-            icon: TEXT_COLOR,
-            placeholder: Color::from_rgba(1.0, 1.0, 1.0, 0.4),
-            value: TEXT_COLOR,
-            selection: Color::from_rgba(1.0, 1.0, 1.0, 0.2),
+            icon: text_color,
+            placeholder: Color::from_rgba(1.0, 1.0, 1.0, 0.4 * opacity),
+            value: text_color,
+            selection: Color::from_rgba(1.0, 1.0, 1.0, 0.2 * opacity),
         });
 
     let search_container = column![rule::horizontal(1), container(search_bar).center_y(44)];
 
     let action_panel = column![
-        container(opaque(column![actions_col, search_container])).style(|_theme| {
+        container(opaque(column![actions_col, search_container])).style(move |_theme| {
             container::Style {
-                background: Some(color!(0x2c2c2c).into()), // TODO: where did this come from?
+                background: Some(bg_color.into()),
                 border: Border::default().rounded(8.0),
                 ..Default::default()
             }
@@ -167,6 +194,7 @@ fn render_action_owned(
     action: Action,
     is_selected: bool,
     index: usize,
+    opacity: f32,
 ) -> Element<'static, ActionPanelMessage> {
     let title = action.title.clone();
     let icon_char = action
@@ -175,20 +203,30 @@ fn render_action_owned(
         .and_then(|icon_name| icons::get_icon(icon_name))
         .map(|s| s.to_string());
 
+    let text_color = Color {
+        a: opacity,
+        ..TEXT_COLOR
+    };
+
     let content: Element<'static, ActionPanelMessage> = if let Some(icon) = icon_char {
         row![
-            text(icon).font(ICON_FONT).size(18),
-            text(title).font(INTER_FONT)
+            text(icon).font(ICON_FONT).size(18).color(text_color),
+            text(title).font(INTER_FONT).color(text_color)
         ]
         .align_y(Center)
         .height(40)
         .spacing(10)
         .into()
     } else {
-        container(text(title).font(INTER_FONT))
+        container(text(title).font(INTER_FONT).color(text_color))
             .height(40)
             .align_y(Center)
             .into()
+    };
+
+    let selected_bg = Color {
+        a: opacity,
+        ..SELECTED_BG
     };
 
     let mut btn = Button::new(content)
@@ -197,15 +235,15 @@ fn render_action_owned(
         .style(move |_theme, _status| {
             if is_selected {
                 button::Style {
-                    background: Some(SELECTED_BG.into()),
-                    text_color: TEXT_COLOR,
+                    background: Some(selected_bg.into()),
+                    text_color,
                     border: Border::default().rounded(8.0),
                     ..Default::default()
                 }
             } else {
                 button::Style {
                     background: None,
-                    text_color: TEXT_COLOR,
+                    text_color,
                     border: Border::default().rounded(8.0),
                     ..Default::default()
                 }
@@ -226,11 +264,13 @@ fn render_section_owned(
     selected_index: usize,
     current_index: &mut usize,
     is_first: bool,
+    section_title_color: Color,
+    opacity: f32,
 ) -> Element<'static, ActionPanelMessage> {
     let section_title = text(section.props.title.clone())
         .size(13)
         .line_height(LineHeight::Absolute(iced::Pixels(14.0)))
-        .color(SECTION_TITLE_COLOR)
+        .color(section_title_color)
         .font(INTER_FONT);
 
     let section_actions = section
@@ -240,7 +280,7 @@ fn render_section_owned(
             let is_selected = *current_index == selected_index;
             let idx = *current_index;
             *current_index += 1;
-            col.push(render_action_owned(action, is_selected, idx))
+            col.push(render_action_owned(action, is_selected, idx, opacity))
         });
 
     let top_pad = if is_first { 2.0 } else { 16.0 };

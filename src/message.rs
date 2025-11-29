@@ -4,6 +4,7 @@ use crate::extensions::ExtensionCommand;
 use crate::types::Tree;
 use iced::widget::image::Handle;
 use iced::window;
+use std::time::Instant;
 
 #[derive(Clone, Debug)]
 pub enum Message {
@@ -32,6 +33,8 @@ pub enum Message {
 
     Settings(crate::screens::settings::SettingsMessage),
     OpenUrl(String),
+
+    Tick(Instant),
 
     Root(crate::screens::root::RootMessage),
     Grid(crate::screens::grid::GridMessage),
