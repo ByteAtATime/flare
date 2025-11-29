@@ -104,7 +104,21 @@ fn subscription(state: &State) -> Subscription<Message> {
         Subscription::none()
     };
 
-    let mut subs = vec![message_sub, window_close_sub, animation_sub];
+    let escape_sub = iced::event::listen_with(|event, _status, _id| {
+        if let iced::Event::Keyboard(iced::keyboard::Event::KeyPressed {
+            key: iced::keyboard::Key::Named(iced::keyboard::key::Named::Escape),
+            modifiers,
+            ..
+        }) = event
+        {
+            if modifiers.is_empty() {
+                return Some(Message::EscapePressed);
+            }
+        }
+        None
+    });
+
+    let mut subs = vec![message_sub, window_close_sub, animation_sub, escape_sub];
 
     if state.window_id.is_some() {
         subs.push(keyboard_sub);

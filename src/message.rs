@@ -11,6 +11,7 @@ pub enum Message {
     UpdateTree(Tree),
     SearchTextChanged(String),
     KeyPressed(iced::keyboard::Key, iced::keyboard::Modifiers),
+    EscapePressed,
     ImageLoaded(String, Handle),
     InvokeAction(ActionHandler),
     ToggleActionPanel(bool),

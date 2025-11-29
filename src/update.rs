@@ -22,6 +22,9 @@ use crate::types::SidecarRequest;
 
 pub fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
+        Message::EscapePressed => {
+            return handle_escape(state);
+        }
         Message::WindowOpened(id) => {
             state.window_id = Some(id);
             if state.screen.can_search() {
@@ -251,30 +254,41 @@ fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message>
     }
 }
 
+fn handle_escape(state: &mut State) -> Task<Message> {
+    if state.action_panel_visible {
+        state.action_panel_visible = false;
+        state.action_panel_search.clear();
+        state.action_panel_selected = 0;
+        state.action_panel_start_time = None;
+        if state.screen.can_search() {
+            return operation::focus(state.search_input_id.clone());
+        }
+        return Task::none();
+    }
+
+    if !state.search_text.is_empty() {
+        state.search_text.clear();
+        state.screen.on_search("");
+        state.update_selected_actions();
+        return operation::focus(state.search_input_id.clone());
+    }
+
+    if let Screen::Root(_) = &state.screen {
+        return Task::none();
+    }
+
+    if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
+        let _ = runtime.send_request(&SidecarRequest::Pop);
+        return Task::none();
+    }
+
+    Task::done(Message::PopToRoot)
+}
+
 fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<Message> {
     if let Key::Named(named_key) = key {
         if modifiers.is_empty() && named_key == Named::Escape {
-            if state.action_panel_visible {
-                state.action_panel_visible = false;
-                state.action_panel_search.clear();
-                state.action_panel_selected = 0;
-                state.action_panel_start_time = None;
-                if state.screen.can_search() {
-                    return operation::focus(state.search_input_id.clone());
-                }
-                return Task::none();
-            }
-
-            if let Screen::Root(_) = &state.screen {
-                return Task::none();
-            }
-
-            if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
-                let _ = runtime.send_request(&SidecarRequest::Pop);
-                return Task::none();
-            }
-
-            return Task::done(Message::PopToRoot);
+            return handle_escape(state);
         }
 
         if state.action_panel_visible {
