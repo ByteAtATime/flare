@@ -114,7 +114,7 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 state.action_panel_start_time = Some(Instant::now());
                 state.action_panel_opacity = action_panel::animation::OPACITY_START;
                 state.action_panel_scale = action_panel::animation::SCALE_START;
-                return operation::focus_next();
+                return operation::focus(state.action_panel_input_id.clone());
             } else {
                 state.action_panel_start_time = None;
                 state.action_panel_search.clear();
@@ -374,7 +374,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                     state.action_panel_start_time = Some(Instant::now());
                     state.action_panel_opacity = action_panel::animation::OPACITY_START;
                     state.action_panel_scale = action_panel::animation::SCALE_START;
-                    return operation::focus_next();
+                    return operation::focus(state.action_panel_input_id.clone());
                 } else {
                     state.action_panel_start_time = None;
                     if state.screen.can_search() {

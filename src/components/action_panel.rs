@@ -39,6 +39,7 @@ pub fn render_action_panel(
     search_text: &str,
     selected_index: usize,
     opacity: f32,
+    input_id: iced::widget::Id,
 ) -> Element<'static, ActionPanelMessage> {
     let filtered_actions = filter_actions(actions, search_text);
     let search_text_owned = search_text.to_string();
@@ -103,6 +104,7 @@ pub fn render_action_panel(
     );
 
     let search_bar = text_input("Search for actions...", &search_text_owned)
+        .id(input_id)
         .on_input(ActionPanelMessage::SearchChanged)
         .size(13)
         .padding([0, 16])

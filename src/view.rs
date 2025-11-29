@@ -51,6 +51,7 @@ pub fn view(state: &State) -> Element<'_, Message> {
             &state.action_panel_search,
             state.action_panel_selected,
             state.action_panel_opacity,
+            state.action_panel_input_id.clone(),
         )
         .map(map_action_panel_message);
 
