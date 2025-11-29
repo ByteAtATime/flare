@@ -1,6 +1,8 @@
 use iced::widget::Id as WidgetId;
 use iced::window;
 use std::path::PathBuf;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 use crate::apps;
 use crate::components::action_panel;
@@ -10,6 +12,7 @@ use crate::frecency::FrecencyStore;
 use crate::preferences::PreferenceStore;
 use crate::screens::{Screen, Shell};
 use crate::theme::Theme;
+use crate::transport::{SidecarReader, SidecarWriter};
 
 pub struct State {
     pub screen: Screen,
@@ -27,6 +30,9 @@ pub struct State {
     pub toast_message: String,
     pub window_id: Option<window::Id>,
     pub settings_window_id: Option<window::Id>,
+
+    pub reader: Option<Arc<Mutex<SidecarReader>>>,
+    pub writer: Option<SidecarWriter>,
 }
 
 fn get_frecency_path() -> PathBuf {
@@ -70,6 +76,8 @@ impl State {
             toast_message: String::new(),
             window_id: None,
             settings_window_id: None,
+            reader: None,
+            writer: None,
         };
 
         state.update_selected_actions();

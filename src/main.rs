@@ -1,14 +1,15 @@
 mod apps;
+mod clipboard;
 mod components;
 mod deep_link;
 mod extensions;
 mod frecency;
 mod globals;
-mod handlers;
 mod icons;
 mod image_cache;
 mod ipc;
 mod message;
+mod oauth;
 mod position;
 mod preferences;
 mod runtime;
@@ -28,13 +29,15 @@ mod view;
 use clap::{Parser, Subcommand};
 use iced::Subscription;
 use iced::futures::channel::mpsc;
-use iced::futures::{self, SinkExt, StreamExt};
+use iced::futures::{self, SinkExt, StreamExt, stream};
 use iced::window;
-use serde_json::Value;
 use std::sync::{Arc, Mutex};
+use tokio::sync::Mutex as AsyncMutex;
 
 use crate::message::Message;
+use crate::runtime::SidecarListener;
 use crate::state::State;
+use crate::transport::SidecarReader;
 use crate::update::update;
 use crate::view::view;
 
@@ -90,11 +93,38 @@ fn message_stream() -> impl futures::Stream<Item = Message> {
     })
 }
 
+fn sidecar_stream(reader: Arc<AsyncMutex<SidecarReader>>) -> impl futures::Stream<Item = Message> {
+    stream::unfold(reader, |reader| async move {
+        let mut guard = reader.lock().await;
+        let response = guard.read_next().await;
+        drop(guard); // once we're done reading, we can unlock the lock (idk what this is called)
+
+        match response {
+            Some(resp) => Some((Message::SidecarMessage(resp), reader)),
+            None => None,
+        }
+    })
+}
+
 fn subscription(state: &State) -> Subscription<Message> {
     let keyboard_sub =
         iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
 
     let message_sub = Subscription::run(message_stream);
+
+    let sidecar_sub = if let Some(reader) = &state.reader {
+        Subscription::run_with(
+            SidecarListener {
+                reader: reader.clone(),
+            },
+            |listener| {
+                let reader = listener.reader.clone();
+                sidecar_stream(reader)
+            },
+        )
+    } else {
+        Subscription::none()
+    };
 
     let window_close_sub = window::close_events().map(Message::WindowClosed);
 
@@ -118,7 +148,13 @@ fn subscription(state: &State) -> Subscription<Message> {
         None
     });
 
-    let mut subs = vec![message_sub, window_close_sub, animation_sub, escape_sub];
+    let mut subs = vec![
+        message_sub,
+        sidecar_sub,
+        window_close_sub,
+        animation_sub,
+        escape_sub,
+    ];
 
     if state.window_id.is_some() {
         subs.push(keyboard_sub);
@@ -164,9 +200,6 @@ fn setup_channels() {
     let (sender, receiver) = mpsc::unbounded();
     *globals::SENDER.lock().unwrap() = Some(sender);
     *globals::RECEIVER.lock().unwrap() = Some(receiver);
-
-    let (callback_sender, callback_receiver) = mpsc::unbounded::<(String, Value)>();
-    *globals::RUNTIME_SENDER.lock().unwrap() = Some(callback_sender);
 
     let (image_sender, image_receiver) = std::sync::mpsc::channel::<String>();
     *globals::IMAGE_LOADER.lock().unwrap() = Some(image_sender);
@@ -218,10 +251,6 @@ fn setup_channels() {
                 });
             }
         });
-    });
-
-    std::thread::spawn(move || {
-        runtime::run_callback_loop(callback_receiver);
     });
 }
 

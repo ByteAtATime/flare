@@ -1,52 +1,53 @@
-use std::io::{Read, Write};
-use std::process::{ChildStdin, ChildStdout};
-use std::sync::{Arc, Mutex};
+use std::hash::{Hash, Hasher};
+use std::sync::Arc;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::process::{ChildStdin, ChildStdout};
+use tokio::sync::Mutex;
 
-use crate::types::{RustResponse, SidecarRequest};
+use crate::types::{RustResponse, SidecarRequest, SidecarResponse};
 
-#[derive(Clone)]
-pub struct Transport {
+#[derive(Clone, Debug)]
+pub struct SidecarWriter {
     stdin: Arc<Mutex<ChildStdin>>,
 }
 
-impl Transport {
+impl SidecarWriter {
     pub fn new(stdin: ChildStdin) -> Self {
         Self {
             stdin: Arc::new(Mutex::new(stdin)),
         }
     }
 
-    pub fn send(&self, response: &RustResponse) -> Result<(), Box<dyn std::error::Error>> {
-        let data = rmp_serde::to_vec_named(response)?;
-        let length = (data.len() as u32).to_be_bytes();
-
-        let mut stdin = self.stdin.lock().unwrap();
-        stdin.write_all(&length)?;
-        stdin.write_all(&data)?;
-        stdin.flush()?;
-        Ok(())
+    pub async fn send(&self, response: &RustResponse) -> Result<(), std::io::Error> {
+        let data = rmp_serde::to_vec_named(response)
+            .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
+        self.write_bytes(data).await
     }
 
-    pub fn send_request(&self, request: &SidecarRequest) -> Result<(), std::io::Error> {
+    pub async fn send_request(&self, request: &SidecarRequest) -> Result<(), std::io::Error> {
         let data = rmp_serde::to_vec_named(request)
             .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
-        let length = (data.len() as u32).to_be_bytes();
+        self.write_bytes(data).await
+    }
 
-        let mut stdin = self.stdin.lock().unwrap();
-        stdin.write_all(&length)?;
-        stdin.write_all(&data)?;
-        stdin.flush()?;
+    async fn write_bytes(&self, data: Vec<u8>) -> Result<(), std::io::Error> {
+        let length = (data.len() as u32).to_be_bytes();
+        let mut stdin = self.stdin.lock().await;
+        stdin.write_all(&length).await?;
+        stdin.write_all(&data).await?;
+        stdin.flush().await?;
         Ok(())
     }
 }
 
-pub struct MessageReader {
+#[derive(Debug)]
+pub struct SidecarReader {
     stdout: ChildStdout,
     buffer: Vec<u8>,
     length_buf: [u8; 4],
 }
 
-impl MessageReader {
+impl SidecarReader {
     pub fn new(stdout: ChildStdout) -> Self {
         Self {
             stdout,
@@ -55,18 +56,20 @@ impl MessageReader {
         }
     }
 
-    pub fn read_next(&mut self) -> Option<Vec<u8>> {
-        if self.stdout.read_exact(&mut self.length_buf).is_err() {
+    pub async fn read_next(&mut self) -> Option<SidecarResponse> {
+        use tokio::io::AsyncReadExt;
+
+        let mut length_buf = [0u8; 4];
+        if self.stdout.read_exact(&mut length_buf).await.is_err() {
+            return None;
+        }
+        let length = u32::from_be_bytes(length_buf) as usize;
+
+        let mut buffer = vec![0u8; length];
+        if self.stdout.read_exact(&mut buffer).await.is_err() {
             return None;
         }
 
-        let length = u32::from_be_bytes(self.length_buf) as usize;
-        self.buffer.resize(length, 0);
-
-        if self.stdout.read_exact(&mut self.buffer).is_err() {
-            return None;
-        }
-
-        Some(self.buffer.clone())
+        rmp_serde::from_slice(&buffer).ok()
     }
 }

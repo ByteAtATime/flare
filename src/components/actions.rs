@@ -109,10 +109,7 @@ impl From<ActionPanelDto> for ActionPanel {
 impl From<ActionDto> for Action {
     fn from(dto: ActionDto) -> Self {
         let handler = dto.props.on_action.map(|cb| {
-            ActionHandler::new(move || {
-                crate::globals::send_callback(cb.id.clone(), Value::Null);
-                Task::none()
-            })
+            ActionHandler::new(move || Task::done(Message::RunCallback(cb.id.clone(), Value::Null)))
         });
 
         Self {

@@ -42,7 +42,7 @@ pub fn handle_oauth_redirect(url: &str) -> bool {
     let code = params.get("code").map(|c| c.to_string());
 
     if let (Some(state), Some(code)) = (state, code) {
-        return crate::handlers::oauth::complete(&state, &code);
+        return crate::oauth::complete(&state, &code);
     }
 
     false

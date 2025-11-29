@@ -5,19 +5,24 @@ use iced::{
     window,
 };
 use serde_json::Value;
+use std::sync::Arc;
+use std::time::Instant;
+use tokio::sync::Mutex;
 
 use crate::apps;
 use crate::components::action_panel;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
-use crate::globals;
 use crate::image_cache;
 use crate::message::Message;
 use crate::runtime;
 use crate::screens::{Screen, Shell};
-use crate::screens::{detail, grid, list, root};
 use crate::state::State;
-use crate::types::SidecarRequest;
+use crate::types::{RustResponse, SidecarRequest, SidecarResponse};
+
+use crate::clipboard;
+use crate::oauth;
+use crate::storage;
 
 pub fn update(state: &mut State, message: Message) -> Task<Message> {
     match message {
@@ -46,7 +51,6 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                     decorations: false,
                     level: window::Level::AlwaysOnTop,
                     resizable: false,
-                    // TODO: these sizes are copied from raycast
                     size: iced::Size::new(774.0, 474.0),
                     ..Default::default()
                 });
@@ -86,14 +90,14 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             state.screen.on_search(&text);
             state.update_selected_actions();
             if let Some(callback) = state.screen.on_search_text_change() {
-                globals::send_callback(callback.id.clone(), Value::String(text));
+                return send_callback(state, callback.id.clone(), Value::String(text));
             }
         }
         Message::DropdownChanged(value) => {
             state.screen.set_dropdown_value(&value);
             if let Some(dropdown) = state.screen.get_search_bar_accessory() {
                 if let Some(callback) = &dropdown.props.on_change {
-                    globals::send_callback(callback.id.clone(), Value::String(value));
+                    return send_callback(state, callback.id.clone(), Value::String(value));
                 }
             }
         }
@@ -149,14 +153,29 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             let preferences = state
                 .preferences
                 .get_extension_preferences(&command.extension_name, &state.extensions);
-            if let Err(e) = runtime::launch_extension(
-                &entry.to_string_lossy(),
-                &assets_path.to_string_lossy(),
-                preferences,
-            ) {
+
+            let entry_str = entry.to_string_lossy().to_string();
+            let assets_str = assets_path.to_string_lossy().to_string();
+
+            return Task::perform(
+                async move {
+                    runtime::launch_extension(&entry_str, &assets_str, preferences)
+                        .await
+                        .map(|(w, r)| (w, Arc::new(Mutex::new(r))))
+                        .map_err(|e| e.to_string())
+                },
+                Message::ExtensionLaunched,
+            );
+        }
+        Message::ExtensionLaunched(result) => match result {
+            Ok((writer, reader)) => {
+                state.writer = Some(writer);
+                state.reader = Some(reader);
+            }
+            Err(e) => {
                 eprintln!("Failed to launch extension: {:?}", e);
             }
-        }
+        },
         Message::LaunchApp(app) => {
             let id = format!("app:{}", app.id);
             state.frecency.visit(id);
@@ -168,13 +187,15 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         }
         Message::ResetFrecency(id) => {
             state.frecency.reset(&id);
-            if let Screen::Root(root_screen) = &mut state.screen {
+            if let crate::screens::Screen::Root(root_screen) = &mut state.screen {
                 root_screen.sort_items(&state.frecency);
             }
             state.update_selected_actions();
         }
         Message::PopToRoot => {
-            runtime::stop_runtime();
+            state.writer = None;
+            state.reader = None;
+
             state.search_text.clear();
             let commands = extensions::get_launchable_commands(&state.extensions);
 
@@ -206,14 +227,192 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::OpenUrl(url) => {
             let _ = crate::utils::open_url(&url);
         }
+
+        Message::SidecarMessage(response) => {
+            return handle_sidecar_response(state, response);
+        }
+
+        Message::SidecarOperationFinished(id, result) => {
+            if let Some(writer) = &state.writer {
+                let writer = writer.clone();
+                return Task::perform(
+                    async move {
+                        let response = match result {
+                            Ok(val) => RustResponse::Success { id, result: val },
+                            Err(e) => RustResponse::Error { id, error: e },
+                        };
+                        let _ = writer.send(&response).await;
+                    },
+                    |_| Message::Tick(Instant::now()),
+                );
+            }
+        }
+
+        Message::RunCallback(id, args) => {
+            return send_callback(state, id, args);
+        }
+
         msg => return dispatch_screen_message(state, msg),
+    }
+    Task::none()
+}
+
+fn handle_sidecar_response(state: &mut State, response: SidecarResponse) -> Task<Message> {
+    match response {
+        SidecarResponse::Initialized { success, error } => {
+            if !success {
+                eprintln!("Plugin initialization failed: {:?}", error);
+            }
+            Task::none()
+        }
+        SidecarResponse::CallbackResult { success, error } => {
+            if !success {
+                eprintln!("Callback failed: {:?}", error);
+            }
+            Task::none()
+        }
+        SidecarResponse::ShowToast {
+            id,
+            title,
+            message: _,
+            style: _,
+        } => {
+            state.toast_message = title;
+            Task::done(Message::SidecarOperationFinished(id, Ok(None)))
+        }
+        SidecarResponse::UpdateTree { id, tree } => {
+            if let Some(component) = tree.children.into_iter().next() {
+                if let Some(mut new_screen) = Screen::new(component, Some(&state.screen)) {
+                    if !state.search_text.is_empty() {
+                        new_screen.on_search(&state.search_text);
+                    }
+                    state.screen = new_screen;
+                    state.update_selected_actions();
+                }
+            }
+
+            let focus_task = if state.screen.can_search() {
+                operation::focus(state.search_input_id.clone())
+            } else {
+                Task::none()
+            };
+
+            Task::batch(vec![
+                focus_task,
+                Task::done(Message::SidecarOperationFinished(id, Ok(None))),
+            ])
+        }
+        SidecarResponse::Pop { id } => Task::batch(vec![
+            Task::done(Message::PopToRoot),
+            Task::done(Message::SidecarOperationFinished(id, Ok(None))),
+        ]),
+        SidecarResponse::OpenExtensionPreferences { id }
+        | SidecarResponse::OpenCommandPreferences { id } => Task::batch(vec![
+            Task::done(Message::OpenSettings),
+            Task::done(Message::SidecarOperationFinished(id, Ok(None))),
+        ]),
+        SidecarResponse::OpenUrl { id, url } => {
+            let _ = crate::utils::open_url(&url);
+            Task::done(Message::SidecarOperationFinished(id, Ok(None)))
+        }
+
+        SidecarResponse::LocalStorageSet {
+            id,
+            namespace,
+            key,
+            data,
+        } => Task::perform(
+            async move { storage::set(&namespace, &key, &data).map(|_| None::<serde_json::Value>) },
+            move |res| Message::SidecarOperationFinished(id, res.map(|_| None)),
+        ),
+        SidecarResponse::LocalStorageGet { id, namespace, key } => {
+            Task::perform(async move { storage::get(&namespace, &key) }, move |res| {
+                Message::SidecarOperationFinished(id, Ok(res.map(Value::String)))
+            })
+        }
+        SidecarResponse::LocalStorageRemove { id, namespace, key } => Task::perform(
+            async move { storage::remove(&namespace, &key) },
+            move |res| Message::SidecarOperationFinished(id, Ok(Some(Value::Bool(res)))),
+        ),
+        SidecarResponse::LocalStorageClear { id, namespace } => Task::perform(
+            async move { storage::clear(&namespace).map(|_| None::<serde_json::Value>) },
+            move |res| Message::SidecarOperationFinished(id, res.map(|_| None)),
+        ),
+        SidecarResponse::LocalStorageAll { id, namespace } => {
+            Task::perform(async move { storage::get_all(&namespace) }, move |res| {
+                Message::SidecarOperationFinished(id, Ok(Some(serde_json::to_value(res).unwrap())))
+            })
+        }
+
+        SidecarResponse::ClipboardCopy {
+            id,
+            content,
+            concealed,
+        } => Task::perform(
+            async move { clipboard::copy(content, concealed) },
+            move |res| Message::SidecarOperationFinished(id, res),
+        ),
+        SidecarResponse::ClipboardClear { id } => {
+            Task::perform(async move { clipboard::clear() }, move |res| {
+                Message::SidecarOperationFinished(id, res)
+            })
+        }
+        SidecarResponse::ClipboardRead { id, .. } => {
+            Task::perform(async move { clipboard::read() }, move |res| {
+                Message::SidecarOperationFinished(id, res)
+            })
+        }
+
+        SidecarResponse::OAuthAuthorize {
+            id,
+            url,
+            state: oauth_state,
+        } => {
+            if let Some(writer) = &state.writer {
+                oauth::authorize(id, url, oauth_state, writer.clone());
+            }
+            Task::none()
+        }
+        SidecarResponse::OAuthSetTokens {
+            id,
+            provider_id,
+            tokens,
+        } => Task::perform(
+            async move { oauth::set_tokens(provider_id, tokens) },
+            move |res| Message::SidecarOperationFinished(id, res),
+        ),
+        SidecarResponse::OAuthGetTokens { id, provider_id } => {
+            Task::perform(async move { oauth::get_tokens(provider_id) }, move |res| {
+                Message::SidecarOperationFinished(id, res)
+            })
+        }
+        SidecarResponse::OAuthRemoveTokens { id, provider_id } => Task::perform(
+            async move { oauth::remove_tokens(provider_id) },
+            move |res| Message::SidecarOperationFinished(id, res),
+        ),
+    }
+}
+
+fn send_callback(state: &mut State, callback_id: String, args: Value) -> Task<Message> {
+    if let Some(writer) = &state.writer {
+        let writer = writer.clone();
+        let request = SidecarRequest::InvokeCallback { callback_id, args };
+
+        return Task::perform(
+            async move {
+                let _ = writer.send_request(&request).await;
+            },
+            |_| Message::Tick(Instant::now()),
+        );
     }
     Task::none()
 }
 
 fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message> {
     match (&mut state.screen, message) {
-        (Screen::Root(_), Message::Root(root::RootMessage::RunAction(handler))) => handler.call(),
+        (Screen::Root(_), Message::Root(crate::screens::root::RootMessage::RunAction(handler))) => {
+            handler.call()
+        }
         (Screen::Root(s), Message::Root(m)) => s.update(m).map(Message::Root),
         (Screen::Grid(s), Message::Grid(m)) => s.update(m).map(Message::Grid),
         (Screen::List(s), Message::List(m)) => s.update(m).map(Message::List),
@@ -238,9 +437,14 @@ fn handle_escape(state: &mut State) -> Task<Message> {
         return Task::none();
     }
 
-    if let Some(runtime) = globals::RUNTIME.lock().unwrap().as_mut() {
-        let _ = runtime.send_request(&SidecarRequest::Pop);
-        return Task::none();
+    if let Some(writer) = &state.writer {
+        let writer = writer.clone();
+        return Task::perform(
+            async move {
+                let _ = writer.send_request(&SidecarRequest::Pop).await;
+            },
+            |_| Message::Tick(Instant::now()),
+        );
     }
 
     Task::done(Message::PopToRoot)
@@ -324,16 +528,24 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
 
     let task = match &mut state.screen {
         Screen::Root(s) => s
-            .update(root::RootMessage::KeyPressed(key, modifiers))
+            .update(crate::screens::root::RootMessage::KeyPressed(
+                key, modifiers,
+            ))
             .map(Message::Root),
         Screen::Grid(s) => s
-            .update(grid::GridMessage::KeyPressed(key, modifiers))
+            .update(crate::screens::grid::GridMessage::KeyPressed(
+                key, modifiers,
+            ))
             .map(Message::Grid),
         Screen::List(s) => s
-            .update(list::ListMessage::KeyPressed(key, modifiers))
+            .update(crate::screens::list::ListMessage::KeyPressed(
+                key, modifiers,
+            ))
             .map(Message::List),
         Screen::Detail(s) => s
-            .update(detail::DetailMessage::KeyPressed(key, modifiers))
+            .update(crate::screens::detail::DetailMessage::KeyPressed(
+                key, modifiers,
+            ))
             .map(Message::Detail),
     };
 

@@ -1,10 +1,13 @@
 use crate::apps::AppEntry;
 use crate::components::actions::ActionHandler;
 use crate::extensions::ExtensionCommand;
-use crate::types::Tree;
+use crate::transport::{SidecarReader, SidecarWriter};
+use crate::types::{SidecarResponse, Tree};
 use iced::widget::image::Handle;
 use iced::window;
+use std::sync::Arc;
 use std::time::Instant;
+use tokio::sync::Mutex;
 
 use crate::components::action_panel;
 
@@ -22,6 +25,7 @@ pub enum Message {
     ShowToast(String),
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),
+    ExtensionLaunched(Result<(SidecarWriter, Arc<Mutex<SidecarReader>>), String>),
     LaunchApp(AppEntry),
     ResetFrecency(String),
     PopToRoot,
@@ -41,4 +45,8 @@ pub enum Message {
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),
     List(crate::screens::list::ListMessage),
+
+    SidecarMessage(SidecarResponse),
+    SidecarOperationFinished(u32, Result<Option<serde_json::Value>, String>),
+    RunCallback(String, serde_json::Value),
 }
