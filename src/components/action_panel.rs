@@ -1,6 +1,11 @@
+use iced::widget::text;
 use iced::{
-    Border, Color, Element, Length, Theme, color,
-    widget::{Button, button, column, container, mouse_area, opaque, row, text, text_input},
+    Alignment::Center,
+    Border, Color, Element, Length, Padding, Theme, color,
+    widget::{
+        Button, button, column, container, mouse_area, opaque, row, rule, space, text::LineHeight,
+        text_input,
+    },
 };
 
 use crate::{
@@ -10,6 +15,10 @@ use crate::{
 
 const ICON_FONT: iced::Font = iced::Font::with_name("Raycast-Icons");
 const INTER_FONT: iced::Font = iced::Font::with_name("Inter");
+
+const SELECTED_BG: Color = Color::from_rgb(0.0, 0.48, 1.0);
+const SECTION_TITLE_COLOR: Color = Color::from_rgba(1.0, 1.0, 1.0, 0.5);
+const TEXT_COLOR: Color = Color::WHITE;
 
 #[derive(Debug, Clone)]
 pub enum ActionPanelMessage {
@@ -26,57 +35,79 @@ pub fn render_action_panel(
 ) -> Element<'static, ActionPanelMessage> {
     let filtered_actions = filter_actions(actions, search_text);
     let search_text_owned = search_text.to_string();
+    let filtered_count = filtered_actions.len();
 
     let mut current_index = 0usize;
-    let actions_col = filtered_actions
-        .into_iter()
-        .fold(column![].spacing(4), |col, action| {
-            let element = match action {
-                ActionPanelItem::Action(action) => {
-                    let is_selected = current_index == selected_index;
-                    current_index += 1;
-                    render_action_owned(action, is_selected, current_index - 1)
+    let _total_actions = count_actions(&filtered_actions, &search_text_owned);
+
+    let actions_col = filtered_actions.into_iter().enumerate().fold(
+        column![].width(Length::Fill).padding([12, 0]),
+        |col, (idx, action)| match action {
+            ActionPanelItem::Action(action) => {
+                let is_selected = current_index == selected_index;
+                current_index += 1;
+
+                col.push(
+                    container(render_action_owned(action, is_selected, current_index - 1))
+                        .width(Length::Fill)
+                        .padding([0, 8]),
+                )
+            }
+            ActionPanelItem::Section(section) => {
+                let is_first = idx == 0;
+
+                let mut col = col.push(render_section_owned(
+                    section,
+                    selected_index,
+                    &mut current_index,
+                    is_first,
+                ));
+
+                if idx < filtered_count - 1 {
+                    col = col.push(rule::horizontal(1).style(|theme| rule::Style {
+                        color: color!(0x404040),
+                        ..rule::default(theme)
+                    }));
                 }
-                ActionPanelItem::Section(section) => {
-                    render_section_owned(section, selected_index, &mut current_index)
-                }
-            };
-            col.push(element)
-        });
+
+                col
+            }
+        },
+    );
 
     let search_bar = text_input("Search for actions...", &search_text_owned)
         .on_input(ActionPanelMessage::SearchChanged)
-        .size(14)
-        .padding(8)
+        .size(13)
+        .padding([0, 16])
         .style(|_theme: &Theme, _status| text_input::Style {
             background: iced::Background::Color(Color::TRANSPARENT),
             border: iced::Border::default(),
-            icon: Color::from_rgba(1.0, 1.0, 1.0, 0.6),
+            icon: TEXT_COLOR,
             placeholder: Color::from_rgba(1.0, 1.0, 1.0, 0.4),
-            value: Color::WHITE,
+            value: TEXT_COLOR,
             selection: Color::from_rgba(1.0, 1.0, 1.0, 0.2),
         });
 
+    let search_container = column![rule::horizontal(1), container(search_bar).center_y(44)];
+
     let action_panel = column![
-        container(opaque(column![actions_col, search_bar,]))
-            .padding(8)
-            .style(|_theme| {
-                container::Style {
-                    background: Some(color!(0x2c2c2c).into()),
-                    border: Border::default().rounded(8.0),
-                    ..Default::default()
-                }
-            }),
-        container(column![]).height(40)
+        container(opaque(column![actions_col, search_container])).style(|_theme| {
+            container::Style {
+                background: Some(color!(0x2c2c2c).into()), // TODO: where did this come from?
+                border: Border::default().rounded(8.0),
+                ..Default::default()
+            }
+        }),
+        space().height(40)
     ]
-    .width(Length::Fixed(368.0))
-    .spacing(10);
+    .width(Length::Fixed(368.0));
 
     opaque(
         mouse_area(
             container(action_panel)
                 .align_bottom(Length::Fill)
-                .align_right(Length::Fill),
+                .align_right(Length::Fill)
+                .padding([0, 12]),
         )
         .on_press(ActionPanelMessage::Close),
     )
@@ -146,31 +177,36 @@ fn render_action_owned(
 
     let content: Element<'static, ActionPanelMessage> = if let Some(icon) = icon_char {
         row![
-            text(icon).font(ICON_FONT).size(16),
-            text(title).font(INTER_FONT).size(13)
+            text(icon).font(ICON_FONT).size(18),
+            text(title).font(INTER_FONT)
         ]
-        .spacing(8)
+        .align_y(Center)
+        .height(40)
+        .spacing(10)
         .into()
     } else {
-        text(title).font(INTER_FONT).size(13).into()
+        container(text(title).font(INTER_FONT))
+            .height(40)
+            .align_y(Center)
+            .into()
     };
 
     let mut btn = Button::new(content)
         .width(Length::Fill)
-        .padding([6, 8])
+        .padding([0, 10])
         .style(move |_theme, _status| {
             if is_selected {
                 button::Style {
-                    background: Some(color!(0x007aff).into()),
-                    text_color: Color::WHITE,
-                    border: Border::default().rounded(4.0),
+                    background: Some(SELECTED_BG.into()),
+                    text_color: TEXT_COLOR,
+                    border: Border::default().rounded(8.0),
                     ..Default::default()
                 }
             } else {
                 button::Style {
                     background: None,
-                    text_color: Color::WHITE,
-                    border: Border::default().rounded(4.0),
+                    text_color: TEXT_COLOR,
+                    border: Border::default().rounded(8.0),
                     ..Default::default()
                 }
             }
@@ -189,23 +225,33 @@ fn render_section_owned(
     section: ActionPanelSection,
     selected_index: usize,
     current_index: &mut usize,
+    is_first: bool,
 ) -> Element<'static, ActionPanelMessage> {
     let section_title = text(section.props.title.clone())
-        .size(11)
-        .color(Color::from_rgba(1.0, 1.0, 1.0, 0.6))
+        .size(13)
+        .line_height(LineHeight::Absolute(iced::Pixels(14.0)))
+        .color(SECTION_TITLE_COLOR)
         .font(INTER_FONT);
 
     let section_actions = section
         .children
         .into_iter()
-        .fold(column![].spacing(2), |col, action| {
+        .fold(column![].spacing(0), |col, action| {
             let is_selected = *current_index == selected_index;
             let idx = *current_index;
             *current_index += 1;
             col.push(render_action_owned(action, is_selected, idx))
         });
 
-    column![section_title, section_actions].spacing(4).into()
+    let top_pad = if is_first { 2.0 } else { 16.0 };
+
+    column![
+        container(section_title).padding(Padding::from(0).left(10)),
+        section_actions
+    ]
+    .spacing(10)
+    .padding(Padding::from(8).top(top_pad))
+    .into()
 }
 
 pub fn map_action_panel_message(msg: ActionPanelMessage) -> crate::Message {
