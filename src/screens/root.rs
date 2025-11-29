@@ -6,7 +6,6 @@ use iced::{
     Alignment, Border, Color, Element, Length, Task,
     keyboard::{Key, Modifiers, key::Named},
 };
-use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 use crate::apps::AppEntry;
@@ -379,7 +378,7 @@ impl RootScreen {
         let has_calc = false;
 
         let base_index = match self.state.get_layout_index(HeaderPolicy::Never) {
-            Some(idx) => idx,
+            Some((idx, _)) => idx,
             None => return Task::none(),
         };
 

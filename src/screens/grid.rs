@@ -66,27 +66,27 @@ impl GridScreen {
             GridMessage::KeyPressed(key, _modifiers) => {
                 if let Key::Named(named_key) = key {
                     use iced::keyboard::key::Named;
-                    let moved = match named_key {
+                    let direction = match named_key {
                         Named::ArrowRight => {
                             self.state.next();
-                            true
+                            Some(1)
                         }
                         Named::ArrowLeft => {
                             self.state.prev();
-                            true
+                            Some(-1)
                         }
                         Named::ArrowUp => {
                             self.state.move_vertical(-1);
-                            true
+                            Some(-1)
                         }
                         Named::ArrowDown => {
                             self.state.move_vertical(1);
-                            true
+                            Some(1)
                         }
-                        _ => false,
+                        _ => None,
                     };
-                    if moved {
-                        return self.scroll_to_selection();
+                    if let Some(dir) = direction {
+                        return self.scroll_to_selection(dir);
                     }
                 }
                 Task::none()
@@ -117,16 +117,18 @@ impl GridScreen {
             .into()
     }
 
-    fn scroll_to_selection(&self) -> Task<GridMessage> {
-        let container_index = match self.state.get_layout_index(HeaderPolicy::Always) {
-            Some(idx) => idx,
+    fn scroll_to_selection(&self, direction: i32) -> Task<GridMessage> {
+        let (layout_index, header_index) = match self.state.get_layout_index(HeaderPolicy::Always) {
+            Some(indices) => indices,
             None => return Task::none(),
         };
 
         scroll_to(
             self.scrollable_id.clone(),
             self.viewport.as_ref(),
-            container_index,
+            layout_index,
+            header_index,
+            direction,
         )
     }
 }

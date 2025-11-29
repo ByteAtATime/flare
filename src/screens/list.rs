@@ -79,21 +79,21 @@ impl ListScreen {
             ListMessage::KeyPressed(key, _modifiers) => {
                 if let Key::Named(named_key) = key {
                     use iced::keyboard::key::Named;
-                    let moved = match named_key {
+                    let direction = match named_key {
                         Named::ArrowDown => {
                             self.state.move_vertical(1);
                             self.update_detail_cache();
-                            true
+                            Some(1)
                         }
                         Named::ArrowUp => {
                             self.state.move_vertical(-1);
                             self.update_detail_cache();
-                            true
+                            Some(-1)
                         }
-                        _ => false,
+                        _ => None,
                     };
-                    if moved {
-                        return self.scroll_to_selection();
+                    if let Some(dir) = direction {
+                        return self.scroll_to_selection(dir);
                     }
                 }
                 Task::none()
@@ -126,16 +126,19 @@ impl ListScreen {
         )
     }
 
-    fn scroll_to_selection(&self) -> Task<ListMessage> {
-        let container_index = match self.state.get_layout_index(HeaderPolicy::IfTitleNotEmpty) {
-            Some(idx) => idx,
-            None => return Task::none(),
-        };
+    fn scroll_to_selection(&self, direction: i32) -> Task<ListMessage> {
+        let (layout_index, header_index) =
+            match self.state.get_layout_index(HeaderPolicy::IfTitleNotEmpty) {
+                Some(indices) => indices,
+                None => return Task::none(),
+            };
 
         scroll_to(
             self.scrollable_id.clone(),
             self.viewport.as_ref(),
-            container_index,
+            layout_index,
+            header_index,
+            direction,
         )
     }
 }

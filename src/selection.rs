@@ -171,20 +171,27 @@ impl<T> SelectionState<T> {
         }
     }
 
-    pub fn get_layout_index(&self, header_policy: HeaderPolicy) -> Option<usize> {
+    pub fn get_layout_index(&self, header_policy: HeaderPolicy) -> Option<(usize, Option<usize>)> {
         let mut position_index = 0;
         let mut item_cursor = 0;
 
         for section in &self.sections {
-            match header_policy {
-                HeaderPolicy::Always => position_index += 1,
+            let header_index = position_index;
+            let has_header = match header_policy {
+                HeaderPolicy::Always => {
+                    position_index += 1;
+                    true
+                }
                 HeaderPolicy::IfTitleNotEmpty => {
                     if !section.title.is_empty() {
                         position_index += 1;
+                        true
+                    } else {
+                        false
                     }
                 }
-                HeaderPolicy::Never => {}
-            }
+                HeaderPolicy::Never => false,
+            };
 
             let section_len = section.items.len();
             if self.selected_index >= item_cursor && self.selected_index < item_cursor + section_len
@@ -196,7 +203,13 @@ impl<T> SelectionState<T> {
                     .max(1);
                 let local_index = self.selected_index - item_cursor;
                 let row_offset = local_index / cols;
-                return Some(position_index + row_offset);
+                let row_index = position_index + row_offset;
+                let header = if row_offset == 0 && has_header {
+                    Some(header_index)
+                } else {
+                    None
+                };
+                return Some((row_index, header));
             }
 
             item_cursor += section_len;
@@ -221,19 +234,26 @@ pub fn scroll_to<Message: 'static>(
     id: iced::widget::Id,
     viewport: Option<&iced::widget::scrollable::Viewport>,
     layout_index: usize,
+    header_index: Option<usize>,
+    direction: i32,
 ) -> iced::Task<Message> {
     use crate::globals::LAYOUT_CACHE;
     use iced::widget::operation;
     use iced::widget::scrollable;
 
-    let target_bounds = match LAYOUT_CACHE
-        .lock()
-        .ok()
-        .and_then(|c| c.get(&layout_index).copied())
-    {
+    let cache = match LAYOUT_CACHE.lock().ok() {
+        Some(c) => c,
+        None => return iced::Task::none(),
+    };
+
+    let target_bounds = match cache.get(&layout_index).copied() {
         Some(b) => b,
         None => return iced::Task::none(),
     };
+
+    let header_bounds = header_index.and_then(|idx| cache.get(&idx).copied());
+
+    drop(cache);
 
     let offset = match viewport {
         Some(vp) => {
@@ -243,7 +263,15 @@ pub fn scroll_to<Message: 'static>(
             let target_bottom = target_top + target_bounds.height;
 
             if target_top < view_top {
-                Some(target_top)
+                if direction < 0 {
+                    if let Some(hb) = header_bounds {
+                        Some(hb.y)
+                    } else {
+                        Some(target_top)
+                    }
+                } else {
+                    Some(target_top)
+                }
             } else if target_bottom > view_bottom {
                 Some(target_bottom - vp.bounds().height)
             } else {
