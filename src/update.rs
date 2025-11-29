@@ -372,7 +372,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                 if new_vis {
                     state.action_panel_selected = 0;
                     state.action_panel_start_time = Some(Instant::now());
-                    state.action_panel_opacity = 0.9;
+                    state.action_panel_opacity = action_panel::animation::OPACITY_START;
                     state.action_panel_scale = action_panel::animation::SCALE_START;
                     return operation::focus_next();
                 } else {

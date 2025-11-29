@@ -14,8 +14,8 @@ use crate::{
 };
 
 pub mod animation {
-    pub const DURATION_MS: u64 = 125; // below this feels choppy, above is sluggish
-    pub const OPACITY_START: f32 = 0.8;
+    pub const DURATION_MS: u64 = 100; // below this feels choppy, above is sluggish
+    pub const OPACITY_START: f32 = 0.0;
     pub const SCALE_START: f32 = 0.95;
 }
 
