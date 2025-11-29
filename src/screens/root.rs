@@ -372,6 +372,7 @@ impl RootScreen {
     }
 
     fn scroll_to_selection(&self) -> Task<RootMessage> {
+        // TODO, ideally merge this into list or scrollable.rs or something
         #[cfg(feature = "soulver")]
         let has_calc = self.calculator_result.is_some();
         #[cfg(not(feature = "soulver"))]
@@ -385,13 +386,44 @@ impl RootScreen {
         let calc_offset = if has_calc { 48.0 + 12.0 } else { 0.0 };
         let padding_top = 8.0;
 
-        let y_offset = (base_index as f32 * ROW_HEIGHT) + padding_top + calc_offset;
+        let item_top = (base_index as f32 * ROW_HEIGHT) + padding_top + calc_offset;
+        let item_bottom = item_top + ROW_HEIGHT;
+
+        if let Some(viewport) = &self.viewport {
+            let view_top = viewport.absolute_offset().y;
+            let view_height = viewport.bounds().height;
+            let view_bottom = view_top + view_height;
+
+            if item_top >= view_top && item_bottom <= view_bottom {
+                return Task::none();
+            }
+
+            if item_top < view_top {
+                // scroll to top of item
+                return widget::operation::scroll_to(
+                    self.scrollable_id.clone(),
+                    widget::scrollable::AbsoluteOffset {
+                        x: 0.0,
+                        y: item_top,
+                    },
+                );
+            } else if item_bottom > view_bottom {
+                // scroll to bottom of item
+                return widget::operation::scroll_to(
+                    self.scrollable_id.clone(),
+                    widget::scrollable::AbsoluteOffset {
+                        x: 0.0,
+                        y: item_bottom - view_height,
+                    },
+                );
+            }
+        }
 
         widget::operation::scroll_to(
             self.scrollable_id.clone(),
             widget::scrollable::AbsoluteOffset {
                 x: 0.0,
-                y: y_offset,
+                y: item_top,
             },
         )
     }
