@@ -459,6 +459,9 @@ fn handle_escape(state: &mut State) -> Task<Message> {
     }
 
     if let Screen::Root(_) = &state.screen {
+        if let Some(id) = state.window_id {
+            return window::close(id);
+        }
         return Task::none();
     }
 
