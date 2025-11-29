@@ -1,7 +1,9 @@
+use iced::keyboard::{Key, key::Named};
 use iced::widget::{column, container, pick_list, row, rule, stack, text_input};
 use iced::{Element, Length, Theme};
 
 use crate::components::animator::Scaler;
+use crate::components::key_filter::KeyFilter;
 use crate::components::{
     action_panel::render_action_panel,
     dropdown::{Dropdown, DropdownChild},
@@ -91,7 +93,11 @@ fn render_search_bar(state: &State) -> Element<'_, Message> {
             }
         });
 
-    let mut row_content = row![text_input]
+    let filtered_input = KeyFilter::new(text_input)
+        .ignore(Key::Named(Named::ArrowLeft))
+        .ignore(Key::Named(Named::ArrowRight));
+
+    let mut row_content = row![filtered_input]
         .align_y(iced::Alignment::Center)
         .height(Length::Fill);
 
