@@ -6,6 +6,8 @@ use iced::widget::image::Handle;
 use iced::window;
 use std::time::Instant;
 
+use crate::components::action_panel;
+
 #[derive(Clone, Debug)]
 pub enum Message {
     UpdateTree(Tree),
@@ -14,11 +16,9 @@ pub enum Message {
     EscapePressed,
     ImageLoaded(String, Handle),
     InvokeAction(ActionHandler),
-    ToggleActionPanel(bool),
-    ActionPanelSearchChanged(String),
-    ActionPanelSelect(usize),
-    ActionPanelMoveUp,
-    ActionPanelMoveDown,
+
+    ActionPanel(action_panel::Message),
+
     ShowToast(String),
     DropdownChanged(String),
     LaunchCommand(ExtensionCommand),

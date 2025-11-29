@@ -5,7 +5,6 @@ use iced::{
     window,
 };
 use serde_json::Value;
-use std::time::Instant;
 
 use crate::apps;
 use crate::components::action_panel;
@@ -107,62 +106,31 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::InvokeAction(handler) => {
             return handler.call();
         }
-        Message::ToggleActionPanel(visibility) => {
-            state.action_panel_visible = visibility;
-            if visibility {
-                state.action_panel_selected = 0;
-                state.action_panel_start_time = Some(Instant::now());
-                state.action_panel_opacity = action_panel::animation::OPACITY_START;
-                state.action_panel_scale = action_panel::animation::SCALE_START;
-                return operation::focus(state.action_panel_input_id.clone());
-            } else {
-                state.action_panel_start_time = None;
-                state.action_panel_search.clear();
-                state.action_panel_selected = 0;
-                if state.screen.can_search() {
-                    return operation::focus(state.search_input_id.clone());
+        Message::ActionPanel(msg) => {
+            let actions = state.selected_actions.clone();
+            let (task, command) = state.action_panel.update(msg, &actions);
+
+            if !state.action_panel.visible && state.screen.can_search() {
+                if command.is_none() {
+                    return Task::batch(vec![
+                        task,
+                        operation::focus(state.search_input_id.clone()),
+                    ]);
                 }
             }
+
+            if let Some(handler) = command {
+                return Task::batch(vec![task, handler.call()]);
+            }
+
+            return task;
         }
         Message::Tick(now) => {
-            if let Some(start) = state.action_panel_start_time {
-                let elapsed = now.duration_since(start).as_millis() as f32;
-                let duration = action_panel::animation::DURATION_MS as f32;
-                let t = (elapsed / duration).clamp(0.0, 1.0);
-
-                let ease = 1.0 - (1.0 - t).powi(2);
-
-                state.action_panel_opacity = action_panel::animation::OPACITY_START
-                    + (1.0 - action_panel::animation::OPACITY_START) * ease;
-                state.action_panel_scale = action_panel::animation::SCALE_START
-                    + (1.0 - action_panel::animation::SCALE_START) * ease;
-
-                if t >= 1.0 {
-                    state.action_panel_start_time = None;
-                    state.action_panel_opacity = 1.0;
-                    state.action_panel_scale = 1.0;
-                }
-            }
-        }
-        Message::ActionPanelSearchChanged(text) => {
-            state.action_panel_search = text;
-            state.action_panel_selected = 0;
-        }
-        Message::ActionPanelSelect(index) => {
-            state.action_panel_selected = index;
-        }
-        Message::ActionPanelMoveUp => {
-            if state.action_panel_selected > 0 {
-                state.action_panel_selected -= 1;
-            }
-        }
-        Message::ActionPanelMoveDown => {
-            let count = crate::components::action_panel::count_actions(
-                &state.selected_actions,
-                &state.action_panel_search,
-            );
-            if state.action_panel_selected < count.saturating_sub(1) {
-                state.action_panel_selected += 1;
+            if state.action_panel.animation.start_time.is_some() {
+                return update(
+                    state,
+                    Message::ActionPanel(action_panel::Message::Tick(now)),
+                );
             }
         }
         Message::ShowToast(message) => {
@@ -255,15 +223,8 @@ fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message>
 }
 
 fn handle_escape(state: &mut State) -> Task<Message> {
-    if state.action_panel_visible {
-        state.action_panel_visible = false;
-        state.action_panel_search.clear();
-        state.action_panel_selected = 0;
-        state.action_panel_start_time = None;
-        if state.screen.can_search() {
-            return operation::focus(state.search_input_id.clone());
-        }
-        return Task::none();
+    if state.action_panel.visible {
+        return update(state, Message::ActionPanel(action_panel::Message::Close));
     }
 
     if !state.search_text.is_empty() {
@@ -291,38 +252,23 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
             return handle_escape(state);
         }
 
-        if state.action_panel_visible {
+        if state.action_panel.visible {
             if modifiers.is_empty() {
                 match named_key {
                     Named::ArrowUp => {
-                        return Task::done(Message::ActionPanelMoveUp);
+                        return update(state, Message::ActionPanel(action_panel::Message::MoveUp));
                     }
                     Named::ArrowDown => {
-                        return Task::done(Message::ActionPanelMoveDown);
+                        return update(
+                            state,
+                            Message::ActionPanel(action_panel::Message::MoveDown),
+                        );
                     }
                     Named::Enter => {
-                        let filtered = crate::components::action_panel::filter_actions(
-                            &state.selected_actions,
-                            &state.action_panel_search,
+                        return update(
+                            state,
+                            Message::ActionPanel(action_panel::Message::InvokeSelected),
                         );
-                        let action = filtered
-                            .iter()
-                            .flat_map(|item| match item {
-                                ActionPanelItem::Action(a) => std::slice::from_ref(a).iter(),
-                                ActionPanelItem::Section(s) => s.children.iter(),
-                            })
-                            .nth(state.action_panel_selected);
-
-                        if let Some(action) = action {
-                            if let Some(handler) = &action.handler {
-                                state.action_panel_visible = false;
-                                state.action_panel_search.clear();
-                                state.action_panel_selected = 0;
-                                state.action_panel_start_time = None;
-                                return handler.call();
-                            }
-                        }
-                        return Task::none();
                     }
                     _ => {}
                 }
@@ -367,21 +313,10 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
     if modifiers == Modifiers::COMMAND {
         if let Key::Character(c) = &key {
             if c == "k" {
-                let new_vis = !state.action_panel_visible;
-                state.action_panel_visible = new_vis;
-                if new_vis {
-                    state.action_panel_selected = 0;
-                    state.action_panel_start_time = Some(Instant::now());
-                    state.action_panel_opacity = action_panel::animation::OPACITY_START;
-                    state.action_panel_scale = action_panel::animation::SCALE_START;
-                    return operation::focus(state.action_panel_input_id.clone());
+                if state.action_panel.visible {
+                    return update(state, Message::ActionPanel(action_panel::Message::Close));
                 } else {
-                    state.action_panel_start_time = None;
-                    if state.screen.can_search() {
-                        return operation::focus(state.search_input_id.clone());
-                    } else {
-                        return Task::none();
-                    }
+                    return update(state, Message::ActionPanel(action_panel::Message::Open));
                 }
             }
         }

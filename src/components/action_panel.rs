@@ -1,15 +1,16 @@
 use iced::widget::text;
 use iced::{
     Alignment::Center,
-    Border, Color, Element, Length, Padding, Theme, color,
+    Border, Color, Element, Length, Padding, Task, Theme, color,
     widget::{
         Button, button, column, container, mouse_area, opaque, row, rule, space, text::LineHeight,
         text_input,
     },
 };
+use std::time::Instant;
 
 use crate::{
-    components::actions::{Action, ActionPanelItem, ActionPanelSection},
+    components::actions::{Action, ActionHandler, ActionPanelItem, ActionPanelSection},
     icons,
 };
 
@@ -27,45 +28,171 @@ const SECTION_TITLE_COLOR: Color = Color::from_rgba(1.0, 1.0, 1.0, 0.5);
 const TEXT_COLOR: Color = Color::WHITE;
 
 #[derive(Debug, Clone)]
-pub enum ActionPanelMessage {
+pub enum Message {
+    Open,
     Close,
-    InvokeAction(crate::components::actions::ActionHandler),
+    InvokeAction(ActionHandler),
     SearchChanged(String),
     Select(usize),
+    MoveUp,
+    MoveDown,
+    InvokeSelected,
+    Tick(Instant),
 }
 
-pub fn render_action_panel(
+#[derive(Debug, Clone, Default)]
+pub struct AnimationState {
+    pub start_time: Option<Instant>,
+    pub opacity: f32,
+    pub scale: f32,
+}
+
+#[derive(Debug, Clone)]
+pub struct State {
+    pub visible: bool,
+    pub search_text: String,
+    pub selected_index: usize,
+    pub input_id: iced::widget::Id,
+    pub animation: AnimationState,
+}
+
+impl State {
+    pub fn new() -> Self {
+        Self {
+            visible: false,
+            search_text: String::new(),
+            selected_index: 0,
+            input_id: iced::widget::Id::unique(),
+            animation: AnimationState::default(),
+        }
+    }
+
+    pub fn update(
+        &mut self,
+        message: Message,
+        actions: &[ActionPanelItem],
+    ) -> (Task<crate::Message>, Option<ActionHandler>) {
+        match message {
+            Message::Open => {
+                self.visible = true;
+                self.selected_index = 0;
+                self.animation.start_time = Some(Instant::now());
+                self.animation.opacity = animation::OPACITY_START;
+                self.animation.scale = animation::SCALE_START;
+                (iced::widget::operation::focus(self.input_id.clone()), None)
+            }
+            Message::Close => {
+                self.visible = false;
+                self.reset();
+                (Task::none(), None)
+            }
+            Message::InvokeAction(handler) => {
+                self.visible = false;
+                self.reset();
+                (Task::none(), Some(handler))
+            }
+            Message::SearchChanged(text) => {
+                self.search_text = text;
+                self.selected_index = 0;
+                (Task::none(), None)
+            }
+            Message::Select(index) => {
+                self.selected_index = index;
+                (Task::none(), None)
+            }
+            Message::MoveUp => {
+                if self.selected_index > 0 {
+                    self.selected_index -= 1;
+                }
+                (Task::none(), None)
+            }
+            Message::MoveDown => {
+                let count = count_actions(actions, &self.search_text);
+                if self.selected_index < count.saturating_sub(1) {
+                    self.selected_index += 1;
+                }
+                (Task::none(), None)
+            }
+            Message::InvokeSelected => {
+                let filtered = filter_actions(actions, &self.search_text);
+                let action = filtered
+                    .iter()
+                    .flat_map(|item| match item {
+                        ActionPanelItem::Action(a) => std::slice::from_ref(a).iter(),
+                        ActionPanelItem::Section(s) => s.children.iter(),
+                    })
+                    .nth(self.selected_index);
+
+                if let Some(action) = action {
+                    if let Some(handler) = &action.handler {
+                        self.visible = false;
+                        self.reset();
+                        return (Task::none(), Some(handler.clone()));
+                    }
+                }
+                (Task::none(), None)
+            }
+            Message::Tick(now) => {
+                if let Some(start) = self.animation.start_time {
+                    let elapsed = now.duration_since(start).as_millis() as f32;
+                    let duration = animation::DURATION_MS as f32;
+                    let t = (elapsed / duration).clamp(0.0, 1.0);
+
+                    let ease = 1.0 - (1.0 - t).powi(2);
+
+                    self.animation.opacity =
+                        animation::OPACITY_START + (1.0 - animation::OPACITY_START) * ease;
+                    self.animation.scale =
+                        animation::SCALE_START + (1.0 - animation::SCALE_START) * ease;
+
+                    if t >= 1.0 {
+                        self.animation.start_time = None;
+                        self.animation.opacity = 1.0;
+                        self.animation.scale = 1.0;
+                    }
+                }
+                (Task::none(), None)
+            }
+        }
+    }
+
+    fn reset(&mut self) {
+        self.search_text.clear();
+        self.selected_index = 0;
+        self.animation.start_time = None;
+        self.animation.opacity = 1.0;
+        self.animation.scale = 1.0;
+    }
+}
+
+pub fn render_action_panel<'a>(
+    state: &'a State,
     actions: &[ActionPanelItem],
-    search_text: &str,
-    selected_index: usize,
-    opacity: f32,
-    input_id: iced::widget::Id,
-) -> Element<'static, ActionPanelMessage> {
-    let filtered_actions = filter_actions(actions, search_text);
-    let search_text_owned = search_text.to_string();
+) -> Element<'a, Message> {
+    let filtered_actions = filter_actions(actions, &state.search_text);
+    let search_text_owned = state.search_text.to_string();
     let filtered_count = filtered_actions.len();
 
     let text_color = Color {
-        a: opacity,
+        a: state.animation.opacity,
         ..TEXT_COLOR
     };
     let section_title_color = Color {
-        a: 0.5 * opacity,
+        a: 0.5 * state.animation.opacity,
         ..SECTION_TITLE_COLOR
     };
     let bg_color = Color {
-        a: opacity,
+        a: state.animation.opacity,
         ..color!(0x2c2c2c)
     };
 
     let mut current_index = 0usize;
-    let _total_actions = count_actions(&filtered_actions, &search_text_owned);
 
     let actions_col = filtered_actions.into_iter().enumerate().fold(
         column![].width(Length::Fill).padding([12, 0]),
         |col, (idx, action)| match action {
             ActionPanelItem::Action(action) => {
-                let is_selected = current_index == selected_index;
+                let is_selected = current_index == state.selected_index;
                 current_index += 1;
 
                 col.push(
@@ -73,7 +200,7 @@ pub fn render_action_panel(
                         action,
                         is_selected,
                         current_index - 1,
-                        opacity,
+                        state.animation.opacity,
                     ))
                     .width(Length::Fill)
                     .padding([0, 8]),
@@ -84,11 +211,11 @@ pub fn render_action_panel(
 
                 let mut col = col.push(render_section_owned(
                     section,
-                    selected_index,
+                    state.selected_index,
                     &mut current_index,
                     is_first,
                     section_title_color,
-                    opacity,
+                    state.animation.opacity,
                 ));
 
                 if idx < filtered_count - 1 {
@@ -104,17 +231,17 @@ pub fn render_action_panel(
     );
 
     let search_bar = text_input("Search for actions...", &search_text_owned)
-        .id(input_id)
-        .on_input(ActionPanelMessage::SearchChanged)
+        .id(state.input_id.clone())
+        .on_input(Message::SearchChanged)
         .size(13)
         .padding([0, 16])
         .style(move |_theme: &Theme, _status| text_input::Style {
             background: iced::Background::Color(Color::TRANSPARENT),
             border: iced::Border::default(),
             icon: text_color,
-            placeholder: Color::from_rgba(1.0, 1.0, 1.0, 0.4 * opacity),
+            placeholder: Color::from_rgba(1.0, 1.0, 1.0, 0.4 * state.animation.opacity),
             value: text_color,
-            selection: Color::from_rgba(1.0, 1.0, 1.0, 0.2 * opacity),
+            selection: Color::from_rgba(1.0, 1.0, 1.0, 0.2 * state.animation.opacity),
         });
 
     let search_container = column![rule::horizontal(1), container(search_bar).center_y(44)];
@@ -138,7 +265,7 @@ pub fn render_action_panel(
                 .align_right(Length::Fill)
                 .padding([0, 12]),
         )
-        .on_press(ActionPanelMessage::Close),
+        .on_press(Message::Close),
     )
     .into()
 }
@@ -197,7 +324,7 @@ fn render_action_owned(
     is_selected: bool,
     index: usize,
     opacity: f32,
-) -> Element<'static, ActionPanelMessage> {
+) -> Element<'static, Message> {
     let title = action.title.clone();
     let icon_char = action
         .icon
@@ -210,7 +337,7 @@ fn render_action_owned(
         ..TEXT_COLOR
     };
 
-    let content: Element<'static, ActionPanelMessage> = if let Some(icon) = icon_char {
+    let content: Element<'static, Message> = if let Some(icon) = icon_char {
         row![
             text(icon).font(ICON_FONT).size(18).color(text_color),
             text(title).font(INTER_FONT).color(text_color)
@@ -253,9 +380,9 @@ fn render_action_owned(
         });
 
     if let Some(handler) = action.handler {
-        btn = btn.on_press(ActionPanelMessage::InvokeAction(handler));
+        btn = btn.on_press(Message::InvokeAction(handler));
     } else {
-        btn = btn.on_press(ActionPanelMessage::Select(index));
+        btn = btn.on_press(Message::Select(index));
     }
 
     btn.into()
@@ -268,7 +395,7 @@ fn render_section_owned(
     is_first: bool,
     section_title_color: Color,
     opacity: f32,
-) -> Element<'static, ActionPanelMessage> {
+) -> Element<'static, Message> {
     let section_title = text(section.props.title.clone())
         .size(13)
         .line_height(LineHeight::Absolute(iced::Pixels(14.0)))
@@ -294,13 +421,4 @@ fn render_section_owned(
     .spacing(10)
     .padding(Padding::from(8).top(top_pad))
     .into()
-}
-
-pub fn map_action_panel_message(msg: ActionPanelMessage) -> crate::Message {
-    match msg {
-        ActionPanelMessage::Close => crate::Message::ToggleActionPanel(false),
-        ActionPanelMessage::InvokeAction(handler) => crate::Message::InvokeAction(handler),
-        ActionPanelMessage::SearchChanged(text) => crate::Message::ActionPanelSearchChanged(text),
-        ActionPanelMessage::Select(index) => crate::Message::ActionPanelSelect(index),
-    }
 }

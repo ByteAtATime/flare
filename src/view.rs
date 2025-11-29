@@ -3,7 +3,7 @@ use iced::{Element, Length, Theme};
 
 use crate::components::animator::Scaler;
 use crate::components::{
-    action_panel::{map_action_panel_message, render_action_panel},
+    action_panel::render_action_panel,
     dropdown::{Dropdown, DropdownChild},
     footer::{map_footer_message, render_footer},
 };
@@ -45,17 +45,11 @@ pub fn view(state: &State) -> Element<'_, Message> {
         .push(container(content).width(Length::Fill).height(Length::Fill))
         .push(footer);
 
-    let action_panel = if state.action_panel_visible {
-        let panel_content = render_action_panel(
-            &state.selected_actions,
-            &state.action_panel_search,
-            state.action_panel_selected,
-            state.action_panel_opacity,
-            state.action_panel_input_id.clone(),
-        )
-        .map(map_action_panel_message);
+    let action_panel = if state.action_panel.visible {
+        let panel_content = render_action_panel(&state.action_panel, &state.selected_actions)
+            .map(Message::ActionPanel);
 
-        let animated = Scaler::new(state.action_panel_scale, panel_content);
+        let animated = Scaler::new(state.action_panel.animation.scale, panel_content);
 
         Some(Element::from(animated))
     } else {

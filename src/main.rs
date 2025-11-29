@@ -98,7 +98,7 @@ fn subscription(state: &State) -> Subscription<Message> {
 
     let window_close_sub = window::close_events().map(Message::WindowClosed);
 
-    let animation_sub = if state.action_panel_start_time.is_some() {
+    let animation_sub = if state.action_panel.animation.start_time.is_some() {
         window::frames().map(Message::Tick)
     } else {
         Subscription::none()

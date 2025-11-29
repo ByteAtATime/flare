@@ -121,7 +121,9 @@ pub fn render_footer<'a>(
 
 pub fn map_footer_message(msg: FooterMessage) -> crate::Message {
     match msg {
-        FooterMessage::OpenActionPanel => crate::Message::ToggleActionPanel(true),
+        FooterMessage::OpenActionPanel => {
+            crate::Message::ActionPanel(crate::components::action_panel::Message::Open)
+        }
         FooterMessage::InvokeAction(handler) => crate::Message::InvokeAction(handler),
     }
 }

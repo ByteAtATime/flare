@@ -1,9 +1,9 @@
 use iced::widget::Id as WidgetId;
 use iced::window;
 use std::path::PathBuf;
-use std::time::Instant;
 
 use crate::apps;
+use crate::components::action_panel;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::frecency::FrecencyStore;
@@ -20,19 +20,13 @@ pub struct State {
     pub theme: Theme,
     pub search_text: String,
     pub search_input_id: WidgetId,
-    pub action_panel_input_id: WidgetId,
-    pub action_panel_visible: bool,
-    pub action_panel_search: String,
-    pub action_panel_selected: usize,
+
+    pub action_panel: action_panel::State,
     pub selected_actions: Vec<ActionPanelItem>,
+
     pub toast_message: String,
     pub window_id: Option<window::Id>,
     pub settings_window_id: Option<window::Id>,
-
-    // Animation state
-    pub action_panel_start_time: Option<Instant>,
-    pub action_panel_opacity: f32,
-    pub action_panel_scale: f32,
 }
 
 fn get_frecency_path() -> PathBuf {
@@ -71,17 +65,11 @@ impl State {
             theme,
             search_text,
             search_input_id: WidgetId::unique(),
-            action_panel_input_id: WidgetId::unique(),
-            action_panel_visible: false,
-            action_panel_search: String::new(),
-            action_panel_selected: 0,
+            action_panel: action_panel::State::new(),
             selected_actions: Vec::new(),
             toast_message: String::new(),
             window_id: None,
             settings_window_id: None,
-            action_panel_start_time: None,
-            action_panel_opacity: 1.0,
-            action_panel_scale: 1.0,
         };
 
         state.update_selected_actions();
