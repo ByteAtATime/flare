@@ -171,6 +171,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
             return Ok(());
         }
+
+        if deep_link::is_confetti_link(link) {
+            return run_confetti();
+        }
     }
 
     match cli.command {

@@ -26,6 +26,30 @@ pub fn is_oauth_redirect(url: &str) -> bool {
     url.starts_with("raycast://oauth") || url.starts_with("flare://oauth")
 }
 
+pub fn parse_extension_link(url: &str) -> Option<(&str, &str, &str)> {
+    let url = url
+        .strip_prefix("raycast://extensions/")
+        .or_else(|| url.strip_prefix("flare://extensions/"))?;
+
+    let parts: Vec<&str> = url.split('/').collect();
+    if parts.len() >= 3 {
+        Some((
+            parts[0],
+            parts[1],
+            parts[2].split('?').next().unwrap_or(parts[2]),
+        ))
+    } else {
+        None
+    }
+}
+
+pub fn is_confetti_link(url: &str) -> bool {
+    matches!(
+        parse_extension_link(url),
+        Some(("raycast", "raycast", "confetti"))
+    )
+}
+
 pub fn handle_oauth_redirect(url: &str) -> bool {
     if !is_oauth_redirect(url) {
         return false;
