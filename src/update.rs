@@ -226,6 +226,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             let _ = std::process::Command::new(current_exe)
                 .arg("confetti")
                 .spawn();
+            if let Some(id) = state.window_id {
+                return window::close(id);
+            }
         }
         Message::PopToRoot => {
             state.writer = None;

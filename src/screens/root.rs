@@ -40,9 +40,19 @@ pub struct RootItem {
 }
 
 #[derive(Clone, Debug)]
+pub struct BuiltinCommand {
+    pub id: &'static str,
+    pub title: &'static str,
+    pub subtitle: Option<&'static str>,
+    pub icon: &'static str,
+    pub message: fn() -> Message,
+}
+
+#[derive(Clone, Debug)]
 pub enum RootItemKind {
     Extension(ExtensionCommand),
     App(AppEntry),
+    Builtin(BuiltinCommand),
 }
 
 pub struct RootScreen {
@@ -70,6 +80,19 @@ pub enum RootMessage {
 impl RootScreen {
     pub fn new(commands: Vec<ExtensionCommand>, apps: Vec<AppEntry>) -> Self {
         let mut items = Vec::with_capacity(commands.len() + apps.len());
+
+        for builtin in builtin_commands() {
+            let icon = crate::icons::get_icon(builtin.icon)
+                .map(|c| ResolvedIcon::FontChar(c.to_string()))
+                .unwrap_or_else(|| ResolvedIcon::FontChar(String::new()));
+            let id = format!("builtin:{}", builtin.id);
+            items.push(RootItem {
+                id: id.clone(),
+                actions: create_action_panel(&RootItemKind::Builtin(builtin.clone()), &id),
+                kind: RootItemKind::Builtin(builtin),
+                resolved_icon: icon,
+            });
+        }
 
         for cmd in commands {
             let icon = resolve_extension_icon(&cmd);
@@ -296,6 +319,11 @@ impl RootScreen {
                     (cmd.command_title.clone(), sub, "Command")
                 }
                 RootItemKind::App(app) => (app.name.clone(), None, "Application"),
+                RootItemKind::Builtin(builtin) => (
+                    builtin.title.to_string(),
+                    builtin.subtitle.map(String::from),
+                    "Built-in",
+                ),
             };
 
             let icon_element: Element<'_, RootMessage> = match &item.resolved_icon {
@@ -470,6 +498,12 @@ impl Shell for RootScreen {
                         app.name.to_lowercase().contains(&query_lower)
                             || app.id.to_lowercase().contains(&query_lower)
                     }
+                    RootItemKind::Builtin(builtin) => {
+                        builtin.title.to_lowercase().contains(&query_lower)
+                            || builtin
+                                .subtitle
+                                .map_or(false, |s| s.to_lowercase().contains(&query_lower))
+                    }
                 })
                 .cloned()
                 .collect();
@@ -483,6 +517,16 @@ impl Shell for RootScreen {
     }
 }
 
+fn builtin_commands() -> Vec<BuiltinCommand> {
+    vec![BuiltinCommand {
+        id: "confetti",
+        title: "Confetti",
+        subtitle: Some("Celebrate with confetti"),
+        icon: "star-16",
+        message: || Message::TriggerConfetti,
+    }]
+}
+
 fn create_action_panel(kind: &RootItemKind, id: &str) -> ActionPanel {
     let open_handler = match kind {
         RootItemKind::Extension(cmd) => {
@@ -492,6 +536,10 @@ fn create_action_panel(kind: &RootItemKind, id: &str) -> ActionPanel {
         RootItemKind::App(app) => {
             let app = app.clone();
             ActionHandler::new(move || Task::done(Message::LaunchApp(app.clone())))
+        }
+        RootItemKind::Builtin(builtin) => {
+            let message_fn = builtin.message;
+            ActionHandler::new(move || Task::done(message_fn()))
         }
     };
 
