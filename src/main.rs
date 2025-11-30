@@ -1,5 +1,6 @@
 mod apps;
 mod clipboard;
+mod clipboard_history;
 mod components;
 mod deep_link;
 mod encryption;
@@ -243,6 +244,8 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
         eprintln!("Failed to register deep links: {}", e);
     }
 
+    clipboard_history::init();
+
     let flare_settings = preferences::FlareSettings::load();
 
     let result = if flare_settings.use_layer_shell {
@@ -290,6 +293,8 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("Failed to register deep links: {}", e);
         }
     }
+
+    clipboard_history::init();
 
     let result = iced::daemon(boot, update, daemon_view)
         .subscription(subscription)
