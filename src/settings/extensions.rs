@@ -119,7 +119,19 @@ fn render_extension_preferences<'a>(
     let text_color = theme.colors.text;
     let bg_color = theme.colors.background;
 
-    let mut content = column![text(&ext.manifest.title).size(20).color(text_color),].spacing(16);
+    let header = row![text(&ext.manifest.title).size(20).color(text_color),]
+        .spacing(12)
+        .align_y(iced::Alignment::Center);
+
+    let mut content = column![header].spacing(16);
+
+    content = content.push(
+        column![
+            text("Description").size(12).color(theme.colors.text_60),
+            text(&ext.manifest.description).color(text_color),
+        ]
+        .spacing(4),
+    );
 
     if let Some(prefs) = &ext.manifest.preferences {
         for pref in prefs {
