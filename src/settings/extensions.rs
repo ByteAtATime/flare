@@ -1,9 +1,8 @@
-use iced::widget::text::LineHeight;
 use iced::widget::{
     button, checkbox, column, container, image, pick_list, row, rule, scrollable, space, svg, text,
     text_input,
 };
-use iced::{Alignment, Background, Border, Color, Element, Length, Padding, color};
+use iced::{Alignment, Border, Color, Element, Length, color};
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
@@ -231,7 +230,7 @@ fn render_extension_preferences<'a>(
         ]
         .spacing(10),
     ]
-    .spacing(18)
+    .spacing(20)
     .padding([24, 16]);
 
     if let Some(prefs) = &ext.manifest.preferences {
@@ -285,7 +284,6 @@ fn render_preference<'a>(
     extensions: &'a [Extension],
     theme: &'a Theme,
 ) -> Element<'a, SettingsMessage> {
-    let text_color = theme.colors.text;
     let current_value = store.get_value(extension_id, &pref.name, extensions);
     let ext_id = extension_id.to_string();
     let pref_name = pref.name.clone();
@@ -356,13 +354,13 @@ fn render_preference<'a>(
                     value,
                 }
             })
+            .width(Length::Fill)
             .into()
         }
         _ => text("Unsupported preference type").into(),
     };
 
-    row![text(title).width(150).color(text_color), input]
-        .spacing(10)
-        .align_y(iced::Alignment::Center)
+    column![text(title).color(theme.colors.text_60).size(13), input]
+        .spacing(12)
         .into()
 }
