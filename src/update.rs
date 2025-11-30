@@ -43,9 +43,6 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             if state.window_id == Some(id) {
                 state.window_id = None;
             }
-            if state.settings_window_id == Some(id) {
-                state.settings_window_id = None;
-            }
         }
         Message::ToggleWindow => {
             if let Some(id) = state.window_id {
@@ -89,20 +86,6 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                     return open.map(move |_| Message::WindowOpened(id));
                 }
             }
-        }
-        Message::OpenSettings => {
-            if state.settings_window_id.is_some() {
-                return Task::none();
-            }
-            let (id, open) = window::open(window::Settings {
-                size: iced::Size::new(600.0, 400.0),
-                resizable: true,
-                ..Default::default()
-            });
-            return open.map(move |_| Message::SettingsWindowOpened(id));
-        }
-        Message::SettingsWindowOpened(id) => {
-            state.settings_window_id = Some(id);
         }
         Message::UpdateTree(tree) => {
             if let Some(component) = tree.children.into_iter().next() {
@@ -254,27 +237,6 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 return operation::focus(state.search_input_id.clone());
             }
         }
-        Message::Settings(settings_msg) => {
-            use crate::screens::settings::SettingsMessage;
-            match settings_msg {
-                SettingsMessage::PreferenceChanged {
-                    extension_id,
-                    key,
-                    value,
-                } => {
-                    state.preferences.set_value(&extension_id, &key, value);
-                    if let Err(e) = state.preferences.save() {
-                        eprintln!("Failed to save preferences: {}", e);
-                    }
-                }
-                SettingsMessage::FlareSettingChanged { use_layer_shell } => {
-                    state.flare_settings.use_layer_shell = use_layer_shell;
-                    if let Err(e) = state.flare_settings.save() {
-                        eprintln!("Failed to save Flare settings: {}", e);
-                    }
-                }
-            }
-        }
         Message::OpenUrl(url) => {
             let _ = crate::utils::open_url(&url);
         }
@@ -366,7 +328,7 @@ fn handle_sidecar_response(state: &mut State, response: SidecarResponse) -> Task
         ]),
         SidecarResponse::OpenExtensionPreferences { id }
         | SidecarResponse::OpenCommandPreferences { id } => Task::batch(vec![
-            Task::done(Message::OpenSettings),
+            Task::none(), // TODO: open settings page (probably spawn a subprocess)
             Task::done(Message::SidecarOperationFinished(id, Ok(None))),
         ]),
         SidecarResponse::OpenUrl { id, url } => {
@@ -576,7 +538,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
     if modifiers == Modifiers::CTRL {
         if let Key::Character(c) = &key {
             if c == "," {
-                return Task::done(Message::OpenSettings);
+                return Task::none(); // TODO: open settings page (probably spawn a subprocess)
             }
         }
     }

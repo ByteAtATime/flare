@@ -36,10 +36,6 @@ pub enum Message {
     WindowOpened(window::Id),
     WindowClosed(window::Id),
     ToggleWindow,
-    OpenSettings,
-    SettingsWindowOpened(window::Id),
-
-    Settings(crate::screens::settings::SettingsMessage),
     OpenUrl(String),
     HandleOAuthRedirect(String),
 

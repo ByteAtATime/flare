@@ -30,7 +30,6 @@ pub struct State {
 
     pub toast_message: String,
     pub window_id: Option<window::Id>,
-    pub settings_window_id: Option<window::Id>,
 
     pub reader: Option<Arc<Mutex<SidecarReader>>>,
     pub writer: Option<SidecarWriter>,
@@ -78,7 +77,6 @@ impl State {
             selected_actions: Vec::new(),
             toast_message: String::new(),
             window_id: None,
-            settings_window_id: None,
             reader: None,
             writer: None,
         };

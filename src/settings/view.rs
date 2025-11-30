@@ -1,5 +1,5 @@
-use iced::Element;
 use iced::widget::{checkbox, column, pick_list, radio, row, scrollable, text, text_input};
+use iced::Element;
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
@@ -15,9 +15,7 @@ pub fn settings_view<'a>(
     let mut content = column![].spacing(20).padding(20);
 
     content = content.push(text("Settings").size(24));
-
     content = content.push(render_flare_settings(flare_settings));
-
     content = content.push(render_extension_settings(extensions, preferences));
 
     scrollable(content).into()

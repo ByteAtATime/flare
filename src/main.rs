@@ -15,6 +15,7 @@ mod preferences;
 mod runtime;
 mod screens;
 mod selection;
+mod settings;
 #[cfg(feature = "soulver")]
 mod soulver;
 mod state;
@@ -59,6 +60,7 @@ enum Command {
     Daemon,
     Toggle,
     Dev,
+    Settings,
 }
 
 fn boot() -> (State, iced::Task<Message>) {
@@ -70,15 +72,7 @@ fn dev_boot() -> (State, iced::Task<Message>) {
     (State::new(), open.map(move |_| Message::WindowOpened(id)))
 }
 
-fn daemon_view<'a>(state: &'a State, window: window::Id) -> iced::Element<'a, Message> {
-    if state.settings_window_id == Some(window) {
-        return screens::settings::settings_view(
-            &state.extensions,
-            &state.preferences,
-            &state.flare_settings,
-        )
-        .map(Message::Settings);
-    }
+fn daemon_view<'a>(state: &'a State, _window: window::Id) -> iced::Element<'a, Message> {
     view(state)
 }
 
@@ -189,6 +183,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
         Some(Command::Daemon) => run_daemon(),
         Some(Command::Dev) => run_dev(),
+        Some(Command::Settings) => settings::run(),
         None => run_application(),
     }
 }
