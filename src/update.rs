@@ -34,7 +34,9 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
         Message::WindowOpened(id) => {
             state.window_id = Some(id);
             if state.screen.can_search() {
-                return operation::focus(state.search_input_id.clone());
+                if state.screen.can_search() {
+                    return operation::focus(state.search_input_id.clone());
+                }
             }
         }
         Message::WindowClosed(id) => {
@@ -63,8 +65,7 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                                 ..Default::default()
                             },
                             id,
-                        })
-                        .chain(Task::done(Message::WindowOpened(id))); // TODO: idk if this is how im supposed to do it
+                        });
                     } else {
                         let (id, open) = window::open(window::Settings {
                             decorations: false,

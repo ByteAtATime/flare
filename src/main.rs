@@ -121,7 +121,15 @@ fn subscription(state: &State) -> Subscription<Message> {
         Subscription::none()
     };
 
-    let escape_sub = iced::event::listen_with(|event, _status, _id| {
+    let escape_sub = iced::event::listen_with(|event, _status, id| {
+        if let iced::Event::Window(iced::window::Event::Opened {
+            position: _,
+            size: _,
+        }) = event
+        {
+            return Some(Message::WindowOpened(id));
+        }
+
         if let iced::Event::Keyboard(iced::keyboard::Event::KeyPressed {
             key: iced::keyboard::Key::Named(iced::keyboard::key::Named::Escape),
             modifiers,
