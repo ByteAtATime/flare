@@ -518,13 +518,22 @@ impl Shell for RootScreen {
 }
 
 fn builtin_commands() -> Vec<BuiltinCommand> {
-    vec![BuiltinCommand {
-        id: "confetti",
-        title: "Confetti",
-        subtitle: Some("Celebrate with confetti"),
-        icon: "star-16",
-        message: || Message::TriggerConfetti,
-    }]
+    vec![
+        BuiltinCommand {
+            id: "clipboard-history",
+            title: "Clipboard History",
+            subtitle: Some("Clipboard History"),
+            icon: "", // TODO
+            message: || Message::OpenClipboardHistory,
+        },
+        BuiltinCommand {
+            id: "confetti",
+            title: "Confetti",
+            subtitle: Some("Celebrate with confetti"),
+            icon: "star-16",
+            message: || Message::TriggerConfetti,
+        },
+    ]
 }
 
 fn create_action_panel(kind: &RootItemKind, id: &str) -> ActionPanel {

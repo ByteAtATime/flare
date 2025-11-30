@@ -230,6 +230,16 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                 return window::close(id);
             }
         }
+        Message::OpenClipboardHistory => {
+            state.search_text.clear();
+            state.screen = Screen::ClipboardHistory(
+                crate::screens::clipboard_history::ClipboardHistoryScreen::new(),
+            );
+            state.update_selected_actions();
+            if state.screen.can_search() {
+                return operation::focus(state.search_input_id.clone());
+            }
+        }
         Message::PopToRoot => {
             state.writer = None;
             state.reader = None;
@@ -586,6 +596,7 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                 key, modifiers,
             ))
             .map(Message::Detail),
+        Screen::ClipboardHistory(_) => Task::none(),
     };
 
     state.update_selected_actions();

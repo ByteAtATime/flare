@@ -32,6 +32,7 @@ pub enum Message {
     LaunchApp(AppEntry),
     ResetFrecency(String),
     TriggerConfetti,
+    OpenClipboardHistory,
     PopToRoot,
 
     WindowOpened(window::Id),
@@ -46,6 +47,7 @@ pub enum Message {
     Grid(crate::screens::grid::GridMessage),
     Detail(crate::screens::detail::DetailMessage),
     List(crate::screens::list::ListMessage),
+    ClipboardHistory(crate::screens::clipboard_history::ClipboardHistoryMessage),
 
     SidecarMessage(SidecarResponse),
     SidecarOperationFinished(u32, Result<Option<serde_json::Value>, String>),

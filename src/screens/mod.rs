@@ -2,6 +2,7 @@ use crate::components::actions::ActionPanel;
 use crate::components::types::{CallbackInfo, Component};
 use iced::Task;
 
+pub mod clipboard_history;
 pub mod detail;
 pub mod grid;
 pub mod list;
@@ -33,6 +34,7 @@ pub enum Screen {
     Grid(grid::GridScreen),
     Detail(detail::DetailScreen),
     List(list::ListScreen),
+    ClipboardHistory(clipboard_history::ClipboardHistoryScreen),
 }
 
 impl Screen {
@@ -89,6 +91,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.can_search(),
             Screen::Detail(screen) => screen.can_search(),
             Screen::List(screen) => screen.can_search(),
+            Screen::ClipboardHistory(screen) => screen.can_search(),
         }
     }
 
@@ -98,6 +101,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.on_search(query),
             Screen::Detail(screen) => screen.on_search(query),
             Screen::List(screen) => screen.on_search(query),
+            Screen::ClipboardHistory(screen) => screen.on_search(query),
         }
     }
 
@@ -107,6 +111,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.get_action_panel(),
             Screen::Detail(screen) => screen.get_action_panel(),
             Screen::List(screen) => screen.get_action_panel(),
+            Screen::ClipboardHistory(screen) => screen.get_action_panel(),
         }
     }
 
@@ -116,6 +121,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.get_search_bar_accessory(),
             Screen::Detail(screen) => screen.get_search_bar_accessory(),
             Screen::List(screen) => screen.get_search_bar_accessory(),
+            Screen::ClipboardHistory(screen) => screen.get_search_bar_accessory(),
         }
     }
 
@@ -125,6 +131,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.set_dropdown_value(value),
             Screen::Detail(screen) => screen.set_dropdown_value(value),
             Screen::List(screen) => screen.set_dropdown_value(value),
+            Screen::ClipboardHistory(screen) => screen.set_dropdown_value(value),
         }
     }
 
@@ -134,6 +141,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.on_search_text_change(),
             Screen::Detail(screen) => screen.on_search_text_change(),
             Screen::List(screen) => screen.on_search_text_change(),
+            Screen::ClipboardHistory(screen) => screen.on_search_text_change(),
         }
     }
 
@@ -143,6 +151,7 @@ impl Shell for Screen {
             Screen::Grid(screen) => screen.load_images(),
             Screen::Detail(screen) => screen.load_images(),
             Screen::List(screen) => screen.load_images(),
+            Screen::ClipboardHistory(screen) => screen.load_images(),
         }
     }
 }

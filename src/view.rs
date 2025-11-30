@@ -38,6 +38,7 @@ pub fn view(state: &State) -> Element<'_, Message> {
         Screen::Grid(s) => s.view().map(Message::Grid),
         Screen::Detail(s) => s.view().map(Message::Detail),
         Screen::List(s) => s.view().map(Message::List),
+        Screen::ClipboardHistory(s) => s.view().map(Message::ClipboardHistory),
     };
 
     let footer =
