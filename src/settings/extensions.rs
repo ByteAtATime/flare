@@ -69,7 +69,7 @@ pub fn render_extensions_tab<'a>(
         header,
         scrollable(ext_list).height(Length::Fill)
     ])
-    .width(Length::FillPortion(1))
+    .width(Length::Fill)
     .height(Length::Fill)
     .style(move |_| container::Style {
         background: Some(bg_color.into()),
@@ -91,7 +91,7 @@ pub fn render_extensions_tab<'a>(
     };
 
     let right_container = container(right_panel)
-        .width(Length::FillPortion(2))
+        .width(Length::Fixed(350.0))
         .height(Length::Fill)
         .style(move |_| container::Style {
             background: Some(bg_color.into()),
