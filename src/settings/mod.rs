@@ -17,6 +17,7 @@ pub enum SettingsTab {
 pub enum SettingsMessage {
     TabChanged(SettingsTab),
     ExtensionSelected(usize),
+    ExtensionPressed(Option<usize>),
     ExtensionSearchChanged(String),
     PreferenceChanged {
         extension_id: String,
@@ -36,6 +37,7 @@ fn handle_message(
     match message {
         SettingsMessage::TabChanged(_) => {}
         SettingsMessage::ExtensionSelected(_) => {}
+        SettingsMessage::ExtensionPressed(_) => {}
         SettingsMessage::ExtensionSearchChanged(_) => {}
         SettingsMessage::PreferenceChanged {
             extension_id,

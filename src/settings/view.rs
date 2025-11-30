@@ -100,6 +100,7 @@ pub fn settings_view<'a>(
     theme: &'a Theme,
     current_tab: SettingsTab,
     selected_extension: Option<usize>,
+    pressed_extension: Option<usize>,
     extension_search: &'a str,
 ) -> Element<'a, SettingsMessage> {
     let content: Element<'a, SettingsMessage> = match current_tab {
@@ -109,6 +110,7 @@ pub fn settings_view<'a>(
             preferences,
             theme,
             selected_extension,
+            pressed_extension,
             extension_search,
         ),
     };

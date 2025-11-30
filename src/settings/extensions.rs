@@ -1,6 +1,6 @@
 use iced::widget::{
-    button, checkbox, column, container, image, pick_list, row, rule, scrollable, space, svg, text,
-    text_input,
+    button, checkbox, column, container, image, mouse_area, pick_list, row, rule, scrollable,
+    space, svg, text, text_input,
 };
 use iced::{Alignment, Border, Color, Element, Length, color};
 use serde_json::Value;
@@ -16,6 +16,7 @@ pub fn render_extensions_tab<'a>(
     preferences: &'a PreferenceStore,
     theme: &'a Theme,
     selected_extension: Option<usize>,
+    pressed_extension: Option<usize>,
     search_query: &'a str,
 ) -> Element<'a, SettingsMessage> {
     let text_color = theme.colors.text;
@@ -119,6 +120,8 @@ pub fn render_extensions_tab<'a>(
         }
 
         let is_selected = selected_extension == Some(idx);
+        let is_pressed = pressed_extension == Some(idx);
+        let any_pressed = pressed_extension.is_some();
 
         let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
             let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
@@ -133,38 +136,45 @@ pub fn render_extensions_tab<'a>(
 
         let accordion_arrow = space().width(10).height(10);
 
-        ext_list = ext_list.push(
-            button(
-                row![
-                    accordion_arrow,
-                    icon_element,
-                    text(&ext.manifest.title).color(text_color)
-                ]
-                .spacing(8)
-                .height(Length::Fixed(32.0))
-                .align_y(Alignment::Center),
-            )
-            .on_press(SettingsMessage::ExtensionSelected(idx))
-            .width(Length::Fill)
-            .padding([0, 12])
-            .style(move |_theme, _status| {
-                let background_color = if is_selected {
-                    Color {
-                        a: 0.6,
-                        ..theme.colors.blue
-                    }
-                } else if idx % 2 == 0 {
-                    theme.colors.background
-                } else {
-                    color!(0x272727) // TODO: this isn't anywhere in the theme
-                };
-                button::Style {
-                    background: Some(background_color.into()),
-                    text_color,
-                    border: Border::default().rounded(6),
-                    ..Default::default()
+        let row_content = container(
+            row![
+                accordion_arrow,
+                icon_element,
+                text(&ext.manifest.title).color(text_color)
+            ]
+            .spacing(8)
+            .height(Length::Fixed(32.0))
+            .align_y(Alignment::Center),
+        )
+        .width(Length::Fill)
+        .padding([0, 12])
+        .style(move |_theme| {
+            let background_color = if is_pressed {
+                Color {
+                    a: 0.6,
+                    ..theme.colors.blue
                 }
-            }),
+            } else if is_selected && !any_pressed {
+                Color {
+                    a: 0.6,
+                    ..theme.colors.blue
+                }
+            } else if idx % 2 == 0 {
+                theme.colors.background
+            } else {
+                color!(0x272727)
+            };
+            container::Style {
+                background: Some(background_color.into()),
+                border: Border::default().rounded(6),
+                ..Default::default()
+            }
+        });
+
+        ext_list = ext_list.push(
+            mouse_area(row_content)
+                .on_press(SettingsMessage::ExtensionPressed(Some(idx)))
+                .on_release(SettingsMessage::ExtensionSelected(idx)),
         );
     }
 
