@@ -1,5 +1,5 @@
 use iced::widget::{
-    button, checkbox, column, container, image, pick_list, row, rule, scrollable, svg, text,
+    button, checkbox, column, container, image, pick_list, row, rule, scrollable, space, svg, text,
     text_input,
 };
 use iced::{Alignment, Background, Border, Color, Element, Length, Padding, color};
@@ -66,7 +66,7 @@ pub fn render_extensions_tab<'a>(
         ..Default::default()
     });
 
-    let mut ext_list = column![];
+    let mut ext_list = column![].padding([0, 8]);
     for (idx, ext) in extensions.iter().enumerate() {
         let title_lower = ext.manifest.title.to_lowercase();
         let query_lower = search_query.to_lowercase();
@@ -75,28 +75,52 @@ pub fn render_extensions_tab<'a>(
         }
 
         let is_selected = selected_extension == Some(idx);
-        let item_bg = if is_selected {
-            theme.colors.selection
+
+        let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
+            let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
+            if icon_path.extension().map_or(false, |e| e == "svg") {
+                svg(icon_path).width(16).height(16).into()
+            } else {
+                image(icon_path).width(16).height(16).into()
+            }
         } else {
-            Color::TRANSPARENT
+            container(text("")).width(16).height(16).into()
         };
 
+        let accordion_arrow = space().width(10).height(10);
+
         ext_list = ext_list.push(
-            button(text(&ext.manifest.title).color(text_color))
-                .on_press(SettingsMessage::ExtensionSelected(idx))
-                .width(Length::Fill)
-                .style(move |_theme, status| {
-                    let bg = match status {
-                        button::Status::Hovered if !is_selected => theme.colors.text_10,
-                        _ => item_bg,
-                    };
-                    button::Style {
-                        background: Some(Background::Color(bg)),
-                        text_color,
-                        border: Border::default(),
-                        ..Default::default()
+            button(
+                row![
+                    accordion_arrow,
+                    icon_element,
+                    text(&ext.manifest.title).color(text_color)
+                ]
+                .spacing(8)
+                .height(Length::Fixed(32.0))
+                .align_y(Alignment::Center),
+            )
+            .on_press(SettingsMessage::ExtensionSelected(idx))
+            .width(Length::Fill)
+            .padding([0, 12])
+            .style(move |_theme, _status| {
+                let background_color = if is_selected {
+                    Color {
+                        a: 0.6,
+                        ..theme.colors.blue
                     }
-                }),
+                } else if idx % 2 == 0 {
+                    theme.colors.background
+                } else {
+                    color!(0x272727) // TODO: this isn't anywhere in the theme
+                };
+                button::Style {
+                    background: Some(background_color.into()),
+                    text_color,
+                    border: Border::default().rounded(6),
+                    ..Default::default()
+                }
+            }),
         );
     }
 
