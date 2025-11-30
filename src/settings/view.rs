@@ -1,5 +1,5 @@
 use iced::widget::{button, column, container, radio, row, rule, scrollable, text};
-use iced::{Background, Border, Color, Element, Font, Length};
+use iced::{Background, Border, Color, Element, Font, Length, Padding};
 
 use crate::extensions::Extension;
 use crate::preferences::{FlareSettings, PreferenceStore};
@@ -33,12 +33,11 @@ fn tab_button<'a>(
     };
 
     button(
-        column![text(icon).font(ICON_FONT).size(20), text(label).size(11)]
-            .spacing(4)
+        column![text(icon).font(ICON_FONT).size(20), text(label).size(13)]
             .align_x(iced::Alignment::Center),
     )
     .on_press(SettingsMessage::TabChanged(tab))
-    .padding([8, 16])
+    .padding(Padding::from([0, 8]).bottom(4))
     .style(move |_theme, status| {
         let bg = match status {
             button::Status::Hovered if !is_selected => theme.colors.text_40,
@@ -48,7 +47,7 @@ fn tab_button<'a>(
             background: Some(Background::Color(bg)),
             text_color,
             border: Border {
-                radius: 8.0.into(),
+                radius: 6.0.into(),
                 ..Default::default()
             },
             ..Default::default()
@@ -77,6 +76,7 @@ fn tab_bar<'a>(current_tab: SettingsTab, theme: &'a Theme) -> Element<'a, Settin
                 ),
             ]
             .spacing(16)
+            .padding([8, 0])
             .align_y(iced::Alignment::Center),
             rule::horizontal(1).style(|iced_theme| rule::Style {
                 color: theme.colors.border_10,
