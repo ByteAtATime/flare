@@ -1,4 +1,6 @@
 use crate::encryption;
+use arboard::ImageData;
+use std::borrow::Cow;
 use std::collections::VecDeque;
 use std::fs;
 use std::path::PathBuf;
@@ -13,13 +15,51 @@ const HISTORY_FILE: &str = "clipboard_history.json";
 static CLIPBOARD_HISTORY: LazyLock<Mutex<VecDeque<ClipboardEntry>>> =
     LazyLock::new(|| Mutex::new(VecDeque::new()));
 
-static LAST_CONTENT: LazyLock<Mutex<String>> = LazyLock::new(|| Mutex::new(String::new()));
+static LAST_CONTENT: LazyLock<Mutex<LastContent>> = LazyLock::new(|| Mutex::new(LastContent::None));
 
 static INIT: Once = Once::new();
 
+#[derive(Debug, Clone, PartialEq)]
+enum LastContent {
+    None,
+    Text(String),
+    Image(Vec<u8>),
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ClipboardImage {
+    pub width: usize,
+    pub height: usize,
+    pub bytes: Vec<u8>,
+}
+
+impl ClipboardImage {
+    fn from_image_data(data: ImageData<'_>) -> Self {
+        Self {
+            width: data.width,
+            height: data.height,
+            bytes: data.bytes.into_owned(),
+        }
+    }
+
+    pub fn to_image_data(&self) -> ImageData<'static> {
+        ImageData {
+            width: self.width,
+            height: self.height,
+            bytes: Cow::Owned(self.bytes.clone()),
+        }
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub enum ClipboardContent {
+    Text(String),
+    Image(ClipboardImage),
+}
+
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ClipboardEntry {
-    pub content: String,
+    pub content: ClipboardContent,
     pub timestamp: u64,
 }
 
@@ -31,8 +71,9 @@ struct EncryptedEntry {
 
 impl ClipboardEntry {
     fn encrypt(&self) -> Result<EncryptedEntry, String> {
+        let serialized = serde_json::to_string(&self.content).map_err(|e| e.to_string())?;
         Ok(EncryptedEntry {
-            encrypted_content: encryption::encrypt(&self.content)?,
+            encrypted_content: encryption::encrypt(&serialized)?,
             timestamp: self.timestamp,
         })
     }
@@ -40,8 +81,11 @@ impl ClipboardEntry {
 
 impl EncryptedEntry {
     fn decrypt(&self) -> Result<ClipboardEntry, String> {
+        let decrypted = encryption::decrypt(&self.encrypted_content)?;
+        let content: ClipboardContent =
+            serde_json::from_str(&decrypted).map_err(|e| e.to_string())?;
         Ok(ClipboardEntry {
-            content: encryption::decrypt(&self.encrypted_content)?,
+            content,
             timestamp: self.timestamp,
         })
     }
@@ -83,12 +127,18 @@ fn save_history(history: &VecDeque<ClipboardEntry>) {
     }
 }
 
-fn add_entry(content: String) {
+fn add_entry(content: ClipboardContent) {
     let mut history = CLIPBOARD_HISTORY.lock().unwrap();
 
     if let Some(front) = history.front() {
-        if front.content == content {
-            return;
+        match (&front.content, &content) {
+            (ClipboardContent::Text(a), ClipboardContent::Text(b)) if a == b => return,
+            (ClipboardContent::Image(a), ClipboardContent::Image(b))
+                if a.width == b.width && a.height == b.height && a.bytes == b.bytes =>
+            {
+                return;
+            }
+            _ => {}
         }
     }
 
@@ -110,15 +160,25 @@ fn add_entry(content: String) {
 
 fn poll_clipboard() {
     loop {
-        let result = arboard::Clipboard::new().and_then(|mut c| c.get_text());
-
-        if let Ok(text) = result {
-            if !text.is_empty() {
+        if let Ok(mut clipboard) = arboard::Clipboard::new() {
+            if let Ok(text) = clipboard.get_text() {
+                if !text.is_empty() {
+                    let mut last = LAST_CONTENT.lock().unwrap();
+                    if *last != LastContent::Text(text.clone()) {
+                        *last = LastContent::Text(text.clone());
+                        drop(last);
+                        add_entry(ClipboardContent::Text(text));
+                    }
+                }
+            } else if let Ok(image) = clipboard.get_image() {
+                let bytes = image.bytes.to_vec();
                 let mut last = LAST_CONTENT.lock().unwrap();
-                if *last != text {
-                    *last = text.clone();
+                if *last != LastContent::Image(bytes.clone()) {
+                    *last = LastContent::Image(bytes);
                     drop(last);
-                    add_entry(text);
+                    add_entry(ClipboardContent::Image(ClipboardImage::from_image_data(
+                        image,
+                    )));
                 }
             }
         }
@@ -137,7 +197,10 @@ pub fn init() {
 
         if let Some(entry) = CLIPBOARD_HISTORY.lock().unwrap().front() {
             let mut last = LAST_CONTENT.lock().unwrap();
-            *last = entry.content.clone();
+            *last = match &entry.content {
+                ClipboardContent::Text(t) => LastContent::Text(t.clone()),
+                ClipboardContent::Image(img) => LastContent::Image(img.bytes.clone()),
+            };
         }
 
         thread::spawn(poll_clipboard);
