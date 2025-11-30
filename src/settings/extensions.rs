@@ -38,23 +38,64 @@ pub fn render_extensions_tab<'a>(
 
     let search_bar = container(search_input).height(22);
 
-    let filter_container = container(search_bar)
+    let left_header = container(search_bar)
         .padding(Padding::from([7, 16])) // remove 1px of vertical padding to compensate for border
         .style(move |_| container::Style {
             background: Some(bg_color.into()),
             ..Default::default()
         });
 
-    let header = row![text("Name").size(12).color(theme.colors.text_60)]
+    let right_header: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
+        if let Some(ext) = extensions.get(idx) {
+            let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
+                let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
+                if icon_path.extension().map_or(false, |e| e == "svg") {
+                    svg(icon_path).width(32).height(32).into()
+                } else {
+                    image(icon_path).width(32).height(32).into()
+                }
+            } else {
+                container(text("")).width(32).height(32).into()
+            };
+
+            container(
+                row![
+                    icon_element,
+                    text(&ext.manifest.title).size(20).color(text_color),
+                ]
+                .spacing(12)
+                .align_y(Alignment::Center),
+            )
+            .padding(Padding::from([7, 16]))
+            .width(Length::Fixed(350.0))
+            .into()
+        } else {
+            container(text("")).width(Length::Fixed(350.0)).into()
+        }
+    } else {
+        container(text("")).width(Length::Fixed(350.0)).into()
+    };
+
+    let header_row = row![
+        left_header,
+        rule::vertical(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        }),
+        right_header
+    ]
+    .height(Length::Shrink);
+
+    let table_header = row![text("Name").size(12).color(theme.colors.text_60)]
         .height(Length::Fill)
-        .align_y(Alignment::Center)
-        .padding([0, 20]);
-    let header_container = container(column![
+        .padding([0, 20])
+        .align_y(Alignment::Center);
+    let table_header_container = container(column![
         rule::horizontal(1).style(|iced_theme| rule::Style {
             color: theme.colors.border_10,
             ..rule::default(iced_theme)
         }),
-        header,
+        table_header,
         rule::horizontal(1).style(|iced_theme| rule::Style {
             color: theme.colors.border_10,
             ..rule::default(iced_theme)
@@ -124,9 +165,8 @@ pub fn render_extensions_tab<'a>(
         );
     }
 
-    let left_panel = container(column![
-        filter_container,
-        header_container,
+    let left_content = container(column![
+        table_header_container,
         scrollable(ext_list).height(Length::Fill)
     ])
     .width(Length::Fill)
@@ -136,7 +176,7 @@ pub fn render_extensions_tab<'a>(
         ..Default::default()
     });
 
-    let right_panel: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
+    let right_content: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
         if let Some(ext) = extensions.get(idx) {
             render_extension_preferences(ext, preferences, extensions, theme)
         } else {
@@ -150,7 +190,7 @@ pub fn render_extensions_tab<'a>(
             .into()
     };
 
-    let right_container = container(right_panel)
+    let right_content_container = container(right_content)
         .width(Length::Fixed(350.0))
         .height(Length::Fill)
         .style(move |_| container::Style {
@@ -158,17 +198,20 @@ pub fn render_extensions_tab<'a>(
             ..Default::default()
         });
 
-    row![
-        left_panel,
+    let content_row = row![
+        left_content,
         rule::vertical(1).style(|iced_theme| rule::Style {
             color: theme.colors.border_10,
             ..rule::default(iced_theme)
         }),
-        right_container
+        right_content_container
     ]
-    .width(Length::Fill)
-    .height(Length::Fill)
-    .into()
+    .height(Length::Fill);
+
+    column![header_row, content_row]
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .into()
 }
 
 fn render_extension_preferences<'a>(
@@ -180,33 +223,15 @@ fn render_extension_preferences<'a>(
     let text_color = theme.colors.text;
     let bg_color = theme.colors.background;
 
-    let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
-        let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
-        if icon_path.extension().map_or(false, |e| e == "svg") {
-            svg(icon_path).width(32).height(32).into()
-        } else {
-            image(icon_path).width(32).height(32).into()
-        }
-    } else {
-        container(text("")).width(32).height(32).into()
-    };
-
-    let header = row![
-        icon_element,
-        text(&ext.manifest.title).size(20).color(text_color),
-    ]
-    .spacing(12)
-    .align_y(iced::Alignment::Center);
-
-    let mut content = column![header].spacing(16);
-
-    content = content.push(
+    let mut content = column![
         column![
             text("Description").size(12).color(theme.colors.text_60),
             text(&ext.manifest.description).color(text_color),
         ]
         .spacing(4),
-    );
+    ]
+    .spacing(16)
+    .padding(16);
 
     if let Some(prefs) = &ext.manifest.preferences {
         for pref in prefs {
