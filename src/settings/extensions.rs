@@ -1,3 +1,4 @@
+use iced::widget::text::LineHeight;
 use iced::widget::{
     button, checkbox, column, container, image, pick_list, row, rule, scrollable, space, svg, text,
     text_input,
@@ -25,7 +26,7 @@ pub fn render_extensions_tab<'a>(
         .on_input(SettingsMessage::ExtensionSearchChanged)
         .size(16)
         .width(Length::Fill)
-        .padding([4, 10])
+        .padding([0, 10])
         .style(|iced_theme, status| text_input::Style {
             background: theme.colors.background.into(),
             border: Border {
@@ -36,26 +37,42 @@ pub fn render_extensions_tab<'a>(
             ..text_input::default(iced_theme, status)
         });
 
-    let search_bar = container(search_input).height(22);
+    let search_bar = container(container(search_input).height(22)).padding([7, 16]); // remove 1px of vertical padding to compensate for border
 
-    let left_header = container(search_bar)
-        .padding(Padding::from([7, 16])) // remove 1px of vertical padding to compensate for border
-        .style(move |_| container::Style {
-            background: Some(bg_color.into()),
-            ..Default::default()
-        });
+    let table_header = row![text("Name").size(12).color(theme.colors.text_60)]
+        .height(Length::Fill)
+        .padding([0, 20])
+        .align_y(Alignment::Center);
+    let table_header_container = container(column![
+        rule::horizontal(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        }),
+        table_header,
+        rule::horizontal(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        }),
+    ])
+    .height(32)
+    .style(|_theme| container::Style {
+        background: Some(color!(0x2c2c2c).into()), // TODO: this isn't anywhere in the theme
+        ..Default::default()
+    });
+
+    let left_header = column![search_bar, table_header_container];
 
     let right_header: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
         if let Some(ext) = extensions.get(idx) {
             let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
                 let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
                 if icon_path.extension().map_or(false, |e| e == "svg") {
-                    svg(icon_path).width(32).height(32).into()
+                    svg(icon_path).width(30).height(30).into()
                 } else {
-                    image(icon_path).width(32).height(32).into()
+                    image(icon_path).width(30).height(30).into()
                 }
             } else {
-                container(text("")).width(32).height(32).into()
+                container(text("")).width(30).height(30).into()
             };
 
             container(
@@ -85,27 +102,6 @@ pub fn render_extensions_tab<'a>(
         right_header
     ]
     .height(Length::Shrink);
-
-    let table_header = row![text("Name").size(12).color(theme.colors.text_60)]
-        .height(Length::Fill)
-        .padding([0, 20])
-        .align_y(Alignment::Center);
-    let table_header_container = container(column![
-        rule::horizontal(1).style(|iced_theme| rule::Style {
-            color: theme.colors.border_10,
-            ..rule::default(iced_theme)
-        }),
-        table_header,
-        rule::horizontal(1).style(|iced_theme| rule::Style {
-            color: theme.colors.border_10,
-            ..rule::default(iced_theme)
-        }),
-    ])
-    .height(32)
-    .style(|_theme| container::Style {
-        background: Some(color!(0x2c2c2c).into()), // TODO: this isn't anywhere in the theme
-        ..Default::default()
-    });
 
     let mut ext_list = column![].padding([0, 8]);
     for (idx, ext) in extensions.iter().enumerate() {
@@ -165,16 +161,13 @@ pub fn render_extensions_tab<'a>(
         );
     }
 
-    let left_content = container(column![
-        table_header_container,
-        scrollable(ext_list).height(Length::Fill)
-    ])
-    .width(Length::Fill)
-    .height(Length::Fill)
-    .style(move |_| container::Style {
-        background: Some(bg_color.into()),
-        ..Default::default()
-    });
+    let left_content = container(scrollable(ext_list).height(Length::Fill))
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .style(move |_| container::Style {
+            background: Some(bg_color.into()),
+            ..Default::default()
+        });
 
     let right_content: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
         if let Some(ext) = extensions.get(idx) {
