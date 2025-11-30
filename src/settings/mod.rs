@@ -5,8 +5,16 @@ pub use app::run;
 
 use serde_json::Value;
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
+pub enum SettingsTab {
+    #[default]
+    General,
+    Extensions,
+}
+
 #[derive(Clone, Debug)]
 pub enum SettingsMessage {
+    TabChanged(SettingsTab),
     PreferenceChanged {
         extension_id: String,
         key: String,
@@ -23,6 +31,7 @@ fn handle_message(
     flare_settings: &mut crate::preferences::FlareSettings,
 ) {
     match message {
+        SettingsMessage::TabChanged(_) => {}
         SettingsMessage::PreferenceChanged {
             extension_id,
             key,

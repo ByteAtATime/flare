@@ -6,13 +6,14 @@ use crate::preferences::{FlareSettings, PreferenceStore};
 use crate::theme::Theme;
 
 use super::view::settings_view;
-use super::{SettingsMessage, handle_message};
+use super::{SettingsMessage, SettingsTab, handle_message};
 
 struct State {
     extensions: Vec<Extension>,
     preferences: PreferenceStore,
     flare_settings: FlareSettings,
     theme: Theme,
+    current_tab: SettingsTab,
 }
 
 impl State {
@@ -23,6 +24,7 @@ impl State {
                 preferences: PreferenceStore::load(),
                 flare_settings: FlareSettings::load(),
                 theme: Theme::default(),
+                current_tab: SettingsTab::default(),
             },
             Task::none(),
         )
@@ -30,6 +32,9 @@ impl State {
 }
 
 fn update(state: &mut State, message: SettingsMessage) -> Task<SettingsMessage> {
+    if let SettingsMessage::TabChanged(tab) = message {
+        state.current_tab = tab;
+    }
     handle_message(&message, &mut state.preferences, &mut state.flare_settings);
     Task::none()
 }
@@ -42,6 +47,7 @@ fn view(state: &State) -> Element<'_, SettingsMessage> {
         &state.preferences,
         &state.flare_settings,
         &state.theme,
+        state.current_tab,
     ))
     .width(Length::Fill)
     .height(Length::Fill)
@@ -56,6 +62,7 @@ pub fn run() -> Result<(), Box<dyn std::error::Error>> {
     iced::application(State::new, update, view)
         .title("Flare Settings")
         .font(include_bytes!("../assets/Inter.ttf").as_slice())
+        .font(include_bytes!("../assets/icons.ttf").as_slice())
         .default_font(iced::Font::DEFAULT)
         .run()
         .map_err(|e| e.to_string())?;
