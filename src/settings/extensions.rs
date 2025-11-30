@@ -1,5 +1,6 @@
 use iced::widget::{
-    button, checkbox, column, container, pick_list, row, rule, scrollable, text, text_input,
+    button, checkbox, column, container, image, pick_list, row, rule, scrollable, svg, text,
+    text_input,
 };
 use iced::{Background, Border, Color, Element, Length};
 use serde_json::Value;
@@ -119,9 +120,23 @@ fn render_extension_preferences<'a>(
     let text_color = theme.colors.text;
     let bg_color = theme.colors.background;
 
-    let header = row![text(&ext.manifest.title).size(20).color(text_color),]
-        .spacing(12)
-        .align_y(iced::Alignment::Center);
+    let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
+        let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
+        if icon_path.extension().map_or(false, |e| e == "svg") {
+            svg(icon_path).width(32).height(32).into()
+        } else {
+            image(icon_path).width(32).height(32).into()
+        }
+    } else {
+        container(text("")).width(32).height(32).into()
+    };
+
+    let header = row![
+        icon_element,
+        text(&ext.manifest.title).size(20).color(text_color),
+    ]
+    .spacing(12)
+    .align_y(iced::Alignment::Center);
 
     let mut content = column![header].spacing(16);
 
