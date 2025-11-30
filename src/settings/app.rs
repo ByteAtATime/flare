@@ -14,6 +14,7 @@ struct State {
     flare_settings: FlareSettings,
     theme: Theme,
     current_tab: SettingsTab,
+    selected_extension: Option<usize>,
 }
 
 impl State {
@@ -25,6 +26,7 @@ impl State {
                 flare_settings: FlareSettings::load(),
                 theme: Theme::default(),
                 current_tab: SettingsTab::default(),
+                selected_extension: None,
             },
             Task::none(),
         )
@@ -32,8 +34,10 @@ impl State {
 }
 
 fn update(state: &mut State, message: SettingsMessage) -> Task<SettingsMessage> {
-    if let SettingsMessage::TabChanged(tab) = message {
-        state.current_tab = tab;
+    match &message {
+        SettingsMessage::TabChanged(tab) => state.current_tab = *tab,
+        SettingsMessage::ExtensionSelected(idx) => state.selected_extension = Some(*idx),
+        _ => {}
     }
     handle_message(&message, &mut state.preferences, &mut state.flare_settings);
     Task::none()
@@ -48,6 +52,7 @@ fn view(state: &State) -> Element<'_, SettingsMessage> {
         &state.flare_settings,
         &state.theme,
         state.current_tab,
+        state.selected_extension,
     ))
     .width(Length::Fill)
     .height(Length::Fill)

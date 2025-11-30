@@ -1,4 +1,5 @@
 mod app;
+mod extensions;
 mod view;
 
 pub use app::run;
@@ -15,6 +16,7 @@ pub enum SettingsTab {
 #[derive(Clone, Debug)]
 pub enum SettingsMessage {
     TabChanged(SettingsTab),
+    ExtensionSelected(usize),
     PreferenceChanged {
         extension_id: String,
         key: String,
@@ -32,6 +34,7 @@ fn handle_message(
 ) {
     match message {
         SettingsMessage::TabChanged(_) => {}
+        SettingsMessage::ExtensionSelected(_) => {}
         SettingsMessage::PreferenceChanged {
             extension_id,
             key,
