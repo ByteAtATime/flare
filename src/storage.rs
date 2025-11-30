@@ -1,3 +1,4 @@
+use crate::encryption;
 use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
@@ -38,12 +39,15 @@ pub fn set(namespace: &str, key: &str, data: &str) -> Result<(), String> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|e| e.to_string())?;
     }
-    fs::write(path, data).map_err(|e| e.to_string())
+
+    let encrypted = encryption::encrypt(data)?;
+    fs::write(path, encrypted).map_err(|e| e.to_string())
 }
 
 pub fn get(namespace: &str, key: &str) -> Option<String> {
     let path = get_path(namespace, Some(key));
-    fs::read_to_string(path).ok()
+    let encrypted = fs::read_to_string(path).ok()?;
+    encryption::decrypt(&encrypted).ok()
 }
 
 pub fn remove(namespace: &str, key: &str) -> bool {
@@ -73,10 +77,12 @@ pub fn get_all(namespace: &str) -> HashMap<String, String> {
 
     if let Ok(entries) = fs::read_dir(&path) {
         for entry in entries.flatten() {
-            if let Ok(content) = fs::read_to_string(entry.path()) {
-                if let Some(filename) = entry.file_name().to_str() {
-                    if let Some(key) = decode_key(filename) {
-                        result.insert(key, content);
+            if let Ok(encrypted) = fs::read_to_string(entry.path()) {
+                if let Ok(content) = encryption::decrypt(&encrypted) {
+                    if let Some(filename) = entry.file_name().to_str() {
+                        if let Some(key) = decode_key(filename) {
+                            result.insert(key, content);
+                        }
                     }
                 }
             }

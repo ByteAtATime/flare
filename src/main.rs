@@ -2,6 +2,7 @@ mod apps;
 mod clipboard;
 mod components;
 mod deep_link;
+mod encryption;
 mod extensions;
 mod frecency;
 mod globals;
