@@ -1,3 +1,4 @@
+use crate::encryption;
 use std::collections::VecDeque;
 use std::fs;
 use std::path::PathBuf;
@@ -22,6 +23,30 @@ pub struct ClipboardEntry {
     pub timestamp: u64,
 }
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+struct EncryptedEntry {
+    encrypted_content: String,
+    timestamp: u64,
+}
+
+impl ClipboardEntry {
+    fn encrypt(&self) -> Result<EncryptedEntry, String> {
+        Ok(EncryptedEntry {
+            encrypted_content: encryption::encrypt(&self.content)?,
+            timestamp: self.timestamp,
+        })
+    }
+}
+
+impl EncryptedEntry {
+    fn decrypt(&self) -> Result<ClipboardEntry, String> {
+        Ok(ClipboardEntry {
+            content: encryption::decrypt(&self.encrypted_content)?,
+            timestamp: self.timestamp,
+        })
+    }
+}
+
 fn get_history_path() -> PathBuf {
     if let Some(data_dir) = dirs::data_dir() {
         return data_dir.join("flare").join(HISTORY_FILE);
@@ -34,12 +59,16 @@ fn get_history_path() -> PathBuf {
 
 fn load_history() -> VecDeque<ClipboardEntry> {
     let path = get_history_path();
-    if let Ok(data) = fs::read_to_string(&path) {
-        if let Ok(entries) = serde_json::from_str::<Vec<ClipboardEntry>>(&data) {
-            return VecDeque::from(entries);
-        }
-    }
-    VecDeque::new()
+    let Ok(data) = fs::read_to_string(&path) else {
+        return VecDeque::new();
+    };
+    let Ok(encrypted_entries) = serde_json::from_str::<Vec<EncryptedEntry>>(&data) else {
+        return VecDeque::new();
+    };
+    encrypted_entries
+        .into_iter()
+        .filter_map(|e| e.decrypt().ok())
+        .collect()
 }
 
 fn save_history(history: &VecDeque<ClipboardEntry>) {
@@ -48,8 +77,8 @@ fn save_history(history: &VecDeque<ClipboardEntry>) {
         let _ = fs::create_dir_all(parent);
     }
 
-    let entries: Vec<_> = history.iter().collect();
-    if let Ok(data) = serde_json::to_string(&entries) {
+    let encrypted: Vec<_> = history.iter().filter_map(|e| e.encrypt().ok()).collect();
+    if let Ok(data) = serde_json::to_string(&encrypted) {
         let _ = fs::write(&path, data);
     }
 }
