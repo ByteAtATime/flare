@@ -1,9 +1,12 @@
-use iced::widget::{checkbox, column, pick_list, radio, row, scrollable, text, text_input};
 use iced::Element;
+use iced::widget::{
+    checkbox, column, container, pick_list, radio, row, scrollable, text, text_input,
+};
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
 use crate::preferences::{FlareSettings, PreferenceStore};
+use crate::theme::Theme;
 
 use super::SettingsMessage;
 
@@ -11,23 +14,38 @@ pub fn settings_view<'a>(
     extensions: &'a [Extension],
     preferences: &'a PreferenceStore,
     flare_settings: &'a FlareSettings,
+    theme: &'a Theme,
 ) -> Element<'a, SettingsMessage> {
+    let text_color = theme.colors.text;
+
     let mut content = column![].spacing(20).padding(20);
 
-    content = content.push(text("Settings").size(24));
-    content = content.push(render_flare_settings(flare_settings));
-    content = content.push(render_extension_settings(extensions, preferences));
+    content = content.push(text("Settings").size(24).color(text_color));
+    content = content.push(render_flare_settings(flare_settings, theme));
+    content = content.push(render_extension_settings(extensions, preferences, theme));
 
-    scrollable(content).into()
+    scrollable(content)
+        .style(|iced_theme, status| scrollable::Style {
+            container: container::Style {
+                background: Some(theme.colors.background.into()),
+                ..Default::default()
+            },
+            ..scrollable::default(iced_theme, status)
+        })
+        .into()
 }
 
-fn render_flare_settings(settings: &FlareSettings) -> Element<'_, SettingsMessage> {
+fn render_flare_settings<'a>(
+    settings: &'a FlareSettings,
+    theme: &'a Theme,
+) -> Element<'a, SettingsMessage> {
+    let text_color = theme.colors.text;
     let mut content = column![].spacing(10);
 
-    content = content.push(text("Flare Settings").size(18));
+    content = content.push(text("Flare Settings").size(18).color(text_color));
 
     let layer_shell_row = row![
-        text("Window Mode").width(150),
+        text("Window Mode").width(150).color(text_color),
         radio(
             "Layer Shell (Wayland)",
             true,
@@ -45,8 +63,11 @@ fn render_flare_settings(settings: &FlareSettings) -> Element<'_, SettingsMessag
     .align_y(iced::Alignment::Center);
 
     content = content.push(layer_shell_row);
-    content =
-        content.push(text("After changing this setting, please restart the application.").size(12));
+    content = content.push(
+        text("After changing this setting, please restart the application.")
+            .size(12)
+            .color(theme.colors.text_60),
+    );
 
     content.into()
 }
@@ -54,13 +75,19 @@ fn render_flare_settings(settings: &FlareSettings) -> Element<'_, SettingsMessag
 fn render_extension_settings<'a>(
     extensions: &'a [Extension],
     preferences: &'a PreferenceStore,
+    theme: &'a Theme,
 ) -> Element<'a, SettingsMessage> {
+    let text_color = theme.colors.text;
     let mut content = column![].spacing(10);
 
-    content = content.push(text("Extension Settings").size(18));
+    content = content.push(text("Extension Settings").size(18).color(text_color));
 
     for ext in extensions {
-        content = content.push(text(format!("Extension: {}", ext.manifest.title)).size(16));
+        content = content.push(
+            text(format!("Extension: {}", ext.manifest.title))
+                .size(16)
+                .color(text_color),
+        );
 
         if let Some(prefs) = &ext.manifest.preferences {
             for pref in prefs {
@@ -69,6 +96,7 @@ fn render_extension_settings<'a>(
                     pref,
                     preferences,
                     extensions,
+                    theme,
                 ));
             }
         }
@@ -76,13 +104,18 @@ fn render_extension_settings<'a>(
         for cmd in &ext.manifest.commands {
             if let Some(prefs) = &cmd.preferences {
                 if !prefs.is_empty() {
-                    content = content.push(text(format!("Command: {}", cmd.title)).size(14));
+                    content = content.push(
+                        text(format!("Command: {}", cmd.title))
+                            .size(14)
+                            .color(text_color),
+                    );
                     for pref in prefs {
                         content = content.push(render_preference(
                             &ext.manifest.name,
                             pref,
                             preferences,
                             extensions,
+                            theme,
                         ));
                     }
                 }
@@ -98,7 +131,9 @@ fn render_preference<'a>(
     pref: &'a Preference,
     store: &'a PreferenceStore,
     extensions: &'a [Extension],
+    theme: &'a Theme,
 ) -> Element<'a, SettingsMessage> {
+    let text_color = theme.colors.text;
     let current_value = store.get_value(extension_id, &pref.name, extensions);
     let ext_id = extension_id.to_string();
     let pref_name = pref.name.clone();
@@ -174,7 +209,7 @@ fn render_preference<'a>(
         _ => text("Unsupported preference type").into(),
     };
 
-    row![text(title).width(150), input]
+    row![text(title).width(150).color(text_color), input]
         .spacing(10)
         .align_y(iced::Alignment::Center)
         .into()

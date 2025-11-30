@@ -1,7 +1,9 @@
-use iced::{Element, Task};
+use iced::widget::container;
+use iced::{Element, Length, Task};
 
 use crate::extensions::{Extension, scan_extensions};
 use crate::preferences::{FlareSettings, PreferenceStore};
+use crate::theme::Theme;
 
 use super::view::settings_view;
 use super::{SettingsMessage, handle_message};
@@ -10,6 +12,7 @@ struct State {
     extensions: Vec<Extension>,
     preferences: PreferenceStore,
     flare_settings: FlareSettings,
+    theme: Theme,
 }
 
 impl State {
@@ -19,6 +22,7 @@ impl State {
                 extensions: scan_extensions(),
                 preferences: PreferenceStore::load(),
                 flare_settings: FlareSettings::load(),
+                theme: Theme::default(),
             },
             Task::none(),
         )
@@ -31,7 +35,21 @@ fn update(state: &mut State, message: SettingsMessage) -> Task<SettingsMessage> 
 }
 
 fn view(state: &State) -> Element<'_, SettingsMessage> {
-    settings_view(&state.extensions, &state.preferences, &state.flare_settings)
+    let bg_color = state.theme.colors.background;
+
+    container(settings_view(
+        &state.extensions,
+        &state.preferences,
+        &state.flare_settings,
+        &state.theme,
+    ))
+    .width(Length::Fill)
+    .height(Length::Fill)
+    .style(move |_| container::Style {
+        background: Some(bg_color.into()),
+        ..Default::default()
+    })
+    .into()
 }
 
 pub fn run() -> Result<(), Box<dyn std::error::Error>> {
