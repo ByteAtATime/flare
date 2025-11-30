@@ -72,8 +72,12 @@ fn dev_boot() -> (State, iced::Task<Message>) {
 
 fn daemon_view<'a>(state: &'a State, window: window::Id) -> iced::Element<'a, Message> {
     if state.settings_window_id == Some(window) {
-        return screens::settings::settings_view(&state.extensions, &state.preferences)
-            .map(Message::Settings);
+        return screens::settings::settings_view(
+            &state.extensions,
+            &state.preferences,
+            &state.flare_settings,
+        )
+        .map(Message::Settings);
     }
     view(state)
 }
@@ -229,20 +233,33 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
         eprintln!("Failed to register deep links: {}", e);
     }
 
-    let result = iced_layershell::daemon(boot, namespace, update, daemon_view)
-        .subscription(subscription)
-        .title(|_state, _window| Some(String::from("Flare")))
-        .font(include_bytes!("./assets/Inter.ttf").as_slice())
-        .font(include_bytes!("./assets/icons.ttf").as_slice())
-        .default_font(iced::Font::DEFAULT)
-        .layer_settings(LayerShellSettings {
-            start_mode: StartMode::Background,
-            keyboard_interactivity: KeyboardInteractivity::Exclusive,
-            layer: Layer::Overlay,
-            ..Default::default()
-        })
-        .run()
-        .map_err(|e| e.to_string());
+    let flare_settings = preferences::FlareSettings::load();
+
+    let result = if flare_settings.use_layer_shell {
+        iced_layershell::daemon(boot, namespace, update, daemon_view)
+            .subscription(subscription)
+            .title(|_state, _window| Some(String::from("Flare")))
+            .font(include_bytes!("./assets/Inter.ttf").as_slice())
+            .font(include_bytes!("./assets/icons.ttf").as_slice())
+            .default_font(iced::Font::DEFAULT)
+            .layer_settings(LayerShellSettings {
+                start_mode: StartMode::Background,
+                keyboard_interactivity: KeyboardInteractivity::Exclusive,
+                layer: Layer::Overlay,
+                ..Default::default()
+            })
+            .run()
+            .map_err(|e| e.to_string())
+    } else {
+        iced::daemon(boot, update, daemon_view)
+            .subscription(subscription)
+            .title("Flare")
+            .font(include_bytes!("./assets/Inter.ttf").as_slice())
+            .font(include_bytes!("./assets/icons.ttf").as_slice())
+            .default_font(iced::Font::DEFAULT)
+            .run()
+            .map_err(|e| e.to_string())
+    };
 
     ipc::cleanup();
     result?;

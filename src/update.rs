@@ -51,18 +51,29 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             } else {
                 #[cfg(target_os = "linux")]
                 {
-                    let id = window::Id::unique();
-                    state.window_id = Some(id);
-                    return Task::done(Message::NewLayerShell {
-                        settings: NewLayerShellSettings {
-                            size: Some((774, 474)),
-                            anchor: Anchor::empty(),
-                            layer: Layer::Overlay,
-                            keyboard_interactivity: KeyboardInteractivity::Exclusive,
+                    if state.flare_settings.use_layer_shell {
+                        let id = window::Id::unique();
+                        state.window_id = Some(id);
+                        return Task::done(Message::NewLayerShell {
+                            settings: NewLayerShellSettings {
+                                size: Some((774, 474)),
+                                anchor: Anchor::empty(),
+                                layer: Layer::Overlay,
+                                keyboard_interactivity: KeyboardInteractivity::Exclusive,
+                                ..Default::default()
+                            },
+                            id,
+                        });
+                    } else {
+                        let (id, open) = window::open(window::Settings {
+                            decorations: false,
+                            level: window::Level::AlwaysOnTop,
+                            resizable: false,
+                            size: iced::Size::new(774.0, 474.0),
                             ..Default::default()
-                        },
-                        id,
-                    });
+                        });
+                        return open.map(move |_| Message::WindowOpened(id));
+                    }
                 }
                 #[cfg(not(target_os = "linux"))]
                 {
@@ -252,6 +263,12 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
                     state.preferences.set_value(&extension_id, &key, value);
                     if let Err(e) = state.preferences.save() {
                         eprintln!("Failed to save preferences: {}", e);
+                    }
+                }
+                SettingsMessage::FlareSettingChanged { use_layer_shell } => {
+                    state.flare_settings.use_layer_shell = use_layer_shell;
+                    if let Err(e) = state.flare_settings.save() {
+                        eprintln!("Failed to save Flare settings: {}", e);
                     }
                 }
             }

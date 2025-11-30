@@ -11,4 +11,7 @@ pub enum SettingsMessage {
         key: String,
         value: Value,
     },
+    FlareSettingChanged {
+        use_layer_shell: bool,
+    },
 }

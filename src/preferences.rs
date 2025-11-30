@@ -9,6 +9,45 @@ use crate::extensions::Extension;
 pub type ExtensionPreferences = HashMap<String, Value>;
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct FlareSettings {
+    #[serde(default = "default_use_layer_shell")]
+    pub use_layer_shell: bool,
+}
+
+fn default_use_layer_shell() -> bool {
+    true
+}
+
+impl FlareSettings {
+    pub fn load() -> Self {
+        let path = get_flare_settings_path();
+        fs::read_to_string(&path)
+            .ok()
+            .and_then(|content| serde_json::from_str(&content).ok())
+            .unwrap_or_default()
+    }
+
+    pub fn save(&self) -> Result<(), String> {
+        let path = get_flare_settings_path();
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+        }
+        let content = serde_json::to_string_pretty(self).map_err(|e| e.to_string())?;
+        fs::write(path, content).map_err(|e| e.to_string())
+    }
+}
+
+fn get_flare_settings_path() -> PathBuf {
+    if let Some(config_dir) = dirs::config_dir() {
+        return config_dir.join("flare").join("settings.json");
+    }
+    if let Some(home_dir) = dirs::home_dir() {
+        return home_dir.join(".flare").join("settings.json");
+    }
+    PathBuf::from(".flare").join("settings.json")
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PreferenceStore {
     extensions: HashMap<String, ExtensionPreferences>,
 }

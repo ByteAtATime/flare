@@ -1,22 +1,68 @@
 use iced::Element;
-use iced::widget::{checkbox, column, pick_list, row, scrollable, text, text_input};
+use iced::widget::{checkbox, column, pick_list, radio, row, scrollable, text, text_input};
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
-use crate::preferences::PreferenceStore;
+use crate::preferences::{FlareSettings, PreferenceStore};
 
 use super::SettingsMessage;
 
 pub fn settings_view<'a>(
     extensions: &'a [Extension],
     preferences: &'a PreferenceStore,
+    flare_settings: &'a FlareSettings,
 ) -> Element<'a, SettingsMessage> {
-    let mut content = column![].spacing(10).padding(20);
+    let mut content = column![].spacing(20).padding(20);
 
     content = content.push(text("Settings").size(24));
 
+    content = content.push(render_flare_settings(flare_settings));
+
+    content = content.push(render_extension_settings(extensions, preferences));
+
+    scrollable(content).into()
+}
+
+fn render_flare_settings(settings: &FlareSettings) -> Element<'_, SettingsMessage> {
+    let mut content = column![].spacing(10);
+
+    content = content.push(text("Flare Settings").size(18));
+
+    let layer_shell_row = row![
+        text("Window Mode").width(150),
+        radio(
+            "Layer Shell (Wayland)",
+            true,
+            Some(settings.use_layer_shell),
+            |v| SettingsMessage::FlareSettingChanged { use_layer_shell: v }
+        ),
+        radio(
+            "Regular Window",
+            false,
+            Some(settings.use_layer_shell),
+            |v| SettingsMessage::FlareSettingChanged { use_layer_shell: v }
+        ),
+    ]
+    .spacing(10)
+    .align_y(iced::Alignment::Center);
+
+    content = content.push(layer_shell_row);
+    content =
+        content.push(text("After changing this setting, please restart the application.").size(12));
+
+    content.into()
+}
+
+fn render_extension_settings<'a>(
+    extensions: &'a [Extension],
+    preferences: &'a PreferenceStore,
+) -> Element<'a, SettingsMessage> {
+    let mut content = column![].spacing(10);
+
+    content = content.push(text("Extension Settings").size(18));
+
     for ext in extensions {
-        content = content.push(text(format!("Extension: {}", ext.manifest.title)).size(18));
+        content = content.push(text(format!("Extension: {}", ext.manifest.title)).size(16));
 
         if let Some(prefs) = &ext.manifest.preferences {
             for pref in prefs {
@@ -32,7 +78,7 @@ pub fn settings_view<'a>(
         for cmd in &ext.manifest.commands {
             if let Some(prefs) = &cmd.preferences {
                 if !prefs.is_empty() {
-                    content = content.push(text(format!("Command: {}", cmd.title)).size(16));
+                    content = content.push(text(format!("Command: {}", cmd.title)).size(14));
                     for pref in prefs {
                         content = content.push(render_preference(
                             &ext.manifest.name,
@@ -46,7 +92,7 @@ pub fn settings_view<'a>(
         }
     }
 
-    scrollable(content).into()
+    content.into()
 }
 
 fn render_preference<'a>(

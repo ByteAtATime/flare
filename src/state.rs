@@ -9,7 +9,7 @@ use crate::components::action_panel;
 use crate::components::actions::ActionPanelItem;
 use crate::extensions;
 use crate::frecency::FrecencyStore;
-use crate::preferences::PreferenceStore;
+use crate::preferences::{FlareSettings, PreferenceStore};
 use crate::screens::{Screen, Shell};
 use crate::theme::Theme;
 use crate::transport::{SidecarReader, SidecarWriter};
@@ -19,6 +19,7 @@ pub struct State {
     pub extensions: Vec<extensions::Extension>,
     pub apps: Vec<apps::AppEntry>,
     pub preferences: PreferenceStore,
+    pub flare_settings: FlareSettings,
     pub frecency: FrecencyStore,
     pub theme: Theme,
     pub search_text: String,
@@ -51,6 +52,7 @@ impl State {
         let commands = extensions::get_launchable_commands(&extensions);
         let apps = apps::scan_applications();
         let preferences = PreferenceStore::load();
+        let flare_settings = FlareSettings::load();
         let frecency = FrecencyStore::new(get_frecency_path());
         let theme = Theme::default();
 
@@ -67,6 +69,7 @@ impl State {
             extensions,
             apps,
             preferences,
+            flare_settings,
             frecency,
             theme,
             search_text,
