@@ -2,7 +2,7 @@ use iced::widget::{
     button, checkbox, column, container, image, pick_list, row, rule, scrollable, svg, text,
     text_input,
 };
-use iced::{Background, Border, Color, Element, Length};
+use iced::{Alignment, Background, Border, Color, Element, Length, Padding, color};
 use serde_json::Value;
 
 use crate::extensions::{Extension, Preference, PreferenceType};
@@ -23,12 +23,48 @@ pub fn render_extensions_tab<'a>(
 
     let search_input = text_input("Search...", search_query)
         .on_input(SettingsMessage::ExtensionSearchChanged)
-        .size(14)
-        .width(Length::Fill);
+        .size(16)
+        .width(Length::Fill)
+        .padding([4, 10])
+        .style(|iced_theme, status| text_input::Style {
+            background: theme.colors.background.into(),
+            border: Border {
+                color: theme.colors.text_20,
+                width: 1.0,
+                radius: 6.0.into(),
+            },
+            ..text_input::default(iced_theme, status)
+        });
 
     let search_bar = container(search_input).height(22);
 
-    let header = container(text("Name").size(10).color(theme.colors.text_60)).height(30);
+    let filter_container = container(search_bar)
+        .padding(Padding::from([7, 16])) // remove 1px of vertical padding to compensate for border
+        .style(move |_| container::Style {
+            background: Some(bg_color.into()),
+            ..Default::default()
+        });
+
+    let header = row![text("Name").size(12).color(theme.colors.text_60)]
+        .height(Length::Fill)
+        .align_y(Alignment::Center)
+        .padding([0, 20]);
+    let header_container = container(column![
+        rule::horizontal(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        }),
+        header,
+        rule::horizontal(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        }),
+    ])
+    .height(32)
+    .style(|_theme| container::Style {
+        background: Some(color!(0x2c2c2c).into()), // TODO: this isn't anywhere in the theme
+        ..Default::default()
+    });
 
     let mut ext_list = column![];
     for (idx, ext) in extensions.iter().enumerate() {
@@ -65,8 +101,8 @@ pub fn render_extensions_tab<'a>(
     }
 
     let left_panel = container(column![
-        search_bar,
-        header,
+        filter_container,
+        header_container,
         scrollable(ext_list).height(Length::Fill)
     ])
     .width(Length::Fill)
