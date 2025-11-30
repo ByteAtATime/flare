@@ -79,6 +79,8 @@ struct Particle {
     tilt_cos: f32,
     wobble_x: f32,
     wobble_y: f32,
+    fade_start: f32,
+    fade_end: f32,
 }
 
 pub struct Manager {
@@ -141,6 +143,9 @@ impl Manager {
                 )
             };
 
+            let fade_start = rng.random::<f32>() * 0.5;
+            let fade_end = fade_start + 0.3 + rng.random::<f32>() * 0.2;
+
             self.particles.push(Particle {
                 x: start_x,
                 y: start_y,
@@ -163,6 +168,8 @@ impl Manager {
                 tilt_cos: 0.0,
                 wobble_x,
                 wobble_y,
+                fade_start,
+                fade_end,
             });
         }
 
@@ -237,7 +244,9 @@ impl<Message> canvas::Program<Message> for Manager {
                 }
 
                 let progress = p.tick / p.total_ticks;
-                let alpha = 1.0 - progress;
+                let fade_progress =
+                    ((progress - p.fade_start) / (p.fade_end - p.fade_start)).clamp(0.0, 1.0);
+                let alpha = 1.0 - fade_progress;
 
                 let alpha_quantized = (alpha * 20.0).ceil() / 20.0;
                 if alpha_quantized <= 0.0 {
