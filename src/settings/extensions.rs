@@ -1,6 +1,6 @@
 use iced::widget::{
-    button, checkbox, column, container, image, mouse_area, pick_list, row, rule, scrollable,
-    space, svg, text, text_input,
+    checkbox, column, container, image, mouse_area, pick_list, row, rule, scrollable, space, svg,
+    text, text_input,
 };
 use iced::{Alignment, Border, Color, Element, Length, color};
 use serde_json::Value;
@@ -331,10 +331,22 @@ fn render_preference<'a>(
 
                 (
                     checkbox(label, checked)
+                        .size(14)
+                        .text_size(13)
                         .on_toggle(move |v| SettingsMessage::PreferenceChanged {
                             extension_id: ext_id.clone(),
                             key: pref_name.clone(),
                             value: Value::Bool(v),
+                        })
+                        .style(|iced_theme, status| checkbox::Style {
+                            text_color: Some(theme.colors.text_60),
+                            background: theme.colors.background.into(),
+                            border: Border {
+                                color: theme.colors.text_10,
+                                width: 1.0,
+                                radius: 4.0.into(),
+                            },
+                            ..checkbox::primary(iced_theme, status)
                         })
                         .into(),
                     false,
