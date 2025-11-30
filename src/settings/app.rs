@@ -15,6 +15,7 @@ struct State {
     theme: Theme,
     current_tab: SettingsTab,
     selected_extension: Option<usize>,
+    extension_search: String,
 }
 
 impl State {
@@ -27,6 +28,7 @@ impl State {
                 theme: Theme::default(),
                 current_tab: SettingsTab::default(),
                 selected_extension: None,
+                extension_search: String::new(),
             },
             Task::none(),
         )
@@ -37,6 +39,7 @@ fn update(state: &mut State, message: SettingsMessage) -> Task<SettingsMessage> 
     match &message {
         SettingsMessage::TabChanged(tab) => state.current_tab = *tab,
         SettingsMessage::ExtensionSelected(idx) => state.selected_extension = Some(*idx),
+        SettingsMessage::ExtensionSearchChanged(query) => state.extension_search = query.clone(),
         _ => {}
     }
     handle_message(&message, &mut state.preferences, &mut state.flare_settings);
@@ -53,6 +56,7 @@ fn view(state: &State) -> Element<'_, SettingsMessage> {
         &state.theme,
         state.current_tab,
         state.selected_extension,
+        &state.extension_search,
     ))
     .width(Length::Fill)
     .height(Length::Fill)

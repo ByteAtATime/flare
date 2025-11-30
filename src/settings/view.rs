@@ -100,12 +100,17 @@ pub fn settings_view<'a>(
     theme: &'a Theme,
     current_tab: SettingsTab,
     selected_extension: Option<usize>,
+    extension_search: &'a str,
 ) -> Element<'a, SettingsMessage> {
     let content: Element<'a, SettingsMessage> = match current_tab {
         SettingsTab::General => render_general_tab(flare_settings, theme),
-        SettingsTab::Extensions => {
-            render_extensions_tab(extensions, preferences, theme, selected_extension)
-        }
+        SettingsTab::Extensions => render_extensions_tab(
+            extensions,
+            preferences,
+            theme,
+            selected_extension,
+            extension_search,
+        ),
     };
 
     column![tab_bar(current_tab, theme), content]

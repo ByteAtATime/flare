@@ -15,12 +15,28 @@ pub fn render_extensions_tab<'a>(
     preferences: &'a PreferenceStore,
     theme: &'a Theme,
     selected_extension: Option<usize>,
+    search_query: &'a str,
 ) -> Element<'a, SettingsMessage> {
     let text_color = theme.colors.text;
     let bg_color = theme.colors.background;
 
-    let mut ext_list = column![].spacing(2);
+    let search_input = text_input("Search...", search_query)
+        .on_input(SettingsMessage::ExtensionSearchChanged)
+        .size(14)
+        .width(Length::Fill);
+
+    let search_bar = container(search_input).height(22);
+
+    let header = container(text("Name").size(10).color(theme.colors.text_60)).height(30);
+
+    let mut ext_list = column![];
     for (idx, ext) in extensions.iter().enumerate() {
+        let title_lower = ext.manifest.title.to_lowercase();
+        let query_lower = search_query.to_lowercase();
+        if !search_query.is_empty() && !title_lower.contains(&query_lower) {
+            continue;
+        }
+
         let is_selected = selected_extension == Some(idx);
         let item_bg = if is_selected {
             theme.colors.selection
@@ -47,13 +63,17 @@ pub fn render_extensions_tab<'a>(
         );
     }
 
-    let left_panel = container(scrollable(ext_list).height(Length::Fill))
-        .width(Length::FillPortion(1))
-        .height(Length::Fill)
-        .style(move |_| container::Style {
-            background: Some(bg_color.into()),
-            ..Default::default()
-        });
+    let left_panel = container(column![
+        search_bar,
+        header,
+        scrollable(ext_list).height(Length::Fill)
+    ])
+    .width(Length::FillPortion(1))
+    .height(Length::Fill)
+    .style(move |_| container::Style {
+        background: Some(bg_color.into()),
+        ..Default::default()
+    });
 
     let right_panel: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
         if let Some(ext) = extensions.get(idx) {
