@@ -13,7 +13,7 @@ clap = { version = "4", features = ["derive"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 # pinned to latest commit as of 2025-11-21
-iced = { git = "https://github.com/iced-rs/iced", rev = "8bfd099c5929d927a3fdde666d4c645d0bd83cb7", features = ["advanced", "canvas", "image", "markdown", "svg", "tokio"] }
+iced = { git = "https://github.com/iced-rs/iced", rev = "8bfd099c5929d927a3fdde666d4c645d0bd83cb7", features = ["advanced", "canvas", "image", "markdown", "svg", "tokio", "wgpu"] }
 reqwest = { version = "0.12.8", features = ["blocking", "rustls-tls"] }
 tokio = { version = "1.43.0", features = ["rt-multi-thread", "macros", "net", "sync", "process"] }
 phf = { version = "0.13.1", features = ["macros"] }

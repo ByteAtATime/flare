@@ -220,6 +220,13 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             }
             state.update_selected_actions();
         }
+        Message::TriggerConfetti => {
+            let current_exe =
+                std::env::current_exe().unwrap_or_else(|_| std::path::PathBuf::from("flare"));
+            let _ = std::process::Command::new(current_exe)
+                .arg("confetti")
+                .spawn();
+        }
         Message::PopToRoot => {
             state.writer = None;
             state.reader = None;

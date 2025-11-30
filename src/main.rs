@@ -61,6 +61,7 @@ enum Command {
     Toggle,
     Dev,
     Settings,
+    Confetti,
 }
 
 fn boot() -> (State, iced::Task<Message>) {
@@ -184,6 +185,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(Command::Daemon) => run_daemon(),
         Some(Command::Dev) => run_dev(),
         Some(Command::Settings) => settings::run(),
+        Some(Command::Confetti) => run_confetti(),
         None => run_application(),
     }
 }
@@ -296,5 +298,154 @@ fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
     ipc::cleanup();
     result?;
 
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+fn run_confetti() -> Result<(), Box<dyn std::error::Error>> {
+    use crate::components::confetti::{Manager, Options};
+    use iced::widget::canvas;
+    use iced::{Color, Length, Point, Rectangle, Size, Task, time, window};
+    use iced_layershell::reexport::{Anchor, KeyboardInteractivity, Layer};
+    use iced_layershell::settings::{LayerShellSettings, StartMode};
+    use iced_layershell::to_layer_message;
+
+    struct ConfettiState {
+        manager: Manager,
+        window_id: Option<window::Id>,
+        fired: bool,
+    }
+
+    #[to_layer_message]
+    #[derive(Debug, Clone)]
+    enum ConfettiMessage {
+        Tick,
+        WindowOpened(window::Id),
+        MonitorSize(Option<Size>),
+    }
+
+    fn boot() -> (ConfettiState, Task<ConfettiMessage>) {
+        (
+            ConfettiState {
+                manager: Manager::new(),
+                window_id: None,
+                fired: false,
+            },
+            Task::none(),
+        )
+    }
+
+    fn update(state: &mut ConfettiState, message: ConfettiMessage) -> Task<ConfettiMessage> {
+        match message {
+            ConfettiMessage::Tick => {
+                state.manager.update();
+                Task::none()
+            }
+            ConfettiMessage::WindowOpened(id) => {
+                state.window_id = Some(id);
+                window::size(id).map(|arg0: iced::Size| ConfettiMessage::MonitorSize(Some(arg0)))
+            }
+            ConfettiMessage::MonitorSize(size) => {
+                if state.fired {
+                    return Task::none();
+                }
+                state.fired = true;
+
+                // distance = (velocity * cos(angle))/(1 - decay)
+                // rearranging for velocity, distance(1-decay)/cos(angle)
+                // (width/2)(1-0.97)/cos(45) = width / 47.1
+                let size = size.unwrap_or(Size::new(1920.0, 1080.0));
+                let options = Options {
+                    particle_count: 300,
+                    spread: 45.0,
+                    start_velocity: size.width / 47.1,
+                    gravity: size.width / 960.0,
+                    decay: 0.97,
+                    ticks: 160.0, // about 2.5 seconds, seems like a reasonable duration
+                    origin: Point { x: 1.0, y: 1.0 },
+                    scalar: 1.2,
+                    ..Default::default()
+                };
+
+                state.manager.fire_with_bounds(
+                    Options {
+                        angle: 135.0,
+                        origin: Point { x: 1.0, y: 1.0 },
+                        ..options.clone()
+                    },
+                    Rectangle::new(Point::ORIGIN, size),
+                );
+
+                state.manager.fire_with_bounds(
+                    Options {
+                        angle: 45.0,
+                        origin: Point { x: 0.0, y: 1.0 },
+                        ..options
+                    },
+                    Rectangle::new(Point::ORIGIN, size),
+                );
+
+                Task::none()
+            }
+            _ => Task::none(),
+        }
+    }
+
+    fn view(state: &ConfettiState) -> iced::Element<'_, ConfettiMessage> {
+        iced::widget::container(
+            canvas(&state.manager)
+                .width(Length::Fill)
+                .height(Length::Fill),
+        )
+        .width(Length::Fill)
+        .height(Length::Fill)
+        .style(|_| iced::widget::container::Style {
+            background: Some(Color::TRANSPARENT.into()),
+            ..Default::default()
+        })
+        .into()
+    }
+
+    fn subscription(state: &ConfettiState) -> iced::Subscription<ConfettiMessage> {
+        use std::time::Duration;
+
+        let tick = time::every(Duration::from_millis(1000 / 60)).map(|_| ConfettiMessage::Tick);
+
+        let window_events = if state.window_id.is_none() {
+            iced::event::listen_with(|event, _status, id| {
+                if let iced::Event::Window(iced::window::Event::Opened { .. }) = event {
+                    return Some(ConfettiMessage::WindowOpened(id));
+                }
+                None
+            })
+        } else {
+            iced::Subscription::none()
+        };
+
+        iced::Subscription::batch([tick, window_events])
+    }
+
+    iced_layershell::application(boot, || String::from("flare-confetti"), update, view)
+        .subscription(subscription)
+        .style(|_state, theme| iced::theme::Style {
+            background_color: Color::TRANSPARENT,
+            text_color: theme.palette().text,
+        })
+        .layer_settings(LayerShellSettings {
+            start_mode: StartMode::Active,
+            layer: Layer::Overlay,
+            anchor: Anchor::Top | Anchor::Bottom | Anchor::Left | Anchor::Right,
+            keyboard_interactivity: KeyboardInteractivity::None,
+            exclusive_zone: 0,
+            events_transparent: true,
+            ..Default::default()
+        })
+        .run()
+        .map_err(|e| e.to_string().into())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn run_confetti() -> Result<(), Box<dyn std::error::Error>> {
+    eprintln!("Confetti is not supported yet!");
     Ok(())
 }

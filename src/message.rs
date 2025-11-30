@@ -31,6 +31,7 @@ pub enum Message {
     ExtensionLaunched(Result<(SidecarWriter, Arc<Mutex<SidecarReader>>), String>),
     LaunchApp(AppEntry),
     ResetFrecency(String),
+    TriggerConfetti,
     PopToRoot,
 
     WindowOpened(window::Id),
