@@ -26,7 +26,7 @@ pub fn render_extensions_tab<'a>(
         .on_input(SettingsMessage::ExtensionSearchChanged)
         .size(16)
         .width(Length::Fill)
-        .padding([0, 10])
+        .padding([1, 10])
         .style(|iced_theme, status| text_input::Style {
             background: theme.colors.background.into(),
             border: Border {
@@ -62,7 +62,8 @@ pub fn render_extensions_tab<'a>(
 
     let left_header = column![search_bar, table_header_container];
 
-    let right_header: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension {
+    let right_header_contents: Element<'a, SettingsMessage> = if let Some(idx) = selected_extension
+    {
         if let Some(ext) = extensions.get(idx) {
             let icon_element: Element<'a, SettingsMessage> = if !ext.manifest.icon.is_empty() {
                 let icon_path = ext.path.join("assets").join(&ext.manifest.icon);
@@ -75,23 +76,30 @@ pub fn render_extensions_tab<'a>(
                 container(text("")).width(30).height(30).into()
             };
 
-            container(
-                row![
-                    icon_element,
-                    text(&ext.manifest.title).size(20).color(text_color),
-                ]
-                .spacing(12)
-                .align_y(Alignment::Center),
-            )
-            .padding(Padding::from([7, 16]))
-            .width(Length::Fixed(350.0))
+            row![
+                icon_element,
+                text(&ext.manifest.title).size(20).color(text_color),
+            ]
+            .spacing(12)
+            .padding([0, 18])
+            .align_y(Alignment::Center)
+            .height(Length::Fill)
             .into()
         } else {
-            container(text("")).width(Length::Fixed(350.0)).into()
+            container(text("")).into()
         }
     } else {
-        container(text("")).width(Length::Fixed(350.0)).into()
+        container(text("")).into()
     };
+
+    let right_header = column![
+        right_header_contents,
+        rule::horizontal(1).style(|iced_theme| rule::Style {
+            color: theme.colors.border_10,
+            ..rule::default(iced_theme)
+        })
+    ]
+    .width(Length::Fixed(350.0));
 
     let header_row = row![
         left_header,
@@ -218,13 +226,13 @@ fn render_extension_preferences<'a>(
 
     let mut content = column![
         column![
-            text("Description").size(12).color(theme.colors.text_60),
-            text(&ext.manifest.description).color(text_color),
+            text("Description").size(13).color(theme.colors.text_60),
+            text(&ext.manifest.description).size(15).color(text_color),
         ]
-        .spacing(4),
+        .spacing(10),
     ]
-    .spacing(16)
-    .padding(16);
+    .spacing(18)
+    .padding([24, 16]);
 
     if let Some(prefs) = &ext.manifest.preferences {
         for pref in prefs {
