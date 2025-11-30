@@ -422,6 +422,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
+name = "beul"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3c3baedf037b161e69da9200947329f52afa3b6e1cdbe6f344d6aa350fedd2f"
+
+[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -587,13 +593,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "calloop"
+version = "0.14.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb9f6e1368bd4621d2c86baa7e37de77a938adf5221e5dd3d6133340101b309e"
+dependencies = [
+ "bitflags 2.9.4",
+ "polling",
+ "rustix 1.1.2",
+ "slab",
+ "tracing",
+]
+
+[[package]]
 name = "calloop-wayland-source"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "95a66a987056935f7efce4ab5668920b5d0dac4a7c99991a67395f13702ddd20"
 dependencies = [
- "calloop",
+ "calloop 0.13.0",
  "rustix 0.38.44",
+ "wayland-backend",
+ "wayland-client",
+]
+
+[[package]]
+name = "calloop-wayland-source"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "138efcf0940a02ebf0cc8d1eff41a1682a46b431630f4c52450d6265876021fa"
+dependencies = [
+ "calloop 0.14.3",
+ "rustix 1.1.2",
  "wayland-backend",
  "wayland-client",
 ]
@@ -956,6 +987,41 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f27ae1dd37df86211c42e150270f82743308803d90a6f6e6651cd730d5e1732f"
 
 [[package]]
+name = "darling"
+version = "0.20.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc7f46116c46ff9ab3eb1597a45688b6715c6e628b5c133e288e709a29bcb4ee"
+dependencies = [
+ "darling_core",
+ "darling_macro",
+]
+
+[[package]]
+name = "darling_core"
+version = "0.20.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d00b9596d185e565c2207a0b01f8bd1a135483d02d9b7b0a54b11da8d53412e"
+dependencies = [
+ "fnv",
+ "ident_case",
+ "proc-macro2",
+ "quote",
+ "strsim",
+ "syn",
+]
+
+[[package]]
+name = "darling_macro"
+version = "0.20.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc34b93ccb385b40dc71c6fceac4b2ad23662c7eeb248cf10d529b7e055b6ead"
+dependencies = [
+ "darling_core",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "data-url"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1310,6 +1376,7 @@ dependencies = [
  "dunce",
  "freedesktop-icons",
  "iced",
+ "iced_layershell",
  "phf",
  "rayon",
  "reqwest",
@@ -2005,6 +2072,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "iced_exdevtools"
+version = "0.14.0-dev"
+source = "git+https://github.com/ByteAtATime/exwlshelleventloop#74fc343f54999f166cc621bf350410569da3c4de"
+dependencies = [
+ "iced_debug",
+ "iced_devtools",
+ "iced_program",
+ "iced_widget",
+ "log",
+]
+
+[[package]]
 name = "iced_futures"
 version = "0.14.0-dev"
 source = "git+https://github.com/iced-rs/iced?rev=8bfd099c5929d927a3fdde666d4c645d0bd83cb7#8bfd099c5929d927a3fdde666d4c645d0bd83cb7"
@@ -2036,6 +2115,44 @@ dependencies = [
  "rustc-hash 2.1.1",
  "thiserror 2.0.17",
  "unicode-segmentation",
+]
+
+[[package]]
+name = "iced_layershell"
+version = "0.14.0-dev"
+source = "git+https://github.com/ByteAtATime/exwlshelleventloop#74fc343f54999f166cc621bf350410569da3c4de"
+dependencies = [
+ "enumflags2",
+ "futures",
+ "iced",
+ "iced_core",
+ "iced_debug",
+ "iced_devtools",
+ "iced_exdevtools",
+ "iced_futures",
+ "iced_graphics",
+ "iced_layershell_macros",
+ "iced_program",
+ "iced_renderer",
+ "iced_runtime",
+ "layershellev",
+ "log",
+ "mundy",
+ "thiserror 2.0.17",
+ "tracing",
+ "window_clipboard",
+]
+
+[[package]]
+name = "iced_layershell_macros"
+version = "0.14.0-dev"
+source = "git+https://github.com/ByteAtATime/exwlshelleventloop#74fc343f54999f166cc621bf350410569da3c4de"
+dependencies = [
+ "darling",
+ "manyhow",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -2220,6 +2337,12 @@ dependencies = [
  "zerotrie",
  "zerovec",
 ]
+
+[[package]]
+name = "ident_case"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "idna"
@@ -2435,6 +2558,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "layershellev"
+version = "0.14.0-dev"
+source = "git+https://github.com/ByteAtATime/exwlshelleventloop#74fc343f54999f166cc621bf350410569da3c4de"
+dependencies = [
+ "bitflags 2.9.4",
+ "calloop 0.14.3",
+ "calloop-wayland-source 0.4.1",
+ "log",
+ "raw-window-handle",
+ "tempfile",
+ "thiserror 2.0.17",
+ "waycrate_xkbkeycode",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-cursor",
+ "wayland-protocols",
+ "wayland-protocols-misc",
+ "wayland-protocols-wlr",
+]
+
+[[package]]
 name = "lebe"
 version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2574,6 +2718,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "manyhow"
+version = "0.11.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b33efb3ca6d3b07393750d4030418d594ab1139cee518f0dc88db70fec873587"
+dependencies = [
+ "darling_core",
+ "manyhow-macros",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "manyhow-macros"
+version = "0.11.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46fce34d199b78b6e6073abf984c9cf5fd3e9330145a93ee0738a7443e371495"
+dependencies = [
+ "proc-macro-utils",
+ "proc-macro2",
+ "quote",
+]
+
+[[package]]
 name = "maybe-rayon"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2667,6 +2835,7 @@ checksum = "d1507867e7cc8ae71ec01ef4a7a4b9f4b1a827324b414a0232b04e19324ec92d"
 dependencies = [
  "android-build",
  "async-io",
+ "beul",
  "cfg-if",
  "dispatch",
  "futures-channel",
@@ -3581,6 +3750,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "proc-macro-utils"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eeaf08a13de400bc215877b5bdc088f241b12eb42f0a548d3390dc1c56bb7071"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "smallvec",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4361,8 +4541,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3457dea1f0eb631b4034d61d4d8c32074caa6cd1ab2d59f2327bd8461e2c0016"
 dependencies = [
  "bitflags 2.9.4",
- "calloop",
- "calloop-wayland-source",
+ "calloop 0.13.0",
+ "calloop-wayland-source 0.3.0",
  "cursor-icon",
  "libc",
  "log",
@@ -4822,6 +5002,7 @@ version = "0.1.41"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "784e0ac535deb450455cbfa28a6f0df145ea1bb7ae51b821cf5e7927fdcfbdd0"
 dependencies = [
+ "log",
  "pin-project-lite",
  "tracing-attributes",
  "tracing-core",
@@ -5137,6 +5318,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "waycrate_xkbkeycode"
+version = "0.14.0-dev"
+source = "git+https://github.com/ByteAtATime/exwlshelleventloop#74fc343f54999f166cc621bf350410569da3c4de"
+dependencies = [
+ "bitflags 2.9.4",
+ "calloop 0.14.3",
+ "log",
+ "memmap2",
+ "smol_str",
+ "wayland-backend",
+ "wayland-client",
+ "xkbcommon-dl",
+]
+
+[[package]]
 name = "wayland-backend"
 version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5193,6 +5389,19 @@ dependencies = [
  "bitflags 2.9.4",
  "wayland-backend",
  "wayland-client",
+ "wayland-scanner",
+]
+
+[[package]]
+name = "wayland-protocols-misc"
+version = "0.3.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2dfe33d551eb8bffd03ff067a8b44bb963919157841a99957151299a6307d19c"
+dependencies = [
+ "bitflags 2.9.4",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-protocols",
  "wayland-scanner",
 ]
 
@@ -6040,7 +6249,7 @@ dependencies = [
  "bitflags 2.9.4",
  "block2 0.5.1",
  "bytemuck",
- "calloop",
+ "calloop 0.13.0",
  "cfg_aliases",
  "concurrent-queue",
  "core-foundation 0.9.4",

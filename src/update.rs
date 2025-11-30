@@ -4,6 +4,8 @@ use iced::{
     keyboard::{Key, Modifiers, key::Named},
     window,
 };
+#[cfg(target_os = "linux")]
+use iced_layershell::reexport::{Anchor, KeyboardInteractivity, Layer, NewLayerShellSettings};
 use serde_json::Value;
 use std::sync::Arc;
 use std::time::Instant;
@@ -47,14 +49,32 @@ pub fn update(state: &mut State, message: Message) -> Task<Message> {
             if let Some(id) = state.window_id {
                 return window::close(id);
             } else {
-                let (id, open) = window::open(window::Settings {
-                    decorations: false,
-                    level: window::Level::AlwaysOnTop,
-                    resizable: false,
-                    size: iced::Size::new(774.0, 474.0),
-                    ..Default::default()
-                });
-                return open.map(move |_| Message::WindowOpened(id));
+                #[cfg(target_os = "linux")]
+                {
+                    let id = window::Id::unique();
+                    state.window_id = Some(id);
+                    return Task::done(Message::NewLayerShell {
+                        settings: NewLayerShellSettings {
+                            size: Some((774, 474)),
+                            anchor: Anchor::empty(),
+                            layer: Layer::Overlay,
+                            keyboard_interactivity: KeyboardInteractivity::Exclusive,
+                            ..Default::default()
+                        },
+                        id,
+                    });
+                }
+                #[cfg(not(target_os = "linux"))]
+                {
+                    let (id, open) = window::open(window::Settings {
+                        decorations: false,
+                        level: window::Level::AlwaysOnTop,
+                        resizable: false,
+                        size: iced::Size::new(774.0, 474.0),
+                        ..Default::default()
+                    });
+                    return open.map(move |_| Message::WindowOpened(id));
+                }
             }
         }
         Message::OpenSettings => {

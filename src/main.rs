@@ -30,6 +30,10 @@ use clap::{Parser, Subcommand};
 use iced::Subscription;
 use iced::futures::{self, stream};
 use iced::window;
+#[cfg(target_os = "linux")]
+use iced_layershell::reexport::{KeyboardInteractivity, Layer};
+#[cfg(target_os = "linux")]
+use iced_layershell::settings::{LayerShellSettings, StartMode};
 use std::sync::Arc;
 use tokio::sync::Mutex as AsyncMutex;
 
@@ -209,13 +213,51 @@ fn run_dev() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+#[cfg(target_os = "linux")]
+fn namespace() -> String {
+    String::from("flare")
+}
+
+#[cfg(target_os = "linux")]
 fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
     if ipc::is_daemon_running() {
         eprintln!("Daemon is already running");
         return Ok(());
     }
 
-    #[cfg(any(target_os = "linux", target_os = "windows"))]
+    if let Err(e) = deep_link::register_all() {
+        eprintln!("Failed to register deep links: {}", e);
+    }
+
+    let result = iced_layershell::daemon(boot, namespace, update, daemon_view)
+        .subscription(subscription)
+        .title(|_state, _window| Some(String::from("Flare")))
+        .font(include_bytes!("./assets/Inter.ttf").as_slice())
+        .font(include_bytes!("./assets/icons.ttf").as_slice())
+        .default_font(iced::Font::DEFAULT)
+        .layer_settings(LayerShellSettings {
+            start_mode: StartMode::Background,
+            keyboard_interactivity: KeyboardInteractivity::Exclusive,
+            layer: Layer::Overlay,
+            ..Default::default()
+        })
+        .run()
+        .map_err(|e| e.to_string());
+
+    ipc::cleanup();
+    result?;
+
+    Ok(())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn run_daemon() -> Result<(), Box<dyn std::error::Error>> {
+    if ipc::is_daemon_running() {
+        eprintln!("Daemon is already running");
+        return Ok(());
+    }
+
+    #[cfg(target_os = "windows")]
     {
         if let Err(e) = deep_link::register_all() {
             eprintln!("Failed to register deep links: {}", e);

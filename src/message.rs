@@ -5,12 +5,14 @@ use crate::transport::{SidecarReader, SidecarWriter};
 use crate::types::{SidecarResponse, Tree};
 use iced::widget::image::Handle;
 use iced::window;
+use iced_layershell::to_layer_message;
 use std::sync::Arc;
 use std::time::Instant;
 use tokio::sync::Mutex;
 
 use crate::components::action_panel;
 
+#[to_layer_message(multi)]
 #[derive(Clone, Debug)]
 pub enum Message {
     UpdateTree(Tree),
