@@ -339,6 +339,9 @@ fn run_confetti() -> Result<(), Box<dyn std::error::Error>> {
         match message {
             ConfettiMessage::Tick => {
                 state.manager.update();
+                if state.fired && state.manager.is_done() {
+                    return iced::exit();
+                }
                 Task::none()
             }
             ConfettiMessage::WindowOpened(id) => {

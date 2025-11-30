@@ -100,6 +100,10 @@ impl Manager {
         Self::default()
     }
 
+    pub fn is_done(&self) -> bool {
+        self.particles.is_empty()
+    }
+
     pub fn fire_with_bounds(&mut self, options: Options, bounds: Rectangle) {
         let mut rng = rand::rng();
         let rad_angle = options.angle * (PI / 180.0);
