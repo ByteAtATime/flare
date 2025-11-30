@@ -288,79 +288,93 @@ fn render_preference<'a>(
     let ext_id = extension_id.to_string();
     let pref_name = pref.name.clone();
 
-    let title = pref.title.as_deref().unwrap_or(&pref.name);
+    let title_text = pref.title.as_deref().unwrap_or(&pref.name);
 
-    let input: Element<'a, SettingsMessage> = match pref.preference_type {
-        PreferenceType::Textfield | PreferenceType::Password => {
-            let value = current_value
-                .and_then(|v| v.as_str().map(String::from))
-                .unwrap_or_default();
+    let (input, should_show_title): (Element<'a, SettingsMessage>, bool) =
+        match pref.preference_type {
+            PreferenceType::Textfield | PreferenceType::Password => {
+                let value = current_value
+                    .and_then(|v| v.as_str().map(String::from))
+                    .unwrap_or_default();
 
-            let is_secure = pref.preference_type == PreferenceType::Password;
-            let placeholder = pref.placeholder.as_deref().unwrap_or("");
+                let is_secure = pref.preference_type == PreferenceType::Password;
+                let placeholder = pref.placeholder.as_deref().unwrap_or("");
 
-            let ext_id_clone = ext_id.clone();
-            let pref_name_clone = pref_name.clone();
+                let ext_id_clone = ext_id.clone();
+                let pref_name_clone = pref_name.clone();
 
-            text_input(placeholder, &value)
-                .secure(is_secure)
-                .on_input(move |v| SettingsMessage::PreferenceChanged {
-                    extension_id: ext_id_clone.clone(),
-                    key: pref_name_clone.clone(),
-                    value: Value::String(v),
-                })
-                .into()
-        }
-        PreferenceType::Checkbox => {
-            let checked = current_value.and_then(|v| v.as_bool()).unwrap_or(false);
-            let label = pref.label.as_deref().unwrap_or("");
+                (
+                    text_input(placeholder, &value)
+                        .secure(is_secure)
+                        .on_input(move |v| SettingsMessage::PreferenceChanged {
+                            extension_id: ext_id_clone.clone(),
+                            key: pref_name_clone.clone(),
+                            value: Value::String(v),
+                        })
+                        .into(),
+                    true,
+                )
+            }
+            PreferenceType::Checkbox => {
+                let checked = current_value.and_then(|v| v.as_bool()).unwrap_or(false);
+                let label = pref.label.as_deref().unwrap_or("");
 
-            checkbox(label, checked)
-                .on_toggle(move |v| SettingsMessage::PreferenceChanged {
-                    extension_id: ext_id.clone(),
-                    key: pref_name.clone(),
-                    value: Value::Bool(v),
-                })
-                .into()
-        }
-        PreferenceType::Dropdown => {
-            let options: Vec<String> = pref
-                .data
-                .as_ref()
-                .map(|d| d.iter().map(|item| item.title.clone()).collect())
-                .unwrap_or_default();
-
-            let selected = current_value
-                .and_then(|v| v.as_str().map(String::from))
-                .and_then(|val| {
-                    pref.data.as_ref().and_then(|d| {
-                        d.iter()
-                            .find(|item| item.value == val)
-                            .map(|item| item.title.clone())
-                    })
-                });
-
-            let data = pref.data.clone();
-            pick_list(options, selected, move |title| {
-                let value = data
+                (
+                    checkbox(label, checked)
+                        .on_toggle(move |v| SettingsMessage::PreferenceChanged {
+                            extension_id: ext_id.clone(),
+                            key: pref_name.clone(),
+                            value: Value::Bool(v),
+                        })
+                        .into(),
+                    false,
+                )
+            }
+            PreferenceType::Dropdown => {
+                let options: Vec<String> = pref
+                    .data
                     .as_ref()
-                    .and_then(|d| d.iter().find(|item| item.title == title))
-                    .map(|item| Value::String(item.value.clone()))
-                    .unwrap_or(Value::Null);
+                    .map(|d| d.iter().map(|item| item.title.clone()).collect())
+                    .unwrap_or_default();
 
-                SettingsMessage::PreferenceChanged {
-                    extension_id: ext_id.clone(),
-                    key: pref_name.clone(),
-                    value,
-                }
-            })
-            .width(Length::Fill)
-            .into()
-        }
-        _ => text("Unsupported preference type").into(),
+                let selected = current_value
+                    .and_then(|v| v.as_str().map(String::from))
+                    .and_then(|val| {
+                        pref.data.as_ref().and_then(|d| {
+                            d.iter()
+                                .find(|item| item.value == val)
+                                .map(|item| item.title.clone())
+                        })
+                    });
+
+                let data = pref.data.clone();
+                (
+                    pick_list(options, selected, move |title| {
+                        let value = data
+                            .as_ref()
+                            .and_then(|d| d.iter().find(|item| item.title == title))
+                            .map(|item| Value::String(item.value.clone()))
+                            .unwrap_or(Value::Null);
+
+                        SettingsMessage::PreferenceChanged {
+                            extension_id: ext_id.clone(),
+                            key: pref_name.clone(),
+                            value,
+                        }
+                    })
+                    .width(Length::Fill)
+                    .into(),
+                    true,
+                )
+            }
+            _ => (text("Unsupported preference type").into(), true),
+        };
+
+    let title = if should_show_title {
+        Some(text(title_text).color(theme.colors.text_60).size(13))
+    } else {
+        None
     };
 
-    column![text(title).color(theme.colors.text_60).size(13), input]
-        .spacing(12)
-        .into()
+    column![title, input].spacing(12).into()
 }
