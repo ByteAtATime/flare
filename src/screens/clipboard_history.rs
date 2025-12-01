@@ -506,6 +506,11 @@ impl ClipboardHistoryScreen {
                 column![
                     text("Information").size(12).color(secondary_text_color),
                     metadata_row(
+                        "Application",
+                        entry.window_title.clone().unwrap_or("".to_string()),
+                        theme
+                    ),
+                    metadata_row(
                         "Content type",
                         match &entry.content {
                             ClipboardContent::Text(_) => "Text".to_string(),
