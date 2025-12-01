@@ -1,7 +1,7 @@
 use chrono::{Local, TimeZone};
 use iced::widget::text::LineHeight;
 use iced::widget::{column, container, image, row, rule, scrollable, space, text};
-use iced::{Alignment, Color, Element, Length};
+use iced::{Alignment, Color, Element, Length, Padding};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry};
 use crate::components::types::parse_hex_color;
@@ -31,15 +31,25 @@ pub fn render_preview_pane<'a>(
             "Unknown".to_string()
         };
 
-        let mut metadata_column =
-            column![text("Information").size(12).color(secondary_text_color),].spacing(8);
+        let mut metadata_column = column![];
+
+        fn metadata_separator<'a>(theme: &'a Theme) -> Element<'a, ClipboardHistoryMessage> {
+            rule::horizontal(1)
+                .style(|iced_theme| rule::Style {
+                    color: theme.colors.border_10,
+                    ..rule::default(iced_theme)
+                })
+                .into()
+        }
 
         if has_application_metadata {
-            metadata_column = metadata_column.push(metadata_row(
-                "Application",
-                entry.window_title.clone().unwrap_or_default(),
-                theme,
-            ));
+            metadata_column = metadata_column
+                .push(metadata_row(
+                    "Source",
+                    entry.window_title.clone().unwrap_or_default(),
+                    theme,
+                ))
+                .push(metadata_separator(theme));
         }
 
         metadata_column = metadata_column
@@ -51,12 +61,20 @@ pub fn render_preview_pane<'a>(
                 },
                 theme,
             ))
-            .push(metadata_row("Last copied", date_str, theme));
+            .push(metadata_separator(theme))
+            .push(metadata_row("Last copied", date_str, theme))
+            .push(metadata_separator(theme));
 
-        let metadata_section = container(metadata_column)
-            .width(Length::Fill)
-            .height(Length::Fixed(160.0))
-            .padding(15);
+        let metadata_section = container(
+            column![
+                text("Information").size(12).color(secondary_text_color),
+                metadata_column
+            ]
+            .spacing(16),
+        )
+        .width(Length::Fill)
+        .height(Length::Fixed(160.0))
+        .padding(16);
 
         column![
             preview_section,
@@ -200,5 +218,6 @@ fn metadata_row<'a>(
             .width(Length::Fill),
         text(value).size(13).color(theme.colors.text)
     ]
+    .padding(Padding::default().top(8).bottom(4))
     .into()
 }
