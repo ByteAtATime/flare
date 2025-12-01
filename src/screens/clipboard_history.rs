@@ -2,6 +2,7 @@ use chrono::{Local, TimeZone};
 use iced::gradient::Linear;
 use iced::keyboard::{Key, Modifiers, key::Named};
 use iced::widget::scrollable::Viewport;
+use iced::widget::text::LineHeight;
 use iced::widget::{column, container, image, mouse_area, row, scrollable, space, stack, text};
 use iced::{Alignment, Background, Color, Element, Length, Padding, Task};
 use std::time::{Duration, Instant};
@@ -21,6 +22,8 @@ pub struct ClipboardHistoryScreen {
     state: SelectionState<ClipboardEntry>,
     viewport: Option<Viewport>,
     scrollable_id: iced::widget::Id,
+    preview_viewport: Option<Viewport>,
+    preview_scrollable_id: iced::widget::Id,
     last_click: Option<(usize, Instant)>,
     current_actions: ActionPanel,
     hovered_index: Option<usize>,
@@ -30,6 +33,7 @@ pub struct ClipboardHistoryScreen {
 pub enum ClipboardHistoryMessage {
     KeyPressed(Key, Modifiers),
     Scrolled(Viewport),
+    PreviewScrolled(Viewport),
     ItemClicked(usize),
     ItemHovered(usize),
     ItemUnhovered(usize),
@@ -46,6 +50,8 @@ impl ClipboardHistoryScreen {
             state,
             viewport: None,
             scrollable_id: iced::widget::Id::unique(),
+            preview_viewport: None,
+            preview_scrollable_id: iced::widget::Id::unique(),
             last_click: None,
             current_actions: ActionPanel::default(),
             hovered_index: None,
@@ -73,7 +79,6 @@ impl ClipboardHistoryScreen {
                 let diff = today.signed_duration_since(item_date).num_days();
 
                 let bucket_idx = if diff < 0 {
-                    // Future dates go to "Today" to handle slight clock skews or time zone shifts comfortably
                     0
                 } else if diff == 0 {
                     0
@@ -91,7 +96,6 @@ impl ClipboardHistoryScreen {
 
                 buckets[bucket_idx].1.push(item.clone());
             } else {
-                // Fallback for invalid timestamps
                 buckets[5].1.push(item.clone());
             }
         }
@@ -136,13 +140,25 @@ impl ClipboardHistoryScreen {
                     if let Some(dir) = direction {
                         self.update_actions();
                         self.last_click = None;
-                        return self.scroll_to_selection(dir);
+
+                        self.preview_viewport = None;
+                        return Task::batch(vec![
+                            self.scroll_to_selection(dir),
+                            iced::widget::operation::snap_to(
+                                self.preview_scrollable_id.clone(),
+                                iced::widget::scrollable::RelativeOffset::START,
+                            ),
+                        ]);
                     }
                 }
                 Task::none()
             }
             ClipboardHistoryMessage::Scrolled(viewport) => {
                 self.viewport = Some(viewport);
+                Task::none()
+            }
+            ClipboardHistoryMessage::PreviewScrolled(viewport) => {
+                self.preview_viewport = Some(viewport);
                 Task::none()
             }
             ClipboardHistoryMessage::ItemHovered(idx) => {
@@ -180,7 +196,15 @@ impl ClipboardHistoryScreen {
                     self.last_click = Some((index, now));
                     self.state.selected_index = index;
                     self.update_actions();
-                    return self.scroll_to_selection(0);
+
+                    self.preview_viewport = None;
+                    return Task::batch(vec![
+                        self.scroll_to_selection(0),
+                        iced::widget::operation::snap_to(
+                            self.preview_scrollable_id.clone(),
+                            iced::widget::scrollable::RelativeOffset::START,
+                        ),
+                    ]);
                 }
                 Task::none()
             }
@@ -369,9 +393,9 @@ impl ClipboardHistoryScreen {
         let right_pane_content = if let Some(entry) = self.state.selected_item() {
             let preview = match &entry.content {
                 ClipboardContent::Text(t) => {
-                    let t = t.trim();
-                    if t.starts_with('#') && (t.len() == 4 || t.len() == 7) {
-                        let color = parse_hex_color(t);
+                    let trimmed = t.trim();
+                    if trimmed.starts_with('#') && (trimmed.len() == 4 || trimmed.len() == 7) {
+                        let color = parse_hex_color(trimmed);
                         container(
                             column![
                                 container(space().width(64).height(64)).style(move |_| {
@@ -384,7 +408,7 @@ impl ClipboardHistoryScreen {
                                         ..Default::default()
                                     }
                                 }),
-                                text(t).size(20).color(text_color)
+                                text(trimmed).size(20).color(text_color)
                             ]
                             .spacing(16)
                             .align_x(Alignment::Center),
@@ -392,11 +416,58 @@ impl ClipboardHistoryScreen {
                         .center_x(Length::Fill)
                         .center_y(Length::Fill)
                     } else {
-                        container(
-                            scrollable(text(t).size(14).color(text_color)).width(Length::Fill),
-                        )
-                        .height(Length::Fill)
-                        .width(Length::Fill)
+                        let lines: Vec<&str> = t.lines().collect();
+                        if lines.len() > 500 {
+                            let row_height = LineHeight::default().to_absolute(14.0.into()).0;
+                            let vp = self.preview_viewport.as_ref();
+                            let offset = vp.map(|v| v.absolute_offset().y).unwrap_or(0.0);
+                            let height = vp.map(|v| v.bounds().height).unwrap_or(500.0);
+
+                            let start_index = (offset / row_height).floor() as usize;
+                            let visible_count = (height / row_height).ceil() as usize + 5;
+                            let end_index = (start_index + visible_count).min(lines.len());
+
+                            let top_spacer =
+                                space().height(Length::Fixed(start_index as f32 * row_height));
+                            let bottom_spacer = space().height(Length::Fixed(
+                                (lines.len().saturating_sub(end_index)) as f32 * row_height,
+                            ));
+
+                            let visible_lines: Vec<Element<_>> = lines
+                                .iter()
+                                .skip(start_index)
+                                .take(end_index - start_index)
+                                .map(|line| {
+                                    text(line.to_string())
+                                        .size(14)
+                                        .height(Length::Fixed(row_height))
+                                        .wrapping(iced::widget::text::Wrapping::None)
+                                        .color(text_color)
+                                        .into()
+                                })
+                                .collect();
+
+                            let content = column![top_spacer]
+                                .extend(visible_lines)
+                                .push(bottom_spacer);
+
+                            container(
+                                scrollable(content)
+                                    .id(self.preview_scrollable_id.clone())
+                                    .on_scroll(ClipboardHistoryMessage::PreviewScrolled)
+                                    .width(Length::Fill),
+                            )
+                            .height(Length::Fill)
+                            .width(Length::Fill)
+                        } else {
+                            container(
+                                scrollable(text(t).size(14).color(text_color))
+                                    .id(self.preview_scrollable_id.clone())
+                                    .width(Length::Fill),
+                            )
+                            .height(Length::Fill)
+                            .width(Length::Fill)
+                        }
                     }
                 }
                 ClipboardContent::Image(img) => {
