@@ -29,7 +29,7 @@ freedesktop-icons = "0.4.0"
 blake3 = "1.8.2"
 url = "2.5.7"
 rand = "0.9.2"
-keyring = "3.6.3"
+keyring = { version = "3.6.3", features = ["sync-secret-service"] }
 chacha20poly1305 = "0.10.1"
 hex = "0.4.3"
 
