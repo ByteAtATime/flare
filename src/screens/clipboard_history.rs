@@ -273,6 +273,7 @@ impl ClipboardHistoryScreen {
 
         let list_content = crate::components::column::Column::with_children(list_col)
             .spacing(2)
+            .padding(8)
             .id(crate::globals::POSITION_TRACKER.clone());
 
         let left_pane = container(
@@ -281,9 +282,8 @@ impl ClipboardHistoryScreen {
                 .on_scroll(ClipboardHistoryMessage::Scrolled)
                 .height(Length::Fill),
         )
-        .width(Length::FillPortion(1))
-        .height(Length::Fill)
-        .padding(10);
+        .width(Length::Fixed(300.0))
+        .height(Length::Fill);
 
         let right_pane_content = render_preview_pane(
             self.state.selected_item(),
@@ -294,7 +294,7 @@ impl ClipboardHistoryScreen {
         );
 
         let right_pane = container(right_pane_content)
-            .width(Length::FillPortion(2))
+            .width(Length::Fill)
             .height(Length::Fill);
 
         row![

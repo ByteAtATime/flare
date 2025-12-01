@@ -22,7 +22,7 @@ pub fn render_preview_pane<'a>(
 
         let preview_section = container(preview)
             .width(Length::Fill)
-            .height(Length::FillPortion(3))
+            .height(Length::Fill)
             .padding(20);
 
         let date_str = if let Some(dt) = Local.timestamp_opt(entry.timestamp as i64, 0).latest() {
@@ -55,7 +55,7 @@ pub fn render_preview_pane<'a>(
 
         let metadata_section = container(metadata_column)
             .width(Length::Fill)
-            .height(Length::FillPortion(2))
+            .height(Length::Fixed(160.0))
             .padding(15);
 
         column![
