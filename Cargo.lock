@@ -1486,6 +1486,7 @@ dependencies = [
  "hex",
  "iced",
  "iced_layershell",
+ "image",
  "keyring",
  "phf",
  "rand",

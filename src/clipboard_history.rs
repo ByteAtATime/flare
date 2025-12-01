@@ -1,5 +1,7 @@
 use crate::encryption;
 use arboard::ImageData;
+use image::ImageEncoder;
+use image::codecs::png::PngEncoder;
 use std::borrow::Cow;
 use std::collections::VecDeque;
 use std::fs;
@@ -35,18 +37,37 @@ pub struct ClipboardImage {
 
 impl ClipboardImage {
     fn from_image_data(data: ImageData<'_>) -> Self {
+        let mut bytes = Vec::new();
+        let encoder = PngEncoder::new(&mut bytes);
+        let _ = encoder.write_image(
+            &data.bytes,
+            data.width as u32,
+            data.height as u32,
+            image::ExtendedColorType::Rgba8,
+        );
+
         Self {
             width: data.width,
             height: data.height,
-            bytes: data.bytes.into_owned(),
+            bytes,
         }
     }
 
     pub fn to_image_data(&self) -> ImageData<'static> {
+        // TODO: figure out performance of this
+        if let Ok(img) = image::load_from_memory(&self.bytes) {
+            let rgba = img.to_rgba8();
+            return ImageData {
+                width: img.width() as usize,
+                height: img.height() as usize,
+                bytes: Cow::Owned(rgba.into_raw()),
+            };
+        }
+
         ImageData {
             width: self.width,
             height: self.height,
-            bytes: Cow::Owned(self.bytes.clone()),
+            bytes: Cow::Owned(vec![]),
         }
     }
 }
@@ -199,7 +220,10 @@ pub fn init() {
             let mut last = LAST_CONTENT.lock().unwrap();
             *last = match &entry.content {
                 ClipboardContent::Text(t) => LastContent::Text(t.clone()),
-                ClipboardContent::Image(img) => LastContent::Image(img.bytes.clone()),
+                ClipboardContent::Image(img) => {
+                    let image_data = img.to_image_data();
+                    LastContent::Image(image_data.bytes.into_owned())
+                }
             };
         }
 
