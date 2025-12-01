@@ -480,7 +480,11 @@ impl ClipboardHistoryScreen {
                     }
                 }
                 ClipboardContent::Image(img) => {
-                    let handle = iced::widget::image::Handle::from_bytes(img.bytes.clone());
+                    let handle = iced::widget::image::Handle::from_rgba(
+                        img.width as u32,
+                        img.height as u32,
+                        img.bytes.clone(),
+                    );
                     container(image(handle).content_fit(iced::ContentFit::Contain))
                         .width(Length::Fill)
                         .height(Length::Fill)
