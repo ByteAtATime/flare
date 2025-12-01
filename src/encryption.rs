@@ -1,3 +1,4 @@
+use base64::{Engine as _, engine::general_purpose};
 use chacha20poly1305::{
     XChaCha20Poly1305, XNonce,
     aead::{Aead, AeadCore, KeyInit, OsRng},
@@ -15,19 +16,25 @@ static CIPHER: OnceLock<Result<XChaCha20Poly1305, String>> = OnceLock::new();
 fn get_or_create_key() -> Result<[u8; KEY_SIZE], String> {
     let entry = Entry::new(SERVICE_NAME, KEY_NAME).map_err(|e| e.to_string())?;
 
+    let generate_new = |entry: &Entry| -> Result<[u8; KEY_SIZE], String> {
+        let key = XChaCha20Poly1305::generate_key(&mut OsRng);
+        let key_b64 = general_purpose::STANDARD.encode(key);
+        entry.set_password(&key_b64).map_err(|e| e.to_string())?;
+        Ok(key.into())
+    };
+
     match entry.get_password() {
-        Ok(stored) => {
-            let bytes = hex::decode(&stored).map_err(|e| e.to_string())?;
-            bytes
-                .try_into()
-                .map_err(|_| "Invalid key length in keyring".to_string())
-        }
-        Err(keyring::Error::NoEntry) => {
-            let key = XChaCha20Poly1305::generate_key(&mut OsRng);
-            let key_hex = hex::encode(&key);
-            entry.set_password(&key_hex).map_err(|e| e.to_string())?;
-            Ok(key.into())
-        }
+        Ok(stored) => match general_purpose::STANDARD.decode(&stored) {
+            Ok(bytes) => {
+                if let Ok(key) = bytes.try_into() {
+                    Ok(key)
+                } else {
+                    generate_new(&entry)
+                }
+            }
+            Err(_) => generate_new(&entry),
+        },
+        Err(keyring::Error::NoEntry) => generate_new(&entry),
         Err(e) => Err(e.to_string()),
     }
 }
@@ -49,12 +56,14 @@ pub fn encrypt(plaintext: &str) -> Result<String, String> {
     combined.extend_from_slice(&nonce);
     combined.extend_from_slice(&ciphertext);
 
-    Ok(hex::encode(combined))
+    Ok(general_purpose::STANDARD.encode(combined))
 }
 
 pub fn decrypt(encrypted: &str) -> Result<String, String> {
     let cipher = get_cipher()?;
-    let combined = hex::decode(encrypted).map_err(|e| e.to_string())?;
+    let combined = general_purpose::STANDARD
+        .decode(encrypted)
+        .map_err(|e| e.to_string())?;
 
     if combined.len() < NONCE_SIZE {
         return Err("Invalid encrypted data".to_string());

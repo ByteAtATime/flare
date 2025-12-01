@@ -34,6 +34,7 @@ chacha20poly1305 = "0.10.1"
 hex = "0.4.3"
 chrono = "0.4.42"
 image = "0.25.9"
+base64 = "0.22.1"
 
 # implementation ~stolen~ inspired by Tauri - we probably don't need this
 [target.'cfg(windows)'.dependencies]
