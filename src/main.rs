@@ -204,6 +204,8 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
+    clipboard_history::init();
+
     iced::application(State::new, update, view)
         .subscription(subscription)
         .font(include_bytes!("./assets/Inter.ttf").as_slice())
@@ -216,6 +218,8 @@ fn run_application() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn run_dev() -> Result<(), Box<dyn std::error::Error>> {
+    clipboard_history::init();
+
     iced::daemon(dev_boot, update, daemon_view)
         .subscription(subscription)
         .title("Flare (Dev)")
