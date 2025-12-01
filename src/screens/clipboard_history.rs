@@ -1,8 +1,9 @@
 use chrono::{Local, TimeZone};
+use iced::gradient::Linear;
 use iced::keyboard::{Key, Modifiers, key::Named};
 use iced::widget::scrollable::Viewport;
-use iced::widget::{column, container, image, mouse_area, row, scrollable, space, text};
-use iced::{Alignment, Color, Element, Length, Padding, Task};
+use iced::widget::{column, container, image, mouse_area, row, scrollable, space, stack, text};
+use iced::{Alignment, Background, Color, Element, Length, Padding, Task};
 use std::time::{Duration, Instant};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry, get_history};
@@ -72,6 +73,7 @@ impl ClipboardHistoryScreen {
                 let diff = today.signed_duration_since(item_date).num_days();
 
                 let bucket_idx = if diff < 0 {
+                    // Future dates go to "Today" to handle slight clock skews or time zone shifts comfortably
                     0
                 } else if diff == 0 {
                     0
@@ -89,6 +91,7 @@ impl ClipboardHistoryScreen {
 
                 buckets[bucket_idx].1.push(item.clone());
             } else {
+                // Fallback for invalid timestamps
                 buckets[5].1.push(item.clone());
             }
         }
@@ -231,29 +234,81 @@ impl ClipboardHistoryScreen {
                     let is_selected = global_index == self.state.selected_index;
                     let is_hovered = self.hovered_index == Some(global_index);
 
-                    let (icon, preview_text) = match &entry.content {
+                    let (icon, preview_text, is_truncated) = match &entry.content {
                         ClipboardContent::Text(t) => {
-                            let line = t.lines().next().unwrap_or("").trim();
-                            let text = if line.is_empty() { "Empty text" } else { line };
-                            ("📄", text)
+                            let trimmed = t.trim();
+                            let mut lines = trimmed.lines();
+                            let first_line = lines.next().unwrap_or("");
+                            let has_multiline = lines.next().is_some();
+
+                            let max_chars = 100; // we truncate to 100 chars here as a heuristic, even though we're clipping
+                            let char_count = first_line.chars().count();
+
+                            let (display_text, text_was_cut) = if char_count > max_chars {
+                                (first_line.chars().take(max_chars).collect::<String>(), true)
+                            } else {
+                                (first_line.to_string(), false)
+                            };
+
+                            let display_text = if display_text.is_empty() {
+                                "Empty text".to_string()
+                            } else {
+                                display_text
+                            };
+
+                            ("📄", display_text, has_multiline || text_was_cut)
                         }
-                        ClipboardContent::Image(_) => ("🖼️", "Image"),
+                        ClipboardContent::Image(_) => ("🖼️", "Image".to_string(), false),
                     };
 
-                    let content = row![
-                        text(icon).size(16),
-                        text(preview_text)
-                            .size(14)
-                            .color(if is_selected {
-                                text_color
-                            } else {
-                                secondary_text_color
-                            })
-                            .width(Length::Fill)
-                            .shaping(iced::widget::text::Shaping::Advanced)
-                    ]
-                    .spacing(10)
-                    .align_y(Alignment::Center);
+                    let text_widget = text(preview_text)
+                        .wrapping(text::Wrapping::None)
+                        .size(14)
+                        .color(if is_selected {
+                            text_color
+                        } else {
+                            secondary_text_color
+                        })
+                        .width(Length::Fill)
+                        .shaping(iced::widget::text::Shaping::Advanced);
+
+                    let content_element: Element<ClipboardHistoryMessage> = if is_truncated {
+                        let fade_to_color = if is_selected {
+                            selection_color
+                        } else if is_hovered {
+                            hover_color
+                        } else {
+                            theme.colors.background
+                        };
+
+                        stack![
+                            row![text(icon).size(16), text_widget]
+                                .spacing(10)
+                                .clip(true)
+                                .align_y(Alignment::Center),
+                            row![
+                                space().width(Length::Fill),
+                                container(space()).width(100).height(Length::Fill).style(
+                                    move |_| container::Style {
+                                        background: Some(Background::Gradient(
+                                            iced::Gradient::Linear(
+                                                Linear::new(1.571)
+                                                    .add_stop(0.0, Color::TRANSPARENT)
+                                                    .add_stop(1.0, fade_to_color)
+                                            )
+                                        )),
+                                        ..Default::default()
+                                    }
+                                )
+                            ]
+                        ]
+                        .into()
+                    } else {
+                        row![text(icon).size(16), text_widget]
+                            .spacing(10)
+                            .align_y(Alignment::Center)
+                            .into()
+                    };
 
                     let container_style = move |_theme: &iced::Theme| container::Style {
                         background: Some(if is_selected {
@@ -270,7 +325,7 @@ impl ClipboardHistoryScreen {
                         ..Default::default()
                     };
 
-                    let item_container = container(content)
+                    let item_container = container(content_element)
                         .width(Length::Fill)
                         .padding(8)
                         .style(container_style);
