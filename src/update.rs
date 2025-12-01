@@ -453,6 +453,12 @@ fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message>
         (Screen::Root(_), Message::Root(crate::screens::root::RootMessage::RunAction(handler))) => {
             handler.call()
         }
+        (
+            Screen::ClipboardHistory(_),
+            Message::ClipboardHistory(
+                crate::screens::clipboard_history::ClipboardHistoryMessage::RunAction(handler),
+            ),
+        ) => handler.call(),
         (Screen::Root(s), Message::Root(m)) => s.update(m).map(Message::Root),
         (Screen::Grid(s), Message::Grid(crate::screens::grid::GridMessage::Scrolled(vp))) => {
             let task = s
@@ -463,6 +469,9 @@ fn dispatch_screen_message(state: &mut State, message: Message) -> Task<Message>
         (Screen::Grid(s), Message::Grid(m)) => s.update(m).map(Message::Grid),
         (Screen::List(s), Message::List(m)) => s.update(m).map(Message::List),
         (Screen::Detail(s), Message::Detail(m)) => s.update(m).map(Message::Detail),
+        (Screen::ClipboardHistory(s), Message::ClipboardHistory(m)) => {
+            s.update(m).map(Message::ClipboardHistory)
+        }
         _ => Task::none(),
     }
 }
@@ -596,7 +605,13 @@ fn handle_key_press(state: &mut State, key: Key, modifiers: Modifiers) -> Task<M
                 key, modifiers,
             ))
             .map(Message::Detail),
-        Screen::ClipboardHistory(_) => Task::none(),
+        Screen::ClipboardHistory(s) => s
+            .update(
+                crate::screens::clipboard_history::ClipboardHistoryMessage::KeyPressed(
+                    key, modifiers,
+                ),
+            )
+            .map(Message::ClipboardHistory),
     };
 
     state.update_selected_actions();
