@@ -54,7 +54,6 @@ impl ClipboardImage {
     }
 
     pub fn to_image_data(&self) -> ImageData<'static> {
-        // TODO: figure out performance of this
         if let Ok(img) = image::load_from_memory(&self.bytes) {
             let rgba = img.to_rgba8();
             return ImageData {
@@ -151,22 +150,32 @@ fn save_history(history: &VecDeque<ClipboardEntry>) {
 fn add_entry(content: ClipboardContent) {
     let mut history = CLIPBOARD_HISTORY.lock().unwrap();
 
-    if let Some(front) = history.front() {
-        match (&front.content, &content) {
-            (ClipboardContent::Text(a), ClipboardContent::Text(b)) if a == b => return,
-            (ClipboardContent::Image(a), ClipboardContent::Image(b))
-                if a.width == b.width && a.height == b.height && a.bytes == b.bytes =>
-            {
-                return;
+    let existing_index = history
+        .iter()
+        .position(|entry| match (&entry.content, &content) {
+            (ClipboardContent::Text(a), ClipboardContent::Text(b)) => a == b,
+            (ClipboardContent::Image(a), ClipboardContent::Image(b)) => {
+                // deduplicate based on metadata (dimensions and file size) - collisions should be *very* unlikely
+                // credit to https://github.com/savedra1/clipse
+                a.width == b.width && a.height == b.height && a.bytes.len() == b.bytes.len()
             }
-            _ => {}
-        }
-    }
+            _ => false,
+        });
 
     let timestamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs())
         .unwrap_or(0);
+
+    if let Some(index) = existing_index {
+        if let Some(mut entry) = history.remove(index) {
+            entry.timestamp = timestamp;
+            entry.content = content;
+            history.push_front(entry);
+            save_history(&history);
+            return;
+        }
+    }
 
     let entry = ClipboardEntry { content, timestamp };
 
