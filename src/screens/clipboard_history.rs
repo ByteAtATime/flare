@@ -27,6 +27,7 @@ pub struct ClipboardHistoryScreen {
     last_click: Option<(usize, Instant)>,
     current_actions: ActionPanel,
     hovered_index: Option<usize>,
+    has_application_metadata: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -44,6 +45,13 @@ impl ClipboardHistoryScreen {
     pub fn new() -> Self {
         let history = get_history();
         let state = Self::create_state(&history);
+        let has_application_metadata = history.iter().any(|entry| {
+            entry
+                .window_title
+                .as_ref()
+                .map(|title| !title.trim().is_empty())
+                .unwrap_or(false)
+        });
 
         let mut screen = Self {
             raw_history: history,
@@ -55,6 +63,7 @@ impl ClipboardHistoryScreen {
             last_click: None,
             current_actions: ActionPanel::default(),
             hovered_index: None,
+            has_application_metadata,
         };
         screen.update_actions();
         screen
@@ -502,37 +511,40 @@ impl ClipboardHistoryScreen {
                 "Unknown".to_string()
             };
 
-            let metadata_section = container(
-                column![
-                    text("Information").size(12).color(secondary_text_color),
-                    metadata_row(
-                        "Application",
-                        entry.window_title.clone().unwrap_or("".to_string()),
-                        theme
-                    ),
-                    metadata_row(
-                        "Content type",
-                        match &entry.content {
-                            ClipboardContent::Text(_) => "Text".to_string(),
-                            ClipboardContent::Image(_) => "Image".to_string(),
-                        },
-                        theme
-                    ),
-                    metadata_row("Last copied", date_str, theme),
-                ]
-                .spacing(8),
-            )
-            .width(Length::Fill)
-            .height(Length::FillPortion(2))
-            .padding(15)
-            .style(|_| container::Style {
-                border: iced::Border {
-                    color: Color::from_rgba(1.0, 1.0, 1.0, 0.1),
-                    width: 1.0,
+            let mut metadata_column =
+                column![text("Information").size(12).color(secondary_text_color),].spacing(8);
+
+            if self.has_application_metadata {
+                metadata_column = metadata_column.push(metadata_row(
+                    "Application",
+                    entry.window_title.clone().unwrap_or_default(),
+                    theme,
+                ));
+            }
+
+            metadata_column = metadata_column
+                .push(metadata_row(
+                    "Content type",
+                    match &entry.content {
+                        ClipboardContent::Text(_) => "Text".to_string(),
+                        ClipboardContent::Image(_) => "Image".to_string(),
+                    },
+                    theme,
+                ))
+                .push(metadata_row("Last copied", date_str, theme));
+
+            let metadata_section = container(metadata_column)
+                .width(Length::Fill)
+                .height(Length::FillPortion(2))
+                .padding(15)
+                .style(|_| container::Style {
+                    border: iced::Border {
+                        color: Color::from_rgba(1.0, 1.0, 1.0, 0.1),
+                        width: 1.0,
+                        ..Default::default()
+                    },
                     ..Default::default()
-                },
-                ..Default::default()
-            });
+                });
 
             column![preview_section, metadata_section]
         } else {
