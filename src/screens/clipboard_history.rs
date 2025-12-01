@@ -396,21 +396,30 @@ impl ClipboardHistoryScreen {
                     let trimmed = t.trim();
                     if trimmed.starts_with('#') && (trimmed.len() == 4 || trimmed.len() == 7) {
                         let color = parse_hex_color(trimmed);
+                        let size = 76.0;
+                        let border_width = 4.0;
+
                         container(
                             column![
-                                container(space().width(64).height(64)).style(move |_| {
+                                container(
+                                    space()
+                                        .width(size + border_width * 2.0)
+                                        .height(size + border_width * 2.0)
+                                )
+                                .style(move |_| {
                                     container::Style {
                                         background: Some(color.into()),
                                         border: iced::Border {
-                                            radius: 32.0.into(),
-                                            ..Default::default()
+                                            radius: (size / 2.0 + border_width).into(),
+                                            width: border_width,
+                                            color: Color { a: 0.4, ..color },
                                         },
                                         ..Default::default()
                                     }
                                 }),
-                                text(trimmed).size(20).color(text_color)
+                                text(trimmed).size(15).color(text_color)
                             ]
-                            .spacing(16)
+                            .spacing(6)
                             .align_x(Alignment::Center),
                         )
                         .center_x(Length::Fill)
