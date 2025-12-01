@@ -1,7 +1,8 @@
+use chrono::{Local, TimeZone};
 use iced::keyboard::{Key, Modifiers, key::Named};
 use iced::widget::scrollable::Viewport;
 use iced::widget::{column, container, image, mouse_area, row, scrollable, space, text};
-use iced::{Alignment, Color, Element, Length, Task};
+use iced::{Alignment, Color, Element, Length, Padding, Task};
 use std::time::{Duration, Instant};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry, get_history};
@@ -53,11 +54,55 @@ impl ClipboardHistoryScreen {
     }
 
     fn create_state(items: &Vec<ClipboardEntry>) -> SelectionState<ClipboardEntry> {
-        let sections = vec![Section {
-            title: String::new(),
-            items: items.clone(),
-            columns: Some(1),
-        }];
+        let now = Local::now();
+        let today = now.date_naive();
+
+        let mut buckets: Vec<(String, Vec<ClipboardEntry>)> = vec![
+            ("Today".to_string(), Vec::new()),
+            ("Yesterday".to_string(), Vec::new()),
+            ("This Week".to_string(), Vec::new()),
+            ("This Month".to_string(), Vec::new()),
+            ("This Year".to_string(), Vec::new()),
+            ("Older".to_string(), Vec::new()),
+        ];
+
+        for item in items {
+            if let Some(item_dt) = Local.timestamp_opt(item.timestamp as i64, 0).latest() {
+                let item_date = item_dt.date_naive();
+                let diff = today.signed_duration_since(item_date).num_days();
+
+                let bucket_idx = if diff < 0 {
+                    0
+                } else if diff == 0 {
+                    0
+                } else if diff == 1 {
+                    1
+                } else if diff < 7 {
+                    2
+                } else if diff < 30 {
+                    3
+                } else if diff < 365 {
+                    4
+                } else {
+                    5
+                };
+
+                buckets[bucket_idx].1.push(item.clone());
+            } else {
+                buckets[5].1.push(item.clone());
+            }
+        }
+
+        let sections = buckets
+            .into_iter()
+            .filter(|(_, items)| !items.is_empty())
+            .map(|(title, items)| Section {
+                title,
+                items,
+                columns: Some(1),
+            })
+            .collect();
+
         SelectionState::new(sections, 1)
     }
 
@@ -141,10 +186,11 @@ impl ClipboardHistoryScreen {
     }
 
     fn scroll_to_selection(&self, direction: i32) -> Task<ClipboardHistoryMessage> {
-        let (layout_index, header_index) = match self.state.get_layout_index(HeaderPolicy::Never) {
-            Some(indices) => indices,
-            None => return Task::none(),
-        };
+        let (layout_index, header_index) =
+            match self.state.get_layout_index(HeaderPolicy::IfTitleNotEmpty) {
+                Some(indices) => indices,
+                None => return Task::none(),
+            };
 
         scroll_to(
             self.scrollable_id.clone(),
@@ -161,13 +207,27 @@ impl ClipboardHistoryScreen {
         let selection_color = theme.colors.selection;
         let hover_color = Color::from_rgb8(39, 39, 39);
 
+        let mut item_cursor = 0;
+
         let list_col = self
             .state
             .sections
             .iter()
             .flat_map(|section| {
-                section.items.iter().enumerate().map(|(i, entry)| {
-                    let global_index = i;
+                let mut elements = Vec::new();
+
+                if !section.title.is_empty() {
+                    elements.push(
+                        container(text(&section.title).size(12).color(secondary_text_color))
+                            .padding(Padding::from(4).top(12))
+                            .width(Length::Fill)
+                            .into(),
+                    );
+                }
+
+                let cursor_pos = item_cursor;
+                let items = section.items.iter().enumerate().map(|(i, entry)| {
+                    let global_index = cursor_pos + i;
                     let is_selected = global_index == self.state.selected_index;
                     let is_hovered = self.hovered_index == Some(global_index);
 
@@ -221,7 +281,11 @@ impl ClipboardHistoryScreen {
                         .on_exit(ClipboardHistoryMessage::ItemUnhovered(global_index));
 
                     item_area.into()
-                })
+                });
+
+                item_cursor += section.items.len();
+                elements.extend(items);
+                elements
             })
             .collect::<Vec<Element<'a, ClipboardHistoryMessage>>>();
 
@@ -293,18 +357,25 @@ impl ClipboardHistoryScreen {
                 .height(Length::FillPortion(3))
                 .padding(20);
 
+            let date_str = if let Some(dt) = Local.timestamp_opt(entry.timestamp as i64, 0).latest()
+            {
+                dt.format("%Y-%m-%d %H:%M").to_string()
+            } else {
+                "Unknown".to_string()
+            };
+
             let metadata_section = container(
                 column![
                     text("Information").size(12).color(secondary_text_color),
                     metadata_row(
                         "Content type",
                         match &entry.content {
-                            ClipboardContent::Text(_) => "Text",
-                            ClipboardContent::Image(_) => "Image",
+                            ClipboardContent::Text(_) => "Text".to_string(),
+                            ClipboardContent::Image(_) => "Image".to_string(),
                         },
                         theme
                     ),
-                    metadata_row("Last copied", "Today", theme), // TODO: format timestamp
+                    metadata_row("Last copied", date_str, theme),
                 ]
                 .spacing(8),
             )
@@ -339,7 +410,7 @@ impl ClipboardHistoryScreen {
 
 fn metadata_row<'a>(
     label: &'a str,
-    value: &'a str,
+    value: String,
     theme: &'a Theme,
 ) -> Element<'a, ClipboardHistoryMessage> {
     row![

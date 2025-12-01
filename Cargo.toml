@@ -32,6 +32,7 @@ rand = "0.9.2"
 keyring = { version = "3.6.3", features = ["sync-secret-service"] }
 chacha20poly1305 = "0.10.1"
 hex = "0.4.3"
+chrono = "0.4.42"
 
 # implementation ~stolen~ inspired by Tauri - we probably don't need this
 [target.'cfg(windows)'.dependencies]
