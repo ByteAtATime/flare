@@ -81,12 +81,16 @@ pub enum ClipboardContent {
 pub struct ClipboardEntry {
     pub content: ClipboardContent,
     pub timestamp: u64,
+    #[serde(default)]
+    pub window_title: Option<String>,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 struct EncryptedEntry {
     encrypted_content: String,
     timestamp: u64,
+    #[serde(default)]
+    window_title: Option<String>,
 }
 
 impl ClipboardEntry {
@@ -95,6 +99,7 @@ impl ClipboardEntry {
         Ok(EncryptedEntry {
             encrypted_content: encryption::encrypt(&serialized)?,
             timestamp: self.timestamp,
+            window_title: self.window_title.clone(),
         })
     }
 }
@@ -107,6 +112,7 @@ impl EncryptedEntry {
         Ok(ClipboardEntry {
             content,
             timestamp: self.timestamp,
+            window_title: self.window_title.clone(),
         })
     }
 }
@@ -167,17 +173,24 @@ fn add_entry(content: ClipboardContent) {
         .map(|d| d.as_secs())
         .unwrap_or(0);
 
+    let window_title = crate::window_title::get_active_window_title();
+
     if let Some(index) = existing_index {
         if let Some(mut entry) = history.remove(index) {
             entry.timestamp = timestamp;
             entry.content = content;
+            entry.window_title = window_title;
             history.push_front(entry);
             save_history(&history);
             return;
         }
     }
 
-    let entry = ClipboardEntry { content, timestamp };
+    let entry = ClipboardEntry {
+        content,
+        timestamp,
+        window_title,
+    };
 
     history.push_front(entry);
 

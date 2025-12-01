@@ -28,6 +28,7 @@ mod types;
 mod update;
 mod utils;
 mod view;
+mod window_title;
 
 use clap::{Parser, Subcommand};
 use iced::Subscription;
