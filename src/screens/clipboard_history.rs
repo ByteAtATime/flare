@@ -1,15 +1,14 @@
 use chrono::{Local, TimeZone};
-use iced::gradient::Linear;
 use iced::keyboard::{Key, Modifiers, key::Named};
 use iced::widget::scrollable::Viewport;
-use iced::widget::text::LineHeight;
-use iced::widget::{column, container, image, mouse_area, row, scrollable, space, stack, text};
-use iced::{Alignment, Background, Color, Element, Length, Padding, Task};
+use iced::widget::{container, row, scrollable, text};
+use iced::{Color, Element, Length, Padding, Task};
 use std::time::{Duration, Instant};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry, get_history};
 use crate::components::actions::{Action, ActionHandler, ActionPanel, ActionPanelItem};
-use crate::components::types::parse_hex_color;
+use crate::components::clipboard::list_item::render_list_item;
+use crate::components::clipboard::preview::render_preview_pane;
 use crate::message::Message;
 use crate::screens::Shell;
 use crate::selection::{HeaderPolicy, Section, SelectionState, scroll_to};
@@ -238,11 +237,7 @@ impl ClipboardHistoryScreen {
     }
 
     pub fn view<'a>(&'a self, theme: &'a Theme) -> Element<'a, ClipboardHistoryMessage> {
-        let text_color = theme.colors.text;
         let secondary_text_color = theme.colors.text_60;
-        let selection_color = theme.colors.selection;
-        let hover_color = Color::from_rgb8(39, 39, 39);
-
         let mut item_cursor = 0;
 
         let list_col = self
@@ -267,108 +262,7 @@ impl ClipboardHistoryScreen {
                     let is_selected = global_index == self.state.selected_index;
                     let is_hovered = self.hovered_index == Some(global_index);
 
-                    let (icon, preview_text, is_truncated) = match &entry.content {
-                        ClipboardContent::Text(t) => {
-                            let trimmed = t.trim();
-                            let mut lines = trimmed.lines();
-                            let first_line = lines.next().unwrap_or("");
-                            let has_multiline = lines.next().is_some();
-
-                            let max_chars = 100; // we truncate to 100 chars here as a heuristic, even though we're clipping
-                            let char_count = first_line.chars().count();
-
-                            let (display_text, text_was_cut) = if char_count > max_chars {
-                                (first_line.chars().take(max_chars).collect::<String>(), true)
-                            } else {
-                                (first_line.to_string(), false)
-                            };
-
-                            let display_text = if display_text.is_empty() {
-                                "Empty text".to_string()
-                            } else {
-                                display_text
-                            };
-
-                            ("📄", display_text, has_multiline || text_was_cut)
-                        }
-                        ClipboardContent::Image(_) => ("🖼️", "Image".to_string(), false),
-                    };
-
-                    let text_widget = text(preview_text)
-                        .wrapping(text::Wrapping::None)
-                        .size(14)
-                        .color(if is_selected {
-                            text_color
-                        } else {
-                            secondary_text_color
-                        })
-                        .width(Length::Fill)
-                        .shaping(iced::widget::text::Shaping::Advanced);
-
-                    let content_element: Element<ClipboardHistoryMessage> = if is_truncated {
-                        let fade_to_color = if is_selected {
-                            selection_color
-                        } else if is_hovered {
-                            hover_color
-                        } else {
-                            theme.colors.background
-                        };
-
-                        stack![
-                            row![text(icon).size(16), text_widget]
-                                .spacing(10)
-                                .clip(true)
-                                .align_y(Alignment::Center),
-                            row![
-                                space().width(Length::Fill),
-                                container(space()).width(100).height(Length::Fill).style(
-                                    move |_| container::Style {
-                                        background: Some(Background::Gradient(
-                                            iced::Gradient::Linear(
-                                                Linear::new(1.571)
-                                                    .add_stop(0.0, Color::TRANSPARENT)
-                                                    .add_stop(1.0, fade_to_color)
-                                            )
-                                        )),
-                                        ..Default::default()
-                                    }
-                                )
-                            ]
-                        ]
-                        .into()
-                    } else {
-                        row![text(icon).size(16), text_widget]
-                            .spacing(10)
-                            .align_y(Alignment::Center)
-                            .into()
-                    };
-
-                    let container_style = move |_theme: &iced::Theme| container::Style {
-                        background: Some(if is_selected {
-                            selection_color.into()
-                        } else if is_hovered {
-                            hover_color.into()
-                        } else {
-                            Color::TRANSPARENT.into()
-                        }),
-                        border: iced::Border {
-                            radius: 4.0.into(),
-                            ..Default::default()
-                        },
-                        ..Default::default()
-                    };
-
-                    let item_container = container(content_element)
-                        .width(Length::Fill)
-                        .padding(8)
-                        .style(container_style);
-
-                    let item_area = mouse_area(item_container)
-                        .on_press(ClipboardHistoryMessage::ItemClicked(global_index))
-                        .on_enter(ClipboardHistoryMessage::ItemHovered(global_index))
-                        .on_exit(ClipboardHistoryMessage::ItemUnhovered(global_index));
-
-                    item_area.into()
+                    render_list_item(entry, global_index, is_selected, is_hovered, theme)
                 });
 
                 item_cursor += section.items.len();
@@ -399,161 +293,13 @@ impl ClipboardHistoryScreen {
             ..Default::default()
         });
 
-        let right_pane_content = if let Some(entry) = self.state.selected_item() {
-            let preview = match &entry.content {
-                ClipboardContent::Text(t) => {
-                    let trimmed = t.trim();
-                    if trimmed.starts_with('#') && (trimmed.len() == 4 || trimmed.len() == 7) {
-                        let color = parse_hex_color(trimmed);
-                        let size = 76.0;
-                        let border_width = 4.0;
-
-                        container(
-                            column![
-                                container(
-                                    space()
-                                        .width(size + border_width * 2.0)
-                                        .height(size + border_width * 2.0)
-                                )
-                                .style(move |_| {
-                                    container::Style {
-                                        background: Some(color.into()),
-                                        border: iced::Border {
-                                            radius: (size / 2.0 + border_width).into(),
-                                            width: border_width,
-                                            color: Color { a: 0.4, ..color },
-                                        },
-                                        ..Default::default()
-                                    }
-                                }),
-                                text(trimmed).size(15).color(text_color)
-                            ]
-                            .spacing(6)
-                            .align_x(Alignment::Center),
-                        )
-                        .center_x(Length::Fill)
-                        .center_y(Length::Fill)
-                    } else {
-                        let lines: Vec<&str> = t.lines().collect();
-                        if lines.len() > 500 {
-                            let row_height = LineHeight::default().to_absolute(14.0.into()).0;
-                            let vp = self.preview_viewport.as_ref();
-                            let offset = vp.map(|v| v.absolute_offset().y).unwrap_or(0.0);
-                            let height = vp.map(|v| v.bounds().height).unwrap_or(500.0);
-
-                            let start_index = (offset / row_height).floor() as usize;
-                            let visible_count = (height / row_height).ceil() as usize + 5;
-                            let end_index = (start_index + visible_count).min(lines.len());
-
-                            let top_spacer =
-                                space().height(Length::Fixed(start_index as f32 * row_height));
-                            let bottom_spacer = space().height(Length::Fixed(
-                                (lines.len().saturating_sub(end_index)) as f32 * row_height,
-                            ));
-
-                            let visible_lines: Vec<Element<_>> = lines
-                                .iter()
-                                .skip(start_index)
-                                .take(end_index - start_index)
-                                .map(|line| {
-                                    text(line.to_string())
-                                        .size(14)
-                                        .height(Length::Fixed(row_height))
-                                        .wrapping(iced::widget::text::Wrapping::None)
-                                        .color(text_color)
-                                        .into()
-                                })
-                                .collect();
-
-                            let content = column![top_spacer]
-                                .extend(visible_lines)
-                                .push(bottom_spacer);
-
-                            container(
-                                scrollable(content)
-                                    .id(self.preview_scrollable_id.clone())
-                                    .on_scroll(ClipboardHistoryMessage::PreviewScrolled)
-                                    .width(Length::Fill),
-                            )
-                            .height(Length::Fill)
-                            .width(Length::Fill)
-                        } else {
-                            container(
-                                scrollable(text(t).size(14).color(text_color))
-                                    .id(self.preview_scrollable_id.clone())
-                                    .width(Length::Fill),
-                            )
-                            .height(Length::Fill)
-                            .width(Length::Fill)
-                        }
-                    }
-                }
-                ClipboardContent::Image(img) => {
-                    let handle = iced::widget::image::Handle::from_bytes(img.bytes.clone());
-
-                    container(image(handle).content_fit(iced::ContentFit::Contain))
-                        .width(Length::Fill)
-                        .height(Length::Fill)
-                        .center_x(Length::Fill)
-                        .center_y(Length::Fill)
-                }
-            };
-
-            let preview_section = container(preview)
-                .width(Length::Fill)
-                .height(Length::FillPortion(3))
-                .padding(20);
-
-            let date_str = if let Some(dt) = Local.timestamp_opt(entry.timestamp as i64, 0).latest()
-            {
-                dt.format("%Y-%m-%d %H:%M").to_string()
-            } else {
-                "Unknown".to_string()
-            };
-
-            let mut metadata_column =
-                column![text("Information").size(12).color(secondary_text_color),].spacing(8);
-
-            if self.has_application_metadata {
-                metadata_column = metadata_column.push(metadata_row(
-                    "Application",
-                    entry.window_title.clone().unwrap_or_default(),
-                    theme,
-                ));
-            }
-
-            metadata_column = metadata_column
-                .push(metadata_row(
-                    "Content type",
-                    match &entry.content {
-                        ClipboardContent::Text(_) => "Text".to_string(),
-                        ClipboardContent::Image(_) => "Image".to_string(),
-                    },
-                    theme,
-                ))
-                .push(metadata_row("Last copied", date_str, theme));
-
-            let metadata_section = container(metadata_column)
-                .width(Length::Fill)
-                .height(Length::FillPortion(2))
-                .padding(15)
-                .style(|_| container::Style {
-                    border: iced::Border {
-                        color: Color::from_rgba(1.0, 1.0, 1.0, 0.1),
-                        width: 1.0,
-                        ..Default::default()
-                    },
-                    ..Default::default()
-                });
-
-            column![preview_section, metadata_section]
-        } else {
-            column![
-                container(text("No item selected").color(secondary_text_color))
-                    .center_x(Length::Fill)
-                    .center_y(Length::Fill)
-            ]
-        };
+        let right_pane_content = render_preview_pane(
+            self.state.selected_item(),
+            theme,
+            self.preview_viewport.as_ref(),
+            &self.preview_scrollable_id,
+            self.has_application_metadata,
+        );
 
         let right_pane = container(right_pane_content)
             .width(Length::FillPortion(2))
@@ -561,21 +307,6 @@ impl ClipboardHistoryScreen {
 
         row![left_pane, right_pane].into()
     }
-}
-
-fn metadata_row<'a>(
-    label: &'a str,
-    value: String,
-    theme: &'a Theme,
-) -> Element<'a, ClipboardHistoryMessage> {
-    row![
-        text(label)
-            .size(13)
-            .color(theme.colors.text_60)
-            .width(Length::Fill),
-        text(value).size(13).color(theme.colors.text)
-    ]
-    .into()
 }
 
 impl Shell for ClipboardHistoryScreen {

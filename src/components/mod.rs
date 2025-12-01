@@ -1,6 +1,7 @@
 pub mod action_panel;
 pub mod actions;
 pub mod animator;
+pub mod clipboard;
 pub mod column;
 pub mod confetti;
 pub mod detail;
