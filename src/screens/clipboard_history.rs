@@ -392,9 +392,11 @@ impl ClipboardHistoryScreen {
                         .center_x(Length::Fill)
                         .center_y(Length::Fill)
                     } else {
-                        container(scrollable(text(t).size(14).color(text_color)))
-                            .height(Length::Fill)
-                            .width(Length::Fill)
+                        container(
+                            scrollable(text(t).size(14).color(text_color)).width(Length::Fill),
+                        )
+                        .height(Length::Fill)
+                        .width(Length::Fill)
                     }
                 }
                 ClipboardContent::Image(img) => {
