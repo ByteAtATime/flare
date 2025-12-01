@@ -1,8 +1,8 @@
 use chrono::{Local, TimeZone};
 use iced::keyboard::{Key, Modifiers, key::Named};
 use iced::widget::scrollable::Viewport;
-use iced::widget::{container, row, scrollable, text};
-use iced::{Color, Element, Length, Padding, Task};
+use iced::widget::{container, row, rule, scrollable, text};
+use iced::{Element, Length, Padding, Task};
 use std::time::{Duration, Instant};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry, get_history};
@@ -283,15 +283,7 @@ impl ClipboardHistoryScreen {
         )
         .width(Length::FillPortion(1))
         .height(Length::Fill)
-        .padding(10)
-        .style(|_| container::Style {
-            border: iced::Border {
-                color: Color::from_rgba(1.0, 1.0, 1.0, 0.1),
-                width: 1.0,
-                ..Default::default()
-            },
-            ..Default::default()
-        });
+        .padding(10);
 
         let right_pane_content = render_preview_pane(
             self.state.selected_item(),
@@ -305,7 +297,15 @@ impl ClipboardHistoryScreen {
             .width(Length::FillPortion(2))
             .height(Length::Fill);
 
-        row![left_pane, right_pane].into()
+        row![
+            left_pane,
+            rule::vertical(1).style(|iced_theme| rule::Style {
+                color: theme.colors.border_10,
+                ..rule::default(iced_theme)
+            }),
+            right_pane
+        ]
+        .into()
     }
 }
 

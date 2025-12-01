@@ -1,6 +1,6 @@
 use chrono::{Local, TimeZone};
 use iced::widget::text::LineHeight;
-use iced::widget::{column, container, image, row, scrollable, space, text};
+use iced::widget::{column, container, image, row, rule, scrollable, space, text};
 use iced::{Alignment, Color, Element, Length};
 
 use crate::clipboard_history::{ClipboardContent, ClipboardEntry};
@@ -56,17 +56,17 @@ pub fn render_preview_pane<'a>(
         let metadata_section = container(metadata_column)
             .width(Length::Fill)
             .height(Length::FillPortion(2))
-            .padding(15)
-            .style(|_| container::Style {
-                border: iced::Border {
-                    color: Color::from_rgba(1.0, 1.0, 1.0, 0.1),
-                    width: 1.0,
-                    ..Default::default()
-                },
-                ..Default::default()
-            });
+            .padding(15);
 
-        column![preview_section, metadata_section].into()
+        column![
+            preview_section,
+            rule::horizontal(1).style(|iced_theme| rule::Style {
+                color: theme.colors.border_10,
+                ..rule::default(iced_theme)
+            }),
+            metadata_section
+        ]
+        .into()
     } else {
         column![
             container(text("No item selected").color(secondary_text_color))
