@@ -7,6 +7,17 @@ import { extensionsStore } from './components/extensions/store.svelte';
 import { fetch } from '@tauri-apps/plugin-http';
 import { ExtensionSchema, type Extension } from '$lib/store';
 
+export type Snippet = {
+	id: number;
+	name: string;
+	keyword: string;
+	content: string;
+	createdAt: string;
+	updatedAt: string;
+	timesUsed: number;
+	lastUsedAt: string;
+};
+
 export type ViewState =
 	| 'command-palette'
 	| 'plugin-running'
@@ -17,7 +28,9 @@ export type ViewState =
 	| 'quicklink-form'
 	| 'create-snippet-form'
 	| 'import-snippets'
-	| 'file-search';
+	| 'file-search'
+	| 'ai-chat'
+	| 'downloads';
 
 type OauthState = {
 	url: string;
@@ -29,6 +42,7 @@ type OauthState = {
 class ViewManager {
 	currentView = $state<ViewState>('command-palette');
 	quicklinkToEdit = $state<Quicklink | undefined>(undefined);
+	snippetToEdit = $state<Snippet | undefined>(undefined);
 	snippetsForImport = $state<any[] | null>(null);
 	commandToConfirm = $state<PluginInfo | null>(null);
 	pluginToSelectInSettings = $state<string | undefined>(undefined);
@@ -68,7 +82,8 @@ class ViewManager {
 		this.currentView = 'quicklink-form';
 	};
 
-	showCreateSnippetForm = () => {
+	showSnippetForm = (snippet?: Snippet) => {
+		this.snippetToEdit = snippet;
 		this.currentView = 'create-snippet-form';
 	};
 
@@ -79,6 +94,16 @@ class ViewManager {
 
 	showFileSearch = () => {
 		this.currentView = 'file-search';
+	};
+
+	initialAiPrompt: string | null = null;
+	showAiChat = (initialPrompt?: string) => {
+		this.initialAiPrompt = initialPrompt ?? null;
+		this.currentView = 'ai-chat';
+	};
+
+	showDownloads = () => {
+		this.currentView = 'downloads';
 	};
 
 	runPlugin = async (plugin: PluginInfo) => {
@@ -96,13 +121,128 @@ class ViewManager {
 				this.showQuicklinkForm();
 				return;
 			case 'builtin:create-snippet':
-				this.showCreateSnippetForm();
+				this.showSnippetForm();
 				return;
 			case 'builtin:import-snippets':
 				this.showImportSnippets();
 				return;
 			case 'builtin:file-search':
 				this.showFileSearch();
+				return;
+			case 'builtin:ai-chat':
+				this.showAiChat();
+				return;
+			case 'builtin:downloads':
+				this.showDownloads();
+				return;
+			case 'builtin:open-latest-download':
+				try {
+					const latest = await invoke<{ name: string; path: string } | null>('downloads_get_latest');
+					if (latest) {
+						await invoke('downloads_open_file', { path: latest.path });
+						await invoke('show_hud', { title: `Opened: ${latest.name}` });
+					} else {
+						await invoke('show_hud', { title: 'No downloads found' });
+					}
+				} catch (error) {
+					console.error('[ERROR] Open latest download failed:', error);
+					await invoke('show_hud', { title: 'Failed to open download' });
+				}
+				return;
+			case 'builtin:copy-latest-download':
+				try {
+					const path = await invoke<string>('downloads_copy_latest');
+					// Copy to clipboard
+					await invoke('clipboard_copy', { text: path });
+					// Extract filename from path for display
+					const filename = path.split('/').pop() || path;
+					await invoke('show_hud', { title: `Copied: ${filename}` });
+				} catch (error) {
+					console.error('[ERROR] Copy latest download failed:', error);
+					await invoke('show_hud', { title: 'No downloads found' });
+				}
+				return;
+			case 'builtin:settings':
+				this.showSettings();
+				return;
+			// System commands
+			case 'builtin:lock-screen':
+				try {
+					await invoke('execute_power_command', { command: 'lock' });
+				} catch (error) {
+					console.error('[ERROR] Lock screen failed:', error);
+				}
+				return;
+			case 'builtin:sleep':
+				await invoke('execute_power_command', { command: 'sleep' });
+				return;
+			case 'builtin:shutdown':
+				// Show confirmation dialog
+				const shutdownConfirm = confirm('Are you sure you want to shut down your computer?');
+				if (shutdownConfirm) {
+					await invoke('execute_power_command', { command: 'shutdown' });
+				}
+				return;
+			case 'builtin:restart':
+				// Show confirmation dialog
+				const restartConfirm = confirm('Are you sure you want to restart your computer?');
+				if (restartConfirm) {
+					await invoke('execute_power_command', { command: 'restart' });
+				}
+				return;
+			case 'builtin:volume-up':
+				await invoke('volume_up');
+				return;
+			case 'builtin:volume-down':
+				await invoke('volume_down');
+				return;
+			case 'builtin:toggle-mute':
+				await invoke('toggle_mute');
+				return;
+			case 'builtin:empty-trash':
+				// Show confirmation dialog
+				const trashConfirm = confirm('Are you sure you want to permanently delete all items in trash?');
+				if (trashConfirm) {
+					const count = await invoke<number>('empty_trash');
+					await invoke('show_hud', { title: `Removed ${count} items from trash` });
+				}
+				return;
+			// Window management
+			case 'builtin:snap-left':
+				await invoke('snap_active_window', { position: 'leftHalf' });
+				return;
+			case 'builtin:snap-right':
+				await invoke('snap_active_window', { position: 'rightHalf' });
+				return;
+			case 'builtin:snap-top':
+				await invoke('snap_active_window', { position: 'topHalf' });
+				return;
+			case 'builtin:snap-bottom':
+				await invoke('snap_active_window', { position: 'bottomHalf' });
+				return;
+			case 'builtin:snap-top-left':
+				await invoke('snap_active_window', { position: 'topLeftQuarter' });
+				return;
+			case 'builtin:snap-top-right':
+				await invoke('snap_active_window', { position: 'topRightQuarter' });
+				return;
+			case 'builtin:snap-bottom-left':
+				await invoke('snap_active_window', { position: 'bottomLeftQuarter' });
+				return;
+			case 'builtin:snap-bottom-right':
+				await invoke('snap_active_window', { position: 'bottomRightQuarter' });
+				return;
+			case 'builtin:center-window':
+				await invoke('snap_active_window', { position: 'center' });
+				return;
+			case 'builtin:maximize-window':
+				await invoke('snap_active_window', { position: 'maximize' });
+				return;
+			case 'builtin:almost-maximize':
+				await invoke('snap_active_window', { position: 'almostMaximize' });
+				return;
+			case 'builtin:toggle-floating-notes':
+				await invoke('toggle_floating_notes_window');
 				return;
 		}
 

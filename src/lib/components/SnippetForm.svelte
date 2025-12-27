@@ -11,16 +11,30 @@
 	import ActionBar from './nodes/shared/ActionBar.svelte';
 	import snippetIcon from '$lib/assets/snippets-package-1616x16@2x.png?inline';
 
+	type Snippet = {
+		id: number;
+		name: string;
+		keyword: string;
+		content: string;
+		createdAt: string;
+		updatedAt: string;
+		timesUsed: number;
+		lastUsedAt: string;
+	};
+
 	type Props = {
 		onBack: () => void;
 		onSave: () => void;
+		editSnippet?: Snippet;
 	};
 
-	let { onBack, onSave }: Props = $props();
+	let { onBack, onSave, editSnippet }: Props = $props();
 
-	let name = $state('');
-	let keyword = $state('');
-	let snippetContent = $state('');
+	const isEditing = $derived(!!editSnippet);
+
+	let name = $state(editSnippet?.name ?? '');
+	let keyword = $state(editSnippet?.keyword ?? '');
+	let snippetContent = $state(editSnippet?.content ?? '');
 	let error = $state('');
 
 	type ParsedPart = {
@@ -152,17 +166,31 @@
 		error = '';
 
 		try {
-			await invoke('create_snippet', { name, keyword, content: snippetContent });
-			uiStore.toasts.set(Date.now(), {
-				id: Date.now(),
-				title: 'Snippet Created',
-				style: 'SUCCESS'
-			});
+			if (isEditing && editSnippet) {
+				await invoke('update_snippet', {
+					id: editSnippet.id,
+					name,
+					keyword,
+					content: snippetContent
+				});
+				uiStore.toasts.set(Date.now(), {
+					id: Date.now(),
+					title: 'Snippet Updated',
+					style: 'SUCCESS'
+				});
+			} else {
+				await invoke('create_snippet', { name, keyword, content: snippetContent });
+				uiStore.toasts.set(Date.now(), {
+					id: Date.now(),
+					title: 'Snippet Created',
+					style: 'SUCCESS'
+				});
+			}
 			onSave();
 		} catch (e) {
 			const errorMessage = e instanceof Error ? e.message : String(e);
 			error = errorMessage;
-			console.error('Failed to create snippet:', e);
+			console.error('Failed to save snippet:', e);
 		}
 	}
 </script>
@@ -172,7 +200,7 @@
 		<Header showBackButton={true} onPopView={onBack}>
 			<div class="flex items-center gap-3 !pl-2.5">
 				<Icon icon="snippets-16" class="size-6" />
-				<h1 class="text-lg font-medium">Create Snippet</h1>
+				<h1 class="text-lg font-medium">{isEditing ? 'Edit Snippet' : 'Create Snippet'}</h1>
 			</div>
 		</Header>
 	{/snippet}
@@ -227,16 +255,18 @@
 		<ActionBar
 			actions={[
 				{
-					title: 'Create Snippet',
+					title: isEditing ? 'Save Snippet' : 'Create Snippet',
 					handler: handleSave,
 					shortcut: { key: 'enter', modifiers: ['cmd'] }
 				}
 			]}
 			icon={snippetIcon}
-			title="Create Snippet"
+			title={isEditing ? 'Edit Snippet' : 'Create Snippet'}
 		>
 			{#snippet primaryAction({ props })}
-				<Button {...props} onclick={handleSave}><Save class="mr-2 size-4" /> Create Snippet</Button>
+				<Button {...props} onclick={handleSave}
+					><Save class="mr-2 size-4" /> {isEditing ? 'Save' : 'Create'} Snippet</Button
+				>
 			{/snippet}
 		</ActionBar>
 	{/snippet}

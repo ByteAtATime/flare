@@ -72,7 +72,7 @@ impl ExpansionEngine {
 
     fn handle_key_press(&self, event: InputEvent) {
         let InputEvent::KeyPress(ch) = event;
-        let mut buffer = self.buffer.lock().unwrap();
+        let mut buffer = self.buffer.lock().expect("snippet buffer mutex poisoned");
 
         match ch {
             '\u{8}' => {
@@ -113,7 +113,9 @@ impl ExpansionEngine {
             backspaces.push('\u{8}');
         }
 
-        let clipboard_manager_lock = CLIPBOARD_MANAGER_STATIC.lock().unwrap();
+        let clipboard_manager_lock = CLIPBOARD_MANAGER_STATIC
+            .lock()
+            .expect("clipboard manager mutex poisoned");
         let resolved_result = parse_and_resolve_placeholders(
             content,
             &self.snippet_manager,
@@ -123,7 +125,7 @@ impl ExpansionEngine {
         let resolved = match resolved_result {
             Ok(res) => res,
             Err(e) => {
-                eprintln!("[ExpansionEngine] Error resolving placeholders: {}", e);
+                tracing::error!(error = %e, "Error resolving placeholders");
                 ResolvedSnippet {
                     content: content.to_string(),
                     cursor_pos: None,
@@ -143,11 +145,11 @@ impl ExpansionEngine {
 
         thread::spawn(move || {
             if let Err(e) = input_manager.inject_text(&backspaces) {
-                eprintln!("Failed to inject backspaces: {}", e);
+                tracing::error!(error = %e, "Failed to inject backspaces");
             }
             thread::sleep(std::time::Duration::from_millis(50));
             if let Err(e) = input_manager.inject_text(&content_to_paste) {
-                eprintln!("Failed to inject snippet content: {}", e);
+                tracing::error!(error = %e, "Failed to inject snippet content");
             }
 
             if chars_to_move_left > 0 {
@@ -155,12 +157,12 @@ impl ExpansionEngine {
                 if let Err(e) =
                     input_manager.inject_key_clicks(EnigoKey::LeftArrow, chars_to_move_left)
                 {
-                    eprintln!("Failed to inject cursor movement: {}", e);
+                    tracing::error!(error = %e, "Failed to inject cursor movement");
                 }
             }
         });
 
-        let mut buffer = self.buffer.lock().unwrap();
+        let mut buffer = self.buffer.lock().expect("snippet buffer mutex poisoned");
         buffer.clear();
     }
 }

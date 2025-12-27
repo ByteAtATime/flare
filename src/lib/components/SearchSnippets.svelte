@@ -14,6 +14,7 @@
 
 	type Props = {
 		onBack: () => void;
+		onEdit: (snippet: Snippet) => void;
 	};
 
 	type Snippet = {
@@ -33,7 +34,7 @@
 		data: Snippet | string;
 	};
 
-	let { onBack }: Props = $props();
+	let { onBack, onEdit }: Props = $props();
 
 	let snippets = $state<Snippet[]>([]);
 	let selectedIndex = $state(0);
@@ -149,6 +150,11 @@
 					{
 						title: 'Paste',
 						handler: () => handlePaste(selectedItem)
+					},
+					{
+						title: 'Edit',
+						shortcut: { key: 'e', modifiers: ['cmd'] },
+						handler: () => onEdit(selectedItem)
 					},
 					{
 						title: 'Delete',

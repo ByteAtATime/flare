@@ -1,43 +1,69 @@
 mod ai;
+mod ai_presets;
+mod aliases;
 mod app;
+mod floating_notes;
+mod script_commands;
+mod auto_start;
 mod browser_extension;
 mod cache;
+mod cli_substitutes;
 mod clipboard;
 pub mod clipboard_history;
 mod desktop;
+pub mod dmenu;
+mod downloads;
 mod error;
+mod extension_shims;
 mod extensions;
 mod file_search;
 mod filesystem;
 mod frecency;
+mod hotkey_manager;
+mod integrations;
 mod oauth;
+mod quick_toggles;
 mod quicklinks;
+mod settings;
 mod snippets;
 mod soulver;
 mod store;
 mod system;
+mod system_commands;
+mod system_monitors;
+mod window_management;
 
 use crate::snippets::input_manager::{EvdevInputManager, InputManager, RdevInputManager};
 use crate::{app::App, cache::AppCache};
 use ai::AiUsageManager;
+use ai_presets::AiPresetManager;
+use aliases::AliasManager;
 use browser_extension::WsState;
+use floating_notes::FloatingNotesManager;
 use frecency::FrecencyManager;
+use script_commands::ScriptCommandManager;
 use quicklinks::QuicklinkManager;
 use selection::get_text;
 use snippets::engine::ExpansionEngine;
 use snippets::manager::SnippetManager;
 use std::process::Command;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
-use tauri::{AppHandle, Emitter, Manager};
+use tauri::{Emitter, Manager};
+use tauri::{menu::{Menu, MenuItem}, tray::TrayIconBuilder};
+
+use dmenu::DmenuSession;
+
+// Global state for dmenu session (only used in dmenu mode)
+static DMENU_SESSION: Mutex<Option<DmenuSession>> = Mutex::new(None);
 
 #[tauri::command]
 fn get_installed_apps(app: tauri::AppHandle) -> Vec<App> {
     match AppCache::get_apps(&app) {
         Ok(apps) => apps,
         Err(e) => {
-            eprintln!("Failed to get apps: {:?}", e);
+            tracing::error!(error = ?e, "Failed to get installed apps");
             Vec::new()
         }
     }
@@ -161,29 +187,75 @@ fn setup_global_shortcut(app: &mut tauri::App) -> Result<(), Box<dyn std::error:
         Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState,
     };
 
-    let spotlight_shortcut = Shortcut::new(Some(Modifiers::ALT), Code::Space);
-    let handle = app.handle().clone();
+    let spotlight_shortcut = Shortcut::new(Some(Modifiers::CONTROL | Modifiers::ALT), Code::Space);
 
-    app.handle().plugin(
-        tauri_plugin_global_shortcut::Builder::new()
-            .with_handler(move |_app, shortcut, event| {
-                if shortcut == &spotlight_shortcut && event.state() == ShortcutState::Pressed {
-                    let spotlight_window = handle.get_webview_window("main").unwrap();
-                    println!("Spotlight window: {:?}", spotlight_window);
-                    if spotlight_window.is_visible().unwrap_or(false) {
-                        spotlight_window.hide().unwrap();
-                    } else {
-                        spotlight_window.show().unwrap();
-                        spotlight_window.set_focus().unwrap();
+    // Register the shortcut handler
+    tracing::info!("Registering global shortcut: Ctrl+Alt+Space");
+    app.global_shortcut()
+        .on_shortcut(spotlight_shortcut, move |app, shortcut, event| {
+            tracing::debug!(
+                shortcut = ?shortcut,
+                state = ?event.state(),
+                "Hotkey event received"
+            );
+
+            if event.state() == ShortcutState::Pressed {
+                tracing::debug!("Processing hotkey PRESSED event");
+
+                if let Some(window) = app.get_webview_window("main") {
+                    match window.is_visible() {
+                        Ok(true) => {
+                            tracing::debug!("Window visible, hiding");
+                            let _ = window.hide();
+                        }
+                        Ok(false) => {
+                            tracing::debug!("Window hidden, showing");
+                            let _ = window.show();
+                            // Ensure window is on top (Linux WMs sometimes ignore config setting)
+                            let _ = window.set_always_on_top(true);
+                            // Request focus immediately
+                            let _ = window.set_focus();
+                            // Use xdotool to force focus via mouse click (bypasses WM focus-stealing prevention)
+                            let window_clone = window.clone();
+                            tauri::async_runtime::spawn(async move {
+                                tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                                // Get window position and size to click in the center (on the input)
+                                if let (Ok(pos), Ok(size)) =
+                                    (window_clone.outer_position(), window_clone.outer_size())
+                                {
+                                    // Click near the top center where the search input is
+                                    let click_x = pos.x + (size.width as i32 / 2);
+                                    let click_y = pos.y + 40; // Near top for the input
+                                    let _ = std::process::Command::new("xdotool")
+                                        .args([
+                                            "mousemove",
+                                            "--sync",
+                                            &click_x.to_string(),
+                                            &click_y.to_string(),
+                                            "click",
+                                            "1",
+                                        ])
+                                        .stderr(std::process::Stdio::null())
+                                        .stdout(std::process::Stdio::null())
+                                        .spawn();
+                                }
+                            });
+                        }
+                        Err(e) => {
+                            tracing::error!(error = %e, "Failed to check window visibility");
+                        }
                     }
+                } else {
+                    tracing::error!("Main window not found");
                 }
-            })
-            .build(),
-    )?;
+            } else {
+                tracing::trace!("Ignoring hotkey RELEASED event");
+            }
+        })?;
 
-    if !app.global_shortcut().is_registered(spotlight_shortcut) {
-        app.global_shortcut().register(spotlight_shortcut)?;
-    }
+    app.global_shortcut().register(spotlight_shortcut)?;
+    tracing::info!("Global shortcut registered successfully");
+
     Ok(())
 }
 
@@ -194,10 +266,10 @@ fn setup_input_listener(app: &tauri::AppHandle) {
     let is_wayland = std::env::var("WAYLAND_DISPLAY").is_ok();
 
     let input_manager_result: Result<Arc<dyn InputManager>, anyhow::Error> = if is_wayland {
-        println!("[Snippets] Wayland detected, using evdev for snippet expansion.");
+        tracing::info!("Wayland detected, using evdev for snippet expansion");
         EvdevInputManager::new().map(|m| Arc::new(m) as Arc<dyn InputManager>)
     } else {
-        println!("[Snippets] X11 or unknown session, using rdev for snippet expansion.");
+        tracing::info!("X11 or unknown session, using rdev for snippet expansion");
         RdevInputManager::new().map(|m| Arc::new(m) as Arc<dyn InputManager>)
     };
 
@@ -208,21 +280,257 @@ fn setup_input_listener(app: &tauri::AppHandle) {
             let engine = ExpansionEngine::new(snippet_manager_arc, input_manager);
             thread::spawn(move || {
                 if let Err(e) = engine.start_listening() {
-                    eprintln!("[ExpansionEngine] Failed to start: {}", e);
+                    tracing::error!(error = %e, "Expansion engine failed to start");
                 }
             });
         }
         Err(e) => {
-            eprintln!(
-                "[Snippets] Failed to initialize input manager: {}. Snippet expansion will be disabled.",
-                e
+            tracing::error!(
+                error = %e,
+                "Failed to initialize input manager, snippet expansion will be disabled"
             );
         }
     }
 }
 
+// Extension shim commands
+#[tauri::command]
+fn shim_translate_path(path: String) -> String {
+    extension_shims::PathShim::translate_path(&path)
+}
+
+#[tauri::command]
+fn shim_run_applescript(script: String) -> extension_shims::ShimResult {
+    extension_shims::AppleScriptShim::run_apple_script(&script)
+}
+
+#[tauri::command]
+fn shim_get_system_info() -> std::collections::HashMap<String, String> {
+    extension_shims::SystemShim::get_system_info()
+}
+
+// System monitor commands
+#[tauri::command]
+fn monitor_get_cpu() -> system_monitors::CpuInfo {
+    system_monitors::get_cpu_info()
+}
+
+#[tauri::command]
+fn monitor_get_memory() -> system_monitors::MemoryInfo {
+    system_monitors::get_memory_info()
+}
+
+#[tauri::command]
+fn monitor_get_disks() -> Vec<system_monitors::DiskInfo> {
+    system_monitors::get_disk_info()
+}
+
+#[tauri::command]
+fn monitor_get_network() -> Vec<system_monitors::NetworkInfo> {
+    system_monitors::get_network_info()
+}
+
+#[tauri::command]
+fn monitor_get_battery() -> Option<system_monitors::BatteryInfo> {
+    system_monitors::get_battery_info()
+}
+
+// Quick toggle commands
+#[tauri::command]
+async fn toggle_wifi(enable: bool) -> Result<(), String> {
+    quick_toggles::toggle_wifi(enable).await
+}
+
+#[tauri::command]
+async fn get_wifi_state() -> Result<bool, String> {
+    quick_toggles::get_wifi_state().await
+}
+
+#[tauri::command]
+async fn toggle_bluetooth(enable: bool) -> Result<(), String> {
+    quick_toggles::toggle_bluetooth(enable).await
+}
+
+#[tauri::command]
+async fn get_bluetooth_state() -> Result<bool, String> {
+    quick_toggles::get_bluetooth_state().await
+}
+
+#[tauri::command]
+async fn toggle_dark_mode(enable: bool) -> Result<(), String> {
+    quick_toggles::toggle_dark_mode(enable).await
+}
+
+#[tauri::command]
+async fn get_dark_mode_state() -> Result<bool, String> {
+    quick_toggles::get_dark_mode_state().await
+}
+
+#[tauri::command]
+fn set_brightness(percentage: u32) -> Result<(), String> {
+    quick_toggles::set_brightness(percentage)
+}
+
+#[tauri::command]
+fn get_brightness() -> Result<u32, String> {
+    quick_toggles::get_brightness()
+}
+
+// GitHub integration commands
+#[tauri::command]
+async fn github_start_auth() -> Result<integrations::github::DeviceCodeResponse, String> {
+    integrations::github::start_device_flow().await
+}
+
+#[tauri::command]
+async fn github_poll_auth(device_code: String) -> Result<Option<String>, String> {
+    integrations::github::poll_for_token(&device_code).await
+}
+
+#[tauri::command]
+fn github_store_token(token: String) -> Result<(), String> {
+    integrations::github::store_token(&token)
+}
+
+#[tauri::command]
+fn github_is_authenticated() -> Result<bool, String> {
+    Ok(integrations::github::get_token()?.is_some())
+}
+
+#[tauri::command]
+fn github_logout() -> Result<(), String> {
+    integrations::github::delete_token()
+}
+
+#[tauri::command]
+async fn github_get_current_user() -> Result<integrations::github::User, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.get_current_user().await
+}
+
+// GitHub Issues commands
+#[tauri::command]
+async fn github_list_issues(
+    owner: String,
+    repo: String,
+    state: Option<String>,
+) -> Result<Vec<integrations::github::Issue>, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.list_issues(&owner, &repo, state.as_deref()).await
+}
+
+#[tauri::command]
+async fn github_get_issue(
+    owner: String,
+    repo: String,
+    number: u64,
+) -> Result<integrations::github::Issue, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.get_issue(&owner, &repo, number).await
+}
+
+#[tauri::command]
+async fn github_create_issue(
+    owner: String,
+    repo: String,
+    title: String,
+    body: Option<String>,
+    labels: Option<Vec<String>>,
+    assignees: Option<Vec<String>>,
+) -> Result<integrations::github::Issue, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client
+        .create_issue(&owner, &repo, title, body, labels, assignees)
+        .await
+}
+
+#[tauri::command]
+async fn github_update_issue(
+    owner: String,
+    repo: String,
+    number: u64,
+    title: Option<String>,
+    body: Option<String>,
+    state: Option<String>,
+    labels: Option<Vec<String>>,
+    assignees: Option<Vec<String>>,
+) -> Result<integrations::github::Issue, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client
+        .update_issue(
+            &owner,
+            &repo,
+            number,
+            title,
+            body,
+            state.as_deref(),
+            labels,
+            assignees,
+        )
+        .await
+}
+
+#[tauri::command]
+async fn github_close_issue(
+    owner: String,
+    repo: String,
+    number: u64,
+) -> Result<integrations::github::Issue, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.close_issue(&owner, &repo, number).await
+}
+
+#[tauri::command]
+async fn github_list_my_issues(
+    state: Option<String>,
+) -> Result<Vec<integrations::github::Issue>, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.list_my_issues(state.as_deref()).await
+}
+
+// GitHub Search commands
+#[tauri::command]
+async fn github_search_issues(
+    query: String,
+) -> Result<integrations::github::SearchResult<integrations::github::Issue>, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.search_issues(&query).await
+}
+
+#[tauri::command]
+async fn github_search_repos(
+    query: String,
+) -> Result<integrations::github::SearchResult<integrations::github::Repository>, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.search_repos(&query).await
+}
+
+// GitHub Repository commands
+#[tauri::command]
+async fn github_list_repos() -> Result<Vec<integrations::github::Repository>, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.list_user_repos().await
+}
+
+#[tauri::command]
+async fn github_get_repo(
+    owner: String,
+    repo: String,
+) -> Result<integrations::github::Repository, String> {
+    let client = integrations::github::GitHubClient::from_stored_token()?;
+    client.get_repo(&owner, &repo).await
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Initialize tracing subscriber for structured logging
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::from_default_env()
+                .add_directive(tracing::Level::INFO.into()),
+        )
+        .init();
+
     let app = tauri::Builder::default()
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_fs::init())
@@ -308,7 +616,90 @@ pub fn run() {
             ai::get_ai_settings,
             ai::set_ai_settings,
             ai::ai_can_access,
-            soulver::calculate_soulver
+            soulver::calculate_soulver,
+            shim_translate_path,
+            shim_run_applescript,
+            shim_get_system_info,
+            monitor_get_cpu,
+            monitor_get_memory,
+            monitor_get_disks,
+            monitor_get_network,
+            monitor_get_battery,
+            toggle_wifi,
+            get_wifi_state,
+            toggle_bluetooth,
+            get_bluetooth_state,
+            toggle_dark_mode,
+            get_dark_mode_state,
+            set_brightness,
+            get_brightness,
+            github_start_auth,
+            github_poll_auth,
+            github_store_token,
+            github_is_authenticated,
+            github_logout,
+            github_get_current_user,
+            github_list_issues,
+            github_get_issue,
+            github_create_issue,
+            github_update_issue,
+            github_close_issue,
+            github_list_my_issues,
+            github_search_issues,
+            github_search_repos,
+            github_list_repos,
+            github_get_repo,
+            ai::get_ollama_models,
+            ai::create_conversation,
+            ai::list_conversations,
+            ai::get_conversation,
+            ai::update_conversation,
+            ai::delete_conversation,
+            ai_presets::get_ai_presets,
+            ai_presets::create_ai_preset,
+            ai_presets::update_ai_preset,
+            ai_presets::delete_ai_preset,
+            aliases::get_aliases,
+            aliases::set_alias,
+            aliases::remove_alias,
+            script_commands::get_script_commands,
+            script_commands::run_script_command,
+            script_commands::open_scripts_folder,
+            floating_notes::get_floating_note,
+            floating_notes::save_floating_note,
+            floating_notes::toggle_floating_notes_window,
+            system_commands::execute_power_command,
+            system_commands::set_volume,
+            system_commands::volume_up,
+            system_commands::volume_down,
+            system_commands::toggle_mute,
+            system_commands::get_volume,
+            system_commands::empty_trash,
+            system_commands::eject_drive,
+            window_management::snap_active_window,
+            window_management::get_available_monitors,
+            window_management::move_window_to_monitor,
+            hotkey_manager::get_hotkey_config,
+            hotkey_manager::set_command_hotkey,
+            hotkey_manager::remove_command_hotkey,
+            hotkey_manager::check_hotkey_conflict,
+            hotkey_manager::reset_hotkeys_to_defaults,
+            downloads::downloads_get_items,
+            downloads::downloads_open_file,
+            downloads::downloads_show_in_folder,
+            downloads::downloads_delete_item,
+            downloads::downloads_delete_file,
+            downloads::downloads_clear_history,
+            downloads::downloads_get_latest,
+            downloads::downloads_copy_latest,
+            extensions::get_extension_compatibility,
+            extensions::get_all_extensions_compatibility,
+            extensions::uninstall_extension,
+            settings::get_app_settings,
+            settings::save_app_settings,
+            settings::reset_app_settings,
+            auto_start::set_auto_start_enabled,
+            auto_start::get_auto_start_enabled
         ])
         .setup(|app| {
             let app_handle = app.handle().clone();
@@ -316,15 +707,51 @@ pub fn run() {
 
             clipboard_history::init(app.handle().clone());
             file_search::init(app.handle().clone());
+            downloads::init(app.handle().clone());
 
             app.manage(QuicklinkManager::new(app.handle())?);
             app.manage(FrecencyManager::new(app.handle())?);
             app.manage(SnippetManager::new(app.handle())?);
             app.manage(AiUsageManager::new(app.handle())?);
+            app.manage(AiPresetManager::new(app.handle())?);
+            app.manage(AliasManager::new(app.handle())?);
+            app.manage(ScriptCommandManager::new(app.handle()));
+            app.manage(FloatingNotesManager::new(app.handle())?);
+            app.manage(settings::SettingsManager::new(app.handle())?);
+
+            // Initialize hotkey manager
+            let hotkey_manager = hotkey_manager::HotkeyManager::new(app.handle())?;
+
+            // Load and register saved hotkeys
+            if let Ok(saved_hotkeys) = hotkey_manager.get_all_hotkeys() {
+                tracing::info!("Loading {} saved hotkeys", saved_hotkeys.len());
+
+                for config in saved_hotkeys {
+                    if let Some(mods) = hotkey_manager::modifiers_from_bits(config.modifiers) {
+                        if let Some(code) = hotkey_manager::string_to_code(&config.key) {
+                            let shortcut =
+                                tauri_plugin_global_shortcut::Shortcut::new(Some(mods), code);
+                            if let Err(e) = hotkey_manager.register_shortcut(
+                                app.handle(),
+                                config.command_id.clone(),
+                                shortcut,
+                            ) {
+                                tracing::error!(
+                                    "Failed to register hotkey for {}: {}",
+                                    config.command_id,
+                                    e
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
+            app.manage(hotkey_manager);
 
             setup_background_refresh(app.handle().clone());
             if let Err(e) = setup_global_shortcut(app) {
-                eprintln!("Failed to set up global shortcut: {}", e);
+                tracing::error!(error = %e, "Failed to set up global shortcut");
             }
             setup_input_listener(app.handle());
 
@@ -335,6 +762,41 @@ pub fn run() {
                 .join("SoulverWrapper/Vendor/SoulverCore-linux");
 
             soulver::initialize(soulver_core_path.to_str().unwrap());
+
+            let quit_i = MenuItem::with_id(app.handle(), "quit", "Quit", true, None::<&str>)?;
+            let show_i = MenuItem::with_id(app.handle(), "show", "Show Flare", true, None::<&str>)?;
+            let menu = Menu::with_items(app.handle(), &[&show_i, &quit_i])?;
+
+            let _tray = TrayIconBuilder::new()
+                .menu(&menu)
+                .show_menu_on_left_click(false)
+                .icon(app.default_window_icon().unwrap().clone())
+                .on_menu_event(|app, event| match event.id.as_ref() {
+                    "quit" => {
+                        app.exit(0);
+                    }
+                    "show" => {
+                        if let Some(window) = app.get_webview_window("main") {
+                            let _ = window.show();
+                            let _ = window.set_focus();
+                        }
+                    }
+                    _ => {}
+                })
+                .on_tray_icon_event(|tray, event| {
+                    if let tauri::tray::TrayIconEvent::Click {
+                        button: tauri::tray::MouseButton::Left,
+                        ..
+                    } = event
+                    {
+                        let app = tray.app_handle();
+                        if let Some(window) = app.get_webview_window("main") {
+                            let _ = window.show();
+                            let _ = window.set_focus();
+                        }
+                    }
+                })
+                .build(app.handle())?;
 
             Ok(())
         })
@@ -352,12 +814,149 @@ pub fn run() {
                         }
                     }
                     tauri::WindowEvent::Focused(false) => {
+                        tracing::info!("Window lost focus");
                         if let Some(window) = app.get_webview_window("main") {
-                            if !cfg!(debug_assertions) {
-                                let _ = window.hide();
+                            // Check if close on blur is enabled in settings
+                            if let Some(settings_manager) =
+                                app.try_state::<settings::SettingsManager>()
+                            {
+                                match settings_manager.get_settings() {
+                                    Ok(settings) => {
+                                        tracing::info!(
+                                            "Close on blur setting: {}",
+                                            settings.close_on_blur
+                                        );
+                                        if settings.close_on_blur {
+                                            tracing::info!("Hiding window due to close on blur");
+                                            let _ = window.hide();
+                                        }
+                                    }
+                                    Err(e) => {
+                                        tracing::error!("Failed to get settings: {}", e);
+                                    }
+                                }
+                            } else {
+                                tracing::warn!("Settings manager not available");
+                                if !cfg!(debug_assertions) {
+                                    // Fallback: hide in release mode if settings not available
+                                    let _ = window.hide();
+                                }
                             }
                         }
                     }
+                    _ => {}
+                }
+            }
+        }
+    });
+}
+
+// ============================================================================
+// dmenu Mode
+// ============================================================================
+
+#[tauri::command]
+fn dmenu_get_items() -> Vec<String> {
+    DMENU_SESSION
+        .lock()
+        .unwrap()
+        .as_ref()
+        .map(|s| s.items.clone())
+        .unwrap_or_default()
+}
+
+#[tauri::command]
+fn dmenu_get_prompt() -> String {
+    DMENU_SESSION
+        .lock()
+        .unwrap()
+        .as_ref()
+        .map(|s| s.prompt.clone())
+        .unwrap_or_default()
+}
+
+#[tauri::command]
+fn dmenu_get_case_insensitive() -> bool {
+    DMENU_SESSION
+        .lock()
+        .unwrap()
+        .as_ref()
+        .map(|s| s.case_insensitive)
+        .unwrap_or(false)
+}
+
+#[tauri::command]
+fn dmenu_select_item(item: String) {
+    if let Some(session) = DMENU_SESSION
+        .lock()
+        .expect("dmenu session mutex poisoned")
+        .as_ref()
+    {
+        session.output_selection(&item);
+    }
+    std::process::exit(0);
+}
+
+#[tauri::command]
+fn dmenu_cancel() {
+    std::process::exit(1);
+}
+
+/// Entry point for dmenu mode - runs a minimal Tauri app for menu selection
+pub fn run_dmenu(session: DmenuSession) {
+    // Initialize tracing subscriber for structured logging
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::from_default_env()
+                .add_directive(tracing::Level::INFO.into()),
+        )
+        .init();
+
+    // Store the session in global state
+    *DMENU_SESSION.lock().expect("dmenu session mutex poisoned") = Some(session);
+
+    tracing::info!("Starting Flare in dmenu mode");
+
+    let app = tauri::Builder::default()
+        .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
+        .invoke_handler(tauri::generate_handler![
+            dmenu_get_items,
+            dmenu_get_prompt,
+            dmenu_get_case_insensitive,
+            dmenu_select_item,
+            dmenu_cancel
+        ])
+        .setup(|app| {
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.show();
+                let _ = window.set_focus();
+
+                // Delay the event emission to ensure WebView is ready
+                let window_clone = window.clone();
+                tauri::async_runtime::spawn(async move {
+                    tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+                    let _ = window_clone.emit("dmenu-mode", ());
+                });
+            } else {
+                tracing::error!("dmenu: main window not found");
+            }
+            Ok(())
+        })
+        .build(tauri::generate_context!())
+        .expect("error building dmenu app");
+
+    app.run(|_app, event| {
+        if let tauri::RunEvent::WindowEvent { label, event, .. } = event {
+            if label == "main" {
+                match event {
+                    tauri::WindowEvent::CloseRequested { api, .. } => {
+                        api.prevent_close();
+                        // Cancel on window close
+                        std::process::exit(1);
+                    }
+                    // Don't exit on focus loss - let the user press Escape to cancel
+                    // This was causing immediate exit on window show
                     _ => {}
                 }
             }

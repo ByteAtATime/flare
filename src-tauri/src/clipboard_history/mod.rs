@@ -14,7 +14,11 @@ pub fn history_get_items(
     limit: u32,
     offset: u32,
 ) -> Result<Vec<ClipboardItem>, String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager
             .get_items(filter, search_term, limit, offset)
             .map_err(|e| e.to_string())
@@ -25,7 +29,11 @@ pub fn history_get_items(
 
 #[tauri::command]
 pub fn history_get_item_content(id: i64) -> Result<String, String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager.get_item_content(id).map_err(|e| e.to_string())
     } else {
         Err("Clipboard history manager not initialized".to_string())
@@ -34,7 +42,11 @@ pub fn history_get_item_content(id: i64) -> Result<String, String> {
 
 #[tauri::command]
 pub fn history_item_was_copied(id: i64) -> Result<(), String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager.item_was_copied(id).map_err(|e| e.to_string())?;
         Ok(())
     } else {
@@ -44,7 +56,11 @@ pub fn history_item_was_copied(id: i64) -> Result<(), String> {
 
 #[tauri::command]
 pub fn history_delete_item(id: i64) -> Result<(), String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager.delete_item(id).map_err(|e| e.to_string())?;
         Ok(())
     } else {
@@ -54,7 +70,11 @@ pub fn history_delete_item(id: i64) -> Result<(), String> {
 
 #[tauri::command]
 pub fn history_toggle_pin(id: i64) -> Result<(), String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager.toggle_pin(id).map_err(|e| e.to_string())?;
         Ok(())
     } else {
@@ -64,7 +84,11 @@ pub fn history_toggle_pin(id: i64) -> Result<(), String> {
 
 #[tauri::command]
 pub fn history_clear_all() -> Result<(), String> {
-    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
+    if let Some(manager) = MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned")
+        .as_ref()
+    {
         manager.clear_all().map_err(|e| e.to_string())?;
         Ok(())
     } else {

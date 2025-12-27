@@ -10,7 +10,13 @@ pub fn start_monitoring(_app_handle: AppHandle) {
     std::thread::spawn(move || {
         let mut last_text_hash = String::new();
         let mut last_image_hash = String::new();
-        let mut clipboard = arboard::Clipboard::new().unwrap();
+        let mut clipboard = match arboard::Clipboard::new() {
+            Ok(c) => c,
+            Err(e) => {
+                tracing::error!(error = %e, "Failed to initialize clipboard monitor");
+                return;
+            }
+        };
 
         loop {
             if super::manager::INTERNAL_CLIPBOARD_CHANGE.load(std::sync::atomic::Ordering::SeqCst) {
@@ -31,14 +37,16 @@ pub fn start_monitoring(_app_handle: AppHandle) {
                             (ContentType::Text, text.to_string())
                         };
 
-                        if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
-                            if let Err(e) = manager.add_item(
-                                current_hash.clone(),
-                                content_type,
-                                content_value,
-                                None,
-                            ) {
-                                eprintln!("Error adding clipboard text item: {:?}", e);
+                        if let Ok(guard) = MANAGER.lock() {
+                            if let Some(manager) = guard.as_ref() {
+                                if let Err(e) = manager.add_item(
+                                    current_hash.clone(),
+                                    content_type,
+                                    content_value,
+                                    None,
+                                ) {
+                                    tracing::error!(error = ?e, "Error adding clipboard text item");
+                                }
                             }
                         }
                         last_text_hash = current_hash;
@@ -50,27 +58,30 @@ pub fn start_monitoring(_app_handle: AppHandle) {
             if let Ok(image_data) = clipboard.get_image() {
                 let current_hash = hex::encode(Sha256::digest(&image_data.bytes));
                 if current_hash != last_image_hash {
-                    if let Some(manager) = MANAGER.lock().unwrap().as_ref() {
-                        let image_path = manager.image_dir.join(format!("{}.png", current_hash));
-                        match image::save_buffer(
-                            &image_path,
-                            &image_data.bytes,
-                            image_data.width as u32,
-                            image_data.height as u32,
-                            image::ColorType::Rgba8,
-                        ) {
-                            Ok(_) => {
-                                let content_value = image_path.to_string_lossy().to_string();
-                                if let Err(e) = manager.add_item(
-                                    current_hash.clone(),
-                                    ContentType::Image,
-                                    content_value,
-                                    None,
-                                ) {
-                                    eprintln!("Error adding clipboard image item: {:?}", e);
+                    if let Ok(guard) = MANAGER.lock() {
+                        if let Some(manager) = guard.as_ref() {
+                            let image_path =
+                                manager.image_dir.join(format!("{}.png", current_hash));
+                            match image::save_buffer(
+                                &image_path,
+                                &image_data.bytes,
+                                image_data.width as u32,
+                                image_data.height as u32,
+                                image::ColorType::Rgba8,
+                            ) {
+                                Ok(_) => {
+                                    let content_value = image_path.to_string_lossy().to_string();
+                                    if let Err(e) = manager.add_item(
+                                        current_hash.clone(),
+                                        ContentType::Image,
+                                        content_value,
+                                        None,
+                                    ) {
+                                        tracing::error!(error = ?e, "Error adding clipboard image item");
+                                    }
                                 }
+                                Err(e) => tracing::error!(error = ?e, "Failed to save image"),
                             }
-                            Err(e) => eprintln!("Failed to save image: {:?}", e),
                         }
                     }
                     last_image_hash = current_hash;

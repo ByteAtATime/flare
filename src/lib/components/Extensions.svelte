@@ -18,6 +18,7 @@
 	import Header from './layout/Header.svelte';
 	import type { ActionDefinition } from './nodes/shared/actions';
 	import storeCommandIcon from '$lib/assets/command-store-1616x16@2x.png?inline';
+	import { uiStore } from '$lib/ui.svelte';
 
 	type Props = {
 		onBack: () => void;
@@ -26,6 +27,7 @@
 
 	type Violation = {
 		commandName: string;
+		commandTitle?: string;
 		reason: string;
 	};
 
@@ -42,20 +44,61 @@
 	let isDetailLoading = $state(false);
 	let expandedImageUrl = $state<string | null>(null);
 	let isInstalling = $state(false);
+	let isUninstalling = $state(false);
 	let vlistInstance = $state<VListHandle | null>(null);
 	let showConfirmationDialog = $state(false);
 	let confirmationViolations = $state<Violation[]>([]);
 	let extensionForConfirmation = $state<Extension | null>(null);
 
 	let displayedItems = $state<DisplayItem[]>([]);
+	let showInstalledOnly = $state(false);
+
+	function sortExtensions(exts: Extension[]): Extension[] {
+		const sortBy = extensionsStore.sortBy;
+		if (sortBy === 'default') return exts;
+
+		return [...exts].sort((a, b) => {
+			switch (sortBy) {
+				case 'downloads':
+					return b.download_count - a.download_count;
+				case 'recent':
+					return b.updated_at - a.updated_at;
+				case 'oldest':
+					return a.updated_at - b.updated_at;
+				default:
+					return 0;
+			}
+		});
+	}
+
+	function getSortLabel(): string {
+		switch (extensionsStore.sortBy) {
+			case 'downloads':
+				return 'Most Downloaded';
+			case 'recent':
+				return 'Recently Updated';
+			case 'oldest':
+				return 'Oldest';
+			default:
+				return 'All Extensions';
+		}
+	}
 
 	$effect(() => {
 		const newItems: DisplayItem[] = [];
 		const addedIds = new Set<string>();
 
+		const isExtensionInstalled = (ext: Extension) => {
+			return uiStore.pluginList.some((p) => p.pluginName === ext.name);
+		};
+
 		const addItems = (exts: Extension[]) => {
 			for (const ext of exts) {
 				if (!addedIds.has(ext.id)) {
+					// Filter by installed status if enabled
+					if (showInstalledOnly && !isExtensionInstalled(ext)) {
+						continue;
+					}
 					newItems.push({ id: ext.id, itemType: 'item', data: ext });
 					addedIds.add(ext.id);
 				}
@@ -65,7 +108,7 @@
 		if (extensionsStore.searchText) {
 			if (extensionsStore.searchResults.length > 0) {
 				newItems.push({ id: 'header-search', itemType: 'header', data: 'Search Results' });
-				addItems(extensionsStore.searchResults);
+				addItems(sortExtensions(extensionsStore.searchResults));
 			}
 		} else if (extensionsStore.selectedCategory !== 'All Categories') {
 			const filtered =
@@ -78,20 +121,35 @@
 					itemType: 'header',
 					data: extensionsStore.selectedCategory
 				});
-				addItems(filtered);
+				addItems(sortExtensions(filtered));
 			}
 		} else {
-			if (extensionsStore.featuredExtensions.length > 0) {
-				newItems.push({ id: 'header-featured', itemType: 'header', data: 'Featured' });
-				addItems(extensionsStore.featuredExtensions);
-			}
-			if (extensionsStore.trendingExtensions.length > 0) {
-				newItems.push({ id: 'header-trending', itemType: 'header', data: 'Trending' });
-				addItems(extensionsStore.trendingExtensions);
-			}
-			if (extensionsStore.extensions.length > 0) {
-				newItems.push({ id: 'header-all', itemType: 'header', data: 'All Extensions' });
-				addItems(extensionsStore.extensions);
+			// When sorting is active, show all extensions sorted
+			if (extensionsStore.sortBy !== 'default') {
+				const allExts = [
+					...extensionsStore.featuredExtensions,
+					...extensionsStore.trendingExtensions,
+					...extensionsStore.extensions
+				];
+				// Remove duplicates
+				const uniqueExts = allExts.filter(
+					(ext, idx, arr) => arr.findIndex((e) => e.id === ext.id) === idx
+				);
+				newItems.push({ id: 'header-sorted', itemType: 'header', data: getSortLabel() });
+				addItems(sortExtensions(uniqueExts));
+			} else {
+				if (extensionsStore.featuredExtensions.length > 0) {
+					newItems.push({ id: 'header-featured', itemType: 'header', data: 'Featured' });
+					addItems(extensionsStore.featuredExtensions);
+				}
+				if (extensionsStore.trendingExtensions.length > 0) {
+					newItems.push({ id: 'header-trending', itemType: 'header', data: 'Trending' });
+					addItems(extensionsStore.trendingExtensions);
+				}
+				if (extensionsStore.extensions.length > 0) {
+					newItems.push({ id: 'header-all', itemType: 'header', data: 'All Extensions' });
+					addItems(extensionsStore.extensions);
+				}
 			}
 		}
 
@@ -226,6 +284,26 @@
 		}
 	}
 
+	async function handleUninstall() {
+		const extensionToUninstall = detailedExtension || selectedExtension;
+		if (!extensionToUninstall || isUninstalling) return;
+
+		isUninstalling = true;
+		try {
+			await invoke('uninstall_extension', {
+				slug: extensionToUninstall.name
+			});
+			// Refresh the plugin list
+			onInstall();
+			// Go back to list view
+			selectedExtension = null;
+		} catch (e) {
+			console.error('Uninstall failed', e);
+		} finally {
+			isUninstalling = false;
+		}
+	}
+
 	const actions: ActionDefinition[] = $derived(
 		selectedListExtension
 			? [
@@ -282,7 +360,26 @@
 			{/if}
 			{#snippet actions()}
 				{#if !selectedExtension}
-					<CategoryFilter />
+					<div class="flex items-center gap-3">
+						<label class="flex cursor-pointer items-center gap-2 text-sm">
+							<input
+								type="checkbox"
+								bind:checked={showInstalledOnly}
+								class="size-4 cursor-pointer rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0"
+							/>
+							<span>Installed Only</span>
+						</label>
+						<select
+							bind:value={extensionsStore.sortBy}
+							class="cursor-pointer rounded-md border border-gray-600 bg-gray-700 px-2 py-1 text-sm text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+						>
+							<option value="default">Default Order</option>
+							<option value="downloads">Most Downloads</option>
+							<option value="recent">Recently Updated</option>
+							<option value="oldest">Oldest</option>
+						</select>
+						<CategoryFilter />
+					</div>
 				{/if}
 			{/snippet}
 		</Header>

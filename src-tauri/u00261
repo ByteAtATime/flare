@@ -1,0 +1,179 @@
+   Compiling log v0.4.27
+   Compiling tracing-core v0.1.34
+   Compiling regex-automata v0.4.9
+   Compiling sharded-slab v0.1.7
+   Compiling thread_local v1.1.9
+   Compiling nu-ansi-term v0.50.3
+   Compiling tao v0.34.0
+   Compiling av1-grain v0.2.4
+   Compiling native-tls v0.2.14
+   Compiling cookie_store v0.21.1
+   Compiling wl-clipboard-rs v0.9.2
+   Compiling mio v0.8.11
+   Compiling rfd v0.15.3
+   Compiling wl-clipboard-rs v0.8.1
+   Compiling tungstenite v0.27.0
+   Compiling os_info v3.12.0
+   Compiling zopfli v0.8.2
+   Compiling enigo v0.5.0
+   Compiling tracing v0.1.41
+   Compiling tokio-native-tls v0.3.1
+   Compiling tracing-log v0.2.0
+   Compiling notify v6.1.1
+   Compiling zip v4.1.0
+   Compiling polling v3.8.0
+   Compiling h2 v0.4.10
+   Compiling rav1e v0.7.1
+   Compiling freedesktop-icons v0.4.0
+   Compiling tokio-tungstenite v0.27.0
+   Compiling async-io v2.4.1
+   Compiling notify-debouncer-full v0.3.2
+   Compiling selection v1.2.0
+   Compiling freedesktop-file-parser v0.2.0
+   Compiling trash v5.2.2
+   Compiling async-signal v0.2.11
+   Compiling async-process v2.3.1
+   Compiling keyring v3.6.2
+   Compiling zbus v5.7.1
+   Compiling regex v1.11.1
+   Compiling matchers v0.2.0
+   Compiling tracing-subscriber v0.3.20
+   Compiling urlpattern v0.3.0
+   Compiling hyper v1.6.0
+   Compiling tauri-utils v2.5.0
+   Compiling hyper-util v0.1.14
+   Compiling ravif v0.11.12
+   Compiling hyper-tls v0.6.0
+   Compiling hyper-rustls v0.27.7
+   Compiling reqwest v0.12.20
+   Compiling image v0.25.6
+   Compiling arboard v3.5.0
+   Compiling tauri-runtime v2.7.0
+   Compiling tauri-runtime-wry v2.7.0
+   Compiling tauri v2.6.0
+   Compiling tauri-plugin-fs v2.4.0
+   Compiling tauri-plugin-single-instance v2.2.4
+   Compiling tauri-plugin-clipboard-manager v2.2.3
+   Compiling tauri-plugin-deep-link v2.3.0
+   Compiling tauri-plugin-os v2.3.0
+   Compiling tauri-plugin-opener v2.3.0
+   Compiling tauri-plugin-shell v2.2.2
+   Compiling tauri-plugin-global-shortcut v2.2.1
+   Compiling tauri-plugin-dialog v2.3.0
+   Compiling tauri-plugin-http v2.4.4
+   Compiling flare v0.1.0 (/home/steven/scratch/flareup/src-tauri)
+warning: unused import: `std::io::Read`
+ --> src/cli_substitutes.rs:5:5
+  |
+5 | use std::io::Read;
+  |     ^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `JsonRpcRequest` is never constructed
+  --> src/browser_extension.rs:12:8
+   |
+12 | struct JsonRpcRequest {
+   |        ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `JsonRpcResponse` is never constructed
+  --> src/browser_extension.rs:20:8
+   |
+20 | struct JsonRpcResponse {
+   |        ^^^^^^^^^^^^^^^
+
+warning: struct `JsonRpcError` is never constructed
+  --> src/browser_extension.rs:30:8
+   |
+30 | struct JsonRpcError {
+   |        ^^^^^^^^^^^^
+
+warning: associated function `expand_home` is never used
+  --> src/extension_shims.rs:67:12
+   |
+19 | impl PathShim {
+   | ------------- associated function in this implementation
+...
+67 |     pub fn expand_home(path: &str) -> PathBuf {
+   |            ^^^^^^^^^^^
+
+warning: method `get_file_last_modified` is never used
+   --> src/file_search/manager.rs:137:12
+    |
+ 15 | impl FileSearchManager {
+    | ---------------------- method in this implementation
+...
+137 |     pub fn get_file_last_modified(&self, path: &str) -> Result<Option<i64>, AppError> {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `POLL_INTERVAL` is never used
+ --> src/integrations/github/auth.rs:7:7
+  |
+7 | const POLL_INTERVAL: Duration = Duration::from_secs(5);
+  |       ^^^^^^^^^^^^^
+
+warning: method `as_str` is never used
+  --> src/integrations/github/types.rs:27:12
+   |
+26 | impl IssueState {
+   | --------------- method in this implementation
+27 |     pub fn as_str(&self) -> &str {
+   |            ^^^^^^
+
+warning: enum `PullState` is never used
+  --> src/integrations/github/types.rs:52:10
+   |
+52 | pub enum PullState {
+   |          ^^^^^^^^^
+
+warning: struct `Branch` is never constructed
+  --> src/integrations/github/types.rs:58:12
+   |
+58 | pub struct Branch {
+   |            ^^^^^^
+
+warning: struct `PullRequest` is never constructed
+  --> src/integrations/github/types.rs:66:12
+   |
+66 | pub struct PullRequest {
+   |            ^^^^^^^^^^^
+
+warning: struct `NotificationSubject` is never constructed
+  --> src/integrations/github/types.rs:94:12
+   |
+94 | pub struct NotificationSubject {
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `Notification` is never constructed
+   --> src/integrations/github/types.rs:102:12
+    |
+102 | pub struct Notification {
+    |            ^^^^^^^^^^^^
+
+warning: struct `ToggleState` is never constructed
+ --> src/quick_toggles.rs:6:12
+  |
+6 | pub struct ToggleState {
+  |            ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> src/store.rs:40:17
+   |
+40 |     pub fn conn(&self) -> MutexGuard<Connection> {
+   |                 ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                 |
+   |                 the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+   = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+   |
+40 |     pub fn conn(&self) -> MutexGuard<'_, Connection> {
+   |                                      +++
+
+warning: `flare` (lib) generated 15 warnings (run `cargo fix --lib -p flare` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 2m 28s
+warning: the following packages contain code that will be rejected by a future version of Rust: wl-clipboard-rs v0.8.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`

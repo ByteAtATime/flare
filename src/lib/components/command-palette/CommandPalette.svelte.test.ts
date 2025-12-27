@@ -7,6 +7,7 @@ import { type PluginInfo } from '@flare/protocol';
 import type { App } from '$lib/apps.svelte';
 import type { Quicklink } from '$lib/quicklinks.svelte';
 import { focusManager } from '$lib/focus.svelte';
+import type { AiPreset } from '$lib/ai.svelte';
 
 const appsStore = vi.hoisted(() => ({
 	apps: [] as App[],
@@ -41,6 +42,20 @@ const viewManager = vi.hoisted(() => ({
 }));
 vi.mock('$lib/viewManager.svelte', () => ({
 	viewManager
+}));
+
+const aiStore = vi.hoisted(() => ({
+	presets: [] as AiPreset[]
+}));
+vi.mock('$lib/ai.svelte', () => ({
+	aiStore
+}));
+
+const scriptCommandsStore = vi.hoisted(() => ({
+	commands: [] as any[]
+}));
+vi.mock('$lib/script-commands.svelte', () => ({
+	scriptCommandsStore
 }));
 
 describe('CommandPalette.svelte', () => {
@@ -204,7 +219,8 @@ describe('CommandPalette.svelte', () => {
 			await user.type(searchInput, '2+2');
 
 			expect(await screen.findByText('Calculator')).toBeInTheDocument();
-			expect(screen.getByText('2+2')).toBeInTheDocument();
+			const expressionElements = screen.getAllByText('2+2');
+			expect(expressionElements.length).toBeGreaterThan(0);
 			expect(screen.getByText('4')).toBeInTheDocument();
 		});
 

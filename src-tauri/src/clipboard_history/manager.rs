@@ -70,6 +70,20 @@ impl ClipboardHistoryManager {
         let store = Store::new(app_handle, "clipboard_history.sqlite")?;
         store.init_table(CLIPBOARD_SCHEMA)?;
 
+        // Add indices for performance
+        store.conn().execute(
+            "CREATE INDEX IF NOT EXISTS idx_clipboard_content_type ON clipboard_history(content_type)",
+            [],
+        )?;
+        store.conn().execute(
+            "CREATE INDEX IF NOT EXISTS idx_clipboard_pinned ON clipboard_history(is_pinned)",
+            [],
+        )?;
+        store.conn().execute(
+            "CREATE INDEX IF NOT EXISTS idx_clipboard_last_copied ON clipboard_history(last_copied_at)",
+            [],
+        )?;
+
         let key = get_encryption_key()?;
 
         Ok(Self {
@@ -251,7 +265,7 @@ pub static MANAGER: Lazy<Mutex<Option<ClipboardHistoryManager>>> = Lazy::new(|| 
 pub static INTERNAL_CLIPBOARD_CHANGE: AtomicBool = AtomicBool::new(false);
 
 pub fn init(app_handle: AppHandle) {
-    let mut manager_guard = MANAGER.lock().unwrap();
+    let mut manager_guard = MANAGER.lock().expect("clipboard manager mutex poisoned");
     if manager_guard.is_none() {
         match ClipboardHistoryManager::new(&app_handle) {
             Ok(manager) => {
@@ -259,7 +273,7 @@ pub fn init(app_handle: AppHandle) {
                 drop(manager_guard);
                 start_monitoring(app_handle);
             }
-            Err(e) => eprintln!("Failed to create ClipboardHistoryManager: {:?}", e),
+            Err(e) => tracing::error!(error = ?e, "Failed to create ClipboardHistoryManager"),
         }
     }
 }

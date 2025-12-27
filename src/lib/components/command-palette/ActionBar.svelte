@@ -13,11 +13,19 @@
 			handleCopyAppName: () => void;
 			handleCopyAppPath: () => void;
 			handleHideApp: () => Promise<void>;
+			handleSetAlias: (alias: string) => Promise<void>;
 		};
 		setSearchText: (text: string) => void;
 	};
 
 	let { selectedItem, actions: barActions, setSearchText }: Props = $props();
+
+	function handleAddAlias() {
+		const alias = prompt('Enter alias for this command:');
+		if (alias) {
+			barActions.handleSetAlias(alias);
+		}
+	}
 
 	const actions: ActionDefinition[] = $derived.by(() => {
 		if (!selectedItem) return [];
@@ -55,6 +63,10 @@
 					title: 'Configure Command',
 					shortcut: { key: ',', modifiers: ['ctrl', 'shift'] },
 					handler: barActions.handleConfigureCommand
+				},
+				{
+					title: 'Assign Alias',
+					handler: handleAddAlias
 				}
 			];
 		}
@@ -83,6 +95,10 @@
 					title: 'Hide Application',
 					shortcut: { key: 'h', modifiers: ['ctrl'] },
 					handler: barActions.handleHideApp
+				},
+				{
+					title: 'Assign Alias',
+					handler: handleAddAlias
 				}
 			];
 		}
@@ -92,6 +108,10 @@
 				{
 					title: 'Open Quicklink',
 					handler: barActions.handleEnter
+				},
+				{
+					title: 'Assign Alias',
+					handler: handleAddAlias
 				}
 			];
 		}

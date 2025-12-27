@@ -1,6 +1,6 @@
 [package]
 name = "flare"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -18,7 +18,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = ["protocol-asset"] }
+tauri = { version = "2", features = ["protocol-asset", "tray-icon"] }
 tauri-plugin-opener = "2"
 tauri-plugin-deep-link = "2"
 serde = { version = "1", features = ["derive"] }
@@ -64,6 +64,15 @@ notify = "6.1.1"
 notify-debouncer-full = "0.3.1"
 percent-encoding = "2.3.1"
 tauri-plugin-os = "2"
+dirs = "5.0"
+sysinfo = "0.32"
+urlencoding = "2.1"
+flate2 = "1.0"
+tar = "0.4"
+x11rb = { version = "0.13", features = ["allow-unsafe-code"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+clap = { version = "4", features = ["derive"] }
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-global-shortcut = "2"
@@ -80,4 +89,11 @@ codegen-units = 1
 lto = true
 opt-level = "s" # rust is not the bottleneck, we can optimize for size with a small performance hit
 panic = "abort"
-strip = true
+strip = "symbols"  # Keep debuginfo symbols (including Tauri metadata) but strip symbol table
+
+# Faster builds for development/testing (use with: cargo build --profile release-fast)
+[profile.release-fast]
+inherits = "release"
+lto = false          # Disable LTO for much faster linking
+codegen-units = 16   # Enable parallel code generation
+strip = "symbols"

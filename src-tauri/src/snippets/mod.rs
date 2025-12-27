@@ -74,7 +74,9 @@ pub fn snippet_was_used(app: AppHandle, id: i64) -> Result<(), String> {
 #[tauri::command]
 pub fn paste_snippet_content(app: AppHandle, content: String) -> Result<(), String> {
     let snippet_manager = app.state::<manager::SnippetManager>().inner();
-    let clipboard_manager = clipboard_history::manager::MANAGER.lock().unwrap();
+    let clipboard_manager = clipboard_history::manager::MANAGER
+        .lock()
+        .expect("clipboard manager mutex poisoned");
     let input_manager = app
         .state::<Arc<dyn input_manager::InputManager>>()
         .inner()
@@ -97,7 +99,7 @@ pub fn paste_snippet_content(app: AppHandle, content: String) -> Result<(), Stri
 
     std::thread::spawn(move || {
         if let Err(e) = input_manager.inject_text(&content_to_paste) {
-            eprintln!("Failed to inject snippet content: {}", e);
+            tracing::error!(error = %e, "Failed to inject snippet content");
         }
 
         if chars_to_move_left > 0 {
@@ -105,7 +107,7 @@ pub fn paste_snippet_content(app: AppHandle, content: String) -> Result<(), Stri
             if let Err(e) =
                 input_manager.inject_key_clicks(enigo::Key::LeftArrow, chars_to_move_left)
             {
-                eprintln!("Failed to inject cursor movement: {}", e);
+                tracing::error!(error = %e, "Failed to inject cursor movement");
             }
         }
     });

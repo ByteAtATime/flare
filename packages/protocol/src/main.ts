@@ -43,6 +43,11 @@ const ResetElementMessageSchema = z.object({
 export const SidecarMessageSchema = z.union([BatchUpdateSchema, CommandSchema, LogMessageSchema]);
 export type SidecarMessage = z.infer<typeof SidecarMessageSchema>;
 
+const CloseMainWindowMessageSchema = z.object({
+	type: z.literal('close-main-window'),
+	payload: z.object({})
+});
+
 export const SidecarMessageWithPluginsSchema = z
 	.union([
 		BatchUpdateSchema,
@@ -65,7 +70,8 @@ export const SidecarMessageWithPluginsSchema = z
 		AiStreamErrorMessageSchema,
 		AiCanAccessMessageSchema,
 		FocusElementMessageSchema,
-		ResetElementMessageSchema
+		ResetElementMessageSchema,
+		CloseMainWindowMessageSchema
 	])
 	.and(z.object({ timestamp: z.number() }));
 export type SidecarMessageWithPlugins = z.infer<typeof SidecarMessageWithPluginsSchema>;

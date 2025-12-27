@@ -23,6 +23,15 @@ const AI_USAGE_SCHEMA: &str = "CREATE TABLE IF NOT EXISTS ai_generations (
     total_cost REAL NOT NULL
 )";
 
+const AI_CONVERSATIONS_SCHEMA: &str = "CREATE TABLE IF NOT EXISTS ai_conversations (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    model TEXT,
+    messages TEXT NOT NULL
+)";
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AskOptions {
@@ -42,6 +51,24 @@ pub struct StreamChunk {
 pub struct StreamEnd {
     request_id: String,
     full_text: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Message {
+    pub role: String,
+    pub content: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Conversation {
+    pub id: String,
+    pub title: String,
+    pub created_at: i64,
+    pub updated_at: i64,
+    pub model: Option<String>,
+    pub messages: Vec<Message>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -135,11 +162,46 @@ static DEFAULT_AI_MODELS: Lazy<HashMap<&'static str, &'static str>> = Lazy::new(
     m
 });
 
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub enum AiProvider {
+    OpenRouter,
+    Ollama,
+}
+
+impl Default for AiProvider {
+    fn default() -> Self {
+        AiProvider::OpenRouter
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct AiSettings {
     enabled: bool,
+    #[serde(default)]
+    provider: AiProvider,
+    #[serde(default)]
+    base_url: Option<String>,
+    #[serde(default = "default_temperature")]
+    temperature: f64,
     model_associations: HashMap<String, String>,
+}
+
+impl Default for AiSettings {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            provider: AiProvider::default(),
+            base_url: None,
+            temperature: default_temperature(),
+            model_associations: HashMap::new(),
+        }
+    }
+}
+
+fn default_temperature() -> f64 {
+    0.7
 }
 
 fn get_settings_path(app: &tauri::AppHandle) -> Result<PathBuf, String> {
@@ -195,6 +257,9 @@ pub fn set_ai_settings(app: tauri::AppHandle, settings: AiSettings) -> Result<()
 
     let mut settings_to_save = AiSettings {
         enabled: settings.enabled,
+        provider: settings.provider,
+        base_url: settings.base_url,
+        temperature: settings.temperature,
         model_associations: HashMap::new(),
     };
 
@@ -255,6 +320,18 @@ impl AiUsageManager {
     pub fn new(app_handle: &AppHandle) -> Result<Self, AppError> {
         let store = Store::new(app_handle, "ai_usage.sqlite")?;
         store.init_table(AI_USAGE_SCHEMA)?;
+        store.init_table(AI_CONVERSATIONS_SCHEMA)?;
+
+        // Add indices for performance
+        store.execute(
+            "CREATE INDEX IF NOT EXISTS idx_ai_generations_created ON ai_generations(created)",
+            params![],
+        )?;
+        store.execute(
+            "CREATE INDEX IF NOT EXISTS idx_ai_conversations_updated ON ai_conversations(updated_at)",
+            params![],
+        )?;
+
         Ok(Self { store })
     }
 
@@ -332,6 +409,187 @@ async fn fetch_and_log_usage(
 }
 
 #[tauri::command]
+pub async fn get_ollama_models(base_url: String) -> Result<Vec<String>, String> {
+    let client = reqwest::Client::new();
+    let base = if base_url.trim().is_empty() {
+        "http://localhost:11434/v1".to_string()
+    } else {
+        base_url
+    };
+    let url = format!("{}/models", base.trim_end_matches('/'));
+
+    let res = client.get(&url).send().await.map_err(|e| e.to_string())?;
+
+    if !res.status().is_success() {
+        return Err(format!("Failed to fetch models: {}", res.status()));
+    }
+
+    let json: Value = res.json().await.map_err(|e| e.to_string())?;
+
+    // Ollama's /v1/models returns an object with a "data" array of models
+    // Each model has an "id" field in the OpenAI-compatible API
+    let mut model_ids = Vec::new();
+    if let Some(data) = json.get("data").and_then(|d| d.as_array()) {
+        for model in data {
+            if let Some(id) = model.get("id").and_then(|id| id.as_str()) {
+                model_ids.push(id.to_string());
+            }
+        }
+    } else {
+        // Fallback for Ollama's native API /api/tags if /v1/models fails or is different
+        // But since we are using /v1 base_url, /v1/models is preferred
+        return Err("Unexpected response format from Ollama models API".to_string());
+    }
+
+    Ok(model_ids)
+}
+
+// Conversation Management Commands
+
+#[tauri::command]
+pub fn create_conversation(
+    app_handle: AppHandle,
+    title: String,
+    model: Option<String>,
+) -> Result<Conversation, String> {
+    let usage_manager = app_handle.state::<AiUsageManager>();
+    let id = uuid::Uuid::new_v4().to_string();
+    let now = chrono::Utc::now().timestamp();
+
+    let conversation = Conversation {
+        id: id.clone(),
+        title,
+        created_at: now,
+        updated_at: now,
+        model,
+        messages: Vec::new(),
+    };
+
+    let messages_json = serde_json::to_string(&conversation.messages).map_err(|e| e.to_string())?;
+
+    usage_manager.store.execute(
+        "INSERT INTO ai_conversations (id, title, created_at, updated_at, model, messages) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
+        params![
+            conversation.id,
+            conversation.title,
+            conversation.created_at,
+            conversation.updated_at,
+            conversation.model,
+            messages_json
+        ],
+    ).map_err(|e| e.to_string())?;
+
+    Ok(conversation)
+}
+
+#[tauri::command]
+pub fn list_conversations(app_handle: AppHandle) -> Result<Vec<Conversation>, String> {
+    let usage_manager = app_handle.state::<AiUsageManager>();
+
+    let conn = usage_manager.store.conn();
+    let mut stmt = conn
+        .prepare("SELECT id, title, created_at, updated_at, model, messages FROM ai_conversations ORDER BY updated_at DESC")
+        .map_err(|e| e.to_string())?;
+
+    let conversations = stmt
+        .query_map([], |row| {
+            let messages_json: String = row.get(5)?;
+            let messages: Vec<Message> =
+                serde_json::from_str(&messages_json).unwrap_or_else(|_| Vec::new());
+
+            Ok(Conversation {
+                id: row.get(0)?,
+                title: row.get(1)?,
+                created_at: row.get(2)?,
+                updated_at: row.get(3)?,
+                model: row.get(4)?,
+                messages,
+            })
+        })
+        .map_err(|e| e.to_string())?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| e.to_string())?;
+
+    Ok(conversations)
+}
+
+#[tauri::command]
+pub fn get_conversation(app_handle: AppHandle, id: String) -> Result<Option<Conversation>, String> {
+    let usage_manager = app_handle.state::<AiUsageManager>();
+
+    let conn = usage_manager.store.conn();
+    let mut stmt = conn
+        .prepare("SELECT id, title, created_at, updated_at, model, messages FROM ai_conversations WHERE id = ?1")
+        .map_err(|e| e.to_string())?;
+
+    let result = stmt.query_row([id], |row| {
+        let messages_json: String = row.get(5)?;
+        let messages: Vec<Message> =
+            serde_json::from_str(&messages_json).unwrap_or_else(|_| Vec::new());
+
+        Ok(Conversation {
+            id: row.get(0)?,
+            title: row.get(1)?,
+            created_at: row.get(2)?,
+            updated_at: row.get(3)?,
+            model: row.get(4)?,
+            messages,
+        })
+    });
+
+    match result {
+        Ok(conv) => Ok(Some(conv)),
+        Err(rusqlite::Error::QueryReturnedNoRows) => Ok(None),
+        Err(e) => Err(e.to_string()),
+    }
+}
+
+#[tauri::command]
+pub fn update_conversation(
+    app_handle: AppHandle,
+    id: String,
+    title: Option<String>,
+    messages: Option<Vec<Message>>,
+) -> Result<(), String> {
+    let usage_manager = app_handle.state::<AiUsageManager>();
+    let now = chrono::Utc::now().timestamp();
+
+    if let Some(msgs) = messages {
+        let messages_json = serde_json::to_string(&msgs).map_err(|e| e.to_string())?;
+        usage_manager
+            .store
+            .execute(
+                "UPDATE ai_conversations SET messages = ?1, updated_at = ?2 WHERE id = ?3",
+                params![messages_json, now, id],
+            )
+            .map_err(|e| e.to_string())?;
+    }
+
+    if let Some(t) = title {
+        usage_manager
+            .store
+            .execute(
+                "UPDATE ai_conversations SET title = ?1, updated_at = ?2 WHERE id = ?3",
+                params![t, now, id],
+            )
+            .map_err(|e| e.to_string())?;
+    }
+
+    Ok(())
+}
+
+#[tauri::command]
+pub fn delete_conversation(app_handle: AppHandle, id: String) -> Result<(), String> {
+    let usage_manager = app_handle.state::<AiUsageManager>();
+
+    usage_manager
+        .store
+        .execute("DELETE FROM ai_conversations WHERE id = ?1", params![id])
+        .map(|_| ())
+        .map_err(|e| e.to_string())
+}
+
+#[tauri::command]
 pub async fn ai_ask_stream(
     app_handle: AppHandle,
     request_id: String,
@@ -343,11 +601,14 @@ pub async fn ai_ask_stream(
         return Err("AI features are not enabled.".to_string());
     }
 
-    let api_key =
+    let api_key = if settings.provider == AiProvider::OpenRouter {
         match get_keyring_entry().and_then(|entry| entry.get_password().map_err(AppError::from)) {
             Ok(key) => key,
             Err(e) => return Err(e.to_string()),
-        };
+        }
+    } else {
+        String::new() // Ollama doesn't need an API key
+    };
 
     let model_key = options.model.unwrap_or_else(|| "default".to_string());
 
@@ -355,14 +616,18 @@ pub async fn ai_ask_stream(
         .model_associations
         .get(&model_key)
         .cloned()
-        .unwrap_or_else(|| "mistralai/mistral-7b-instruct:free".to_string());
+        .unwrap_or_else(|| match settings.provider {
+            AiProvider::OpenRouter => "mistralai/mistral-7b-instruct:free".to_string(),
+            AiProvider::Ollama => "llama3".to_string(),
+        });
 
+    // Use configured temperature, allow creativity parameter to override if provided
     let temperature = match options.creativity.as_deref() {
         Some("none") => 0.0,
         Some("low") => 0.4,
         Some("medium") => 0.7,
         Some("high") => 1.0,
-        _ => 0.7,
+        _ => settings.temperature,
     };
 
     let body = serde_json::json!({
@@ -372,15 +637,32 @@ pub async fn ai_ask_stream(
         "temperature": temperature,
     });
 
+    let (api_url, auth_header) = match settings.provider {
+        AiProvider::OpenRouter => (
+            "https://openrouter.ai/api/v1/chat/completions".to_string(),
+            Some(format!("Bearer {}", api_key)),
+        ),
+        AiProvider::Ollama => {
+            let base = settings
+                .base_url
+                .filter(|s| !s.trim().is_empty())
+                .unwrap_or_else(|| "http://localhost:11434/v1".to_string());
+            (
+                format!("{}/chat/completions", base.trim_end_matches('/')),
+                None,
+            )
+        }
+    };
+
     let client = reqwest::Client::new();
-    let res = client
-        .post("https://openrouter.ai/api/v1/chat/completions")
-        .header("Authorization", format!("Bearer {}", api_key))
-        .header("HTTP-Referer", "http://localhost")
-        .json(&body)
-        .send()
-        .await
-        .map_err(|e| e.to_string())?;
+    let mut request = client.post(&api_url).json(&body);
+
+    if let Some(auth) = auth_header {
+        request = request.header("Authorization", auth);
+        request = request.header("HTTP-Referer", "http://localhost");
+    }
+
+    let res = request.send().await.map_err(|e| e.to_string())?;
 
     let open_router_request_id = res
         .headers()
@@ -440,13 +722,15 @@ pub async fn ai_ask_stream(
         )
         .map_err(|e| e.to_string())?;
 
-    if let Some(or_req_id) = open_router_request_id {
-        let handle_clone = app_handle.clone();
-        tokio::spawn(async move {
-            if let Err(e) = fetch_and_log_usage(or_req_id, api_key, handle_clone).await {
-                eprintln!("[AI Usage Tracking] Error: {}", e);
-            }
-        });
+    if settings.provider == AiProvider::OpenRouter {
+        if let Some(or_req_id) = open_router_request_id {
+            let handle_clone = app_handle.clone();
+            tokio::spawn(async move {
+                if let Err(e) = fetch_and_log_usage(or_req_id, api_key, handle_clone).await {
+                    tracing::error!(error = %e, "AI usage tracking failed");
+                }
+            });
+        }
     }
 
     Ok(())

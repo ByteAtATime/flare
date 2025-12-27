@@ -1,6 +1,8 @@
 import { PaginatedExtensionsResponseSchema, type Extension } from '$lib/store';
 import { fetch } from '@tauri-apps/plugin-http';
 
+export type SortOption = 'default' | 'downloads' | 'recent' | 'oldest';
+
 export class ExtensionsStore {
 	extensions = $state<Extension[]>([]);
 	searchResults = $state<Extension[]>([]);
@@ -14,6 +16,7 @@ export class ExtensionsStore {
 	#_searchText = $state('');
 	selectedCategory = $state('All Categories');
 	selectedIndex = $state(0);
+	sortBy = $state<SortOption>('default');
 
 	currentPage = $state(1);
 	isFetchingMore = $state(false);

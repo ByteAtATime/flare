@@ -6,9 +6,19 @@ import type { Quicklink } from '$lib/quicklinks.svelte';
 import { frecencyStore } from './frecency.svelte';
 import { viewManager } from './viewManager.svelte';
 import type { App } from './apps.svelte';
+import { aiStore, type AiPreset } from './ai.svelte';
+import { aliasesStore } from './aliases.svelte';
+import { scriptCommandsStore, type ScriptCommand } from './script-commands.svelte';
 
 export type UnifiedItem = {
-	type: 'calculator' | 'plugin' | 'app' | 'quicklink';
+	type:
+		| 'calculator'
+		| 'plugin'
+		| 'app'
+		| 'quicklink'
+		| 'ai-preset'
+		| 'ask-ai'
+		| 'script-command';
 	id: string;
 	data: any;
 	score: number;
@@ -32,11 +42,30 @@ export function useCommandPaletteItems({
 	selectedQuicklinkForArgument
 }: UseCommandPaletteItemsArgs) {
 	const allSearchableItems = $derived.by(() => {
-		const items: { type: 'plugin' | 'app' | 'quicklink'; id: string; data: any }[] = [];
+		const items: {
+			type: 'plugin' | 'app' | 'quicklink' | 'ai-preset' | 'script-command';
+			id: string;
+			data: any;
+		}[] = [];
 		items.push(...plugins().map((p) => ({ type: 'plugin', id: p.pluginPath, data: p }) as const));
 		items.push(...installedApps().map((a) => ({ type: 'app', id: a.exec, data: a }) as const));
 		items.push(
 			...quicklinks().map((q) => ({ type: 'quicklink', id: `quicklink-${q.id}`, data: q }) as const)
+		);
+		items.push(
+			...aiStore.presets.map(
+				(p) => ({ type: 'ai-preset', id: `ai-preset-${p.id}`, data: p }) as const
+			)
+		);
+		items.push(
+			...scriptCommandsStore.commands.map(
+				(c) =>
+					({
+						type: 'script-command',
+						id: `script-${c.path}`,
+						data: c
+					}) as const
+			)
 		);
 		return items;
 	});
@@ -120,6 +149,15 @@ export function useCommandPaletteItems({
 				score: 0,
 				fuseScore: result.score
 			}));
+
+			// Add "Ask AI" fallback
+			items.push({
+				type: 'ask-ai',
+				id: 'ask-ai',
+				data: { query: term },
+				score: 0.1, // Low score to be at the bottom usually, or adjust based on preference
+				fuseScore: 1
+			});
 		} else {
 			items = allSearchableItems.map((item) => ({ ...item, score: 0, fuseScore: 1 }));
 		}
@@ -128,11 +166,22 @@ export function useCommandPaletteItems({
 		const now = Date.now() / 1000;
 		const gravity = 1.8;
 
+		const aliasMatch = aliasesStore.getCommandId(term.trim());
+
 		items.forEach((item) => {
+			// Check for alias match
+			if (aliasMatch && item.id === aliasMatch) {
+				item.score = 10000; // Massive boost for alias match
+				return;
+			}
+
 			const frecency = frecencyMap.get(item.id);
 			let frecencyScore = 0;
 			if (frecency) {
-				const ageInHours = Math.max(1, (now - frecency.lastUsedAt) / 3600);
+				// Backend stores timestamp in nanoseconds, convert to seconds
+				const lastUsedSeconds = frecency.lastUsedAt / 1_000_000_000;
+				const nowSeconds = Date.now() / 1000;
+				const ageInHours = Math.max(1, (nowSeconds - lastUsedSeconds) / 3600);
 				frecencyScore = (frecency.useCount * 1000) / Math.pow(ageInHours + 2, gravity);
 			}
 			const textScore = item.fuseScore !== undefined ? 1 - item.fuseScore * 100 : 0;
@@ -191,7 +240,10 @@ export function useCommandPaletteActions({
 		const item = selectedItem();
 		if (!item) return;
 
-		await frecencyStore.recordUsage(item.id);
+		// Don't record usage for calculator or ask-ai dynamic items if you prefer
+		if (item.type !== 'calculator' && item.type !== 'ask-ai') {
+			await frecencyStore.recordUsage(item.id);
+		}
 
 		switch (item.type) {
 			case 'calculator': {
@@ -215,6 +267,47 @@ export function useCommandPaletteActions({
 				} else {
 					executeQuicklink(quicklink);
 				}
+				break;
+			}
+			case 'ai-preset': {
+				const preset = item.data as AiPreset;
+				try {
+					const selection = await invoke<string>('get_selected_text');
+					const prompt = preset.template.replace('{selection}', selection);
+					viewManager.showAiChat(prompt);
+				} catch (e) {
+					console.error('Failed to get selection for AI preset:', e);
+					// If no selection, just open chat with template or blank?
+					// For now let's open with template
+					viewManager.showAiChat(preset.template);
+				}
+				break;
+			}
+			case 'ask-ai': {
+				viewManager.showAiChat(item.data.query);
+				break;
+			}
+			case 'script-command': {
+				const command = item.data as ScriptCommand;
+				// TODO: Handle arguments
+				// For now, assume no args or handle interactively
+                if (command.arguments.length > 0) {
+                    // Logic to prompt for args would go here
+                    // Similar to quicklinks with arguments
+                    console.log('Script has arguments, not fully implemented in UI yet');
+                } else {
+                    const result = await scriptCommandsStore.runCommand(command, []);
+                    if (command.mode === 'fullOutput') {
+                        // Show output view
+                        // viewManager.showScriptOutput(result);
+						// For MVP, just use HUD or clipboard if needed, or simple alert
+						alert(result);
+                    } else if (command.mode === 'compact') {
+                        await invoke('show_hud', { title: result });
+                    } else if (command.mode === 'inline') {
+                        await invoke('clipboard_paste', { text: result });
+                    }
+                }
 				break;
 			}
 		}
@@ -266,6 +359,12 @@ export function useCommandPaletteActions({
 		await frecencyStore.hideItem(item.id);
 	}
 
+	async function handleSetAlias(alias: string) {
+		const item = selectedItem();
+		if (!item) return;
+		await aliasesStore.setAlias(alias, item.id);
+	}
+
 	return {
 		executeQuicklink,
 		handleEnter,
@@ -274,6 +373,7 @@ export function useCommandPaletteActions({
 		handleConfigureCommand,
 		handleCopyAppName,
 		handleCopyAppPath,
-		handleHideApp
+		handleHideApp,
+		handleSetAlias
 	};
 }

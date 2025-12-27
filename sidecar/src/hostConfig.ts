@@ -360,54 +360,59 @@ export const hostConfig: HostConfig<
 	supportsPersistence: false,
 	supportsHydration: false,
 
-	detachDeletedInstance() {},
-	commitMount() {},
-	hideInstance() {},
-	hideTextInstance() {},
-	unhideInstance() {},
-	unhideTextInstance() {},
-	resetTextContent() {},
-	preparePortalMount() {},
+	detachDeletedInstance() { },
+	commitMount() { },
+	hideInstance() { },
+	hideTextInstance() { },
+	unhideInstance() { },
+	unhideTextInstance() { },
+	resetTextContent() { },
+	preparePortalMount() { },
 	getCurrentUpdatePriority: () => 1,
 	getInstanceFromNode: () => null,
-	beforeActiveInstanceBlur: () => {},
-	afterActiveInstanceBlur: () => {},
-	prepareScopeUpdate() {},
+	beforeActiveInstanceBlur: () => { },
+	afterActiveInstanceBlur: () => { },
+	prepareScopeUpdate() { },
 	getInstanceFromScope: () => null,
-	setCurrentUpdatePriority() {},
+	setCurrentUpdatePriority() { },
 	resolveUpdatePriority: () => 1,
 	maySuspendCommit: () => false,
 	NotPendingTransition: null,
 	HostTransitionContext: React.createContext(null) as unknown as ReactContext<null>,
 
 	resetFormInstance: function (): void {
-		throw new Error('Function not implemented.');
+		// No-op: Not needed for our custom renderer
 	},
 	requestPostPaintCallback: function (): void {
-		throw new Error('Function not implemented.');
+		// No-op: Not needed for our custom renderer
 	},
 	shouldAttemptEagerTransition: function (): boolean {
-		throw new Error('Function not implemented.');
+		// No-op: Return false to disable eager transitions
+		return false;
 	},
 	trackSchedulerEvent: function (): void {
-		throw new Error('Function not implemented.');
+		// No-op: Scheduler tracking not needed
 	},
 	resolveEventType: function (): null | string {
-		throw new Error('Function not implemented.');
+		// No-op: Return null for no event type
+		return null;
 	},
 	resolveEventTimeStamp: function (): number {
-		throw new Error('Function not implemented.');
+		// No-op: Return current time
+		return Date.now();
 	},
 	preloadInstance: function (): boolean {
-		throw new Error('Function not implemented.');
+		// No-op: Return false, no preloading needed
+		return false;
 	},
 	startSuspendingCommit: function (): void {
-		throw new Error('Function not implemented.');
+		// No-op: Suspense not supported in our renderer
 	},
 	suspendInstance: function (): void {
-		throw new Error('Function not implemented.');
+		// No-op: Suspense not supported in our renderer
 	},
 	waitForCommitToBeReady: function () {
-		throw new Error('Function not implemented.');
+		// No-op: Return null, commit is always ready
+		return null;
 	}
 };

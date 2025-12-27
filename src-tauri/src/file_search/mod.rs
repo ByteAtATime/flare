@@ -18,13 +18,13 @@ pub fn init(app_handle: AppHandle) {
     let file_search_manager = match FileSearchManager::new(app_handle.clone()) {
         Ok(manager) => manager,
         Err(e) => {
-            eprintln!("Failed to create FileSearchManager: {:?}", e);
+            tracing::error!(error = ?e, "Failed to create FileSearchManager");
             return;
         }
     };
 
     if let Err(e) = file_search_manager.init_db() {
-        eprintln!("Failed to initialize file search database: {:?}", e);
+        tracing::error!(error = ?e, "Failed to initialize file search database");
         return;
     }
 
@@ -38,7 +38,7 @@ pub fn init(app_handle: AppHandle) {
     let watcher_handle = app_handle.clone();
     tauri::async_runtime::spawn(async move {
         if let Err(e) = watcher::start_watching(watcher_handle).await {
-            eprintln!("Failed to start file watcher: {:?}", e);
+            tracing::error!(error = ?e, "Failed to start file watcher");
         }
     });
 }

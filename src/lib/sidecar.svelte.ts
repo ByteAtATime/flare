@@ -26,7 +26,7 @@ class SidecarService {
 	oauthState: OauthState = $state(null);
 	logs: string[] = $state([]);
 
-	constructor() {}
+	constructor() { }
 
 	get isRunning() {
 		return this.#sidecarChild !== null;
@@ -47,7 +47,6 @@ class SidecarService {
 			const args: string[] = [];
 			args.push(`--data-dir=${await appLocalDataDir()}`);
 			args.push(`--cache-dir=${await appCacheDir()}`);
-			console.log(args);
 			const command = Command.sidecar('binaries/app', args.length > 0 ? args : undefined, {
 				encoding: 'raw'
 			});
@@ -92,7 +91,6 @@ class SidecarService {
 	#setupAiEventListeners = async () => {
 		try {
 			const chunkUnlisten = await listen('ai-stream-chunk', (event) => {
-				console.log(event.payload);
 				this.dispatchEvent('ai-stream-chunk', event.payload as object);
 			});
 
@@ -177,9 +175,6 @@ class SidecarService {
 
 		const typedMessage = result.data;
 		this.messageParsingTimes.push(Date.now() - typedMessage.timestamp);
-		console.log(
-			`Rolling average: ${this.messageParsingTimes.reduce((a, b) => a + b, 0) / this.messageParsingTimes.length}ms`
-		);
 
 		if (typedMessage.type === 'log') {
 			this.#log(`SIDECAR: ${typedMessage.payload}`);
@@ -207,6 +202,13 @@ class SidecarService {
 				this.#log(`ERROR: Failed to open '${target}': ${err}`);
 				console.error(`Failed to open '${target}':`, err);
 			});
+			return;
+		}
+
+		if (typedMessage.type === 'close-main-window') {
+			const { getCurrentWindow } = await import('@tauri-apps/api/window');
+			const window = getCurrentWindow();
+			await window.hide();
 			return;
 		}
 
@@ -335,8 +337,11 @@ class SidecarService {
 	};
 
 	#log = (message: string) => {
-		console.log(`[SidecarService] ${message}`);
 		this.logs.push(message);
+	};
+
+	clearLogs = () => {
+		this.logs = [];
 	};
 }
 

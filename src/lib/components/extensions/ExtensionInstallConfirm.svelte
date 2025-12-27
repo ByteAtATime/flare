@@ -6,6 +6,7 @@
 
 	type Violation = {
 		commandName: string;
+		commandTitle?: string;
 		reason: string;
 	};
 
@@ -39,8 +40,11 @@
 							<ul class="list-disc space-y-2 pl-5 text-left text-xs">
 								{#each truncatedViolations as violation}
 									<li>
-										<strong>{violation.commandName}:</strong>
-										{violation.reason}
+										<strong>{violation.commandTitle ?? violation.commandName}</strong>
+										{#if violation.commandTitle && violation.commandTitle !== violation.commandName}
+											<span class="text-muted-foreground ml-1">({violation.commandName})</span>
+										{/if}
+										: {violation.reason}
 									</li>
 								{/each}
 								{#if isTruncated}

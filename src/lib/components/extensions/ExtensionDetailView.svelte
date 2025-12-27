@@ -12,6 +12,8 @@
 	import KeyboardShortcut from '../KeyboardShortcut.svelte';
 	import { uiStore } from '$lib/ui.svelte';
 	import { viewManager } from '$lib/viewManager.svelte';
+	import CompatibilityBadge from './CompatibilityBadge.svelte';
+	import { invoke } from '@tauri-apps/api/core';
 
 	type Props = {
 		extension: Extension;
@@ -23,6 +25,7 @@
 	let { extension, isInstalling, onInstall, onOpenLightbox }: Props = $props();
 
 	let openCommandsPopover = $state(false);
+	let isUninstalling = $state(false);
 
 	function formatTimeAgo(timestamp: number) {
 		const date = new Date(timestamp * 1000);
@@ -61,19 +64,39 @@
 		return `${Math.floor(seconds)} second${seconds !== 1 ? 's' : ''} ago`;
 	}
 
-	const isInstalled = $derived(
-		uiStore.pluginList.some(
-			(p) => p.author === extension.author.handle && p.pluginName === extension.name
-		)
-	);
+	const isInstalled = $derived(uiStore.pluginList.some((p) => p.pluginName === extension.name));
 
 	const installedCommandsInfo = $derived(
-		isInstalled
-			? uiStore.pluginList.filter(
-					(p) => p.author === extension.author.handle && p.pluginName === extension.name
-				)
-			: []
+		isInstalled ? uiStore.pluginList.filter((p) => p.pluginName === extension.name) : []
 	);
+
+	const compatibilityInfo = $derived.by(() => {
+		if (!isInstalled || installedCommandsInfo.length === 0) {
+			return null;
+		}
+
+		// Calculate average compatibility score from all commands
+		const scores = installedCommandsInfo
+			.map((p) => p.compatibilityScore)
+			.filter((score): score is number => score !== undefined && score !== null);
+
+		if (scores.length === 0) return null;
+
+		const avgScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+
+		// Collect all unique warnings
+		const allWarnings = installedCommandsInfo
+			.flatMap((p) => p.compatibilityWarnings || [])
+			.filter(
+				(w, i, arr) =>
+					arr.findIndex((v) => v.commandName === w.commandName && v.reason === w.reason) === i
+			);
+
+		return {
+			score: avgScore,
+			warnings: allWarnings
+		};
+	});
 
 	const screenshots = $derived.by(() => {
 		if (extension.metadata && extension.metadata.length > 0) {
@@ -97,11 +120,34 @@
 		}
 	}
 
+	async function handleUninstall() {
+		if (isUninstalling) return;
+		// Use the pluginName from the installed plugin info, not extension.name from the store API
+		const installedPlugin = installedCommandsInfo[0];
+		if (!installedPlugin) {
+			console.error('No installed plugin info found');
+			return;
+		}
+		isUninstalling = true;
+		try {
+			await invoke('uninstall_extension', { slug: installedPlugin.pluginName });
+			onInstall(); // Refresh plugin list
+		} catch (e) {
+			console.error('Uninstall failed', e);
+		} finally {
+			isUninstalling = false;
+		}
+	}
+
 	const actions = $derived.by(() => {
 		if (isInstalled)
 			return [
 				{ title: 'Show Commands', handler: () => {} },
-				{ title: 'Uninstall Extension', handler: () => {} }
+				{
+					title: isUninstalling ? 'Uninstalling...' : 'Uninstall Extension',
+					handler: handleUninstall,
+					disabled: isUninstalling
+				}
 			];
 
 		return [
@@ -279,6 +325,33 @@
 					</div>
 				</div>
 			{/if}
+			{#if isInstalled && compatibilityInfo}
+				<div>
+					<h3 class="text-muted-foreground mb-2 text-xs font-medium uppercase">
+						Linux Compatibility
+					</h3>
+					<div class="space-y-3">
+						<CompatibilityBadge score={compatibilityInfo.score} size="lg" showLabel={true} />
+
+						{#if compatibilityInfo.warnings.length > 0}
+							<div class="mt-3 space-y-2">
+								<p class="text-muted-foreground text-xs font-medium">Detected Issues:</p>
+								{#each compatibilityInfo.warnings as warning (warning.commandName + warning.reason)}
+									<div class="rounded-md bg-yellow-900/20 p-2 text-xs">
+										{#if warning.commandTitle}
+											<span class="font-semibold">{warning.commandTitle}:</span>
+										{/if}
+										<span class="text-yellow-200">{warning.reason}</span>
+									</div>
+								{/each}
+							</div>
+						{:else}
+							<p class="text-muted-foreground text-xs">No compatibility issues detected.</p>
+						{/if}
+					</div>
+				</div>
+			{/if}
+
 			{#if extension.source_url}
 				<div>
 					<h3 class="text-muted-foreground mb-1 text-xs font-medium uppercase">Source Code</h3>
@@ -304,10 +377,19 @@
 	icon={extension.icons.light
 		? { source: extension.icons.light, mask: 'roundedRectangle' }
 		: undefined}
-	{actions}
 >
 	{#snippet primaryAction({ props })}
 		{#if isInstalled}
+			<Button
+				variant="ghost"
+				size="action"
+				onclick={handleUninstall}
+				disabled={isUninstalling}
+				class="text-destructive"
+			>
+				{isUninstalling ? 'Uninstalling...' : 'Uninstall'}
+				<KeyboardShortcut shortcut={{ key: 'backspace', modifiers: ['ctrl'] }} />
+			</Button>
 			<Popover.Root bind:open={openCommandsPopover}>
 				<Popover.Trigger>
 					{#snippet child({ props: triggerProps })}

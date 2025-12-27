@@ -73,7 +73,7 @@ impl AppCache {
 
         if let Ok(cache_path) = Self::get_cache_path(app) {
             if let Err(e) = cache_data.write_to_file(&cache_path) {
-                eprintln!("Failed to write to app cache: {:?}", e);
+                tracing::warn!(error = ?e, "Failed to write to app cache");
             }
         }
 
@@ -82,7 +82,7 @@ impl AppCache {
 
     pub fn refresh_background(app: AppHandle) {
         if let Err(e) = Self::refresh_and_get_apps(&app) {
-            eprintln!("Error refreshing app cache in background: {:?}", e);
+            tracing::warn!(error = ?e, "Error refreshing app cache in background");
         }
     }
 }

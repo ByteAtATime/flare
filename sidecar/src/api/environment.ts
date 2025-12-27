@@ -5,6 +5,7 @@ import type { Application } from './types';
 import { config } from '../config';
 import { browserExtensionState, aiContext } from '../state';
 import { invokeCommand } from './rpc';
+import { runAppleScriptShim, translatePath } from './shims';
 
 const supportPath = config.supportDir;
 try {
@@ -92,3 +93,13 @@ export async function trash(path: fs.PathLike | fs.PathLike[]): Promise<void> {
 	const paths = (Array.isArray(path) ? path : [path]).map((p) => p.toString());
 	return invokeCommand<void>('trash', { paths });
 }
+
+/**
+ * Shim for runAppleScript - provides Linux compatibility
+ * @param script - AppleScript code to execute
+ * @returns Output from the script execution
+ */
+export async function runAppleScript(script: string): Promise<string> {
+	return runAppleScriptShim(script);
+}
+

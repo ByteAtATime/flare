@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { PluginInfo } from '@flare/protocol';
+	import { APP_VERSION } from '$lib/version';
 	import Calculator from '$lib/components/Calculator.svelte';
 	import BaseList from '$lib/components/BaseList.svelte';
 	import ListItemBase from '../nodes/shared/ListItemBase.svelte';
 	import path from 'path';
-	import { tick } from 'svelte';
+	import { tick, onMount } from 'svelte';
 	import type { Quicklink } from '$lib/quicklinks.svelte';
 	import { appsStore } from '$lib/apps.svelte';
 	import { frecencyStore } from '$lib/frecency.svelte';
@@ -49,6 +50,34 @@
 
 	const selectedItem = $derived(displayItems[selectedIndex]);
 
+	// Focus input on mount and when window gains focus
+	onMount(() => {
+		// Focus immediately on mount
+		searchInputEl?.focus();
+
+		// Also focus when window gains focus (for hotkey activation)
+		const handleWindowFocus = () => {
+			if (focusManager.activeScope === 'main-input') {
+				searchInputEl?.focus();
+			}
+		};
+
+		window.addEventListener('focus', handleWindowFocus);
+
+		// Also handle visibility changes
+		const handleVisibility = () => {
+			if (!document.hidden && focusManager.activeScope === 'main-input') {
+				tick().then(() => searchInputEl?.focus());
+			}
+		};
+		document.addEventListener('visibilitychange', handleVisibility);
+
+		return () => {
+			window.removeEventListener('focus', handleWindowFocus);
+			document.removeEventListener('visibilitychange', handleVisibility);
+		};
+	});
+
 	$effect(() => {
 		if (focusManager.activeScope === 'main-input') {
 			tick().then(() => {
@@ -92,7 +121,6 @@
 		if (item?.type === 'quicklink' && item.data.link.includes('{argument}')) {
 			selectedQuicklinkForArgument = item.data;
 		} else {
-			console.log('null haha');
 			selectedQuicklinkForArgument = null;
 		}
 	});
@@ -223,6 +251,42 @@
 								</span>
 							{/snippet}
 						</ListItemBase>
+					{:else if item.type === 'ai-preset'}
+						<ListItemBase
+							title={item.data.name}
+							subtitle="AI Command"
+							icon={item.data.icon ?? 'stars-16'}
+							{isSelected}
+							{onclick}
+						>
+							{#snippet accessories()}
+								<span class="text-muted-foreground ml-auto text-xs whitespace-nowrap">
+									AI Preset
+								</span>
+							{/snippet}
+						</ListItemBase>
+					{:else if item.type === 'ask-ai'}
+						<ListItemBase
+							title="Ask AI"
+							subtitle={item.data.query}
+							icon="stars-16"
+							{isSelected}
+							{onclick}
+						/>
+					{:else if item.type === 'script-command'}
+						<ListItemBase
+							title={item.data.title}
+							subtitle={item.data.packageName ?? 'Script'}
+							icon={item.data.icon ?? 'terminal-16'}
+							{isSelected}
+							{onclick}
+						>
+							{#snippet accessories()}
+								<span class="text-muted-foreground ml-auto text-xs whitespace-nowrap">
+									Script
+								</span>
+							{/snippet}
+						</ListItemBase>
 					{/if}
 				{/snippet}
 			</BaseList>
@@ -231,5 +295,9 @@
 
 	{#snippet footer()}
 		<CommandPaletteActionBar {selectedItem} {actions} {setSearchText} />
+		<div class="text-muted-foreground/50 absolute right-0 bottom-2 left-0 text-center text-[10px]">
+			v{APP_VERSION}
+		</div>
 	{/snippet}
 </MainLayout>
+```
