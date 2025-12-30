@@ -1,3 +1,14 @@
+> [!WARNING]
+> **This project is no longer actively maintained.**
+>
+> I started Flare in high school as a proof of concept to show that a Raycast-compatible launcher *could* exist on Linux. It was a fun experiment, but between school, burnout, and honestly just moving on to other things, I no longer have the time or energy to keep it going.
+>
+> To everyone who starred, shared, or contributed: thank you. The response to this project genuinely blew me away.
+>
+> Looking back, I consider Flare a success, not for what it became, but for what it taught me. The biggest lesson is probably to **always dogfood your projects**. I never used Flare as my daily driver, and that disconnect showed. I also went in with a lot of naïvete and made some architectural decisions I'd do very differently today.
+>
+> If you're looking for an actively maintained alternative, check out [Vicinae](https://github.com/vicinaehq/vicinae).
+
 # Flare Launcher
 
 An open-source, Raycast-compatible launcher for Linux.
