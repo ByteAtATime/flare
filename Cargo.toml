@@ -23,6 +23,7 @@ arboard = { version = "3.6.1", features = ["wayland-data-control", "image-data"]
 walkdir = "2.5.0"
 rayon = "1.11.0"
 which = "8.0.0"
+nucleo = "0.5"
 rust-ini = "0.21"
 freedesktop-icons = "0.4.0"
 blake3 = "1.8.2"

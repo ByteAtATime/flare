@@ -6,6 +6,7 @@ mod deep_link;
 mod encryption;
 mod extensions;
 mod frecency;
+mod fuzzy;
 mod globals;
 mod icons;
 mod image_cache;

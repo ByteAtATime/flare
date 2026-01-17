@@ -14,6 +14,7 @@ use crate::components::column::Column;
 use crate::components::scrollable::scrollable_style;
 use crate::extensions::ExtensionCommand;
 use crate::frecency::FrecencyStore;
+use crate::fuzzy;
 use crate::globals::POSITION_TRACKER;
 use crate::message::Message;
 use crate::screens::Shell;
@@ -239,11 +240,6 @@ impl RootScreen {
         let hover_color = Color::from_rgb8(39, 39, 39);
 
         #[cfg(feature = "soulver")]
-        let has_calc = self.calculator_result.is_some();
-        #[cfg(not(feature = "soulver"))]
-        let has_calc = false;
-
-        #[cfg(feature = "soulver")]
         if let Some(result) = &self.calculator_result {
             let calc_item = container(
                 row![
@@ -462,8 +458,6 @@ impl Shell for RootScreen {
     }
 
     fn on_search(&mut self, query: &str) {
-        let query_lower = query.to_lowercase();
-
         #[cfg(feature = "soulver")]
         {
             self.calculator_result = if query.is_empty() {
@@ -479,35 +473,21 @@ impl Shell for RootScreen {
             };
         }
 
-        if query.is_empty() {
-            self.filtered_items = self.items.clone();
-        } else {
-            self.filtered_items = self
-                .items
-                .iter()
-                .filter(|item| match &item.kind {
-                    RootItemKind::Extension(cmd) => {
-                        cmd.command_title.to_lowercase().contains(&query_lower)
-                            || cmd.extension_title.to_lowercase().contains(&query_lower)
-                            || cmd
-                                .command_subtitle
-                                .as_ref()
-                                .map_or(false, |s| s.to_lowercase().contains(&query_lower))
-                    }
-                    RootItemKind::App(app) => {
-                        app.name.to_lowercase().contains(&query_lower)
-                            || app.id.to_lowercase().contains(&query_lower)
-                    }
-                    RootItemKind::Builtin(builtin) => {
-                        builtin.title.to_lowercase().contains(&query_lower)
-                            || builtin
-                                .subtitle
-                                .map_or(false, |s| s.to_lowercase().contains(&query_lower))
-                    }
-                })
-                .cloned()
-                .collect();
-        }
+        self.filtered_items =
+            fuzzy::fuzzy_filter_and_sort(query, &self.items, |item| match &item.kind {
+                RootItemKind::Extension(cmd) => {
+                    format!(
+                        "{} {} {}",
+                        cmd.command_title,
+                        cmd.extension_title,
+                        cmd.command_subtitle.as_deref().unwrap_or("")
+                    )
+                }
+                RootItemKind::App(app) => format!("{} {}", app.name, app.id),
+                RootItemKind::Builtin(builtin) => {
+                    format!("{} {}", builtin.title, builtin.subtitle.unwrap_or(""))
+                }
+            });
 
         self.state = Self::create_state(&self.filtered_items);
     }
