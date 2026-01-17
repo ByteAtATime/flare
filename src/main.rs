@@ -378,14 +378,14 @@ fn run_confetti() -> Result<(), Box<dyn std::error::Error>> {
                 // (width/2)(1-0.97)/cos(45) = width / 47.1
                 let size = size.unwrap_or(Size::new(1920.0, 1080.0));
                 let options = Options {
-                    particle_count: 300,
+                    particle_count: 500,
                     spread: 45.0,
                     start_velocity: size.width / 47.1,
                     gravity: size.width / 960.0,
                     decay: 0.97,
                     ticks: 160.0, // about 2.5 seconds, seems like a reasonable duration
                     origin: Point { x: 1.0, y: 1.0 },
-                    scalar: 1.2,
+                    scalar: 3.0,
                     ..Default::default()
                 };
 
