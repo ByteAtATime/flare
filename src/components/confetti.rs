@@ -119,6 +119,10 @@ impl Manager {
                 (options.start_velocity * 0.5) + (rng.random::<f32>() * options.start_velocity);
             let angle_2d = -rad_angle + ((0.5 * rad_spread) - (rng.random::<f32>() * rad_spread));
 
+            let initial_offset = rng.random::<f32>();
+            let x = start_x + (angle_2d.cos() * velocity * initial_offset);
+            let y = start_y + (angle_2d.sin() * velocity * initial_offset);
+
             let shape = if options.shapes.is_empty() {
                 Shape::Square
             } else {
@@ -135,11 +139,11 @@ impl Manager {
             let scalar = options.scalar;
 
             let (wobble_x, wobble_y) = if options.flat {
-                (start_x + (10.0 * scalar), start_y + (10.0 * scalar))
+                (x + (10.0 * scalar), y + (10.0 * scalar))
             } else {
                 (
-                    start_x + (10.0 * scalar) * wobble.cos(),
-                    start_y + (10.0 * scalar) * wobble.sin(),
+                    x + (10.0 * scalar) * wobble.cos(),
+                    y + (10.0 * scalar) * wobble.sin(),
                 )
             };
 
@@ -147,8 +151,8 @@ impl Manager {
             let fade_end = fade_start + 0.3 + rng.random::<f32>() * 0.2;
 
             self.particles.push(Particle {
-                x: start_x,
-                y: start_y,
+                x,
+                y,
                 wobble,
                 wobble_speed: f32::min(0.11, rng.random::<f32>() * 0.1 + 0.05),
                 velocity,
