@@ -94,8 +94,12 @@ fn sidecar_stream(reader: Arc<AsyncMutex<SidecarReader>>) -> impl futures::Strea
 }
 
 fn subscription(state: &State) -> Subscription<Message> {
-    let keyboard_sub =
-        iced::keyboard::on_key_press(|key, modifiers| Some(Message::KeyPressed(key, modifiers)));
+    let keyboard_sub = iced::keyboard::listen().filter_map(|event| match event {
+        iced::keyboard::Event::KeyPressed { key, modifiers, .. } => {
+            Some(Message::KeyPressed(key, modifiers))
+        }
+        _ => None,
+    });
 
     let sidecar_sub = if let Some(reader) = &state.reader {
         Subscription::run_with(

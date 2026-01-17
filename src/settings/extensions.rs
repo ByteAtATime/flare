@@ -330,7 +330,8 @@ fn render_preference<'a>(
                 let label = pref.label.as_deref().unwrap_or("");
 
                 (
-                    checkbox(label, checked)
+                    checkbox(checked)
+                        .label(label)
                         .size(14)
                         .text_size(13)
                         .on_toggle(move |v| SettingsMessage::PreferenceChanged {

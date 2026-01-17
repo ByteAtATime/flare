@@ -4,13 +4,13 @@ pub fn scrollable_style() -> (
     impl Fn(&iced::Theme, scrollable::Status) -> scrollable::Style,
     scrollable::Direction,
 ) {
-    let style_fn = |_theme: &iced::Theme, _status: scrollable::Status| {
+    let style_fn = |theme: &iced::Theme, status: scrollable::Status| {
         let rail = scrollable::Rail {
             background: None,
             border: Border::default(),
             scroller: scrollable::Scroller {
                 // TODO: where does this color come from? is it related to the theme?
-                color: color!(0x8d8d8d),
+                background: color!(0x8d8d8d).into(),
                 border: Border::default().rounded(3.0),
             },
         };
@@ -18,9 +18,7 @@ pub fn scrollable_style() -> (
         scrollable::Style {
             container: Default::default(),
             vertical_rail: rail,
-            // this shouldn't happen i think
-            horizontal_rail: rail,
-            gap: None,
+            ..scrollable::default(theme, status)
         }
     };
 
